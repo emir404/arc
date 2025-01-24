@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, useInView } from 'framer-motion'
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useCallback } from 'react'
 import { animate } from 'framer-motion'
 
 function AboutUs() {
@@ -21,7 +21,7 @@ function AboutUs() {
   const Counter = ({ from, to, className }: { from: number, to: number, className: string }) => {
     const nodeRef = useRef<HTMLParagraphElement>(null)
     
-    const animateCount = () => {
+    const animateCount = useCallback(() => {
       const node = nodeRef.current
       if (node) {
         const controls = animate(from, to, {
@@ -33,13 +33,13 @@ function AboutUs() {
         })
         return controls.stop
       }
-    }
+    }, [from, to])
 
     useEffect(() => {
       if (isInView) {
         animateCount()
       }
-    }, [isInView])
+    }, [isInView, animateCount])
 
     return <p ref={nodeRef} className={className}>{from}+</p>
   }

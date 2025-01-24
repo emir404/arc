@@ -4,8 +4,7 @@ import { ArrowDownRightIcon } from 'lucide-react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { Marquee } from '../marquee'
-import { title } from 'process'
-import { i } from 'framer-motion/client'
+import Image from 'next/image'
 
 const BRAND_IMAGES = [
   "/brands/ArtCode.png",
@@ -103,10 +102,14 @@ function Portfolio() {
           >
             <motion.div 
               variants={cardHover}
-              className='rounded-lg bg-card w-full h-48 sm:h-56 md:h-64'
+              className='rounded-lg bg-card w-full h-48 sm:h-56 md:h-64 relative'
             >
-              {/* TODO: Add image */}
-              <img src={project.image} alt={project.title} className='w-full h-full object-cover' />
+              <Image 
+                src={project.image} 
+                alt={project.title} 
+                fill
+                className='object-cover rounded-lg'
+              />
             </motion.div>
             <motion.div 
               variants={fadeInUp}
@@ -153,8 +156,14 @@ function Portfolio() {
           className='[--duration:20s] w-full mt-4'
         >
           {BRAND_IMAGES.map((image, index) => (
-            <div key={index} className='w-full h-48 sm:h-56 md:h-64 mx-12 grayscale rounded-lg flex items-center justify-center'>
-              <img src={image} alt={`Brand ${index + 1}`} width={180} height={180} />
+            <div key={index} className='w-full h-48 sm:h-56 md:h-64 mx-12 grayscale rounded-lg flex items-center justify-center relative'>
+              <Image 
+                src={image} 
+                alt={`Brand ${index + 1}`} 
+                width={180} 
+                height={180}
+                className='object-contain'
+              />
             </div>
           ))}
         </Marquee>

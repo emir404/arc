@@ -76,7 +76,7 @@ function Contact() {
             transition={{ duration: 0.6, delay: 0.4 }}
             className='text-muted-foreground text-base sm:text-lg md:text-xl'
           >
-            Ready to transform your digital presence? Let's start a conversation about your project. Fill out the form below and we'll get back to you within 24 hours.
+            Ready to transform your digital presence? Let&apos;s start a conversation about your project. Fill out the form below and we&apos;ll get back to you within 24 hours.
           </motion.p>
           <motion.form 
             variants={fadeInUp}

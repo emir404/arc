@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Instrument_Serif } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 
 const OverusedGroteskRoman = localFont({
@@ -56,6 +57,21 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-L6GMH3LB5W"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-L6GMH3LB5W');
+          `}
+        </Script>
+      </head>
       <body
         className={`${OverusedGroteskRoman.variable} ${InstrumentSerif.variable} antialiased dark bg-background font-overused`}
       >

@@ -40,6 +40,7 @@ function Contact() {
 
   return (
     <motion.div 
+      id="contact"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true }}

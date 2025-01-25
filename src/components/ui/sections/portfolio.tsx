@@ -16,7 +16,7 @@ const BRAND_IMAGES = [
 
 const PROJECTS = [
   {
-    title: "LexPro Partners",
+    title: "Clutch ",
     description: "A Chicago-based law firm needed a modern website and professional branding to attract corporate clients.",
     solution: "Arc designed a sleek website with client success stories and a minimalist brand identity.",
     image: "/projects/lexpro.png",
@@ -58,6 +58,7 @@ function Portfolio() {
 
   return (
     <motion.div 
+      id="portfolio"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true }}

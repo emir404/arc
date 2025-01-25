@@ -46,6 +46,7 @@ function AboutUs() {
 
   return (
     <motion.div 
+      id="about"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true }}

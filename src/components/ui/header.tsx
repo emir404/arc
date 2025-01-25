@@ -12,8 +12,17 @@ function Header() {
   const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     e.preventDefault()
     const element = document.getElementById(id)
+    const header = document.querySelector('header')
+    const headerHeight = header?.getBoundingClientRect().height || 0
+    
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
+      const elementPosition = element.getBoundingClientRect().top + window.scrollY
+      const offsetPosition = elementPosition - headerHeight - 32 // 32px extra offset for spacing
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      })
       setIsMenuOpen(false)
     }
   }

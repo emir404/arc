@@ -19,12 +19,12 @@ function Hero() {
             className='text-white text-5xl font-medium sm:text-6xl md:text-8xl lg:text-9xl leading-[115%]'
           >
             Where imagination{' '}
-            <motion.span 
+            {/*<motion.span 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.8 }}
               className='hidden sm:w-32 md:w-48 lg:w-56 h-10 sm:h-14 md:h-20 lg:h-24 ml-2 sm:ml-3 md:ml-4 bg-[#fff] sm:inline-block rounded-full align-middle'
-            />
+            />*/}
             <br />
             <motion.span 
               initial={{ opacity: 0 }}
@@ -67,13 +67,22 @@ function Hero() {
           transition={{ duration: 1, delay: 0.5 }}
           className="absolute inset-0 w-full h-full overflow-hidden" 
         >
-          {Array.from({ length: 800 }).map((_, i) => {
-            const row = Math.floor(i / 40);
-            const col = i % 40;
+          {Array.from({ length: window.innerWidth < 640 ? 400 : window.innerWidth < 1024 ? 600 : 800 }).map((_, i) => {
+            const cols = window.innerWidth < 640 ? 20 : window.innerWidth < 1024 ? 30 : 40;
+            const rows = window.innerWidth < 640 ? 20 : window.innerWidth < 1024 ? 20 : 20;
+            const row = Math.floor(i / cols);
+            const col = i % cols;
             return (
               <motion.div
                 key={i}
-                className="absolute w-1 h-1 rounded-full bg-white"
+                className="absolute rounded-full bg-white"
+                style={{
+                  width: window.innerWidth < 640 ? '2px' : '4px',
+                  height: window.innerWidth < 640 ? '2px' : '4px',
+                  left: `${(col / cols) * 100}%`,
+                  top: `${(row / rows) * 100}%`,
+                  pointerEvents: 'none',
+                }}
                 initial={{ opacity: 0 }}
                 animate={{ 
                   opacity: [0.3, 0.7, 0.3],
@@ -83,11 +92,6 @@ function Hero() {
                   repeat: Infinity,
                   delay: (row + col) * 0.1,
                   ease: "easeInOut"
-                }}
-                style={{
-                  left: `${(col / 40) * 100}%`,
-                  top: `${(row / 20) * 100}%`,
-                  pointerEvents: 'none',
                 }}
               />
             );

@@ -12,7 +12,6 @@ const BRAND_IMAGES = [
   "/brands/Justhink.png",
   "/brands/Sapphireall.png",
   "/brands/Xpertweb.png",
-  "/brands/Clutch.png",
 ]
 
 const PROJECTS = [
@@ -150,13 +149,13 @@ function Portfolio() {
       </div>
 
       <div className="relative w-full">
-        <div className="absolute inset-y-0 left-0 w-[300px] bg-gradient-to-r from-background to-transparent z-10" />
-        <div className="absolute inset-y-0 right-0 w-[300px] bg-gradient-to-l from-background to-transparent z-10" />
+        <div className="absolute inset-y-0 left-0 w-[75px] md:w-[300px] bg-gradient-to-r from-background to-transparent z-10" />
+        <div className="absolute inset-y-0 right-0 w-[75px] lg:w-[300px] bg-gradient-to-l from-background to-transparent z-10" />
         <Marquee
           className='[--duration:20s] w-full mt-4'
         >
           {BRAND_IMAGES.map((image, index) => (
-            <div key={index} className='w-full h-48 sm:h-56 md:h-64 mx-12 grayscale rounded-lg flex items-center justify-center relative'>
+            <div key={index} className='opacity-70 w-full h-48 sm:h-56 md:h-64 mx-12 grayscale rounded-lg flex items-center justify-center relative'>
               <Image 
                 src={image} 
                 alt={`Brand ${index + 1}`} 

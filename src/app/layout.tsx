@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { Instrument_Serif } from "next/font/google";
 import Script from "next/script";
@@ -14,6 +14,12 @@ const InstrumentSerif = Instrument_Serif({
   subsets: ["latin"],
   variable: "--font-instrument",
 });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#000000",
+};
 
 export const metadata: Metadata = {
   title: "Arc - Creative Web Agency",
@@ -43,11 +49,6 @@ export const metadata: Metadata = {
     title: "Arc - Creative Web Agency",
     description: "Arc is a global web agency focused on blending innovation, creativity, and cutting-edge technology to craft unique, high-impact digital experiences.",
   },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-  },
-  themeColor: "#000000",
 };
 
 export default function RootLayout({

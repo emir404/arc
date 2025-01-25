@@ -2,8 +2,38 @@
 
 import { MoveDown } from 'lucide-react'
 import { motion } from 'framer-motion'
+import { useState, useEffect } from 'react'
 
 function Hero() {
+  const [windowWidth, setWindowWidth] = useState(1024) // Default to desktop size
+
+  useEffect(() => {
+    // Update window width on mount and resize
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth)
+    }
+    
+    // Set initial width
+    handleResize()
+    
+    // Add resize listener
+    window.addEventListener('resize', handleResize)
+    
+    // Cleanup
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  const getGridConfig = () => {
+    if (windowWidth < 640) {
+      return { particles: 400, cols: 20, rows: 20 }
+    } else if (windowWidth < 1024) {
+      return { particles: 600, cols: 30, rows: 20 }
+    }
+    return { particles: 800, cols: 40, rows: 20 }
+  }
+
+  const { particles, cols, rows } = getGridConfig()
+
   return (
     <motion.section 
       initial={{ opacity: 0 }}
@@ -76,9 +106,7 @@ function Hero() {
           role="presentation"
           aria-hidden="true"
         >
-          {Array.from({ length: window.innerWidth < 640 ? 400 : window.innerWidth < 1024 ? 600 : 800 }).map((_, i) => {
-            const cols = window.innerWidth < 640 ? 20 : window.innerWidth < 1024 ? 30 : 40;
-            const rows = window.innerWidth < 640 ? 20 : window.innerWidth < 1024 ? 20 : 20;
+          {Array.from({ length: particles }).map((_, i) => {
             const row = Math.floor(i / cols);
             const col = i % cols;
             return (
@@ -86,8 +114,8 @@ function Hero() {
                 key={i}
                 className="absolute rounded-full bg-white"
                 style={{
-                  width: window.innerWidth < 640 ? '2px' : '4px',
-                  height: window.innerWidth < 640 ? '2px' : '4px',
+                  width: windowWidth < 640 ? '2px' : '4px',
+                  height: windowWidth < 640 ? '2px' : '4px',
                   left: `${(col / cols) * 100}%`,
                   top: `${(row / rows) * 100}%`,
                   pointerEvents: 'none',

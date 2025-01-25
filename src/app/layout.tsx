@@ -17,6 +17,36 @@ const InstrumentSerif = Instrument_Serif({
 export const metadata: Metadata = {
   title: "Arc - Creative Web Agency",
   description: "Arc is a global web agency focused on blending innovation, creativity, and cutting-edge technology to craft unique, high-impact digital experiences.",
+  keywords: "web agency, creative agency, web development, digital experiences, UI/UX design, web design, digital innovation",
+  authors: [{ name: "Arc Creative Agency" }],
+  creator: "Arc Creative Agency",
+  publisher: "Arc Creative Agency",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+    },
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://arc-agency.com",
+    title: "Arc - Creative Web Agency",
+    description: "Arc is a global web agency focused on blending innovation, creativity, and cutting-edge technology to craft unique, high-impact digital experiences.",
+    siteName: "Arc Creative Agency",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Arc - Creative Web Agency",
+    description: "Arc is a global web agency focused on blending innovation, creativity, and cutting-edge technology to craft unique, high-impact digital experiences.",
+  },
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+  },
+  themeColor: "#000000",
 };
 
 export default function RootLayout({

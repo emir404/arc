@@ -159,17 +159,17 @@ function Contact() {
               {
                 icon: <Phone className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />,
                 title: "Contact",
-                lines: ["hello@arc-agency.com", "+1 (555) 123-4567"]
+                lines: ["hello@witharc.co"]
               },
               {
                 icon: <MapPin className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />,
-                title: "Location",
-                lines: ["123 Creative Street", "San Francisco, CA 94105"]
+                title: "Location", 
+                lines: ["Sinanpaşa Mahallesi", "Beşiktaş, Istanbul 34353"]
               },
               {
                 icon: <Clock className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />,
                 title: "Hours",
-                lines: ["Mon-Fri: 9AM - 6PM PST", "Sat-Sun: Closed"]
+                lines: ["Mon-Fri: 9AM - 6PM IST", "Sat-Sun: Closed"]
               }
             ].map((item, index) => (
               <motion.div

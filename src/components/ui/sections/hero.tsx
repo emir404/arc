@@ -5,11 +5,13 @@ import { motion } from 'framer-motion'
 
 function Hero() {
   return (
-    <motion.div 
+    <motion.section 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
       className='relative rounded-b-3xl w-full h-screen bg-[#7300FF] flex flex-col justify-center md:justify-end py-8 sm:py-12 md:py-16 px-4 sm:px-6 md:px-10'
+      role="banner"
+      aria-label="Hero banner"
     >
         <div className='flex flex-col gap-4 sm:gap-5 md:gap-7'>
           <motion.h1 
@@ -18,6 +20,7 @@ function Hero() {
             transition={{ duration: 0.7, delay: 0.2 }}
             className='text-white text-5xl font-medium sm:text-6xl md:text-8xl lg:text-9xl leading-[115%]'
           >
+            <span className="sr-only">Arc Creative Agency - </span>
             Where imagination{' '}
             {/*<motion.span 
               initial={{ opacity: 0 }}
@@ -55,8 +58,12 @@ function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 1.6 }}
+              role="presentation"
             >
-              <MoveDown className='hidden md:block stroke-1 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 text-white' />
+              <MoveDown 
+                className='hidden md:block stroke-1 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 text-white' 
+                aria-hidden="true"
+              />
             </motion.div>
           </div>
         </div>
@@ -65,7 +72,9 @@ function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.5 }}
           transition={{ duration: 1, delay: 0.5 }}
-          className="absolute inset-0 w-full h-full overflow-hidden" 
+          className="absolute inset-0 w-full h-full overflow-hidden"
+          role="presentation"
+          aria-hidden="true"
         >
           {Array.from({ length: window.innerWidth < 640 ? 400 : window.innerWidth < 1024 ? 600 : 800 }).map((_, i) => {
             const cols = window.innerWidth < 640 ? 20 : window.innerWidth < 1024 ? 30 : 40;
@@ -97,7 +106,7 @@ function Hero() {
             );
           })}
         </motion.div>
-    </motion.div>
+    </motion.section>
   )
 }
 

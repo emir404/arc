@@ -15,60 +15,72 @@ const sectionVariants = {
 
 function Home() {
   return (
-    <div className='relative w-full min-h-screen flex flex-col'>
-      <motion.div
+    <main className='relative w-full min-h-screen flex flex-col'>
+      <motion.header
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
         <Header />
-      </motion.div>
+      </motion.header>
 
-      <motion.div
+      <motion.section
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
         variants={sectionVariants}
         transition={{ duration: 0.6, delay: 0.1 }}
+        aria-label="Hero section"
       >
         <Hero />
-      </motion.div>
+      </motion.section>
 
-      <motion.div
+      <motion.section
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
         variants={sectionVariants}
         transition={{ duration: 0.6, delay: 0.2 }}
         id="about"
+        aria-label="About us section"
       >
         <AboutUs />
-      </motion.div>
+      </motion.section>
 
-      <motion.div
+      <motion.section
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
         variants={sectionVariants}
         transition={{ duration: 0.6, delay: 0.3 }}
         id="portfolio"
+        aria-label="Portfolio section"
       >
         <Portfolio />
-      </motion.div>
+      </motion.section>
 
-      <motion.div
+      <motion.section
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
         variants={sectionVariants}
         transition={{ duration: 0.6, delay: 0.4 }}
         id="contact"
+        aria-label="Contact section"
       >
         <Contact />
-      </motion.div>
+      </motion.section>
 
-      <Footer />
-    </div>
+      <motion.footer
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={sectionVariants}
+        transition={{ duration: 0.6, delay: 0.5 }}
+      >
+        <Footer />
+      </motion.footer>
+    </main>
   )
 }
 

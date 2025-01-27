@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Github, Instagram, Linkedin, Twitter } from 'lucide-react'
+import { Instagram, Linkedin } from 'lucide-react'
 import Link from 'next/link'
 
 function Footer() {

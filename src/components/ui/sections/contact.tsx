@@ -100,7 +100,6 @@ function Contact() {
             <motion.form 
               onSubmit={handleSubmit(onSubmit)} 
               className='flex flex-col gap-8'
-              data-netlify="true"
             >
               <div className='grid grid-cols-1 sm:grid-cols-2 gap-6'>
                 <motion.div 

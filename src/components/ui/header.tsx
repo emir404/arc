@@ -17,7 +17,7 @@ function Header() {
     
     if (element) {
       const elementPosition = element.getBoundingClientRect().top + window.scrollY
-      const offsetPosition = elementPosition - headerHeight - 32 // 32px extra offset for spacing
+      const offsetPosition = elementPosition - headerHeight - 32
 
       window.scrollTo({
         top: offsetPosition,
@@ -28,15 +28,14 @@ function Header() {
   }
 
   const menuItemVariants = {
-    hidden: { opacity: 0, x: -20 },
-    visible: { opacity: 1, x: 0 }
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 }
   }
 
   const mobileMenuVariants = {
-    hidden: { opacity: 0, y: -10 },
+    hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      y: 0,
       transition: {
         duration: 0.3,
         staggerChildren: 0.1
@@ -44,7 +43,6 @@ function Header() {
     },
     exit: {
       opacity: 0,
-      y: -10,
       transition: {
         duration: 0.2
       }
@@ -56,7 +54,7 @@ function Header() {
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className='w-full h-16 sm:h-20 md:h-24 lg:h-28 absolute top-0 left-0 z-50'
+      className='w-full h-16 sm:h-20 md:h-24 lg:h-28 fixed top-0 left-0 z-50 backdrop-blur-sm border-b border-white/5'
     >
       <div className='w-full h-full flex justify-between items-center px-4 sm:px-6 md:px-8 lg:px-10'>
         <motion.div 
@@ -85,10 +83,10 @@ function Header() {
                 href={item.href}
                 onClick={(e) => handleScroll(e, item.href.substring(1))}
                 className={item.isButton ? 
-                  'bg-[#fff] flex text-black px-4 py-2 hover:bg-white/90 transition-colors' : 
+                  'bg-white text-black px-6 py-2 hover:bg-white/90 transition-colors' : 
                   'text-white hover:text-white/80 transition-colors'}
               >
-                <p>{item.text}</p>
+                {item.text}
               </Link>
             </motion.div>
           ))}
@@ -98,17 +96,15 @@ function Header() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className='md:hidden text-white p-2 flex items-center justify-center'
+          className='md:hidden text-white p-2'
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
         >
           <AnimatePresence mode='wait'>
             <motion.div
               key={isMenuOpen ? 'close' : 'menu'}
-              initial={{ rotate: -90, opacity: 0 }}
-              animate={{ rotate: 0, opacity: 1 }}
-              exit={{ rotate: 90, opacity: 0 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
             >
               {isMenuOpen ? (
@@ -129,61 +125,41 @@ function Header() {
             animate="visible"
             exit="exit"
             variants={mobileMenuVariants}
-            className='absolute top-full left-0 w-full min-h-[100vh] bg-gradient-to-b from-[#7300FF] to-[#5900CC] md:hidden'
+            className='fixed inset-0 top-[64px] sm:top-[80px] bg-black/95 backdrop-blur-md md:hidden'
           >
             <motion.div 
               variants={mobileMenuVariants}
-              className='flex flex-col items-start px-8 py-12 gap-12 font-overused'
+              className='flex flex-col justify-center min-h-[calc(100vh-64px)] sm:min-h-[calc(100vh-80px)] px-8'
             >
-              <motion.div 
-                variants={menuItemVariants}
-                className='w-full h-[1px] bg-white/10'
-              />
-              
-              {[
-                { href: '#about', text: 'About us' },
-                { href: '#portfolio', text: 'Portfolio' }
-              ].map((item, index) => (
-                <motion.div
-                  key={index}
-                  variants={menuItemVariants}
-                  className='w-full'
-                >
-                  <Link 
-                    href={item.href}
-                    onClick={(e) => handleScroll(e, item.href.substring(1))}
-                    className='group w-full flex justify-between items-center text-white/90 hover:text-white transition-all'
+              <div className='space-y-12'>
+                {[
+                  { href: '#about', text: 'About us' },
+                  { href: '#portfolio', text: 'Portfolio' },
+                  { href: '#contact', text: 'Contact', isButton: true }
+                ].map((item, index) => (
+                  <motion.div
+                    key={index}
+                    variants={menuItemVariants}
+                    className='overflow-hidden'
                   >
-                    <p className='text-3xl font-medium'>{item.text}</p>
-                    <motion.span 
-                      initial={{ x: -10, opacity: 0 }}
-                      whileHover={{ x: 0, opacity: 1 }}
-                      className='transform transition-all'
+                    <Link 
+                      href={item.href}
+                      onClick={(e) => handleScroll(e, item.href.substring(1))}
+                      className={
+                        item.isButton 
+                          ? 'block text-5xl sm:text-6xl font-medium text-white hover:text-white/80 transition-colors' 
+                          : 'block text-4xl sm:text-5xl text-white/60 hover:text-white transition-colors'
+                      }
                     >
-                      →
-                    </motion.span>
-                  </Link>
-                </motion.div>
-              ))}
-              
+                      {item.text}
+                    </Link>
+                  </motion.div>
+                ))}
+              </div>
+
               <motion.div 
                 variants={menuItemVariants}
-                className='w-full h-[1px] bg-white/10'
-              />
-              
-              <motion.div variants={menuItemVariants} className='w-full'>
-                <Link 
-                  href='#contact'
-                  onClick={(e) => handleScroll(e, 'contact')}
-                  className='w-full bg-white text-[#7300FF] p-6 rounded-xl text-center hover:bg-white/90 transition-all block'
-                >
-                  <p className='text-xl font-medium'>Book a free call</p>
-                </Link>
-              </motion.div>
-              
-              <motion.div 
-                variants={menuItemVariants}
-                className='flex flex-col gap-4 text-white/50 text-sm mt-auto'
+                className='mt-auto pt-12 pb-8 text-white/40 text-sm space-y-2'
               >
                 <p>© 2024 Arc Agency</p>
                 <p>San Francisco, CA</p>

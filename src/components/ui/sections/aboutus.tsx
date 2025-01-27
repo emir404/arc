@@ -1,20 +1,20 @@
 'use client'
 
-import { motion, useInView } from 'framer-motion'
-import { useRef, useEffect, useCallback } from 'react'
-import { animate } from 'framer-motion'
+import { useRef, useCallback, useEffect } from 'react'
+import { motion, useInView, useReducedMotion, Variants, animate } from 'framer-motion'
 
 function AboutUs() {
   const statsRef = useRef(null)
-  const isInView = useInView(statsRef, { once: true })
+  const isInView = useInView(statsRef, { once: true, margin: "-100px" })
+  const prefersReducedMotion = useReducedMotion()
 
-  const fadeInUp = {
+  const fadeInUp: Variants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 }
   }
 
-  const statsVariant = {
-    hidden: { opacity: 0, scale: 0.8 },
+  const statsVariant: Variants = {
+    hidden: { opacity: 0, scale: 0.95 },
     visible: { opacity: 1, scale: 1 }
   }
 
@@ -22,18 +22,25 @@ function AboutUs() {
     const nodeRef = useRef<HTMLParagraphElement>(null)
     
     const animateCount = useCallback(() => {
-      const node = nodeRef.current
-      if (node) {
-        const controls = animate(from, to, {
-          duration: 2,
-          onUpdate(value) {
-            node.textContent = `${Math.round(value)}+`
-          },
-          ease: "easeOut"
-        })
-        return controls.stop
+      if (!prefersReducedMotion) {
+        const node = nodeRef.current
+        if (node) {
+          const controls = animate(from, to, {
+            duration: 2,
+            onUpdate(value) {
+              node.textContent = `${Math.round(value)}+`
+            },
+            ease: "easeOut"
+          })
+          return controls.stop
+        }
+      } else {
+        const node = nodeRef.current
+        if (node) {
+          node.textContent = `${to}+`
+        }
       }
-    }, [from, to])
+    }, [from, to, prefersReducedMotion])
 
     useEffect(() => {
       if (isInView) {
@@ -44,107 +51,100 @@ function AboutUs() {
     return <p ref={nodeRef} className={className}>{from}+</p>
   }
 
+  const stats = [
+    { number: 20, label: 'happy clients' },
+    { number: 3, label: 'countries' },
+    { number: 50, label: 'projects' },
+    { number: 3, label: 'years of experience' }
+  ]
+
   return (
-    <motion.div 
+    <motion.section 
       id="about"
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true }}
-      className='w-full p-10 sm:p-12 md:p-16 lg:p-20 gap-6 sm:gap-8 md:gap-12 flex flex-col'
+      viewport={{ once: true, margin: "-100px" }}
+      className='w-full min-h-screen py-24 px-6 sm:px-8 md:px-12 lg:px-16'
     >
-      <motion.div 
-        variants={fadeInUp}
-        transition={{ duration: 0.6 }}
-        className='flex flex-col gap-3 sm:gap-4 md:gap-5'
-      >
-        <div className='flex gap-4 sm:gap-8 md:gap-12'>
-          <motion.p 
-            variants={fadeInUp}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className='text-white/50 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-inter font-[900]'
-          >
-            01
-          </motion.p>
+      <div className="max-w-[2000px] mx-auto">
+        <div className="flex items-end justify-between mb-16 border-b border-white/10 pb-8">
           <motion.h2 
             variants={fadeInUp}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className='text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold'
+            transition={{ duration: 0.6 }}
+            className="text-4xl sm:text-5xl md:text-6xl font-bold text-white"
           >
-            Architects of Digital Dreams
+            Architects of<br />Digital Dreams
           </motion.h2>
+          <motion.span 
+            variants={fadeInUp}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="text-white/40 font-mono"
+          >
+            01
+          </motion.span>
         </div>
+
         <motion.p 
           variants={fadeInUp}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className='text-white text-lg sm:text-xl md:text-2xl'
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className='text-white/80 text-lg sm:text-xl md:text-2xl max-w-2xl mb-24'
         >
           We don&apos;t just design websites; we craft products experiences that captivate, inspire, and transform.
         </motion.p>
-      </motion.div>
 
-      <div className='flex flex-col lg:flex-row gap-8 sm:gap-10 md:gap-12'>
-        <motion.div 
-          variants={fadeInUp}
-          transition={{ duration: 0.6, delay: 0.5 }}
-          className='flex flex-col gap-4 bg-card p-4 sm:p-5 md:p-6 rounded-lg w-full lg:max-w-[28rem]'
-        >
-          <motion.p 
+        <div className='grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24'>
+          <motion.div 
             variants={fadeInUp}
-            transition={{ duration: 0.6, delay: 0.6 }}
-            className='text-white text-xl sm:text-2xl font-bold'
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className='relative'
           >
-            Our Story
-          </motion.p>
-          <motion.p 
-            variants={fadeInUp}
-            transition={{ duration: 0.6, delay: 0.7 }}
-            className='text-white/50 text-lg sm:text-xl md:text-2xl'
-          >
-            At Arc, we believe every brand has a story waiting to be told. Founded with a passion for creativity and a commitment to excellence, we specialize in crafting digital spaces where businesses thrive. Our mission is simple: to bridge the gap between imagination and functionality, creating designs that are as impactful as they are beautiful.
-            <br />
-            <br />
-            From cutting-edge web design to strategic SEO solutions, we&apos;re here to elevate your brand and bring your vision to life. Whether you&apos;re a growing startup or an established business, we tailor every project to meet your unique needs, ensuring that your digital presence stands out in a crowded world.
-          </motion.p>
-        </motion.div>
+            <div className='bg-card/80 p-8 rounded-lg border border-white/5'>
+              <h3 className='text-2xl sm:text-3xl font-bold text-white mb-6'>Our Story</h3>
+              <div className='space-y-6 text-white/70 text-lg sm:text-xl'>
+                <p>
+                  At Arc, we believe every brand has a story waiting to be told. Founded with a passion for creativity and a commitment to excellence, we specialize in crafting digital spaces where businesses thrive. Our mission is simple: to bridge the gap between imagination and functionality, creating designs that are as impactful as they are beautiful.
+                </p>
+                <p>
+                  From cutting-edge web design to strategic SEO solutions, we&apos;re here to elevate your brand and bring your vision to life. Whether you&apos;re a growing startup or an established business, we tailor every project to meet your unique needs, ensuring that your digital presence stands out in a crowded world.
+                </p>
+              </div>
+            </div>
+          </motion.div>
 
-        <motion.div 
-          ref={statsRef}
-          className='flex w-full justify-center items-center'
-        >
-          <div className='grid grid-cols-2 grid-rows-2 gap-8 sm:gap-12 md:gap-16 lg:gap-24'>
-            {[
-              { number: 20, label: 'happy clients' },
-              { number: 3, label: 'countries' },
-              { number: 50, label: 'projects' },
-              { number: 3, label: 'years of experience' }
-            ].map((stat, index) => (
+          <motion.div 
+            ref={statsRef}
+            className='grid grid-cols-2 gap-8'
+          >
+            {stats.map((stat, index) => (
               <motion.div 
                 key={index}
                 variants={statsVariant}
                 initial="hidden"
                 animate={isInView ? "visible" : "hidden"}
-                transition={{ duration: 0.5, delay: 0.8 + (index * 0.1) }}
-                className='flex flex-col'
+                transition={{ duration: 0.5, delay: 0.4 + (index * 0.1) }}
+                className='relative'
               >
-                <Counter
-                  from={0}
-                  to={stat.number}
-                  className='text-white text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold'
-                />
-                <motion.p 
-                  initial={{ opacity: 0 }}
-                  animate={isInView ? { opacity: 0.6 } : { opacity: 0 }}
-                  transition={{ duration: 0.5, delay: 0.9 + (index * 0.1) }}
-                  className='text-white/60 text-lg sm:text-xl md:text-2xl lg:text-3xl'
-                >
-                  {stat.label}
-                </motion.p>
+                <div className='bg-card/80 p-6 rounded-lg border border-white/5 h-full flex flex-col justify-center items-center text-center'>
+                  <Counter
+                    from={0}
+                    to={stat.number}
+                    className='text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-2'
+                  />
+                  <motion.p 
+                    initial={{ opacity: 0 }}
+                    animate={isInView ? { opacity: 0.7 } : { opacity: 0 }}
+                    transition={{ duration: 0.5, delay: 0.5 + (index * 0.1) }}
+                    className='text-white/70 text-lg sm:text-xl capitalize'
+                  >
+                    {stat.label}
+                  </motion.p>
+                </div>
               </motion.div>
             ))}
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
       </div>
-    </motion.div>
+    </motion.section>
   )
 }
 

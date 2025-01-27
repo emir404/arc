@@ -1,45 +1,55 @@
 'use client'
 
-import { MoveDown } from 'lucide-react'
-import { motion } from 'framer-motion'
-import { useState, useEffect } from 'react'
+import { Hammer, MoveDown } from 'lucide-react'
+import { motion, useReducedMotion } from 'framer-motion'
+import { useState, useEffect, useMemo } from 'react'
+// @ts-ignore
+import ReactCurvedText from 'react-curved-text'
 
 function Hero() {
-  const [windowWidth, setWindowWidth] = useState(1024) // Default to desktop size
+  const [windowWidth, setWindowWidth] = useState(1024)
+  const prefersReducedMotion = useReducedMotion()
 
   useEffect(() => {
-    // Update window width on mount and resize
     const handleResize = () => {
       setWindowWidth(window.innerWidth)
     }
     
-    // Set initial width
     handleResize()
     
-    // Add resize listener
-    window.addEventListener('resize', handleResize)
+    const debouncedHandleResize = debounce(handleResize, 250)
+    window.addEventListener('resize', debouncedHandleResize)
     
-    // Cleanup
-    return () => window.removeEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', debouncedHandleResize)
   }, [])
 
-  const getGridConfig = () => {
+  const { particles, cols, rows } = useMemo(() => {
     if (windowWidth < 640) {
-      return { particles: 400, cols: 20, rows: 20 }
+      return { particles: 200, cols: 15, rows: 15 }
     } else if (windowWidth < 1024) {
-      return { particles: 600, cols: 30, rows: 20 }
+      return { particles: 300, cols: 20, rows: 15 }
     }
-    return { particles: 800, cols: 40, rows: 20 }
-  }
+    return { particles: 400, cols: 25, rows: 15 }
+  }, [windowWidth])
 
-  const { particles, cols, rows } = getGridConfig()
+  const particlePositions = useMemo(() => {
+    return Array.from({ length: particles }).map((_, i) => {
+      const row = Math.floor(i / cols)
+      const col = i % cols
+      return {
+        left: `${(col / cols) * 100}%`,
+        top: `${(row / rows) * 100}%`,
+        delay: (row + col) * 0.1
+      }
+    })
+  }, [particles, cols, rows])
 
   return (
     <motion.section 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-      className='relative w-full h-screen bg-[#7300FF] flex flex-col justify-center md:justify-end py-8 sm:py-12 md:py-16 px-4 sm:px-6 md:px-10'
+      transition={{ duration: 0.3 }}
+      className='relative w-full h-screen bg-[#7300FF] flex flex-col justify-center py-8 sm:py-12 md:py-16 px-4 sm:px-6 md:px-10'
       style={{
         background: `linear-gradient(to bottom, #7300FF, #4A00A0)`,
       }}
@@ -50,7 +60,7 @@ function Hero() {
         <motion.h1 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.2 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
           className='text-white text-5xl font-medium sm:text-6xl md:text-8xl lg:text-9xl leading-[115%]'
         >
           <span className="sr-only">Arc Creative Agency - </span>
@@ -65,62 +75,84 @@ function Hero() {
           <motion.span 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 1.2 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
           >
             shapes the{' '}
           </motion.span>
           <motion.span 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 1.4 }}
+            transition={{ duration: 0.5, delay: 0.6 }}
             className='font-instrument'
           >
             digital world
           </motion.span>
         </motion.h1>
-        <div className='flex justify-between items-end'>
+        <div className='relative flex justify-between items-end'>
           <motion.p 
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7, delay: 1.6 }}
+            transition={{ duration: 0.5, delay: 0.8 }}
             className='text-white text-xl sm:text-2xl md:text-3xl lg:text-4xl w-full sm:w-3/4 md:w-2/3 lg:w-1/2'
           >
             We don&apos;t just build websites—we create the stage for your brand&apos;s story to shine.
           </motion.p>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 1.6 }}
-            role="presentation"
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.6 }}
+            className='absolute lg:-bottom-40 xl:-bottom-64 right-0 w-[400px] h-[400px] hidden lg:flex items-center justify-center'
           >
-            <MoveDown 
-              className='hidden md:block stroke-1 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 text-white' 
-              aria-hidden="true"
-            />
+            {!prefersReducedMotion && (
+              <motion.div
+                animate={{
+                  rotate: 360
+                }}
+                transition={{
+                  duration: 8,
+                  repeat: Infinity,
+                  ease: "linear"
+                }}
+              >
+                <ReactCurvedText
+                  width={400}
+                  height={400}
+                  cx={200}
+                  cy={200}
+                  rx={100}
+                  ry={100}
+                  startOffset={20}
+                  reversed={true}
+                  text="ARCHITECTS OF DIGITAL DREAMS / ARC CREATIVE"
+                  textProps={{ style: { fontSize: 28, fill: '#ffffffaa' } }}
+                  tspanProps={null}
+                  svgProps={null}
+                />
+                <Hammer size={96} className='opacity-50 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2' />
+              </motion.div>
+            )}
           </motion.div>
         </div>
       </div>
-      
-      <motion.div 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.5 }}
-        transition={{ duration: 1, delay: 0.5 }}
-        className="absolute inset-0 w-full h-full overflow-hidden"
-        role="presentation"
-        aria-hidden="true"
-      >
-        {Array.from({ length: particles }).map((_, i) => {
-          const row = Math.floor(i / cols);
-          const col = i % cols;
-          return (
+
+      {!prefersReducedMotion && (
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.5 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="absolute inset-0 w-full h-full overflow-hidden"
+          role="presentation"
+          aria-hidden="true"
+        >
+          {particlePositions.map((position, i) => (
             <motion.div
               key={i}
               className="absolute rounded-full bg-white"
               style={{
                 width: windowWidth < 640 ? '2px' : '4px',
                 height: windowWidth < 640 ? '2px' : '4px',
-                left: `${(col / cols) * 100}%`,
-                top: `${(row / rows) * 100}%`,
+                left: position.left,
+                top: position.top,
                 pointerEvents: 'none',
               }}
               initial={{ opacity: 0 }}
@@ -130,15 +162,28 @@ function Hero() {
               transition={{
                 duration: 2,
                 repeat: Infinity,
-                delay: (row + col) * 0.1,
+                delay: position.delay,
                 ease: "easeInOut"
               }}
             />
-          );
-        })}
-      </motion.div>
+          ))}
+        </motion.div>
+      )}
     </motion.section>
   )
+}
+
+// Utility function for debouncing
+function debounce(func: Function, wait: number) {
+  let timeout: NodeJS.Timeout
+  return function executedFunction(...args: any[]) {
+    const later = () => {
+      clearTimeout(timeout)
+      func(...args)
+    }
+    clearTimeout(timeout)
+    timeout = setTimeout(later, wait)
+  }
 }
 
 export default Hero

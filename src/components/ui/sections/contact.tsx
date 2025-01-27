@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import { Clock, MapPin, Phone } from 'lucide-react'
-import { motion, useReducedMotion, Variants } from 'framer-motion'
+import { motion, Variants } from 'framer-motion'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 
@@ -20,7 +20,6 @@ const contactFormSchema = z.object({
 type ContactFormValues = z.infer<typeof contactFormSchema>
 
 function Contact() {
-  const prefersReducedMotion = useReducedMotion()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
 
@@ -33,14 +32,14 @@ function Contact() {
     resolver: zodResolver(contactFormSchema)
   })
 
-  const onSubmit = async (data: ContactFormValues) => {
+  const onSubmit = async () => {
     try {
       setIsSubmitting(true)
       // Here you would typically send the data to your API
       await new Promise(resolve => setTimeout(resolve, 1000)) // Simulated API call
       setSubmitStatus('success')
       reset()
-    } catch (error) {
+    } catch {
       setSubmitStatus('error')
     } finally {
       setIsSubmitting(false)

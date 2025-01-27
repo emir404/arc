@@ -6,7 +6,6 @@ import Header from '@/components/ui/header'
 import Hero from '@/components/ui/sections/hero'
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
 import { useEffect, useRef } from 'react'
-import { cn } from '@/lib/utils'
 
 // Dynamically import heavy components
 const AboutUs = dynamic(() => import('@/components/ui/sections/aboutus'), {

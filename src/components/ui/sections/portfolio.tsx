@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion, useScroll } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
@@ -19,14 +19,10 @@ const PROJECTS = [
 ]
 
 function ProjectItem({ 
-  project, 
-  index, 
-  containerRef,
+  project,
   isExpanded 
 }: { 
   project: typeof PROJECTS[0]
-  index: number
-  containerRef: React.RefObject<HTMLDivElement>
   isExpanded: boolean
 }) {
   const projectRef = useRef<HTMLDivElement>(null)
@@ -160,8 +156,6 @@ function Portfolio() {
             <ProjectItem
               key={project.title}
               project={project}
-              index={index}
-              containerRef={containerRef}
               isExpanded={index === expandedIndex}
             />
           ))}

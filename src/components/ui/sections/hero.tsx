@@ -1,10 +1,13 @@
 'use client'
 
-import { Hammer, MoveDown } from 'lucide-react'
+import { Hammer } from 'lucide-react'
 import { motion, useReducedMotion } from 'framer-motion'
 import { useState, useEffect, useMemo } from 'react'
-// @ts-ignore
+// @ts-expect-error - No types available for react-curved-text
 import ReactCurvedText from 'react-curved-text'
+
+// Define proper types for the debounce function
+type DebouncedFunction<T extends (...args: unknown[]) => void> = (...args: Parameters<T>) => void;
 
 function Hero() {
   const [windowWidth, setWindowWidth] = useState(1024)
@@ -65,12 +68,6 @@ function Hero() {
         >
           <span className="sr-only">Arc Creative Agency - </span>
           Where imagination{' '}
-          {/*<motion.span 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.8 }}
-            className='hidden sm:w-32 md:w-48 lg:w-56 h-10 sm:h-14 md:h-20 lg:h-24 ml-2 sm:ml-3 md:ml-4 bg-[#fff] sm:inline-block rounded-full align-middle'
-          />*/}
           <br />
           <motion.span 
             initial={{ opacity: 0 }}
@@ -173,10 +170,14 @@ function Hero() {
   )
 }
 
-// Utility function for debouncing
-function debounce(func: Function, wait: number) {
+// Utility function for debouncing with proper TypeScript types
+function debounce<T extends (...args: unknown[]) => void>(
+  func: T,
+  wait: number
+): DebouncedFunction<T> {
   let timeout: NodeJS.Timeout
-  return function executedFunction(...args: any[]) {
+
+  return (...args: Parameters<T>) => {
     const later = () => {
       clearTimeout(timeout)
       func(...args)

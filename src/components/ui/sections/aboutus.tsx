@@ -40,13 +40,11 @@ function AboutUs() {
           node.textContent = `${to}+`
         }
       }
-    }, [from, to, prefersReducedMotion])
+    }, [from, to])
 
     useEffect(() => {
-      if (isInView) {
-        animateCount()
-      }
-    }, [isInView, animateCount])
+      animateCount()
+    }, [animateCount])
 
     return <p ref={nodeRef} className={className}>{from}+</p>
   }

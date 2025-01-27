@@ -122,7 +122,7 @@ function AboutUs() {
                 transition={{ duration: 0.5, delay: 0.4 + (index * 0.1) }}
                 className='relative'
               >
-                <div className='bg-card/80 p-6 rounded-lg border border-white/5 h-full flex flex-col justify-center items-center text-center'>
+                <div className='p-6 rounded-lg border border-white/5 h-full flex flex-col justify-center items-center text-center'>
                   <Counter
                     from={0}
                     to={stat.number}

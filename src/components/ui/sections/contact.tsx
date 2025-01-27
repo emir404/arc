@@ -100,6 +100,7 @@ function Contact() {
             <motion.form 
               onSubmit={handleSubmit(onSubmit)} 
               className='flex flex-col gap-8'
+              data-netlify="true"
             >
               <div className='grid grid-cols-1 sm:grid-cols-2 gap-6'>
                 <motion.div 
@@ -186,13 +187,11 @@ function Contact() {
           >
             <div className='h-[300px] border border-white/10 rounded-lg overflow-hidden'>
               <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.0927141661437!2d-122.39901368468215!3d37.78779997975728!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8085807abad77c31%3A0x3f10582f2e67dd3f!2sSan%20Francisco%2C%20CA%2094105!5e0!3m2!1sen!2sus!4v1647894687693!5m2!1sen!2sus"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3757.5818684331352!2d29.00180852657051!3d41.04275351730056!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cab79f5a4f16a7%3A0x5c911d9ea20c25aa!2zU2luYW5wYcWfYSwgQmXFn2lrdGHFny_EsHN0YW5idWw!5e0!3m2!1str!2str!4v1738011485604!5m2!1str!2str"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
-                allowFullScreen
                 loading="lazy"
-                className='grayscale'
                 title="Office Location"
               />
             </div>

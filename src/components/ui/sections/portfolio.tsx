@@ -16,6 +16,15 @@ const PROJECTS = [
     category: "Branding",
     link: "/projects/lumino",
   },
+  {
+    title: "Syntra Media",
+    description: "A digital marketing agency needed a comprehensive web platform to streamline their operations and enhance client engagement.",
+    solution: "Arc developed a complete solution including a landing page, blog system, custom meeting scheduler, and client portal.",
+    image: "/projects/syntra.jpg",
+    year: "2023",
+    category: "Development",
+    link: "/projects/syntra",
+  }
 ]
 
 function ProjectItem({ 
@@ -125,8 +134,9 @@ function Portfolio() {
         const scrollPosition = latest * containerHeight
         
         // Each project takes up roughly equal space
-        const projectHeight = containerHeight / PROJECTS.length
-        const newIndex = Math.floor(scrollPosition / projectHeight)
+        const projectHeight = containerHeight / PROJECTS.length + 75
+        // Add offset of half a project height to center the trigger point
+        const newIndex = Math.floor(scrollPosition  / projectHeight)
         
         if (newIndex !== expandedIndex && newIndex >= 0 && newIndex < PROJECTS.length) {
           setExpandedIndex(newIndex)

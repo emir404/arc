@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 import { motion, useScroll } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -15,6 +15,7 @@ const PROJECTS = [
     year: "2023",
     category: "Branding",
     link: "/projects/lumino",
+    blurDataUrl: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQrJiEkKic0Ly4vLi0vOTBENzc3NzhIYVFhYGViY2NjcnJycnJycnJycnL/2wBDAR",
   },
   {
     title: "Syntra Media",
@@ -24,6 +25,7 @@ const PROJECTS = [
     year: "2023",
     category: "Development",
     link: "/projects/syntra",
+    blurDataUrl: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQrJiEkKic0Ly4vLi0vOTBENzc3NzhIYVFhYGViY2NjcnJycnJycnJycnL/2wBDAR",
   }
 ]
 
@@ -36,6 +38,7 @@ function ProjectItem({
 }) {
   const projectRef = useRef<HTMLDivElement>(null)
   const [height, setHeight] = useState(0)
+  const [isImageLoaded, setIsImageLoaded] = useState(false)
 
   useEffect(() => {
     if (projectRef.current) {
@@ -54,7 +57,7 @@ function ProjectItem({
           opacity: isExpanded ? 1 : 0.5
         }}
         transition={{ 
-          height: { duration: 0.8, ease: [0.76, 0, 0.24, 1] },
+          height: { duration: 0.6, ease: [0.76, 0, 0.24, 1] },
           opacity: { duration: 0.3 }
         }}
         className="relative border-t border-white/10 overflow-hidden"
@@ -65,14 +68,14 @@ function ProjectItem({
               animate={{ 
                 opacity: isExpanded ? 1 : 0.7
               }}
-              transition={{ duration: 0.4 }}
+              transition={{ duration: 0.3 }}
               className="text-2xl sm:text-3xl font-medium text-white"
             >
               {project.title}
             </motion.h3>
             <motion.div
               animate={{ opacity: isExpanded ? 1 : 0.5 }}
-              transition={{ duration: 0.4 }}
+              transition={{ duration: 0.3 }}
             >
               <p className="text-white/60 mt-2">{project.category}</p>
               <p className="text-white/60">{project.year}</p>
@@ -82,17 +85,25 @@ function ProjectItem({
           <motion.div 
             className="col-span-12 md:col-span-8 relative"
             animate={{ opacity: isExpanded ? 1 : 0 }}
-            transition={{ duration: 0.4, delay: isExpanded ? 0.2 : 0 }}
+            transition={{ duration: 0.3 }}
           >
-            <div className="aspect-[16/9] relative rounded-lg overflow-hidden">
-              <Image
-                src={project.image}
-                alt={project.title}
-                fill
-                className="object-cover object-top"
-                sizes="(max-width: 768px) 100vw, 66vw"
-                quality={90}
-              />
+            <div className="aspect-[16/9] relative rounded-lg overflow-hidden bg-white/5">
+              {isExpanded && (
+                <Image
+                  src={project.image}
+                  alt={project.title}
+                  fill
+                  className={`object-cover object-top transition-opacity duration-300 ${
+                    isImageLoaded ? 'opacity-100' : 'opacity-0'
+                  }`}
+                  sizes="(max-width: 768px) 100vw, 66vw"
+                  quality={75}
+                  priority={false}
+                  placeholder="blur"
+                  blurDataURL={project.blurDataUrl}
+                  onLoadingComplete={() => setIsImageLoaded(true)}
+                />
+              )}
             </div>
             <div className="mt-6 space-y-4">
               <p className="text-white/80 text-lg leading-relaxed">
@@ -104,7 +115,7 @@ function ProjectItem({
             </div>
             <div className="mt-8 flex justify-end">
               <motion.div
-                whileHover={{ x: 5, y: 5 }}
+                whileHover={{ x: 3, y: 3 }}
                 transition={{ duration: 0.2 }}
               >
                 <ArrowUpRight className="w-6 h-6 text-white" />
@@ -126,26 +137,25 @@ function Portfolio() {
     offset: ["start start", "end end"]
   })
 
-  useEffect(() => {
-    const unsubscribe = scrollYProgress.on("change", (latest) => {
-      if (containerRef.current) {
-        const container = containerRef.current
-        const containerHeight = container.scrollHeight - window.innerHeight
-        const scrollPosition = latest * containerHeight
-        
-        // Each project takes up roughly equal space
-        const projectHeight = containerHeight / PROJECTS.length + 75
-        // Add offset of half a project height to center the trigger point
-        const newIndex = Math.floor(scrollPosition  / projectHeight)
-        
-        if (newIndex !== expandedIndex && newIndex >= 0 && newIndex < PROJECTS.length) {
-          setExpandedIndex(newIndex)
-        }
+  const handleScroll = useCallback((latest: number) => {
+    if (containerRef.current) {
+      const container = containerRef.current
+      const containerHeight = container.scrollHeight - window.innerHeight
+      const scrollPosition = latest * containerHeight
+      
+      const projectHeight = containerHeight / PROJECTS.length + 75
+      const newIndex = Math.floor(scrollPosition / projectHeight)
+      
+      if (newIndex !== expandedIndex && newIndex >= 0 && newIndex < PROJECTS.length) {
+        setExpandedIndex(newIndex)
       }
-    })
+    }
+  }, [expandedIndex])
 
+  useEffect(() => {
+    const unsubscribe = scrollYProgress.on("change", handleScroll)
     return () => unsubscribe()
-  }, [scrollYProgress, expandedIndex])
+  }, [scrollYProgress, handleScroll])
 
   return (
     <section 

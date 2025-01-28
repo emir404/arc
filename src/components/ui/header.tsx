@@ -125,13 +125,42 @@ function Header() {
             animate="visible"
             exit="exit"
             variants={mobileMenuVariants}
-            className='fixed inset-0 top-[64px] sm:top-[80px] bg-black/95 backdrop-blur-md md:hidden'
+            className='fixed inset-0 top-[64px] sm:top-[80px] md:hidden bg-[#0A0F17]/95 backdrop-blur-xl border-t border-white/5 z-[49]'
           >
             <motion.div 
               variants={mobileMenuVariants}
-              className='flex flex-col justify-center min-h-[calc(100vh-64px)] sm:min-h-[calc(100vh-80px)] px-8'
+              className='relative h-[calc(100vh-64px)] sm:h-[calc(100vh-80px)] px-6 py-12 overflow-hidden'
             >
-              <div className='space-y-12'>
+              {/* Background gradient effect */}
+              <div className="absolute inset-0 bg-gradient-to-b from-[#0A0F17] via-[#0A0F17]/95 to-[#0A0F17] pointer-events-none" />
+              
+              {/* Animated background circles */}
+              <motion.div 
+                className="absolute -right-24 -top-24 w-96 h-96 rounded-full bg-blue-400/[0.02] blur-3xl pointer-events-none"
+                animate={{
+                  scale: [1, 1.2, 1],
+                  opacity: [0.1, 0.15, 0.1],
+                }}
+                transition={{
+                  duration: 5,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              />
+              <motion.div 
+                className="absolute -left-24 bottom-24 w-72 h-72 rounded-full bg-indigo-400/[0.02] blur-3xl pointer-events-none"
+                animate={{
+                  scale: [1.2, 1, 1.2],
+                  opacity: [0.15, 0.1, 0.15],
+                }}
+                transition={{
+                  duration: 5,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              />
+
+              <div className='relative space-y-8 z-10'>
                 {[
                   { href: '#about', text: 'About us' },
                   { href: '#portfolio', text: 'Portfolio' },
@@ -139,30 +168,88 @@ function Header() {
                 ].map((item, index) => (
                   <motion.div
                     key={index}
-                    variants={menuItemVariants}
-                    className='overflow-hidden'
+                    variants={{
+                      hidden: { opacity: 0, x: -20 },
+                      visible: { opacity: 1, x: 0 }
+                    }}
+                    className='group'
                   >
                     <Link 
                       href={item.href}
                       onClick={(e) => handleScroll(e, item.href.substring(1))}
-                      className={
-                        item.isButton 
-                          ? 'block text-5xl sm:text-6xl font-medium text-white hover:text-white/80 transition-colors' 
-                          : 'block text-4xl sm:text-5xl text-white/60 hover:text-white transition-colors'
-                      }
+                      className={`
+                        flex items-center justify-between
+                        ${item.isButton 
+                          ? 'text-4xl sm:text-5xl font-medium text-white' 
+                          : 'text-3xl sm:text-4xl text-white/70'
+                        }
+                        transition-all duration-300 hover:text-white
+                      `}
                     >
-                      {item.text}
+                      <motion.span 
+                        className='relative inline-block'
+                        whileHover={{ x: 10 }}
+                        transition={{ type: "spring", stiffness: 300 }}
+                      >
+                        {item.text}
+                        <span className='absolute -bottom-1 left-0 w-0 h-[2px] bg-white group-hover:w-full transition-all duration-300 ease-out' />
+                      </motion.span>
+                      <motion.div
+                        whileHover={{ x: 5 }}
+                        transition={{ type: "spring", stiffness: 300 }}
+                      >
+                        <svg
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          className='transform group-hover:translate-x-2 transition-transform duration-300'
+                        >
+                          <line x1="5" y1="12" x2="19" y2="12" />
+                          <polyline points="12 5 19 12 12 19" />
+                        </svg>
+                      </motion.div>
                     </Link>
                   </motion.div>
                 ))}
               </div>
 
               <motion.div 
-                variants={menuItemVariants}
-                className='mt-auto pt-12 pb-8 text-white/40 text-sm space-y-2'
+                variants={{
+                  hidden: { opacity: 0, y: 20 },
+                  visible: { opacity: 1, y: 0 }
+                }}
+                className='absolute bottom-0 left-0 right-0 p-6 space-y-6'
               >
-                <p>© 2024 Arc Agency</p>
-                <p>San Francisco, CA</p>
+                <div className='h-[1px] w-full bg-gradient-to-r from-transparent via-white/10 to-transparent' />
+                <div className='flex justify-between items-center'>
+                  <div className='space-y-2'>
+                    <p className='text-white/40 font-instrument text-lg'>© 2025 Arc Studio</p>
+                    <p className='text-white/40 font-instrument text-lg'>Beşiktaş, İstanbul</p>
+                  </div>
+                  <motion.div
+                    whileHover={{ rotate: 90 }}
+                    transition={{ type: "spring", stiffness: 200 }}
+                  >
+                    <svg
+                      width="32"
+                      height="32"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className='text-white/40'
+                    >
+                      <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                    </svg>
+                  </motion.div>
+                </div>
               </motion.div>
             </motion.div>
           </motion.div>

@@ -2,7 +2,7 @@
 
 import { Hammer } from 'lucide-react'
 import { motion, useReducedMotion } from 'framer-motion'
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, useCallback } from 'react'
 // @ts-expect-error - No types available for react-curved-text
 import ReactCurvedText from 'react-curved-text'
 
@@ -10,29 +10,28 @@ import ReactCurvedText from 'react-curved-text'
 type DebouncedFunction<T extends (...args: unknown[]) => void> = (...args: Parameters<T>) => void;
 
 function Hero() {
-  const [windowWidth, setWindowWidth] = useState(1024)
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1024)
   const prefersReducedMotion = useReducedMotion()
 
-  useEffect(() => {
-    const handleResize = () => {
+  const handleResize = useCallback(() => {
+    if (typeof window !== 'undefined') {
       setWindowWidth(window.innerWidth)
     }
-    
-    handleResize()
-    
+  }, [])
+
+  useEffect(() => {
     const debouncedHandleResize = debounce(handleResize, 250)
     window.addEventListener('resize', debouncedHandleResize)
-    
     return () => window.removeEventListener('resize', debouncedHandleResize)
-  }, [])
+  }, [handleResize])
 
   const { particles, cols, rows } = useMemo(() => {
     if (windowWidth < 640) {
-      return { particles: 200, cols: 15, rows: 15 }
+      return { particles: 100, cols: 10, rows: 10 } // Reduced particle count for mobile
     } else if (windowWidth < 1024) {
-      return { particles: 300, cols: 20, rows: 15 }
+      return { particles: 150, cols: 15, rows: 10 } // Reduced for tablets
     }
-    return { particles: 400, cols: 25, rows: 15 }
+    return { particles: 200, cols: 20, rows: 10 } // Reduced for desktop
   }, [windowWidth])
 
   const particlePositions = useMemo(() => {
@@ -42,10 +41,23 @@ function Hero() {
       return {
         left: `${(col / cols) * 100}%`,
         top: `${(row / rows) * 100}%`,
-        delay: (row + col) * 0.1
+        delay: Math.random() * 2 // Randomized delays for more natural effect
       }
     })
   }, [particles, cols, rows])
+
+  const rotatingTextProps = useMemo(() => ({
+    width: 400,
+    height: 400,
+    cx: 200,
+    cy: 200,
+    rx: 100,
+    ry: 100,
+    startOffset: 20,
+    reversed: true,
+    text: "ARCHITECTS OF DIGITAL DREAMS / ARC CREATIVE",
+    textProps: { style: { fontSize: 28, fill: '#ffffffaa' } }
+  }), [])
 
   return (
     <motion.section 
@@ -63,7 +75,7 @@ function Hero() {
         <motion.h1 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
+          transition={{ duration: 0.5 }}
           className='text-white text-5xl font-medium sm:text-6xl md:text-8xl lg:text-9xl leading-[115%]'
         >
           <span className="sr-only">Arc Creative Agency - </span>
@@ -72,14 +84,14 @@ function Hero() {
           <motion.span 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
           >
             shapes the{' '}
           </motion.span>
           <motion.span 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.6 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
             className='font-instrument'
           >
             digital world
@@ -89,7 +101,7 @@ function Hero() {
           <motion.p 
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.8 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
             className='text-white text-xl sm:text-2xl md:text-3xl lg:text-4xl w-full sm:w-3/4 md:w-2/3 lg:w-1/2'
           >
             We don&apos;t just build websites—we create the stage for your brand&apos;s story to shine.
@@ -97,7 +109,7 @@ function Hero() {
           <motion.div 
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.6 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
             className='absolute lg:-bottom-40 xl:-bottom-64 right-0 w-[400px] h-[400px] hidden lg:flex items-center justify-center'
           >
             {!prefersReducedMotion && (
@@ -106,25 +118,12 @@ function Hero() {
                   rotate: 360
                 }}
                 transition={{
-                  duration: 8,
+                  duration: 12, // Slower rotation
                   repeat: Infinity,
                   ease: "linear"
                 }}
               >
-                <ReactCurvedText
-                  width={400}
-                  height={400}
-                  cx={200}
-                  cy={200}
-                  rx={100}
-                  ry={100}
-                  startOffset={20}
-                  reversed={true}
-                  text="ARCHITECTS OF DIGITAL DREAMS / ARC CREATIVE"
-                  textProps={{ style: { fontSize: 28, fill: '#ffffffaa' } }}
-                  tspanProps={null}
-                  svgProps={null}
-                />
+                <ReactCurvedText {...rotatingTextProps} />
                 <Hammer size={96} className='opacity-50 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2' />
               </motion.div>
             )}
@@ -136,8 +135,8 @@ function Hero() {
         <motion.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.5 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="absolute inset-0 w-full h-full overflow-hidden"
+          transition={{ duration: 0.5 }}
+          className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none"
           role="presentation"
           aria-hidden="true"
         >
@@ -146,18 +145,17 @@ function Hero() {
               key={i}
               className="absolute rounded-full bg-white"
               style={{
-                width: windowWidth < 640 ? '2px' : '4px',
-                height: windowWidth < 640 ? '2px' : '4px',
+                width: windowWidth < 640 ? '2px' : '3px',
+                height: windowWidth < 640 ? '2px' : '3px',
                 left: position.left,
                 top: position.top,
-                pointerEvents: 'none',
               }}
               initial={{ opacity: 0 }}
               animate={{ 
-                opacity: [0.3, 0.7, 0.3],
+                opacity: [0.3, 0.5, 0.3],
               }}
               transition={{
-                duration: 2,
+                duration: 3,
                 repeat: Infinity,
                 delay: position.delay,
                 ease: "easeInOut"

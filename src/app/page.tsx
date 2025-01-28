@@ -54,7 +54,7 @@ function Home() {
 
     const smoothScroll = () => {
       if (!isScrolling) return
-
+      
       // Calculate the distance to scroll
       const distance = targetScrollTop - currentScrollTop
       

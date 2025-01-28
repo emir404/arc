@@ -7,18 +7,42 @@ import "./globals.css";
 const OverusedGroteskRoman = localFont({
   src: "/fonts/OverusedGroteskRoman.woff",
   variable: "--font-overused",
+  display: 'swap',
+  preload: true,
 });
 
 const InstrumentSerif = Instrument_Serif({
   weight: "400",
   subsets: ["latin"],
   variable: "--font-instrument",
+  display: 'swap',
 });
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   themeColor: "#000000",
+  minimumScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+};
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Arc Creative Agency",
+  "url": "https://witharc.co",
+  "logo": "https://witharc.co/logo.png",
+  "description": "Arc is a global web agency focused on blending innovation, creativity, and cutting-edge technology to craft unique, high-impact digital experiences.",
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "contactType": "customer service",
+    "email": "hello@witharc.co"
+  },
+  "sameAs": [
+    "https://instagram.com/witharc.co",
+    "https://linkedin.com/company/witharcstudio"
+  ]
 };
 
 export const metadata: Metadata = {
@@ -39,7 +63,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://arc-agency.com",
+    url: "https://witharc.co",
     title: "Arc - Creative Web Agency",
     description: "Arc is a global web agency focused on blending innovation, creativity, and cutting-edge technology to craft unique, high-impact digital experiences.",
     siteName: "Arc Creative Agency",
@@ -72,6 +96,10 @@ export default function RootLayout({
             gtag('config', 'G-L6GMH3LB5W');
           `}
         </Script>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
       </head>
       <body
         className={`${OverusedGroteskRoman.variable} ${InstrumentSerif.variable} antialiased dark bg-background font-overused`}

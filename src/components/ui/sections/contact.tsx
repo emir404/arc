@@ -10,61 +10,35 @@ gsap.registerPlugin(ScrollTrigger)
 
 function Contact() {
   useEffect(() => {
-
-    gsap.from('.contact-title', {
+    const tl = gsap.timeline({
       scrollTrigger: {
-        trigger: '.contact-title',
+        trigger: '#contact',
         start: 'top bottom',
         end: 'top center',
         scrub: 1
-      },
-      opacity: 0,
-      y: 100,
-    })
+      }
+    });
 
-    gsap.from('.contact-text-1', {
-      scrollTrigger: {
-        trigger: '.contact-text-1',
-        start: 'top bottom',
-        end: 'top center',
-        scrub: 1
-      },
+    tl.from('.contact-title', {
       opacity: 0,
       y: 100,
     })
-
-    gsap.from('.contact-text-2', {
-      scrollTrigger: {
-        trigger: '.contact-text-2',
-        start: 'top bottom',
-        end: 'top center',
-        scrub: 1
-      },
+    .from('.contact-text-1', {
+      opacity: 0, 
+      y: 100,
+    })
+    .from('.contact-text-2', {
       opacity: 0,
       y: 100,
     })
-
-    gsap.from('.mail-text', {
-      scrollTrigger: {
-        trigger: '.mail-text',
-        start: 'top bottom',
-        end: 'top center',
-        scrub: 1
-      },
+    .from('.line', {
       opacity: 0,
       y: 100,
     })
-
-    gsap.from('.line', {
-      scrollTrigger: {
-        trigger: '.line',
-        start: 'top bottom',
-        end: 'top center',
-        scrub: 1
-      },
+    .from('.mail-text', {
       opacity: 0,
       y: 100,
-    })
+    });
   }, [])
 
   return (

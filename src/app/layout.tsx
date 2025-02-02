@@ -1,8 +1,11 @@
+
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { Instrument_Serif } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
+import Header from "@/components/ui/header";
+import Footer from "@/components/ui/sections/footer";
 
 const OverusedGroteskRoman = localFont({
   src: "/fonts/OverusedGroteskRoman.woff",
@@ -102,9 +105,11 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${OverusedGroteskRoman.variable} ${InstrumentSerif.variable} antialiased dark bg-background font-overused`}
+        className={`${OverusedGroteskRoman.variable} ${InstrumentSerif.variable} antialiased bg-background font-overused flex flex-col`}
       >
+        <Header/>
         {children}
+        <Footer />
       </body>
     </html>
   );

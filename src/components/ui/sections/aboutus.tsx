@@ -1,148 +1,118 @@
-'use client'
+import React, { useEffect, useRef } from 'react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
-import { useRef, useCallback, useEffect } from 'react'
-import { motion, useInView, useReducedMotion, Variants, animate } from 'framer-motion'
+gsap.registerPlugin(ScrollTrigger)
 
 function AboutUs() {
-  const statsRef = useRef(null)
-  const isInView = useInView(statsRef, { once: true, margin: "-100px" })
-  const prefersReducedMotion = useReducedMotion()
+  const containerRef = useRef<HTMLDivElement>(null)
+  const textRef = useRef<HTMLParagraphElement>(null)
+  const highlightRef = useRef<HTMLSpanElement>(null)
 
-  const fadeInUp: Variants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 }
-  }
+  useEffect(() => {
+    const container = containerRef.current 
+    const text = textRef.current
 
-  const statsVariant: Variants = {
-    hidden: { opacity: 0, scale: 0.95 },
-    visible: { opacity: 1, scale: 1 }
-  }
-
-  const Counter = ({ from, to, className }: { from: number, to: number, className: string }) => {
-    const nodeRef = useRef<HTMLParagraphElement>(null)
-    
-    const animateCount = useCallback(() => {
-      if (!prefersReducedMotion) {
-        const node = nodeRef.current
-        if (node) {
-          const controls = animate(from, to, {
-            duration: 2,
-            onUpdate(value) {
-              node.textContent = `${Math.round(value)}+`
-            },
-            ease: "easeOut"
-          })
-          return controls.stop
-        }
-      } else {
-        const node = nodeRef.current
-        if (node) {
-          node.textContent = `${to}+`
-        }
+    // Split text into words but exclude the highlighted word
+    if (text) {
+      const textContent = text.textContent || ''
+      const beforeHighlight = textContent.split('meaningful')[0]
+      const afterHighlight = textContent.split('meaningful')[1]
+      
+      const processText = (text: string) => {
+        return text.trim().split(' ').map((word: string) => {
+          return `<span class="word-wrap">${word} </span>`
+        }).join('')
       }
-    }, [from, to])
 
-    useEffect(() => {
-      animateCount()
-    }, [animateCount])
+      text.innerHTML = `${processText(beforeHighlight)}<span ref={highlightRef} class='text-black bg-[#FFD700] px-4 inline-block highlight-word'>meaningful</span>${processText(afterHighlight)}`
+    }
 
-    return <p ref={nodeRef} className={className}>{from}+</p>
-  }
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: container,
+        start: "top 60%",
+        end: "bottom center",
+        toggleActions: "play none none none",
+        once: true
+      }
+    })
 
-  const stats = [
-    { number: 20, label: 'happy clients' },
-    { number: 3, label: 'countries' },
-    { number: 50, label: 'projects' },
-    { number: 3, label: 'years of experience' }
-  ]
+    // Initial states
+    gsap.set(".word-wrap", {
+      opacity: 0,
+      y: 30
+    })
+    gsap.set(".highlight-word", {
+      opacity: 0,
+      scale: 0.5,
+      rotation: -15,
+      transformOrigin: "center center"
+    })
+
+    // Animate words sequentially
+    tl.to(".word-wrap", {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      stagger: 0.05,
+      ease: "power3.out"
+    })
+
+    // Creative animation for highlight word
+    .fromTo(".highlight-word",
+      {
+        opacity: 0,
+        scale: 0.5,
+        rotation: -15,
+        y: 30,
+        x: -20
+      },
+      {
+        opacity: 1,
+        scale: 1,
+        rotation: -5,
+        y: 0,
+        x: 0,
+        duration: 1.2,
+        ease: "elastic.out(1, 0.3)",
+        immediateRender: false
+      },
+      "-=0.7"
+    )
+
+    .to(".highlight-word", {
+      boxShadow: "0 0 30px rgba(255, 215, 0, 0.6)",
+      duration: 0.8,
+      yoyo: true,
+      repeat: 1
+    })
+
+    // Cleanup
+    return () => {
+      tl.kill()
+    }
+  }, [])
 
   return (
-    <motion.section 
-      id="about"
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-100px" }}
-      className='w-full min-h-screen py-24 px-6 sm:px-8 md:px-12 lg:px-16'
+    <div 
+      ref={containerRef} 
+      className='bg-[#0066FF] flex justify-center items-center py-48 md:py-80 w-full text-white overflow-hidden px-4 md:px-0'
     >
-      <div className="max-w-[2000px] mx-auto">
-        <div className="flex items-end justify-between mb-16 border-b border-white/10 pb-8">
-          <motion.h2 
-            variants={fadeInUp}
-            transition={{ duration: 0.6 }}
-            className="text-4xl sm:text-5xl md:text-6xl font-bold text-white"
-          >
-            Architects of<br />Digital Dreams
-          </motion.h2>
-          <motion.span 
-            variants={fadeInUp}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-white/40 font-mono"
-          >
-            01
-          </motion.span>
-        </div>
-
-        <motion.p 
-          variants={fadeInUp}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className='text-white/80 text-lg sm:text-xl md:text-2xl max-w-2xl mb-24'
+      <p 
+        ref={textRef} 
+        className='text-left w-full md:w-2/3 text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold leading-tight'
+      >
+        We are a versatile team leveraging design as a universal tool to elevate brands and drive{' '}
+        <span 
+          ref={highlightRef}
+          className='text-black bg-[#FFD700] px-2 md:px-4 inline-block highlight-word'
         >
-          We don&apos;t just design websites; we craft products experiences that captivate, inspire, and transform.
-        </motion.p>
-
-        <div className='grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24'>
-          <motion.div 
-            variants={fadeInUp}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className='relative'
-          >
-            <div className='bg-card/80 p-8 rounded-lg border border-white/5'>
-              <h3 className='text-2xl sm:text-3xl font-bold text-white mb-6'>Our Story</h3>
-              <div className='space-y-6 text-white/70 text-lg sm:text-xl'>
-                <p>
-                  At Arc, we believe every brand has a story waiting to be told. Founded with a passion for creativity and a commitment to excellence, we specialize in crafting digital spaces where businesses thrive. Our mission is simple: to bridge the gap between imagination and functionality, creating designs that are as impactful as they are beautiful.
-                </p>
-                <p>
-                  From cutting-edge web design to strategic SEO solutions, we&apos;re here to elevate your brand and bring your vision to life. Whether you&apos;re a growing startup or an established business, we tailor every project to meet your unique needs, ensuring that your digital presence stands out in a crowded world.
-                </p>
-              </div>
-            </div>
-          </motion.div>
-
-          <motion.div 
-            ref={statsRef}
-            className='grid grid-cols-2 gap-8'
-          >
-            {stats.map((stat, index) => (
-              <motion.div 
-                key={index}
-                variants={statsVariant}
-                initial="hidden"
-                animate={isInView ? "visible" : "hidden"}
-                transition={{ duration: 0.5, delay: 0.4 + (index * 0.1) }}
-                className='relative'
-              >
-                <div className='p-6 rounded-lg border border-white/5 h-full flex flex-col justify-center items-center text-center'>
-                  <Counter
-                    from={0}
-                    to={stat.number}
-                    className='text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-2'
-                  />
-                  <motion.p 
-                    initial={{ opacity: 0 }}
-                    animate={isInView ? { opacity: 0.7 } : { opacity: 0 }}
-                    transition={{ duration: 0.5, delay: 0.5 + (index * 0.1) }}
-                    className='text-white/70 text-lg sm:text-xl capitalize'
-                  >
-                    {stat.label}
-                  </motion.p>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </div>
-    </motion.section>
+          meaningful
+        </span>
+        {' '}change.
+      </p>
+    </div>
   )
 }
 

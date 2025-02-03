@@ -73,8 +73,6 @@ function Portfolio() {
 
   return (
     <div id="portfolio" className='relative flex flex-col w-full px-4 md:px-10 py-32 md:py-64'>
-      <div className='absolute top-0 left-0 w-full h-16 md:h-20 bg-gradient-to-b from-[#0066FF] to-transparent' />
-    
       <div className="bento-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-10 w-full">
         {/* Top row */}
         <div className="bento-item">
@@ -132,7 +130,7 @@ const PortfolioItem = ({ title, description, industry, image, badges }: { title:
           <p className='text-sm text-gray-500'>|</p>
           <p className='text-lg md:text-2xl text-gray-500'>{industry}</p>
         </div>
-        <p className='text-sm md:text-base text-gray-500'>{description}</p>
+        <p className='text-sm md:text-base lg:text-lg text-gray-500'>{description}</p>
       </div>
     </div>
   )

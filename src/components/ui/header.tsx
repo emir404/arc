@@ -7,10 +7,11 @@ import Logo from './logo'
 import { Button } from './button'
 import { Menu } from 'lucide-react'
 import MobileMenu from './mobile-menu'
+import Link from 'next/link'
 
 function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const logoRef = useRef<HTMLDivElement>(null)
+  const logoRef = useRef<HTMLAnchorElement>(null)
   const navRef = useRef<HTMLDivElement>(null)
 
   const scrollToSection = (sectionId: string) => {
@@ -43,9 +44,9 @@ function Header() {
   return (
     <>
       <div className='absolute flex justify-between items-center w-full p-4 md:p-8 z-50'>
-        <div ref={logoRef} className='w-16 md:w-24'>
+        <Link href='/' ref={logoRef} className='w-16 md:w-24'>
           <Logo fill='#2E2E2E' />
-        </div>
+        </Link>
         <div ref={navRef}>
           {/* Desktop Navigation */}
           <div className='hidden md:flex items-center gap-10'>

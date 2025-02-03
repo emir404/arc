@@ -2,37 +2,49 @@
 
 import React from 'react'
 import gsap from 'gsap'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 // @ts-expect-error
 import ReactCurvedText from 'react-curved-text'
 
 function Hero() {
+
   useEffect(() => {
     // Split text into words
     const text = document.querySelector('.header-text');
     const words = text?.textContent?.split(' ') || [];
-    text!.innerHTML = words.map(word => `<span class="word">${word} </span>`).join('');
+    text!.innerHTML = words.map(word => `<span class="word invisible">${word} </span>`).join('');
 
     // Create timeline for better animation control
     const tl = gsap.timeline({
       defaults: {
-        ease: "power3.out"
+        ease: "power3.out",
+        lazy: false
       }
     });
+
+    tl.set('.hero-text', {
+      opacity: 0,
+      autoAlpha: 0
+    })
+    .to('.hero-text', {
+      opacity: 1,
+      autoAlpha: 1
+    })
 
     // Animate each word with improved timing
     tl.set('.word', {
       opacity: 0,
+      autoAlpha: 0,
       rotateX: -90,
       transformOrigin: "50% 50% -50"
     })
     .to('.word', {
       opacity: 1, 
+      autoAlpha: 1,
       rotateX: 0,
       duration: 1.2,
       stagger: 0.15,
       ease: "elastic.out(1, 0.3)",
-      delay: 0.3
     });
 
     // Animate spinner initial appearance only
@@ -54,22 +66,24 @@ function Hero() {
       rotation: 360,
       duration: 8,
       repeat: -1,
-      ease: "none"
-    },
-    "<"
-  );
+        ease: "none"
+      },
+      "<"
+      );
+
 
   }, [])
 
   return (
     <div className='relative flex items-center md:items-end w-full px-4 sm:px-6 md:px-10 min-h-screen'>
-      <div className='w-full flex flex-col md:flex-row relative pb-16'>
+      <div className='w-full flex flex-col md:flex-row relative pb-8 hero-text invisible'>
         <h1 className='header-text font-semibold 
-          text-5xl sm:text-6xl md:text-7xl lg:text-[160px] xl:text-[200px] 
+          text-5xl sm:text-6xl md:text-7xl lg:text-[160px] xl:text-[200px]
           leading-tight md:leading-[1.1] text-[#2E2E2E] 
           max-w-[95vw] md:max-w-none 
           tracking-tight
-          pt-20 md:pt-0'
+          pt-20 md:pt-0
+          '
         >
           Built for Impact. Designed for You.
         </h1>
@@ -115,7 +129,6 @@ function Hero() {
         </div>
       </div>
 
-      <div className='absolute bottom-0 left-0 w-full h-16 md:h-20 bg-gradient-to-t from-[#0066FF] to-transparent' />
     </div>
   )
 }

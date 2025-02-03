@@ -15,7 +15,8 @@ function Contact() {
         trigger: '#contact',
         start: 'top bottom',
         end: 'top center',
-        scrub: 1
+        toggleActions: "play none none none",
+        once: true
       }
     });
 
@@ -68,7 +69,7 @@ function Contact() {
         <div className='flex items-center justify-center w-full overflow-hidden px-2 md:px-4'>
           <Link 
             href={'mailto:hello@witharc.co'} 
-            className='text-xl sm:text-3xl md:text-6xl lg:text-[240px] text-black/50 mail-text hover:text-black/70 transition-colors break-all sm:break-normal'
+            className='text-xl sm:text-3xl md:text-6xl lg:text-[200px] text-black/50 mail-text hover:text-black/70 transition-colors break-all sm:break-normal'
           >
             hello@witharc.co
           </Link>

@@ -66,10 +66,8 @@ function Footer() {
           <Link href={"https://www.instagram.com/witharc.co"} className='text-white text-2xl md:text-3xl lg:text-4xl font-overused social-link'>
             Instagram
           </Link>
-          <Link href={"https://www.instagram.com/witharc.co"} className='text-white text-2xl md:text-3xl lg:text-4xl font-overused social-link'>
-            Dribble
-          </Link>
-          <Link href={"https://www.instagram.com/witharc.co"} className='text-white text-2xl md:text-3xl lg:text-4xl font-overused social-link'>
+          
+          <Link href={"https://www.linkedin.com/company/witharcstudio"} className='text-white text-2xl md:text-3xl lg:text-4xl font-overused social-link'>
             LinkedIn
           </Link>
         </div>

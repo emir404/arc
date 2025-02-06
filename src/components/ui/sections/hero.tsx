@@ -77,9 +77,9 @@ function Hero() {
   return (
     <div className='relative flex items-center md:items-end w-full px-4 sm:px-6 md:px-10 min-h-screen'>
       <div className='w-full flex flex-col md:flex-row relative pb-8 hero-text invisible'>
-        <h1 className='header-text font-medium 
+        <h1 className='header-text font-regular 
           text-8xl md:text-9xl lg:text-[160px] xl:text-[200px]
-          leading-0 md:leading-[1.1] text-[#2E2E2E] 
+          leading-0  text-[#2E2E2E] 
           max-w-[95vw] md:max-w-none 
           tracking-tight
           pt-20 md:pt-0

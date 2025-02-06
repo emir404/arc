@@ -70,6 +70,11 @@ body {
     @apply bg-background text-foreground;
   }
 }
+@media screen and (max-width: 768px) {
+  .font-overused {
+    letter-spacing: 0;
+  }
+}
 
 .font-overused {
   font-family: var(--font-overused);
@@ -78,4 +83,21 @@ body {
 
 .font-instrument {
   font-family: var(--font-instrument);
+}
+
+.floating-circle {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+html {
+  scroll-behavior: smooth;
 }

@@ -118,8 +118,8 @@ const PortfolioItem = ({ title, description, industry, image, badges }: { title:
         />
         <div className='absolute bottom-0 right-0 p-2 md:p-4 flex gap-2 md:gap-4'>
           {badges?.map((badge, index) => (
-            <div key={index} className="px-2 md:px-4 py-1 md:py-2 rounded-full bg-white/20 backdrop-blur-md">
-              <p className="text-white text-xs md:text-sm font-medium">{badge}</p>
+            <div key={index} className="px-2 md:px-4 py-1 md:py-2 rounded-full bg-white/10 backdrop-blur-md mix-blend-difference">
+              <p className="text-white text-sm md:text-base font-[500] mix-blend-difference">{badge}</p>
             </div>
           ))}
         </div>

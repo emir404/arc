@@ -50,6 +50,12 @@ function AboutUs() {
       transformOrigin: "center center"
     })
 
+    tl.to(".container-about", {
+      backgroundColor: "#0066FF",
+      duration: 1,
+      ease: "power3.out"
+    })
+
     // Animate words sequentially
     tl.to(".word-wrap", {
       opacity: 1,
@@ -97,7 +103,7 @@ function AboutUs() {
   return (
     <div 
       ref={containerRef} 
-      className='bg-[#0066FF] flex justify-center items-center py-48 md:py-80 w-full text-white overflow-hidden px-4 md:px-0'
+      className='container-about flex justify-center items-center min-h-screen w-full text-white overflow-hidden px-4 md:px-0'
     >
       <p 
         ref={textRef} 

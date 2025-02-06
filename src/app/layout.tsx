@@ -8,7 +8,7 @@ import Header from "@/components/ui/header";
 import Footer from "@/components/ui/sections/footer";
 
 const OverusedGroteskRoman = localFont({
-  src: "/fonts/OverusedGroteskRoman.woff",
+  src: "/fonts/OverusedGrotesk-VF.woff",
   variable: "--font-overused",
   display: 'swap',
   preload: true,

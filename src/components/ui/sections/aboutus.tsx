@@ -25,7 +25,7 @@ function AboutUs() {
         }).join('')
       }
 
-      text.innerHTML = `${processText(beforeHighlight)}<span ref={highlightRef} class='text-black bg-[#FFD700] px-4 inline-block highlight-word'>meaningful</span>${processText(afterHighlight)}`
+      text.innerHTML = `${processText(beforeHighlight)}<span ref={highlightRef} class='text-black bg-[#FFD700] px-4 inline-block highlight-word font-medium'>meaningful</span>${processText(afterHighlight)}`
     }
 
     const tl = gsap.timeline({
@@ -107,7 +107,7 @@ function AboutUs() {
     >
       <p 
         ref={textRef} 
-        className='text-left w-full md:w-2/3 text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold leading-tight'
+        className='text-left w-full md:w-2/3 text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-regular leading-tight'
       >
         We are a versatile team leveraging design as a universal tool to elevate brands and drive{' '}
         <span 

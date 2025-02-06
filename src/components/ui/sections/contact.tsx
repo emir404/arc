@@ -89,7 +89,7 @@ function Contact() {
       <div ref={circleRef} className='absolute top-44 right-20 w-32 h-32 rounded-full border border-black/20 floating-circle' />
       
       <div className='flex flex-col w-full md:w-1/2 pr-0 md:pr-20'>
-        <h1 className='contact-title text-6xl md:text-8xl font-bold mb-8 leading-tight'>
+        <h1 className='contact-title text-6xl md:text-8xl font-medium mb-8 leading-tight'>
           Let's create something
           <span className='font-instrument italic font-light'> together</span>
         </h1>

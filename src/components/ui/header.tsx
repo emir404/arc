@@ -58,7 +58,7 @@ function Header() {
             </button>
             <Button 
               onClick={() => scrollToSection('contact')} 
-              className='text-2xl p-6'
+              className='text-2xl p-6 bg-[#2E2E2E] text-white font-[400] shadow-none hover:bg-white hover:text-[#2E2E2E] transition-colors'
             >
               Get Started
             </Button>

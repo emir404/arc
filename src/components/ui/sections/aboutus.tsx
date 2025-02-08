@@ -52,8 +52,8 @@ function AboutUs() {
 
     tl.to(".container-about", {
       backgroundColor: "#0066FF",
-      duration: 1,
-      ease: "power3.out"
+      duration: 0.8,
+      ease: "power3.inOut"
     })
 
     // Animate words sequentially

@@ -1,7 +1,6 @@
 "use client";
 
-import React from 'react'
-import { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Image from 'next/image';
@@ -49,26 +48,6 @@ function Portfolio() {
       ease: "power2.out"
     });
 
-    // Subtle hover effect
-    const bentoItems = document.querySelectorAll('.bento-item');
-    bentoItems.forEach(item => {
-      item.addEventListener('mouseenter', () => {
-        gsap.to(item, {
-          scale: 1.02,
-          duration: 0.3,
-          ease: "power2.inOut"
-        });
-      });
-      
-      item.addEventListener('mouseleave', () => {
-        gsap.to(item, {
-          scale: 1,
-          duration: 0.3,
-          ease: "power2.inOut"
-        });
-      });
-    });
-
   }, [])
 
   return (
@@ -83,22 +62,20 @@ function Portfolio() {
         </div>
         {/*
         <div className="bento-item">
-          <PortfolioItem title="Project 3" description="This is a description of project 3" industry="Industry 3" image="/images/portfolio/3.jpg" />
+          <PortfolioItem title={PROJECTS[1].title} description={PROJECTS[1].description} industry={PROJECTS[1].industry} image={PROJECTS[1].image} badges={PROJECTS[1].badges} />
         </div>
-        Middle row
         <div className="bento-item sm:col-span-2 lg:col-span-2">
-          <PortfolioItem title="Project 4" description="This is a description of project 4" industry="Industry 4" image="/images/portfolio/4.jpg" />
+          <PortfolioItem title={PROJECTS[1].title} description={PROJECTS[1].description} industry={PROJECTS[1].industry} image={PROJECTS[1].image} badges={PROJECTS[1].badges} />
         </div>
         <div className="bento-item">
-          <PortfolioItem title="Project 5" description="This is a description of project 5" industry="Industry 5" image="/images/portfolio/5.jpg" />
+          <PortfolioItem title={PROJECTS[1].title} description={PROJECTS[1].description} industry={PROJECTS[1].industry} image={PROJECTS[1].image} badges={PROJECTS[1].badges} />
         </div>
 
-        Bottom row
         <div className="bento-item">
-          <PortfolioItem title="Project 6" description="This is a description of project 6" industry="Industry 6" image="/images/portfolio/6.jpg" />
+          <PortfolioItem title={PROJECTS[1].title} description={PROJECTS[1].description} industry={PROJECTS[1].industry} image={PROJECTS[1].image} badges={PROJECTS[1].badges} />
         </div>
         <div className="bento-item sm:col-span-2 lg:col-span-2 h-fit">
-          <PortfolioItem title="Project 7" description="This is a description of project 7" industry="Industry 7" image="/images/portfolio/7.jpg" />
+          <PortfolioItem title={PROJECTS[1].title} description={PROJECTS[1].description} industry={PROJECTS[1].industry} image={PROJECTS[1].image} badges={PROJECTS[1].badges} />
         </div>
         */}
       </div>
@@ -107,9 +84,62 @@ function Portfolio() {
 }
 
 const PortfolioItem = ({ title, description, industry, image, badges }: { title: string, description: string, industry: string, image: string, badges?: string[] }) => {
+  const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
+  const [isHovering, setIsHovering] = useState(false);
+  const cursorRef = React.useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // Initialize GSAP for smooth cursor movement
+    if (cursorRef.current) {
+      gsap.set(cursorRef.current, {
+        x: cursorPosition.x,
+        y: cursorPosition.y,
+        xPercent: -50,
+        yPercent: -50
+      });
+    }
+  }, []);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    if (cursorRef.current) {
+      gsap.to(cursorRef.current, {
+        x: x,
+        y: y,
+        duration: 0.2,
+        ease: "power2.out"
+      });
+    }
+  };
+
   return (
-    <div className="flex flex-col gap-2 md:gap-4">
-      <div className='bg-gray-200 w-full relative aspect-video'>
+    <div 
+      className="flex flex-col gap-2 md:gap-4 cursor-none relative overflow-hidden group"
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
+      onMouseMove={handleMouseMove}
+    >
+      {/* Custom Cursor */}
+      <div 
+        ref={cursorRef}
+        className={`pointer-events-none fixed z-50 flex items-center justify-center transition-opacity duration-300 ${
+          isHovering ? 'opacity-100' : 'opacity-0'
+        }`}
+        style={{
+          width: '80px',
+          height: '80px',
+          backgroundColor: 'white',
+          borderRadius: '50%',
+          mixBlendMode: 'difference'
+        }}
+      >
+        <span className="text-black text-sm font-medium">View</span>
+      </div>
+
+      <div className='bg-gray-200 w-full relative aspect-video group-hover:scale-[0.98] transition-transform duration-500'>
         <Image 
           src={image} 
           alt={title} 

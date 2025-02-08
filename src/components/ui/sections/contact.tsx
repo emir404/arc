@@ -83,15 +83,14 @@ function Contact() {
       className='relative flex flex-col md:flex-row gap-12 md:gap-0 w-full min-h-screen px-4 sm:px-6 md:px-10 py-20 md:py-32 overflow-hidden'
     >
       {/* Background decorative elements */}
-      <div className='cursor-follower fixed w-80 h-80 rounded-full bg-black/5 blur-3xl pointer-events-none -z-10 opacity-50' />
-      <div ref={circleRef} className='absolute top-20 right-20 w-32 h-32 rounded-full border border-black/20 floating-circle' />
-      <div ref={circleRef} className='absolute top-32 right-20 w-32 h-32 rounded-full border border-black/20 floating-circle' />
-      <div ref={circleRef} className='absolute top-44 right-20 w-32 h-32 rounded-full border border-black/20 floating-circle' />
+      <div className='fixed w-80 h-80 rounded-full bg-black/5 blur-3xl pointer-events-none -z-10 opacity-50' />
+      <div ref={circleRef} className='hover:bg-black/5 transition-all duration-500 absolute top-20 right-20 w-32 h-32 rounded-full border border-black/20 floating-circle' />
+      <div ref={circleRef} className='hover:bg-black/5 transition-all duration-500 absolute top-32 right-20 w-32 h-32 rounded-full border border-black/20 floating-circle' />
+      <div ref={circleRef} className='hover:bg-black/5 transition-all duration-500 absolute top-44 right-20 w-32 h-32 rounded-full border border-black/20 floating-circle' />
       
       <div className='flex flex-col w-full md:w-1/2 pr-0 md:pr-20'>
-        <h1 className='contact-title text-6xl md:text-8xl font-medium mb-8 leading-tight'>
-          Let's create something
-          <span className='font-instrument italic font-light'> together</span>
+        <h1 className='contact-title text-6xl md:text-8xl mb-8 text-black/80 leading-tight'>
+          Let's create something extraordinary.
         </h1>
         <p className='contact-description text-xl md:text-2xl text-black/60 max-w-xl'>
           Tell us about your project, your goals, and what makes your brand unique. 
@@ -104,7 +103,7 @@ function Contact() {
           <Link href="mailto:hello@witharc.co" 
                 className='inline-flex flex-col group-hover:translate-x-4 transition-transform duration-500'>
             <span className='text-xl tracking-wider text-black/60 mb-2'>Email us at</span>
-            <span className='text-4xl md:text-5xl font-medium group-hover:text-black/60 transition-colors'>
+            <span className='text-4xl md:text-5xl group-hover:text-black/60 transition-colors'>
               hello@witharc.co
             </span>
           </Link>
@@ -115,7 +114,7 @@ function Contact() {
                 target="_blank"
                 className='inline-flex flex-col group-hover:translate-x-4 transition-transform duration-500'>
             <span className='text-xl tracking-wider text-black/60 mb-2'>Visit us at</span>
-            <span className='text-4xl md:text-5xl font-medium group-hover:text-black/60 transition-colors'>
+            <span className='text-4xl md:text-5xl group-hover:text-black/60 transition-colors'>
               Süleyman Seba Cad.
               <br />
               Besiktas, Istanbul

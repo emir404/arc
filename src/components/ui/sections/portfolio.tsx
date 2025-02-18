@@ -26,32 +26,33 @@ const PROJECTS = [
 
 function Portfolio() {
   useEffect(() => {
-    // Initial setup
-    gsap.set('.bento-item', {
-      opacity: 0,
-      y: 40
-    });
-
-    // Scroll-triggered animations for bento items
-    gsap.to('.bento-item', {
-      scrollTrigger: {
-        trigger: '.bento-grid',
-        start: 'top center+=100',
-        end: 'bottom bottom',
-        toggleActions: 'play none none none',
+    const cards = gsap.utils.toArray('.bento-item')
+    
+    cards.forEach((card: any) => {
+      gsap.set(card, { opacity: 0, y: 50 })
+      
+      ScrollTrigger.create({
+        trigger: card,
+        start: 'top bottom-=100',
+        onEnter: () => {
+          gsap.to(card, {
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            ease: 'power3.out'
+          })
+        },
         once: true
-      },
-      opacity: 1,
-      y: 0,
-      duration: 0.8,
-      stagger: 0.15,
-      ease: "power2.out"
-    });
+      })
+    })
 
+    return () => {
+      ScrollTrigger.getAll().forEach(t => t.kill())
+    }
   }, [])
 
   return (
-    <div id="portfolio" className='relative flex flex-col w-full px-4 md:px-10 py-32 md:py-64'>
+    <div id="portfolio" className='relative flex flex-col w-full px-4 md:px-24 py-32 md:py-64'>
       <div className="bento-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-10 w-full">
         {/* Top row */}
         <div className="bento-item">
@@ -133,7 +134,6 @@ const PortfolioItem = ({ title, description, industry, image, badges }: { title:
           height: '80px',
           backgroundColor: 'white',
           borderRadius: '50%',
-          mixBlendMode: 'difference'
         }}
       >
         <span className="text-black text-sm font-medium">View</span>

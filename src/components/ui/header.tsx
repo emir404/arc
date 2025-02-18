@@ -22,6 +22,9 @@ function Header() {
   }
 
   useEffect(() => {
+    // First make container visible
+    gsap.set('.header-container', { visibility: 'visible' })
+
     let tl = gsap.timeline({
       delay: 0.1,
       defaults: {
@@ -30,20 +33,24 @@ function Header() {
       }
     })
 
-    tl.from(logoRef.current, {
-      opacity: 0,
-      y: -100
-    })
+    tl.fromTo(logoRef.current, 
+      { opacity: 0, y: -100, visibility: 'hidden' },
+      { opacity: 1, y: 0, visibility: 'visible' }
+    )
+    .fromTo(navRef.current,
+      { opacity: 0, y: -100, visibility: 'hidden' },
+      { opacity: 1, y: 0, visibility: 'visible' },
+      '-=0.2'
+    )
 
-    tl.from(navRef.current, {
-      opacity: 0,
-      y: -100
-    })
+    return () => {
+      tl.kill()
+    }
   }, [])
 
   return (
     <>
-      <div className='absolute flex justify-between items-center w-full p-4 md:p-8 z-50'>
+      <div className='absolute invisible header-container flex justify-between items-center w-full p-4 md:p-10 md:px-16 z-50'>
         <Link href='/' ref={logoRef} className='w-16 md:w-24'>
           <Logo fill='#2E2E2E' />
         </Link>

@@ -1,123 +1,104 @@
-import React, { useEffect, useRef } from 'react'
+"use client"
+
+import React, { useEffect } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
 function AboutUs() {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const textRef = useRef<HTMLParagraphElement>(null)
-  const highlightRef = useRef<HTMLSpanElement>(null)
-
   useEffect(() => {
-    const container = containerRef.current 
-    const text = textRef.current
-
-    // Split text into words but exclude the highlighted word
-    if (text) {
-      const textContent = text.textContent || ''
-      const beforeHighlight = textContent.split('meaningful')[0]
-      const afterHighlight = textContent.split('meaningful')[1]
-      
-      const processText = (text: string) => {
-        return text.trim().split(' ').map((word: string) => {
-          return `<span class="word-wrap">${word} </span>`
-        }).join('')
-      }
-
-      text.innerHTML = `${processText(beforeHighlight)}<span ref={highlightRef} class='text-black bg-[#FFD700] px-4 inline-block highlight-word font-medium'>meaningful</span>${processText(afterHighlight)}`
-    }
-
     const tl = gsap.timeline({
       scrollTrigger: {
-        trigger: container,
-        start: "top 60%",
-        end: "bottom center",
-        toggleActions: "play none none none",
-        once: true
+        trigger: '.about-section',
+        start: 'top center+=100',
+        end: 'bottom center',
       }
     })
 
-    // Initial states
-    gsap.set(".word-wrap", {
-      opacity: 0,
-      y: 30
-    })
-    gsap.set(".highlight-word", {
-      opacity: 0,
-      scale: 0.5,
-      rotation: -15,
-      transformOrigin: "center center"
-    })
+    gsap.set('.stat-card', { opacity: 0, y: 50 })
+    gsap.set('.about-text', { opacity: 0, y: 30 })
 
-    tl.to(".container-about", {
-      backgroundColor: "#0066FF",
-      duration: 0.8,
-      ease: "power3.inOut"
+    tl.to('.about-text', {
+      opacity: 1,
+      y: 0,
+      duration: 1,
+      ease: 'power3.out'
     })
-
-    // Animate words sequentially
-    tl.to(".word-wrap", {
+    .to('.stat-card', {
       opacity: 1,
       y: 0,
       duration: 0.8,
-      stagger: 0.05,
-      ease: "power3.out"
-    })
+      stagger: 0.15,
+      ease: 'power3.out'
+    }, '-=0.5')
 
-    // Creative animation for highlight word
-    .fromTo(".highlight-word",
-      {
-        opacity: 0,
-        scale: 0.5,
-        rotation: -15,
-        y: 30,
-        x: -20
-      },
-      {
-        opacity: 1,
-        scale: 1,
-        rotation: -5,
-        y: 0,
-        x: 0,
-        duration: 1.2,
-        ease: "elastic.out(1, 0.3)",
-        immediateRender: false
-      },
-      "-=0.7"
-    )
-
-    .to(".highlight-word", {
-      boxShadow: "0 0 30px rgba(255, 215, 0, 0.6)",
-      duration: 0.8,
-      yoyo: true,
-      repeat: 1
-    })
-
-    // Cleanup
     return () => {
       tl.kill()
     }
   }, [])
 
   return (
-    <div 
-      ref={containerRef} 
-      className='container-about flex justify-center items-center min-h-screen w-full text-white overflow-hidden px-4 md:px-0'
-    >
-      <p 
-        ref={textRef} 
-        className='text-left w-full md:w-2/3 text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-regular leading-tight'
-      >
-        We are a versatile team leveraging design as a universal tool to elevate brands and drive{' '}
-        <span 
-          ref={highlightRef}
-          className='text-black bg-[#FFD700] px-2 md:px-4 inline-block highlight-word'
-        >
-          meaningful
-        </span>
-        {' '}change.
-      </p>
+    <div className="min-h-screen bg-black text-white px-4 md:px-20 py-24 md:py-48 about-section">
+      <div className="max-w-7xl mx-auto">
+        <div className="mb-12 md:mb-24 about-text">
+          <p className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-center leading-tight">
+          We collaborate with visionary brands to create high-impact digital experiences, 
+          {' '}<span className="text-[#666666]">seamlessly merging development, design, and innovation to deliver results with precision and creativity.</span>
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          <StatCard
+            number="200+"
+            text="Custom web experiences designed with precision and creativity."
+            className="col-span-1 sm:col-span-2"
+            icon="grid"
+          />
+          <StatCard
+            number="10+"
+            text="Industries served, from startups to global brands."
+            className="col-span-1 sm:col-span-2"
+            icon="building"
+          />
+          <StatCard
+            number="99%"
+            text="Bespoke solutions—no templates, just tailored innovation."
+            className="col-span-1 sm:col-span-2 lg:col-span-3"
+            icon="check"
+          />
+          <StatCard
+            number="2025"
+            text="founded to redefine digital experiences."
+            className="col-span-1"
+            icon="calendar"
+          />
+        </div>
+      </div>
+    </div>
+  )
+}
+
+interface StatCardProps {
+  number: string
+  text: string
+  className?: string
+  icon: "grid" | "building" | "check" | "calendar"
+}
+
+function StatCard({ number, text, className, icon }: StatCardProps) {
+  return (
+    <div className={`bg-[#666666] text-black p-6 sm:p-8 md:p-12 flex flex-col justify-center rounded-2xl ${className}`}>
+      <div className="relative flex justify-between items-start">
+        <span className="text-3xl sm:text-4xl md:text-6xl lg:text-8xl font-medium block mb-2">{number}</span>
+        <div className="w-8 h-8 absolute top-0 right-0">
+          {icon === "grid" && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z"/></svg>}
+          {icon === "building" && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 21h18M9 8h1m-1 4h1m-1 4h1m5-8h1m-1 4h1m-1 4h1M5 21V5l7-3v19m7-19v19"/></svg>}
+          {icon === "check" && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 6L9 17l-5-5"/></svg>}
+          {icon === "calendar" && <></>}
+        </div>
+      </div>
+      <p className="text-lg sm:text-xl md:text-2xl leading-snug">{text}</p>
     </div>
   )
 }

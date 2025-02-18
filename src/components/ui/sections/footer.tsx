@@ -1,86 +1,88 @@
 "use client"
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import Link from 'next/link'
-import gsap from 'gsap'
-import { useEffect } from 'react'
 import { Marquee } from '../marquee'
-import Logo from '../logo'
+import gsap from 'gsap'
 
 function Footer() {
   useEffect(() => {
-    // Initial setup - hide elements
-    gsap.set('.footer-logo', {
-      opacity: 0,
-      x: -100
-    });
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: 'footer',
+        start: 'top bottom-=100',
+      }
+    })
 
-    gsap.set('.social-link', {
-      opacity: 0,
-      x: 100
-    });
-
-    // Animate logo
-    gsap.to('.footer-logo', {
+    gsap.set('.footer-content > *', { opacity: 0, y: 20 })
+    
+    tl.to('.footer-content > *', {
       opacity: 1,
-      x: 0,
-      duration: 1,
-      ease: 'power3.out'
-    });
-
-    // Animate social links with stagger
-    gsap.to('.social-link', {
-      opacity: 1,
-      x: 0,
+      y: 0,
       duration: 0.8,
-      stagger: 0.2,
+      stagger: 0.15,
       ease: 'power3.out'
-    });
+    })
 
-    // Add hover animations for social links
-    const socialLinks = document.querySelectorAll('.social-link');
-    socialLinks.forEach(link => {
-      link.addEventListener('mouseenter', () => {
-        gsap.to(link, {
-          scale: 1.1,
-          duration: 0.3,
-          ease: 'power2.out'
-        });
-      });
+    return () => {
+      tl.kill()
+    }
+  }, [])
 
-      link.addEventListener('mouseleave', () => {
-        gsap.to(link, {
-          scale: 1,
-          duration: 0.3,
-          ease: 'power2.out'
-        });
-      });
-    });
-  }, []);
+  return (
+    <footer className="bg-black text-white py-8 md:py-16">
+      <div className="w-full mx-auto px-4 sm:px-8 md:px-24">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 md:mb-16 gap-4 md:gap-0">
+          <h1 className="text-5xl sm:text-6xl md:text-8xl font-bold">
+            Arc Studio
+          </h1>
 
-return (
-  <div className='relative w-full bg-[#0066FF] rounded-t-3xl px-4 sm:px-6 md:px-16 lg:px-24 py-8 sm:py-10 md:py-16'>
-    <div className='flex flex-col h-full gap-8 sm:gap-12'>
-      <div className='flex flex-col md:flex-row justify-between items-center w-full'>
-        <Logo className='w-24 h-24 sm:w-36 sm:h-36 md:w-36 md:h-36' fill='white'/>
-        <div className='flex flex-col gap-3 sm:gap-4 text-center md:text-right mt-6 md:mt-0'>
-          <Link href="https://www.instagram.com/witharc.co" className='text-white text-lg sm:text-2xl md:text-3xl lg:text-4xl font-overused social-link'>
-            Instagram
-          </Link>
-          <Link href="https://www.linkedin.com/company/witharcstudio" className='text-white text-lg sm:text-2xl md:text-3xl lg:text-4xl font-overused social-link'>
-            LinkedIn
-          </Link>
-          <p className='text-white/60 text-lg sm:text-2xl md:text-3xl lg:text-4xl font-overused'>
-            &copy; 2025 Arc Studio
+          <p className="text-xl sm:text-2xl md:text-3xl">
+            <Link href="mailto:hello@witharc.co" className="hover:text-gray-300 transition-colors">
+              hello@witharc.co
+            </Link>
           </p>
         </div>
+
+        <div className="flex flex-col sm:flex-row justify-between gap-4 sm:gap-0">
+          <div>
+            <Link 
+              href="/privacy"
+              className="text-lg sm:text-xl md:text-2xl text-gray-500 hover:text-gray-300 transition-colors block"
+            >
+              Privacy Policy
+            </Link>
+            <p className="text-lg sm:text-xl md:text-2xl text-gray-500 mt-2">
+              © Arc 2025
+            </p>
+          </div>
+
+          <div className="flex flex-col space-y-2 sm:text-right">
+            <Link 
+              href="https://instagram.com/witharc.co"
+              className="text-lg sm:text-xl md:text-2xl text-gray-500 hover:text-gray-300 transition-colors"
+            >
+              Instagram
+            </Link>
+            <Link 
+              href="https://linkedin.com/witharcstudio"
+              className="text-lg sm:text-xl md:text-2xl text-gray-500 hover:text-gray-300 transition-colors"
+            >
+              LinkedIn
+            </Link>
+          </div>
+        </div>
+
+        <Marquee className='border-t border-gray-800 pt-4 sm:pt-8 mt-4 sm:mt-8'>
+          <div className="flex space-x-4">
+            <span className="text-gray-500 text-xl md:text-2xl">
+              a experience agency. a experience agency. a experience agency. a experience agency. a experience agency. a experience agency. a experience agency. a experience agency. a experience agency.
+            </span>
+          </div>
+        </Marquee>
       </div>
-      <Marquee className='[--duration:15s] w-full'>
-        <p className='text-white/20 mx-4 sm:mx-8 text-3xl sm:text-5xl md:text-7xl lg:text-9xl font-light font-overused footer-logo'>Lets create something extraordinary.</p>
-      </Marquee>
-    </div>
-  </div>
-)
+    </footer>
+  )
 }
 
 export default Footer

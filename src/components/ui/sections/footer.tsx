@@ -67,12 +67,14 @@ function Footer() {
             <Link 
               href="https://instagram.com/witharc.co"
               className="text-lg sm:text-xl md:text-2xl text-gray-500 hover:text-gray-300 transition-colors"
+              target="_blank"
             >
               Instagram
             </Link>
             <Link 
               href="https://linkedin.com/company/witharcstudio"
               className="text-lg sm:text-xl md:text-2xl text-gray-500 hover:text-gray-300 transition-colors"
+              target="_blank"
             >
               LinkedIn
             </Link>

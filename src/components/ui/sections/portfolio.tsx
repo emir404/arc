@@ -20,8 +20,22 @@ const PROJECTS = [
     description: 'A creative agency specializing in branding and strategy needed a website that showcased their expertise and creative vision.',
     industry: 'Agency',
     image: '/projects/lumino.jpg',
-    badges: ['Branding', 'Strategy', 'Design & Development']
+    badges: ['Design & Development']
   },
+  {
+    title: 'Focusify',
+    description: 'An AI-powered productivity app that helps users stay focused and manage their tasks more effectively through intelligent scheduling and personalized recommendations.',
+    industry: 'Productivity',
+    image: '/projects/focusify.jpg',
+    badges: ['AI', 'Design & Development', 'UX Research']
+  },
+  {
+    title: 'Calmera',
+    description: 'A AI-powered platform that provides personalized therapy sessions through voice interaction, offering empathetic conversations and mental health support.',
+    industry: 'Healthcare',
+    image: '/projects/calmera.jpg',
+    badges: ['AI', 'Design & Development', 'Branding']
+  }
 ]
 
 function Portfolio() {
@@ -61,13 +75,13 @@ function Portfolio() {
         <div className="bento-item">
           <PortfolioItem title={PROJECTS[1].title} description={PROJECTS[1].description} industry={PROJECTS[1].industry} image={PROJECTS[1].image} badges={PROJECTS[1].badges} />
         </div>
-        {/*
         <div className="bento-item">
-          <PortfolioItem title={PROJECTS[1].title} description={PROJECTS[1].description} industry={PROJECTS[1].industry} image={PROJECTS[1].image} badges={PROJECTS[1].badges} />
+          <PortfolioItem title={PROJECTS[2].title} description={PROJECTS[2].description} industry={PROJECTS[2].industry} image={PROJECTS[2].image} badges={PROJECTS[2].badges} />
         </div>
         <div className="bento-item sm:col-span-2 lg:col-span-2">
-          <PortfolioItem title={PROJECTS[1].title} description={PROJECTS[1].description} industry={PROJECTS[1].industry} image={PROJECTS[1].image} badges={PROJECTS[1].badges} />
+          <PortfolioItem title={PROJECTS[3].title} description={PROJECTS[3].description} industry={PROJECTS[3].industry} image={PROJECTS[3].image} badges={PROJECTS[3].badges} />
         </div>
+        {/*
         <div className="bento-item">
           <PortfolioItem title={PROJECTS[1].title} description={PROJECTS[1].description} industry={PROJECTS[1].industry} image={PROJECTS[1].image} badges={PROJECTS[1].badges} />
         </div>
@@ -148,8 +162,8 @@ const PortfolioItem = ({ title, description, industry, image, badges }: { title:
         />
         <div className='absolute bottom-0 right-0 p-2 md:p-4 flex gap-2 md:gap-4'>
           {badges?.map((badge, index) => (
-            <div key={index} className="px-2 md:px-4 py-1 md:py-2 rounded-full bg-white/10 backdrop-blur-md mix-blend-difference">
-              <p className="text-white text-sm md:text-base font-[500] mix-blend-difference">{badge}</p>
+            <div key={index} className="px-2 md:px-4 py-1 md:py-2 rounded-full bg-black/20 backdrop-blur-md">
+              <p className="text-white/70 text-sm md:text-base font-[500]">{badge}</p>
             </div>
           ))}
         </div>

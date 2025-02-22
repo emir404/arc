@@ -105,7 +105,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${OverusedGroteskRoman.variable} ${InstrumentSerif.variable} antialiased bg-background font-overused flex flex-col`}
+        className={`${OverusedGroteskRoman.variable} ${InstrumentSerif.variable} antialiased overflow-x-hidden bg-background font-overused flex flex-col`}
       >
         <Header/>
         {children}

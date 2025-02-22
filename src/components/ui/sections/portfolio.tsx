@@ -144,7 +144,7 @@ const PortfolioItem = ({ title, description, industry, image, badges }: { title:
           src={image} 
           alt={title} 
           fill
-          className='object-cover object-top' 
+          className='object-cover' 
         />
         <div className='absolute bottom-0 right-0 p-2 md:p-4 flex gap-2 md:gap-4'>
           {badges?.map((badge, index) => (

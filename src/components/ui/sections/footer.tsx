@@ -45,15 +45,21 @@ function Footer() {
         </div>
 
         <div className="flex flex-col sm:flex-row justify-between gap-4 sm:gap-0">
-          <div>
+          <div className="flex flex-col space-y-2">
             <Link 
               href="/privacy"
-              className="text-lg sm:text-xl md:text-2xl text-gray-500 hover:text-gray-300 transition-colors block"
+              className="text-lg sm:text-xl md:text-2xl text-gray-500 hover:text-gray-300 transition-colors"
             >
               Privacy Policy
             </Link>
+            <Link
+              href="/terms"
+              className="text-lg sm:text-xl md:text-2xl text-gray-500 hover:text-gray-300 transition-colors"
+            >
+              Terms of Service
+            </Link>
             <p className="text-lg sm:text-xl md:text-2xl text-gray-500 mt-2">
-              © Arc 2025
+              © Arc 2025. All rights reserved.
             </p>
           </div>
 
@@ -65,7 +71,7 @@ function Footer() {
               Instagram
             </Link>
             <Link 
-              href="https://linkedin.com/witharcstudio"
+              href="https://linkedin.com/company/witharcstudio"
               className="text-lg sm:text-xl md:text-2xl text-gray-500 hover:text-gray-300 transition-colors"
             >
               LinkedIn
@@ -76,7 +82,7 @@ function Footer() {
         <Marquee className='border-t border-gray-800 pt-4 sm:pt-8 mt-4 sm:mt-8'>
           <div className="flex space-x-4">
             <span className="text-gray-500 text-xl md:text-2xl">
-              a experience agency. a experience agency. a experience agency. a experience agency. a experience agency. a experience agency. a experience agency. a experience agency. a experience agency.
+              an experience agency. an experience agency. an experience agency. an experience agency. an experience agency. an experience agency. an experience agency. an experience agency. an experience agency.
             </span>
           </div>
         </Marquee>

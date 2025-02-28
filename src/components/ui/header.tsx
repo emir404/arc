@@ -22,7 +22,6 @@ function Header() {
   }
 
   useEffect(() => {
-    // First make container visible
     gsap.set('.header-container', { visibility: 'visible' })
 
     let tl = gsap.timeline({
@@ -55,22 +54,20 @@ function Header() {
           <Logo fill='#2E2E2E' />
         </Link>
         <div ref={navRef}>
-          {/* Desktop Navigation */}
-          <div className='hidden md:flex items-center gap-10'>
+          <div className='hidden md:flex flex-col items-end text-neutral-500'>
             <button 
-              onClick={() => scrollToSection('portfolio')} 
-              className='text-2xl text-black hover:opacity-70 transition-opacity'
+              onClick={() => scrollToSection('work')} 
+              className='text-2xl hover:text-neutral-700 transition-colors'
             >
               Work
             </button>
-            <Button 
+            <button 
               onClick={() => scrollToSection('contact')} 
-              className='text-2xl p-6 bg-[#2E2E2E] text-white font-[400] shadow-none hover:bg-white hover:text-[#2E2E2E] transition-colors'
+              className='text-2xl text-black hover:opacity-70 transition-opacity'
             >
-              Get Started
-            </Button>
+              Contact
+            </button>
           </div>
-          {/* Mobile Menu Button */}
           <button 
             className='md:hidden p-2'
             onClick={() => setIsMobileMenuOpen(true)}

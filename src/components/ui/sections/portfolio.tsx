@@ -35,6 +35,13 @@ const PROJECTS = [
     industry: 'Healthcare',
     image: '/projects/calmera.jpg',
     badges: ['AI', 'Design & Development', 'Branding']
+  },
+  {
+    title: 'The Bound Games',
+    description: 'A innovative game studio needed branding and a website to showcase their games and connect with players.',
+    industry: 'Game Studio',
+    image: '/projects/thebound.jpg',
+    badges: ['Branding', 'Design & Development']
   }
 ]
 
@@ -81,10 +88,10 @@ function Portfolio() {
         <div className="bento-item sm:col-span-2 lg:col-span-2">
           <PortfolioItem title={PROJECTS[3].title} description={PROJECTS[3].description} industry={PROJECTS[3].industry} image={PROJECTS[3].image} badges={PROJECTS[3].badges} />
         </div>
-        {/*
         <div className="bento-item">
-          <PortfolioItem title={PROJECTS[1].title} description={PROJECTS[1].description} industry={PROJECTS[1].industry} image={PROJECTS[1].image} badges={PROJECTS[1].badges} />
+          <PortfolioItem title={PROJECTS[4].title} description={PROJECTS[4].description} industry={PROJECTS[4].industry} image={PROJECTS[4].image} badges={PROJECTS[4].badges} />
         </div>
+        {/*
 
         <div className="bento-item">
           <PortfolioItem title={PROJECTS[1].title} description={PROJECTS[1].description} industry={PROJECTS[1].industry} image={PROJECTS[1].image} badges={PROJECTS[1].badges} />

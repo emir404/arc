@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Image from 'next/image';
+import Link from 'next/link';
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -13,35 +14,40 @@ const PROJECTS = [
     description: 'A digital marketing agency needed a comprehensive web platform to streamline their operations and enhance client engagement.',
     industry: 'Agency',
     image: '/projects/syntra.jpg',
-    badges: ['Branding', 'Strategy', 'Design & Development']
+    badges: ['Branding', 'Strategy', 'Design & Development'],
+    href: '/works/syntra'
   },
   {
     title: 'Lumino Agency',
     description: 'A creative agency specializing in branding and strategy needed a website that showcased their expertise and creative vision.',
     industry: 'Agency',
     image: '/projects/lumino.jpg',
-    badges: ['Design & Development']
+    badges: ['Design & Development'],
+    href: '/works/lumino'
   },
   {
     title: 'Focusify',
     description: 'An AI-powered productivity app that helps users stay focused and manage their tasks more effectively through intelligent scheduling and personalized recommendations.',
     industry: 'Productivity',
     image: '/projects/focusify.jpg',
-    badges: ['AI', 'Design & Development', 'UX Research']
+    badges: ['AI', 'Design & Development', 'UX Research'],
+    href: '/works/focusify'
   },
   {
     title: 'Calmera',
     description: 'A AI-powered platform that provides personalized therapy sessions through voice interaction, offering empathetic conversations and mental health support.',
     industry: 'Healthcare',
     image: '/projects/calmera.jpg',
-    badges: ['AI', 'Design & Development', 'Branding']
+    badges: ['AI', 'Design & Development', 'Branding'],
+    href: '/works/calmera'
   },
   {
     title: 'The Bound Games',
     description: 'A innovative game studio needed branding and a website to showcase their games and connect with players.',
     industry: 'Game Studio',
     image: '/projects/thebound.jpg',
-    badges: ['Branding', 'Design & Development']
+    badges: ['Branding', 'Design & Development'],
+    href: '/works/thebound'
   }
 ]
 
@@ -77,19 +83,21 @@ function Portfolio() {
       <div className="bento-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-10 w-full">
         {/* Top row */}
         <div className="bento-item">
-          <PortfolioItem title={PROJECTS[0].title} description={PROJECTS[0].description} industry={PROJECTS[0].industry} image={PROJECTS[0].image} badges={PROJECTS[0].badges} />
+          <PortfolioItem title={PROJECTS[0].title} description={PROJECTS[0].description} industry={PROJECTS[0].industry} image={PROJECTS[0].image} badges={PROJECTS[0].badges} href={PROJECTS[0].href}/>
         </div>
         <div className="bento-item">
-          <PortfolioItem title={PROJECTS[1].title} description={PROJECTS[1].description} industry={PROJECTS[1].industry} image={PROJECTS[1].image} badges={PROJECTS[1].badges} />
+          <PortfolioItem title={PROJECTS[1].title} description={PROJECTS[1].description} industry={PROJECTS[1].industry} image={PROJECTS[1].image} badges={PROJECTS[1].badges} href={PROJECTS[1].href} />
         </div>
+        {/*
         <div className="bento-item">
-          <PortfolioItem title={PROJECTS[2].title} description={PROJECTS[2].description} industry={PROJECTS[2].industry} image={PROJECTS[2].image} badges={PROJECTS[2].badges} />
+          <PortfolioItem title={PROJECTS[2].title} description={PROJECTS[2].description} industry={PROJECTS[2].industry} image={PROJECTS[2].image} badges={PROJECTS[2].badges} href={PROJECTS[2].href} />
         </div>
+        */}
         <div className="bento-item sm:col-span-2 lg:col-span-2">
-          <PortfolioItem title={PROJECTS[3].title} description={PROJECTS[3].description} industry={PROJECTS[3].industry} image={PROJECTS[3].image} badges={PROJECTS[3].badges} />
+          <PortfolioItem title={PROJECTS[3].title} description={PROJECTS[3].description} industry={PROJECTS[3].industry} image={PROJECTS[3].image} badges={PROJECTS[3].badges} href={PROJECTS[3].href} />
         </div>
         <div className="bento-item">
-          <PortfolioItem title={PROJECTS[4].title} description={PROJECTS[4].description} industry={PROJECTS[4].industry} image={PROJECTS[4].image} badges={PROJECTS[4].badges} />
+          <PortfolioItem title={PROJECTS[4].title} description={PROJECTS[4].description} industry={PROJECTS[4].industry} image={PROJECTS[4].image} badges={PROJECTS[4].badges} href={PROJECTS[4].href} />
         </div>
         {/*
 
@@ -105,7 +113,7 @@ function Portfolio() {
   )
 }
 
-const PortfolioItem = ({ title, description, industry, image, badges }: { title: string, description: string, industry: string, image: string, badges?: string[] }) => {
+const PortfolioItem = ({ title, description, industry, image, badges, href }: { title: string, description: string, industry: string, image: string, badges?: string[], href?: string }) => {
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
   const cursorRef = React.useRef<HTMLDivElement>(null);
@@ -138,12 +146,13 @@ const PortfolioItem = ({ title, description, industry, image, badges }: { title:
   };
 
   return (
-    <div 
+    <div
       className="flex flex-col gap-2 md:gap-4 cursor-none relative overflow-hidden group"
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
       onMouseMove={handleMouseMove}
     >
+      <Link href={href || ''}>
       {/* Custom Cursor */}
       <div 
         ref={cursorRef}
@@ -176,13 +185,14 @@ const PortfolioItem = ({ title, description, industry, image, badges }: { title:
         </div>
       </div>
       <div className='flex flex-col gap-1 md:gap-2'>
-        <div className='flex gap-2 items-center'>
+        <div className='flex gap-2 mt-3 items-center'>
           <p className='text-lg md:text-2xl'>{title}</p>
           <p className='text-sm text-gray-500'>|</p>
           <p className='text-lg md:text-2xl text-gray-500'>{industry}</p>
         </div>
-        <p className='text-sm md:text-base lg:text-lg text-gray-500'>{description}</p>
-      </div>
+          <p className='text-sm md:text-base lg:text-lg text-gray-500'>{description}</p>
+        </div>
+      </Link>
     </div>
   )
 }

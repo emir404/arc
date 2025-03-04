@@ -1,4 +1,3 @@
-
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { Instrument_Serif } from "next/font/google";
@@ -6,6 +5,7 @@ import Script from "next/script";
 import "./globals.css";
 import Header from "@/components/ui/header";
 import Footer from "@/components/ui/sections/footer";
+import { LenisWrapper } from "@/components/ui/lenis-wrapper";
 
 const OverusedGroteskRoman = localFont({
   src: "/fonts/OverusedGrotesk-VF.woff",
@@ -49,7 +49,10 @@ const structuredData = {
 };
 
 export const metadata: Metadata = {
-  title: "Arc - Creative Web Agency",
+  title: {
+    default: "Arc • Creative Web Agency",
+    template: "%s • Arc ",
+  },
   description: "Arc is a global web agency focused on blending innovation, creativity, and cutting-edge technology to craft unique, high-impact digital experiences.",
   keywords: "web agency, creative agency, web development, digital experiences, UI/UX design, web design, digital innovation",
   authors: [{ name: "Arc Creative Agency" }],
@@ -108,7 +111,9 @@ export default function RootLayout({
         className={`${OverusedGroteskRoman.variable} ${InstrumentSerif.variable} antialiased overflow-x-hidden bg-background font-overused flex flex-col`}
       >
         <Header/>
-        {children}
+        <LenisWrapper>
+          {children}
+        </LenisWrapper>
         <Footer />
       </body>
     </html>

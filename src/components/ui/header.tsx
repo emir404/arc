@@ -49,24 +49,24 @@ function Header() {
 
   return (
     <>
-      <div className='absolute invisible header-container flex justify-between items-center w-full p-4 md:p-10 md:px-16 z-50'>
-        <Link href='/' ref={logoRef} className='w-16 md:w-24'>
+      <div className='invisible header-container flex justify-between items-center w-full py-12 px-12 md:py-10 md:px-0 z-50'>
+        <Link href='/' ref={logoRef} className='w-16 md:w-20'>
           <Logo fill='#2E2E2E' />
         </Link>
         <div ref={navRef}>
-          <div className='hidden md:flex flex-col items-end text-neutral-500'>
-            <button 
-              onClick={() => scrollToSection('work')} 
-              className='text-2xl hover:text-neutral-700 transition-colors'
+          <div className='hidden md:flex gap-4 items-end text-neutral-500'>
+            <Button
+              variant={"ghost"}
             >
-              Work
-            </button>
-            <button 
-              onClick={() => scrollToSection('contact')} 
-              className='text-2xl text-black hover:opacity-70 transition-opacity'
+              Plans
+            </Button>
+            <Button 
+              variant="default"
             >
-              Contact
-            </button>
+              <Link href={'/checkout?productId=12cc7d30-1a77-4e80-92d0-217b719fc59a'}>
+                Get Started
+              </Link>
+            </Button>
           </div>
           <button 
             className='md:hidden p-2'

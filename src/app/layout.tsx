@@ -1,15 +1,16 @@
 import type { Metadata, Viewport } from "next";
-import localFont from "next/font/local";
-import { Instrument_Serif } from "next/font/google";
+import { Instrument_Serif, Manrope } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import Header from "@/components/ui/header";
 import Footer from "@/components/ui/sections/footer";
 import { LenisWrapper } from "@/components/ui/lenis-wrapper";
+import { GridPattern } from "@/components/magicui/grid-pattern";
 
-const OverusedGroteskRoman = localFont({
-  src: "/fonts/OverusedGrotesk-VF.woff",
-  variable: "--font-overused",
+const ManropeFont = Manrope({
+  weight: ["200","300","400","500","600","700","800"],
+  subsets: ["latin"],
+  variable: "--font-manrope",
   display: 'swap',
   preload: true,
 });
@@ -108,13 +109,16 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${OverusedGroteskRoman.variable} ${InstrumentSerif.variable} antialiased overflow-x-hidden bg-background font-overused flex flex-col`}
+        className={`${ManropeFont.variable} ${InstrumentSerif.variable} antialiased overflow-x-hidden bg-background font-manrope flex justify-center sm:px-20 md:px-72`}
       >
-        <Header/>
-        <LenisWrapper>
-          {children}
-        </LenisWrapper>
-        <Footer />
+        <div className="sm:border-l sm:border-r relative flex flex-col min-h-screen sm:px-12 md:px-20 ">
+          <Header/>
+          <LenisWrapper>
+            {children}
+          </LenisWrapper>
+          <Footer />
+          <GridPattern className="sm:stroke-gray-400/20 md:stroke-gray-400/20 -z-10"/>
+        </div>
       </body>
     </html>
   );

@@ -63,18 +63,15 @@ function Hero() {
 
   return (
     <div className='flex flex-col gap-8 sm:gap-12 md:gap-16'>
-      <div className='flex flex-col w-full pt-4 sm:pt-8 hero-section'>
+      <div className='px-4 sm:px-12 md:px-36 lg:px-64 xl:px-80 flex flex-col w-full pt-4 sm:pt-8 hero-section'>
         <div className='flex flex-col gap-9'>
-          <div className='flex gap-3 items-center'>
-            <h1 className='font-semibold tracking-tight text-4xl text-black/80'>
-              Hey! We are Arc. 
-            </h1>
-            <Hand className='w-10 h-10'/>
-          </div>
-          <p className='text-3xl font-medium tracking-[-0.01em] leading-[1.35] text-black/50'>
+          <h1 className='font-semibold tracking-[-0.04em] text-5xl text-black/80'>
+            Hey! We are Arc. 👋 
+          </h1>
+          <p className='text-3xl tracking-[-0.01em] leading-[1.5] text-black/50'>
           Design + Development studio for your next big project.
           </p>
-          <p className='text-3xl font-medium tracking-[-0.01em] leading-[1.35] text-black/50'>
+          <p className='text-3xl tracking-[-0.01em] leading-[1.5] text-black/50'>
           We create seamless experiences that includes web design, product design, branding and development in under one roof.
           </p>
         </div>

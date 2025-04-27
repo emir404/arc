@@ -109,9 +109,9 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${ManropeFont.variable} ${InstrumentSerif.variable} antialiased overflow-x-hidden bg-background font-manrope flex justify-center px-2 sm:px-6 md:px-10 lg:px-16 xl:px-24 2xl:px-72`}
+        className={`${ManropeFont.variable} ${InstrumentSerif.variable} antialiased overflow-x-hidden bg-background font-manrope flex justify-center px-2 sm:px-6 md:px-10 lg:px-16 xl:px-24 2xl:px-72 py-6`}
       >
-        <div className="w-full max-w-[1440px] relative flex flex-col min-h-screen border-l border-r border-gray-200 px-4 sm:px-12 md:px-36 lg:px-64 xl:px-80">
+        <div className="w-full max-w-[1440px] relative flex flex-col min-h-screen border-l border-r border-gray-200 gap-12">
           <Header/>
           <LenisWrapper>
             {children}

@@ -47,14 +47,14 @@ function Hero() {
       duration: 0.8,
       ease: 'power3.out'
     }, '-=0.6')
-    .to('.hero-card', {
+    .to('.hero-marquee', {
       opacity: 1,
       y: 0,
       filter: 'blur(0px)',
       duration: 0.8,
       stagger: 0.15,
       ease: 'power3.out'
-    }, '-=0.4')
+    }, '-=0.2')
 
     return () => {
       tl.kill()
@@ -65,18 +65,18 @@ function Hero() {
     <div className='flex flex-col gap-8 sm:gap-12 md:gap-16'>
       <div className='px-4 sm:px-12 md:px-36 lg:px-64 xl:px-80 flex flex-col w-full pt-4 sm:pt-8 hero-section'>
         <div className='flex flex-col gap-9'>
-          <h1 className='font-semibold tracking-[-0.04em] text-5xl text-black/80'>
+          <h1 className='hero-heading font-semibold tracking-[-0.04em] text-5xl text-black/80'>
             Hey! We are Arc. 👋 
           </h1>
-          <p className='text-3xl tracking-[-0.01em] leading-[1.5] text-black/50'>
+          <p className='hero-description text-3xl tracking-[-0.01em] leading-[1.5] text-black/50'>
           Design + Development studio for your next big project.
           </p>
-          <p className='text-3xl tracking-[-0.01em] leading-[1.5] text-black/50'>
+          <p className='hero-description text-3xl tracking-[-0.01em] leading-[1.5] text-black/50'>
           We create seamless experiences that includes web design, product design, branding and development in under one roof.
           </p>
         </div>
       </div>
-      <div className='w-full flex flex-col'>
+      <div className='w-full flex flex-col hero-marquee'>
         <Marquee className='[--duration:20s] gap-8' pauseOnHover>
           {
             MARQUEE_ONE.map((item, i) => (

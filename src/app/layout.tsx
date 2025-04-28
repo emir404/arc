@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Instrument_Serif, Manrope } from "next/font/google";
+import { Instrument_Serif, Manrope, Merriweather, Playfair_Display } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import Header from "@/components/ui/header";
@@ -21,6 +21,13 @@ const InstrumentSerif = Instrument_Serif({
   variable: "--font-instrument",
   display: 'swap',
 });
+
+const Merriweather_Font = Merriweather({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-merriweather",
+  display: "swap"
+})
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -109,7 +116,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${ManropeFont.variable} ${InstrumentSerif.variable} antialiased overflow-x-hidden bg-background font-manrope flex justify-center px-2 sm:px-6 md:px-10 lg:px-16 xl:px-24 2xl:px-72 py-6`}
+        className={`${ManropeFont.variable} ${InstrumentSerif.variable} ${Merriweather_Font.variable} antialiased overflow-x-hidden bg-background font-manrope flex justify-center px-2 sm:px-6 md:px-10 lg:px-16 xl:px-24 2xl:px-72 py-6`}
       >
         <div className="w-full max-w-[1440px] relative flex flex-col min-h-screen border-l border-r border-gray-200 gap-12">
           <Header/>

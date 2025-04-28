@@ -85,6 +85,10 @@ body {
   font-family: var(--font-instrument);
 }
 
+.font-merriweather {
+  font-family: var(--font-merriweather);
+}
+
 .floating-circle {
   animation: float 6s ease-in-out infinite;
 }

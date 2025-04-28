@@ -2,9 +2,7 @@
 
 import React from 'react'
 import Hero from '@/components/ui/sections/hero'
-import Portfolio from '@/components/ui/sections/portfolio'
-import Contact from '@/components/ui/sections/contact'
-import AboutUs from '@/components/ui/sections/aboutus'
+import Pricing from '@/components/ui/sections/pricing'
 
 function Home() {
   return (

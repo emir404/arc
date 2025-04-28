@@ -30,7 +30,7 @@ function Footer() {
   }, [])
 
   return (
-    <footer className="text-black/40 py-8 md:py-16 footer-content px-4 sm:px-12 md:px-36 lg:px-64 xl:px-80">
+    <footer className="text-black/40 py-8 md:py-16 footer-content px-4 sm:px-12 md:px-36 lg:px-48 xl:px-56">
       <p className="text-lg md:text-2xl">© Arc Studio 2025</p>
     </footer>
   )

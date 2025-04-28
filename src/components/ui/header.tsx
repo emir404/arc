@@ -49,7 +49,7 @@ function Header() {
 
   return (
     <>
-      <div className='invisible header-container flex justify-between items-center w-full z-50 px-4 sm:px-12 md:px-36 lg:px-64 xl:px-80'>
+      <div className='invisible header-container flex justify-between items-center w-full z-50 px-4 sm:px-12 md:px-36 lg:px-48 xl:px-56'>
         <Link href='/' ref={logoRef} className='w-16 md:w-20'>
           <Logo fill='#2E2E2E' />
         </Link>

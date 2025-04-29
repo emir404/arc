@@ -41,10 +41,10 @@ export const viewport: Viewport = {
 const structuredData = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  "name": "Arc Creative Agency",
+  "name": "Arc Creative Studio",
   "url": "https://witharc.co",
   "logo": "https://witharc.co/logo.png",
-  "description": "Arc is a global web agency focused on blending innovation, creativity, and cutting-edge technology to craft unique, high-impact digital experiences.",
+  "description": "Arc is a global web Studio focused on blending innovation, creativity, and cutting-edge technology to craft unique, high-impact digital experiences.",
   "contactPoint": {
     "@type": "ContactPoint",
     "contactType": "customer service",
@@ -58,14 +58,14 @@ const structuredData = {
 
 export const metadata: Metadata = {
   title: {
-    default: "Arc • Creative Web Agency",
+    default: "Arc • Creative Web Studio",
     template: "%s • Arc ",
   },
-  description: "Arc is a global web agency focused on blending innovation, creativity, and cutting-edge technology to craft unique, high-impact digital experiences.",
-  keywords: "web agency, creative agency, web development, digital experiences, UI/UX design, web design, digital innovation",
-  authors: [{ name: "Arc Creative Agency" }],
-  creator: "Arc Creative Agency",
-  publisher: "Arc Creative Agency",
+  description: "Arc is a global web Studio focused on blending innovation, creativity, and cutting-edge technology to craft unique, high-impact digital experiences.",
+  keywords: "web Studio, creative Studio, web development, digital experiences, UI/UX design, web design, digital innovation",
+  authors: [{ name: "Arc Creative Studio" }],
+  creator: "Arc Creative Studio",
+  publisher: "Arc Creative Studio",
   robots: {
     index: true,
     follow: true,
@@ -78,14 +78,16 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://witharc.co",
-    title: "Arc - Creative Web Agency",
-    description: "Arc is a global web agency focused on blending innovation, creativity, and cutting-edge technology to craft unique, high-impact digital experiences.",
-    siteName: "Arc Creative Agency",
+    images: ["/thumbnail.png"],
+    title: "Arc - Creative Web Studio",
+    description: "Arc is a global web studio focused on blending innovation, creativity, and cutting-edge technology to craft unique, high-impact digital experiences.",
+    siteName: "Arc Creative Studio",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Arc - Creative Web Agency",
-    description: "Arc is a global web agency focused on blending innovation, creativity, and cutting-edge technology to craft unique, high-impact digital experiences.",
+    images: ["/thumbnail.png"],
+    title: "Arc - Creative Web Studio",
+    description: "Arc is a global web studio focused on blending innovation, creativity, and cutting-edge technology to craft unique, high-impact digital experiences.",
   },
 };
 

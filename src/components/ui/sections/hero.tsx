@@ -110,7 +110,7 @@ function Hero() {
               variant="secondary"
               className='shadow-none text-black/70 bg-none'
             >
-              <Link href={'#pricing'} target='_blank'>
+              <Link href={'#pricing'}>
                 See Pricing
               </Link>
             </Button>

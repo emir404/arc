@@ -25,17 +25,23 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
         </div>
         <div className='flex flex-col items-center justify-center flex-1 gap-8'>
           <Link 
-            href='/work' 
+            href='https://x.com/emirthedev' 
             className='text-4xl text-black hover:text-gray-600 transition-colors'
             onClick={onClose}
           >
-            Work
+            X
           </Link>
           <Button 
             className='text-2xl p-6 w-full max-w-xs'
             onClick={onClose}
           >
+            <Link 
+            href='https://buy.polar.sh/polar_cl_DXTCbLKmdtW8MXkGtqw7BaX2UriQkAumCehTC2jJfBz' 
+            className='text-4xl text-black hover:text-gray-600 transition-colors'
+            onClick={onClose}
+          >
             Get Started
+          </Link>
           </Button>
         </div>
       </div>

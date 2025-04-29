@@ -1,37 +1,51 @@
-"use client"
-
 import React, { useEffect } from 'react'
 import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-
-gsap.registerPlugin(ScrollTrigger)
+import { ScrollTrigger } from 'gsap/all'
+import Image from 'next/image'
+import Link from 'next/link'
 
 function AboutUs() {
   useEffect(() => {
+
+    gsap.registerPlugin(ScrollTrigger)
+
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: '.about-section',
-        start: 'top center+=100',
-        end: 'bottom center',
+        start: 'top 75%',
+        end: 'bottom 25%',
+        toggleActions: 'play none none none',
       }
     })
 
-    gsap.set('.stat-card', { opacity: 0, y: 50 })
-    gsap.set('.about-text', { opacity: 0, y: 30 })
+    // Set initial states
+    gsap.set('.about-heading', { opacity: 0, y: 20, filter: 'blur(5px)' })
+    gsap.set('.about-description', { opacity: 0, y: 20, filter: 'blur(5px)' })
 
-    tl.to('.about-text', {
+
+    gsap.fromTo(".about-section", {
+      visibility:"hidden"
+    },
+    {
+      visibility:"visible"
+    }
+    )
+
+    // Animate elements
+    tl.to('.about-heading', {
       opacity: 1,
       y: 0,
-      duration: 1,
+      filter: 'blur(0px)',
+      duration: 0.8,
       ease: 'power3.out'
     })
-    .to('.stat-card', {
+    .to('.about-description', {
       opacity: 1,
       y: 0,
+      filter: 'blur(0px)',
       duration: 0.8,
-      stagger: 0.15,
       ease: 'power3.out'
-    }, '-=0.5')
+    }, '-=0.6')
 
     return () => {
       tl.kill()
@@ -39,66 +53,37 @@ function AboutUs() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-black text-white px-4 md:px-20 py-24 md:py-48 about-section">
-      <div className="max-w-7xl mx-auto">
-        <div className="mb-12 md:mb-24 about-text">
-          <p className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-center leading-tight">
-          We collaborate with visionary brands to create high-impact digital experiences, 
-          {' '}<span className="text-[#666666]">seamlessly merging development, design, and innovation to deliver results with precision and creativity.</span>
-          </p>
-        </div>
+    <div className='invisible about-section flex flex-col gap-4 sm:gap-8 md:gap-12 px-4 sm:px-12 md:px-36 lg:px-48 xl:px-56 py-20'>
+      <p className='max-w-3xl about-description text-3xl tracking-[-0.01em] leading-[1.5] text-black/50'>
+        We're your ever-ready design partner, scaling with you through growth or downsizing.
+      </p>
+      <p className='max-w-3xl about-description text-3xl tracking-[-0.01em] leading-[1.7] text-black/50'>
+        We previously worked with <span className='mx-1 rounded-xl px-3 py-1 bg-red-500 font-semibold shadow-[inset_0px_-3px_0px_0px_#dc2626] text-red-100'>YC Startups</span> <span className='mx-1 rounded-xl px-3 py-1 bg-blue-500 text-blue-100 font-semibold shadow-[inset_0px_-3px_0px_0px_#005ee6]'>SaaS</span> and <span className='mx-1 rounded-xl px-3 py-1 bg-yellow-500 text-yellow-100 font-semibold shadow-[inset_0px_-3px_0px_0px_#ca8a04]'>AI</span> companies.
+      </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-          <StatCard
-            number="200+"
-            text="Custom web experiences designed with precision and creativity."
-            className="col-span-1 sm:col-span-2"
-            icon="grid"
-          />
-          <StatCard
-            number="10+"
-            text="Industries served, from startups to global brands."
-            className="col-span-1 sm:col-span-2"
-            icon="building"
-          />
-          <StatCard
-            number="99%"
-            text="Bespoke solutions—no templates, just tailored innovation."
-            className="col-span-1 sm:col-span-2 lg:col-span-3"
-            icon="check"
-          />
-          <StatCard
-            number="2025"
-            text="founded to redefine digital experiences."
-            className="col-span-1"
-            icon="calendar"
-          />
-        </div>
-      </div>
-    </div>
-  )
-}
+      <p className='max-w-3xl about-description text-3xl tracking-[-0.01em] leading-[1.7] text-black/50'>
+        But we are open to work with <span className='mx-1 rounded-xl px-3 py-1 bg-indigo-500  font-semibold shadow-[inset_0px_-3px_0px_0px_#4f46e5] text-indigo-100'>any industry.</span>
+      </p>
 
-interface StatCardProps {
-  number: string
-  text: string
-  className?: string
-  icon: "grid" | "building" | "check" | "calendar"
-}
+      <p className='max-w-3xl about-description text-3xl tracking-[-0.01em] leading-[1.5] text-black/50'>
+        At Arc, we provide branding, UI/UX design, product design and more based on your needs.
+      </p>
 
-function StatCard({ number, text, className, icon }: StatCardProps) {
-  return (
-    <div className={`bg-[#666666] text-black p-6 sm:p-8 md:p-12 flex flex-col justify-center rounded-2xl ${className}`}>
-      <div className="relative flex justify-between items-start">
-        <span className="text-3xl sm:text-4xl md:text-6xl lg:text-8xl font-medium block mb-2">{number}</span>
-        <div className="w-8 h-8 absolute top-0 right-0">
-          {icon === "grid" && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z"/></svg>}
-          {icon === "building" && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 21h18M9 8h1m-1 4h1m-1 4h1m5-8h1m-1 4h1m-1 4h1M5 21V5l7-3v19m7-19v19"/></svg>}
-          {icon === "check" && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 6L9 17l-5-5"/></svg>}
-          {icon === "calendar" && <></>}
-        </div>
-      </div>
-      <p className="text-lg sm:text-xl md:text-2xl leading-snug">{text}</p>
+      <p className='max-w-3xl about-description text-3xl tracking-[-0.01em] leading-[1.7] text-black/50'>
+        We are open to work as your <span className='mx-1 rounded-xl px-3 py-1 bg-teal-500  font-semibold shadow-[inset_0px_-3px_0px_0px_#0d9488] text-teal-100'>design partner</span> for your next big project.
+      </p>
+
+      <p className='max-w-3xl about-description text-3xl tracking-[-0.01em] leading-[1.7] text-black/50'>
+        We can also work <span className='mx-1 rounded-xl px-3 py-1 bg-pink-500  font-semibold shadow-[inset_0px_-3px_0px_0px_#db2777] text-pink-100'>one-off</span> for your projects.
+      </p>
+
+      <p className='max-w-3xl about-description text-3xl tracking-[-0.01em] leading-[1.7] text-black/50'>
+        You can always <span className='mx-1 rounded-xl px-3 py-1 bg-rose-500  font-semibold shadow-[inset_0px_-3px_0px_0px_#e11d48] text-rose-100'>pause</span> your subscription and get back to it when you're in need.
+      </p>
+
+      <p className='max-w-3xl about-description text-3xl tracking-[-0.01em] leading-[2] text-black/50'>
+      <Link href={'https://cal.com/emirayaz'} target='_blank' className='mx-1 rounded-xl px-3 py-1 bg-fuchsia-500 hover:bg-fuchsia-600 transition-all duration-200  font-semibold shadow-[inset_0px_-3px_0px_0px_#c026d3] text-fuchsia-100'>Book a call</Link> or contact us on <Link href={'mailto:hello@witharc.co'} target='_blank' className='mx-1 rounded-xl px-3 py-1 bg-violet-500 hover:bg-violet-600 transition-all duration-200  font-semibold shadow-[inset_0px_-3px_0px_0px_#7c3aed] text-violet-100'>hello@witharc.co</Link>
+      </p>
     </div>
   )
 }

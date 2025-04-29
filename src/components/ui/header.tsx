@@ -65,7 +65,7 @@ function Header() {
             <Button 
               variant="default"
             >
-              <Link href={'https://cal.com/emirayaz'} target='_blank'>
+              <Link href={'https://buy.polar.sh/polar_cl_DXTCbLKmdtW8MXkGtqw7BaX2UriQkAumCehTC2jJfBz'} target='_blank'>
                 Get Started
               </Link>
             </Button>

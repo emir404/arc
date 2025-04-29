@@ -115,11 +115,11 @@ function Pricing() {
               </p>
             </div>
           </div>
-          <Button>
-            <Link href={'https://buy.polar.sh/polar_cl_6EMNsRORjSA73WXAnEJYtgjvAkKOKB1pcnMYL1bfcTN'} target='_blank'>
+          <Link href={'https://buy.polar.sh/polar_cl_6EMNsRORjSA73WXAnEJYtgjvAkKOKB1pcnMYL1bfcTN'} target='_blank' className='w-full'>
+            <Button className='w-full'>
               Get Your Landing Page
-            </Link>
-          </Button>
+            </Button>
+          </Link>
         </div>
         <div className='w-full h-full flex flex-col p-8  rounded-2xl border bg-gray-300/20 border-gray-800/10 gap-3'>
           <div className='flex flex-col gap-1'>
@@ -177,11 +177,11 @@ function Pricing() {
               </p>
             </div>
           </div>
-          <Button className='bg-blue-500 font-semibold'>
-            <Link href={'https://buy.polar.sh/polar_cl_DXTCbLKmdtW8MXkGtqw7BaX2UriQkAumCehTC2jJfBz'} target='_blank'>
+          <Link href={'https://buy.polar.sh/polar_cl_DXTCbLKmdtW8MXkGtqw7BaX2UriQkAumCehTC2jJfBz'} target='_blank' className='w-full'>
+          <Button className='w-full bg-blue-500 font-semibold'>
               Get Started
-            </Link>
           </Button>
+          </Link>
         </div>
       </div>
     </div>

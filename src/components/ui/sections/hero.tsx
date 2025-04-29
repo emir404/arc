@@ -99,21 +99,21 @@ function Hero() {
           We create seamless experiences that includes web design, product design, branding and development in under one roof.
           </p>
           <div className='flex gap-3 hero-buttons'>
-            <Button 
-              variant="default"
-            >
-              <Link href={'https://buy.polar.sh/polar_cl_DXTCbLKmdtW8MXkGtqw7BaX2UriQkAumCehTC2jJfBz'} target='_blank'>
+            <Link href={'https://buy.polar.sh/polar_cl_DXTCbLKmdtW8MXkGtqw7BaX2UriQkAumCehTC2jJfBz'} target='_blank'>
+              <Button 
+                variant="default"
+              >
                 Get Started
-              </Link>
-            </Button>
-            <Button 
+              </Button>
+            </Link>
+            <Link href={'#pricing'} className='w-max'>
+              <Button 
               variant="secondary"
               className='shadow-none text-black/70 bg-none'
-            >
-              <Link href={'#pricing'}>
+              >
                 See Pricing
-              </Link>
-            </Button>
+              </Button>
+            </Link>
           </div>
           <div className='hero-testimonial relative flex flex-col gap-6 p-6 rounded-lg border border-gray-400 border-dotted mt-4'>
             <Image src={"/assets/sticker.png"} alt='Sticker' width={500} height={500} className='absolute w-48 h-48 -bottom-16 -right-16'/>
@@ -150,11 +150,11 @@ function Hero() {
             ))
           }
         </Marquee>
-        <Button className='mt-8 w-max mx-auto border-transparent bg-neutral-100/30 text-black/50' variant={"outline"}>
-          <Link href={"/works"}>
+        <Link href={"/works"} className='mt-8 w-max mx-auto'>
+          <Button className='border-transparent bg-neutral-100/30 text-black/50' variant={"outline"}>
             See all
-          </Link>
-        </Button>
+          </Button>
+        </Link>
       </div>
     </div>
   )

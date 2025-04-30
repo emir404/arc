@@ -4,6 +4,7 @@ import Image from 'next/image'
 const WORK_IMAGES = [
   "/assets/hero/1.png",
   "/assets/hero/2.png",
+  "/assets/hero/24.png",
   "/assets/hero/3.png",
   "/assets/hero/4.png",
   "/assets/hero/5.png",
@@ -29,12 +30,10 @@ const WORK_IMAGES = [
 
 function Works() {
   return (
-    <div className='flex flex-col gap-12 py-12'>
+    <div className='flex flex-col gap-8 py-12 p-8'>
       {
             WORK_IMAGES.map((item, i) => (
-              <div className='p-4 border border-black/5 rounded-xl bg-neutral-200/10' key={i}>
-                <Image className='aspect-[16:10] object-cover object-left-top rounded-md' width={1440} height={1024} src={item} alt={'Image ' + i}/>
-              </div>
+              <Image key={i} className='aspect-[16:10] object-cover object-left-top rounded-xl' width={1440} height={1024} src={item} alt={'Image ' + i}/>
             ))
           }
     </div>

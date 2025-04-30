@@ -81,7 +81,7 @@ function AboutUs() {
       </p>
 
       <p className='max-w-3xl about-description text-3xl tracking-[-0.01em] leading-[2] text-black/50'>
-      <Link href={'https://cal.com/emirayaz'} target='_blank' className='mx-1 rounded-xl px-3 py-1 bg-fuchsia-500 hover:bg-fuchsia-600 transition-all duration-200  font-semibold shadow-[inset_0px_-3px_0px_0px_#c026d3] text-fuchsia-100'>Book a call</Link> or contact us on <Link href={'mailto:hello@witharc.co'} target='_blank' className='mx-1 rounded-xl px-3 py-1 bg-violet-500 hover:bg-violet-600 transition-all duration-200  font-semibold shadow-[inset_0px_-3px_0px_0px_#7c3aed] text-violet-100'>hello@witharc.co</Link>
+        <Link href={'https://cal.com/emirayaz'} target='_blank' className='mx-1 rounded-xl px-3 py-1 bg-fuchsia-500 hover:bg-fuchsia-600 transition-all duration-200  font-semibold shadow-[inset_0px_-3px_0px_0px_#c026d3] text-fuchsia-100'>Book a call</Link> or contact us on <Link href={'mailto:hello@witharc.co'} target='_blank' className='mx-1 rounded-xl px-3 py-1 bg-violet-500 hover:bg-violet-600 transition-all duration-200  font-semibold shadow-[inset_0px_-3px_0px_0px_#7c3aed] text-violet-100'>hello@witharc.co</Link>
       </p>
     </div>
   )

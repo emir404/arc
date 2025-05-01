@@ -194,7 +194,7 @@ function Pricing() {
                 Best for founders who need a fast design turnaround.
               </p>
               <p className='font-semibold text-6xl my-2 text-gray-700 tracking-tighter pt-2'>
-              $399
+              $499
               </p>
             </div>
             <div className='flex flex-col gap-3 w-full h-full'>

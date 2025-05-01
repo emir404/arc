@@ -174,7 +174,7 @@ function Pricing() {
               <div className='flex gap-3 items-center'>
                 <FaCircleCheck size={20} className='text-blue-500'/>
                 <p className='text-xl text-gray-600'>
-                  No meetings
+                  No meetings (if preferred)
                 </p>
               </div>
             </div>

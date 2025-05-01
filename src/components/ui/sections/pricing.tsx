@@ -185,8 +185,8 @@ function Pricing() {
             </Link>
           </div>
         </div>
-        <div className='w-full h-full flex p-8  rounded-2xl border border-gray-800/10 gap-12 pricing-cards'>
-          <div className='flex flex-col gap-1'>
+        <div className='w-full h-full flex flex-col md:flex-row p-8  rounded-2xl border border-gray-800/10 gap-12 pricing-cards'>
+            <div className='flex flex-col gap-1'>
             <p className='tracking-tight font-semibold text-xl text-gray-600'>
                 Redesign
               </p>

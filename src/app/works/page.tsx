@@ -26,6 +26,9 @@ const WORK_IMAGES = [
   "/assets/hero/21.png",
   "/assets/hero/22.png",
   "/assets/hero/23.png",
+  "/assets/hero/24.png",
+  "/assets/hero/25.png",
+  "/assets/hero/26.png",
 ]
 
 function Works() {

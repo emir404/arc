@@ -1,13 +1,16 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import gsap from 'gsap'
 import { FaCircleCheck } from "react-icons/fa6";
 import { ScrollTrigger } from 'gsap/all'
 import { Button } from '../button';
 import Link from 'next/link';
 
-function Pricing() {
-  useEffect(() => {
+type PricingMode = "monthly" | "annually"
 
+function Pricing() {
+  const [mode, setMode] = useState<PricingMode>("monthly")
+
+  useEffect(() => {
     gsap.registerPlugin(ScrollTrigger)
 
     const tl = gsap.timeline({
@@ -59,6 +62,16 @@ function Pricing() {
         Plans
       </p>
       <div className='px-4 sm:px-12 md:px-16 lg:px-28 xl:px-40 flex flex-col gap-4'>
+        <div className='hidden w-full lg:flex'>
+          <div className='pricing-cards w-full flex gap-2 justify-end'>
+            <button className={`px-4 py-2 rounded-2xl border hover:bg-gray-800/10 transition ${mode === "monthly" ? "bg-gray-800/10" : "border-gray-800/10"}`} onClick={() => setMode("monthly")}>
+              Monthly
+            </button>
+            <button className={`px-4 py-2 rounded-2xl border hover:bg-gray-800/10 transition ${mode === "annually" ? "bg-gray-800/10" : "border-gray-800/10"}`} onClick={() => setMode("annually")}>
+              Annually
+            </button>
+          </div>
+        </div>
         <div className='pricing-cards w-full flex-col lg:flex-row flex gap-4'>
           <div className='w-full h-full flex flex-col p-8  rounded-2xl border border-gray-800/10 gap-3'>
             <div className='flex flex-col gap-1'>
@@ -122,6 +135,16 @@ function Pricing() {
               </Button>
             </Link>
           </div>
+          <div className='flex w-full lg:hidden'>
+          <div className='pricing-cards w-full flex gap-2 justify-end'>
+            <button className={`px-4 py-2 rounded-2xl border hover:bg-gray-800/10 transition ${mode === "monthly" ? "bg-gray-800/10" : "border-gray-800/10"}`} onClick={() => setMode("monthly")}>
+              Monthly
+            </button>
+            <button className={`px-4 py-2 rounded-2xl border hover:bg-gray-800/10 transition ${mode === "annually" ? "bg-gray-800/10" : "border-gray-800/10"}`} onClick={() => setMode("annually")}>
+              Annually
+            </button>
+          </div>
+        </div>
           <div className='w-full h-full flex flex-col p-8  rounded-2xl border bg-gray-300/20 border-gray-800/10 gap-3'>
             <div className='flex flex-col gap-1'>
               <p className='tracking-tight font-semibold text-xl text-gray-600'>
@@ -131,9 +154,13 @@ function Pricing() {
                 Best for brands and startups who want to get ongoing design support.
               </p>
             </div>
-            <p className='font-semibold text-6xl my-2 text-gray-700 tracking-tighter pt-2'>
-              $1600 <span className='text-lg text-gray-400 tracking-normal font-normal'>/per month</span>
-            </p>
+              {
+                mode === "monthly" ? (
+                  <p className='font-semibold text-6xl my-2 text-gray-700 tracking-tighter pt-2'>$1600 <span className='text-lg text-gray-400 tracking-normal font-normal'>/per month</span></p>
+                ) : (
+                  <p className='font-semibold text-6xl my-2 text-gray-700 tracking-tighter pt-2'>$15500 <span className='text-lg text-gray-400 tracking-normal font-normal'>/per year</span></p>
+                )
+              }
             <div className='py-4 flex flex-col gap-4'>
               <div className='flex gap-3 items-center'>
                 <FaCircleCheck size={20} className='text-blue-500'/>
@@ -178,7 +205,7 @@ function Pricing() {
                 </p>
               </div>
             </div>
-            <Link href={'https://buy.polar.sh/polar_cl_DXTCbLKmdtW8MXkGtqw7BaX2UriQkAumCehTC2jJfBz'} target='_blank' className='w-full mt-auto'>
+            <Link href={mode === "monthly" ? 'https://buy.polar.sh/polar_cl_DXTCbLKmdtW8MXkGtqw7BaX2UriQkAumCehTC2jJfBz' : "https://buy.polar.sh/polar_cl_qrcVLyuvDphP2sHCW24X4MutRs2doGwmzXWIC03r7lD"} target='_blank' className='w-full mt-auto'>
             <Button className='w-full bg-blue-500 font-semibold'>
                 Get Started
             </Button>
@@ -216,7 +243,7 @@ function Pricing() {
                   Figma file
                 </p>
               </div>
-              <Link href={'https://buy.polar.sh/polar_cl_3cb9zz7NQr886SrIcxNEmouAp3bLVvRecukf92q4V2E'} target='_blank' className='w-full mt-auto'>
+              <Link href={'https://buy.polar.sh/polar_cl_3cb9zz7NQr886SrIcxNEmouAp3bLVvRecukf92q4V2E'} target='_blank' className='w-full mt-auto pt-4'>
                 <Button className='w-full'>
                   Get Your Redesign
                 </Button>

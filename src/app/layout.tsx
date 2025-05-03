@@ -112,6 +112,12 @@ export default function RootLayout({
             gtag('config', 'G-L6GMH3LB5W');
           `}
         </Script>
+        <Script
+          defer
+          data-website-id="68165f18fba37b98f0bbc62f"
+          data-domain="witharc.co"
+          src="https://datafa.st/js/script.js">
+        </Script>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}

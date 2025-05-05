@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/all'
 import Link from 'next/link'
+import Image from 'next/image'
 
 function AboutUs() {
   useEffect(() => {
@@ -59,6 +60,25 @@ function AboutUs() {
       <p className='max-w-3xl about-description text-3xl tracking-[-0.01em] leading-[1.7] text-black/50'>
         We previously worked with <span className='mx-1 rounded-xl px-3 py-1 bg-red-500 font-semibold shadow-[inset_0px_-3px_0px_0px_#dc2626] text-red-100'>YC Startups</span> <span className='mx-1 rounded-xl px-3 py-1 bg-blue-500 text-blue-100 font-semibold shadow-[inset_0px_-3px_0px_0px_#005ee6]'>SaaS</span> and <span className='mx-1 rounded-xl px-3 py-1 bg-yellow-500 text-yellow-100 font-semibold shadow-[inset_0px_-3px_0px_0px_#ca8a04]'>AI</span> companies.
       </p>
+
+      <div className='about-description max-w-3xl relative flex flex-col gap-6 p-6 rounded-lg border border-gray-400 border-dotted mt-4'>
+          <Image src={"/assets/sticker.png"} alt='Sticker' width={500} height={500} className='absolute w-48 h-48 -bottom-16 -right-16'/>
+          <p className='text-xl leading-[1.5] text-gray-600 font-merriweather'>
+            Emir is a super talented designer that has a great eye for products, and the technical expertise to build it for you. 10/10 experience working with him!
+          </p>
+          <div className='flex gap-5 items-center'>
+            <Image src={"/assets/avatars/1.jpeg"} alt='Emir Karabeg Profile Picture' width={64} height={64} className='w-16 h-16 rounded-full'/>
+
+            <div className='flex flex-col gap-0 text-gray-600'>
+              <p className='text-xl font-semibold'>
+                Emir Karabeg
+              </p>
+              <p className='text-base font-medium text-gray-500/80'>
+                CEO @ Simstudio.ai
+              </p>
+            </div>
+          </div>
+      </div>
 
       <p className='max-w-3xl about-description text-3xl tracking-[-0.01em] leading-[1.7] text-black/50'>
         But we are open to work with <span className='mx-1 rounded-xl px-3 py-1 bg-indigo-500  font-semibold shadow-[inset_0px_-3px_0px_0px_#4f46e5] text-indigo-100'>any industry.</span>

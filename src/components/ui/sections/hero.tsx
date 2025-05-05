@@ -64,7 +64,7 @@ function Hero() {
       duration: 0.8,
       ease: 'power3.out'
     }, '-=0.6')
-    .to('.hero-testimonial',{
+    .to('.hero-icons',{
       opacity: 1,
       y: 0,
       filter: 'blur(0px)',
@@ -89,14 +89,11 @@ function Hero() {
     <div className='invisible hero-section flex flex-col gap-8 sm:gap-12 md:gap-16'>
       <div className='px-4 sm:px-12 md:px-36 lg:px-48 xl:px-56 flex flex-col w-full pt-4 sm:pt-8'>
         <div className='flex flex-col gap-9 max-w-3xl'>
-          <h1 className='hero-heading font-semibold tracking-[-0.04em] text-5xl text-black/80'>
-            Hey! This is Arc. 👋 
+          <h1 className='hero-heading font-semibold max-w-lg leading-[1.2] tracking-[-0.04em] text-6xl text-black/80'>
+            Design partnership for busy founders 
           </h1>
-          <p className='hero-description text-3xl tracking-[-0.01em] leading-[1.5] text-black/50'>
-          Design + Development studio for your next big project.
-          </p>
-          <p className='hero-description text-3xl tracking-[-0.01em] leading-[1.5] text-black/50'>
-          We create seamless experiences that includes web design, product design, branding and development in under one roof.
+          <p className='hero-description max-w-md text-2xl tracking-[-0.01em] leading-[1.5] text-black/50'>
+          Design + Development studio for your next big project. 
           </p>
           <div className='flex gap-3 hero-buttons'>
             <Link href={'https://buy.polar.sh/polar_cl_DXTCbLKmdtW8MXkGtqw7BaX2UriQkAumCehTC2jJfBz'} target='_blank'>
@@ -114,24 +111,6 @@ function Hero() {
                 See Pricing
               </Button>
             </Link>
-          </div>
-          <div className='hero-testimonial relative flex flex-col gap-6 p-6 rounded-lg border border-gray-400 border-dotted mt-4'>
-            <Image src={"/assets/sticker.png"} alt='Sticker' width={500} height={500} className='absolute w-48 h-48 -bottom-16 -right-16'/>
-            <p className='text-xl leading-[1.5] text-gray-600 font-merriweather'>
-              Emir is a super talented designer that has a great eye for products, and the technical expertise to build it for you. 10/10 experience working with him!
-            </p>
-            <div className='flex gap-5 items-center'>
-              <Image src={"/assets/avatars/1.jpeg"} alt='Emir Karabeg Profile Picture' width={64} height={64} className='w-16 h-16 rounded-full'/>
-
-              <div className='flex flex-col gap-0 text-gray-600'>
-                <p className='text-xl font-semibold'>
-                  Emir Karabeg
-                </p>
-                <p className='text-base font-medium text-gray-500/80'>
-                  CEO @ Simstudio.ai
-                </p>
-              </div>
-            </div>
           </div>
         </div>
       </div>

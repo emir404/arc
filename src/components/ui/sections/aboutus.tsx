@@ -74,7 +74,7 @@ function AboutUs() {
                 Emir Karabeg
               </p>
               <p className='text-base font-medium text-gray-500/80'>
-                CEO @ Simstudio.ai
+                CEO @ Simstudio.ai, YC X25
               </p>
             </div>
           </div>

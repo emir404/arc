@@ -83,7 +83,7 @@ function Pricing() {
               </p>
             </div>
             <p className='font-semibold text-6xl my-2 text-gray-700 tracking-tighter pt-2'>
-              $1397
+              $1395
             </p>
             <div className='py-4 flex flex-col gap-4'>
               <div className='flex gap-3 items-center'>

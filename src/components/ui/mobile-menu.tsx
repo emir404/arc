@@ -24,13 +24,13 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
           </button>
         </div>
         <div className='flex flex-col items-center justify-center flex-1 gap-8'>
-          <Link 
-            href='https://x.com/emirthedev' 
-            className='text-4xl text-black hover:text-gray-600 transition-colors'
-            onClick={onClose}
-          >
-            X
-          </Link>
+          <Link href={"https://cal.com/emirayaz"}>
+              <Button
+                variant={"ghost"}
+              >
+                Book a call
+              </Button>
+            </Link>
           <Button 
             className='text-2xl p-6 w-full max-w-xs'
             onClick={onClose}

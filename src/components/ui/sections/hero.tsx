@@ -89,11 +89,18 @@ function Hero() {
     <div className='invisible hero-section flex flex-col gap-8 sm:gap-12 md:gap-16'>
       <div className='px-4 sm:px-12 md:px-36 lg:px-48 xl:px-56 flex flex-col w-full pt-4 sm:pt-8'>
         <div className='flex flex-col gap-9 max-w-3xl'>
+          <div className='flex gap-2 items-center p-2 rounded-lg bg-green-500/10 w-fit'>
+            <div className='w-4 h-4 bg-green-400 border-2 border-green-300 rounded-full'>
+            </div>
+            <p className='text-base text-green-950/60 font-medium'>
+              3 founders booked a call this week  
+            </p>
+          </div>
           <h1 className='hero-heading font-semibold max-w-lg leading-[1.2] tracking-[-0.04em] text-6xl text-black/80'>
             Design partner for busy founders 
           </h1>
           <p className='hero-description max-w-md text-2xl tracking-[-0.01em] leading-[1.5] text-black/50'>
-          Top-Notch Landing Pages, Redesigns & Design Subscriptions for Startups
+          High-impact design, no hand-holding required.
           </p>
           <div className='flex gap-3 hero-buttons'>
             <Link href={'https://buy.polar.sh/polar_cl_DXTCbLKmdtW8MXkGtqw7BaX2UriQkAumCehTC2jJfBz'} target='_blank'>
@@ -103,12 +110,11 @@ function Hero() {
                 Get Started
               </Button>
             </Link>
-            <Link href={'#pricing'} className='w-max'>
-              <Button 
-              variant="secondary"
-              className='shadow-none text-black/70 bg-none'
+            <Link href={"https://cal.com/emirayaz"}>
+              <Button
+                variant={"ghost"}
               >
-                See Pricing
+                Book a call
               </Button>
             </Link>
           </div>

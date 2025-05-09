@@ -126,7 +126,7 @@ export default function RootLayout({
       <body
         className={`${ManropeFont.variable} ${InstrumentSerif.variable} ${Merriweather_Font.variable} antialiased overflow-x-hidden bg-background font-manrope flex justify-center px-2 sm:px-6 md:px-10 lg:px-16 xl:px-24 2xl:px-72 py-6`}
       >
-        <div className="w-full max-w-[1440px] relative flex flex-col min-h-screen border-l border-r border-gray-200 gap-12">
+        <div className="w-full max-w-[1440px] relative flex flex-col min-h-screen border-l border-r border-gray-200 gap-12 overflow-x-hidden">
           <Header/>
           <LenisWrapper>
             {children}

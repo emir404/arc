@@ -89,7 +89,7 @@ function Hero() {
     <div className='invisible hero-section flex flex-col gap-8 sm:gap-12 md:gap-16'>
       <div className='px-4 sm:px-12 md:px-36 lg:px-48 xl:px-56 flex flex-col w-full pt-4 sm:pt-8'>
         <div className='flex flex-col gap-9 max-w-3xl'>
-          <div className='flex gap-2 items-center p-2 rounded-lg bg-green-500/10 w-fit'>
+          <div className='hero-heading flex gap-2 items-center p-2 rounded-lg bg-green-500/10 w-fit'>
             <div className='w-4 h-4 bg-green-400 border-2 border-green-300 rounded-full'>
             </div>
             <p className='text-base text-green-950/60 font-medium'>

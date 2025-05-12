@@ -95,7 +95,7 @@ function Pricing() {
               <div className='flex gap-3 items-center'>
                 <FaCircleCheck size={20} className='text-blue-500'/>
                 <p className='text-xl text-gray-600'>
-                  Maximum Conversion Rate
+                  Conversion Optimized
                 </p>
               </div>
               <div className='flex gap-3 items-center'>

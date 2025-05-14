@@ -55,20 +55,20 @@ function Header() {
         </Link>
         <div ref={navRef}>
           <div className='hidden md:flex gap-4 items-end text-neutral-500'>
-            <Link href={"https://cal.com/emirayaz"}>
+            <Link href={"#pricing"}>
               <Button
                 variant={"ghost"}
               >
-                Book a call
+                See plans
               </Button>
             </Link>
-            <Button 
-              variant="default"
-            >
-              <Link href={'https://buy.polar.sh/polar_cl_DXTCbLKmdtW8MXkGtqw7BaX2UriQkAumCehTC2jJfBz'} target='_blank'>
-                Get Started
-              </Link>
-            </Button>
+            <Link href={"https://cal.com/emirayaz"} target='_blank'>
+              <Button 
+                variant="default"
+              >
+                  Schedule a call
+              </Button>
+            </Link>
           </div>
           <button 
             className='md:hidden p-2'

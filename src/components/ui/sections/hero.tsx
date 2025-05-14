@@ -103,18 +103,18 @@ function Hero() {
           High-impact design, no hand-holding required.
           </p>
           <div className='flex gap-3 hero-buttons'>
-            <Link href={'https://buy.polar.sh/polar_cl_DXTCbLKmdtW8MXkGtqw7BaX2UriQkAumCehTC2jJfBz'} target='_blank'>
-              <Button 
-                variant="default"
-              >
-                Get Started
-              </Button>
-            </Link>
             <Link href={"https://cal.com/emirayaz"}>
               <Button
-                variant={"ghost"}
+                variant={"default"}
               >
-                Book a call
+                Schedule a call
+              </Button>
+            </Link>
+            <Link href={'#pricing'}>
+              <Button 
+                variant="ghost"
+              >
+                See plans
               </Button>
             </Link>
           </div>

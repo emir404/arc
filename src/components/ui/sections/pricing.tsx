@@ -83,7 +83,7 @@ function Pricing() {
               </p>
             </div>
             <p className='font-semibold text-6xl my-2 text-gray-700 tracking-tighter pt-2'>
-              $1395
+              $1895
             </p>
             <div className='py-4 flex flex-col gap-4'>
               <div className='flex gap-3 items-center'>
@@ -156,9 +156,9 @@ function Pricing() {
             </div>
               {
                 mode === "monthly" ? (
-                  <p className='font-semibold text-6xl my-2 text-gray-700 tracking-tighter pt-2'>$1800 <span className='text-lg text-gray-400 tracking-normal font-normal'>/per month</span></p>
+                  <p className='font-semibold text-6xl my-2 text-gray-700 tracking-tighter pt-2'>$2495 <span className='text-lg text-gray-400 tracking-normal font-normal'>/per month</span></p>
                 ) : (
-                  <p className='font-semibold text-6xl my-2 text-gray-700 tracking-tighter pt-2'>$18000 <span className='text-lg text-gray-400 tracking-normal font-normal'>/per year</span></p>
+                  <p className='font-semibold text-6xl my-2 text-gray-700 tracking-tighter pt-2'>$24950 <span className='text-lg text-gray-400 tracking-normal font-normal'>/per year</span></p>
                 )
               }
             <div className='py-4 flex flex-col gap-4'>

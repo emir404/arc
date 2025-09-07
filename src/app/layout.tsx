@@ -1,33 +1,16 @@
 import type { Metadata, Viewport } from "next";
-import { Instrument_Serif, Manrope, Merriweather, Playfair_Display } from "next/font/google";
+import localFont from "next/font/local";
 import Script from "next/script";
 import "./globals.css";
-import Header from "@/components/ui/header";
-import Footer from "@/components/ui/sections/footer";
-import { LenisWrapper } from "@/components/ui/lenis-wrapper";
-import { GridPattern } from "@/components/magicui/grid-pattern";
 
-const ManropeFont = Manrope({
-  weight: ["200","300","400","500","600","700","800"],
-  subsets: ["latin"],
-  variable: "--font-manrope",
-  display: 'swap',
-  preload: true,
+
+const OverusedGrotesk = localFont({
+  src: "../../public/OverusedGroteskRoman-VF.ttf",
+  variable: "--font-sans",
+  display: "swap",
+  weight: "100 900",
+  style: "normal",
 });
-
-const InstrumentSerif = Instrument_Serif({
-  weight: "400",
-  subsets: ["latin"],
-  variable: "--font-instrument",
-  display: 'swap',
-});
-
-const Merriweather_Font = Merriweather({
-  weight: "400",
-  subsets: ["latin"],
-  variable: "--font-merriweather",
-  display: "swap"
-})
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -118,20 +101,13 @@ export default function RootLayout({
           data-domain="witharc.co"
           src="https://datafa.st/js/script.js">
         </Script>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-        />
+        <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
       </head>
       <body
-        className={`${ManropeFont.variable} ${InstrumentSerif.variable} ${Merriweather_Font.variable} antialiased overflow-x-hidden bg-background font-manrope flex justify-center px-2 sm:px-6 md:px-10 lg:px-16 xl:px-24 2xl:px-72 py-6`}
+        className={`${OverusedGrotesk.variable}  antialiased overflow-x-hidden bg-background font-sans flex justify-center px-2 sm:px-6 md:px-10 lg:px-16 xl:px-20`}
       >
         <div className="w-full max-w-[1440px] relative flex flex-col min-h-screen border-l border-r border-gray-200 gap-12 overflow-x-hidden">
-          <Header/>
-          <LenisWrapper>
-            {children}
-          </LenisWrapper>
-          <Footer />
+          {children}
         </div>
       </body>
     </html>

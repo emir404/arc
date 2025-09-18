@@ -229,7 +229,7 @@ function Home() {
             </p>
             </div>
             <p className='text-6xl font-medium text-[#fefefe] tracking-[-0.02em]'>
-            $3497/mo
+            $3997/mo
             </p>
             </div>
             <div className='flex flex-col gap-4'>

@@ -190,7 +190,7 @@ function Home() {
 
             </div>
           </div>
-          <div className='flex flex-col justify-between px-4 py-8 sm:p-6 md:p-8 lg:p-12 xl:p-16 gap-12 border-r border-border w-full h-full'>
+          <div className='flex flex-col justify-between px-4 py-8 sm:p-6 md:p-8 lg:p-12 xl:p-16 gap-12 w-full h-full'>
             <p className='text-2xl font-medium text-[#202020] mb-16'>
             Emir is a talented designer with massive potential. He's both a developer and designer, making his skillset highly valuable for fast-moving teams.
             </p>

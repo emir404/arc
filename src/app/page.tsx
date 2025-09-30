@@ -160,66 +160,6 @@ function Home() {
       </div>
       <div className='flex flex-col gap-12 md:gap-16 border-border border-b border-t'>
         <div className='flex flex-col md:flex-row w-full'>
-          <div className='flex flex-col justify-between px-4 py-8 sm:p-6 md:p-8 lg:p-12 xl:p-16 gap-12 border-r border-border w-full h-full'>
-            <p className='text-2xl font-medium text-[#202020] mb-16'>
-            Dude, you should apply to Vercel
-            </p>
-            <div className='flex justify-between items-center'>
-              <div className='flex gap-4 items-center'>
-                <Image src="https://494510hkri.ufs.sh/f/3d9AyaVNUM8wFz3aPiEPMGNpU9kvXazwSY5JBur4xRVbDceI" alt="Image" width={120} height={120} draggable="false" className='size-16'/>
-                <div className='flex flex-col gap-0'>
-                  <p className='text-xl font-medium text-[#202020]'>
-                    Guillermo Rauch
-                  </p>
-                  <p className='text-lg text-[#737373]'>
-                    CEO at Vercel
-                  </p>
-                </div>
-              </div>
-              <svg width="56" height="49" viewBox="0 0 56 49" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <title>Vercel</title>
-              <g clip-path="url(#clip0_1042_2961)">
-              <path d="M28.3244 0.599609L56 48.5358H0.648682L28.3244 0.599609Z" fill="#999999"/>
-              </g>
-              <defs>
-              <clipPath id="clip0_1042_2961">
-              <rect width="55.3514" height="48" fill="white" transform="translate(0.648682 0.599609)"/>
-              </clipPath>
-              </defs>
-              </svg>
-
-            </div>
-          </div>
-          <div className='flex flex-col justify-between px-4 py-8 sm:p-6 md:p-8 lg:p-12 xl:p-16 gap-12 w-full h-full'>
-            <p className='text-2xl font-medium text-[#202020] mb-16'>
-            Emir is a talented designer with massive potential. He's both a developer and designer, making his skillset highly valuable for fast-moving teams.
-            </p>
-            <div className='flex justify-between items-center'>
-              <div className='flex gap-4 items-center'>
-                <Image src="https://494510hkri.ufs.sh/f/3d9AyaVNUM8wbohLVMBCqzLi02RGOd5NM3WkBlxSgAIyhVcU" alt="Image" width={120} height={120} draggable="false" className='size-16'/>
-                <div className='flex flex-col gap-0'>
-                  <p className='text-xl font-medium text-[#202020]'>
-                    Emir Karabeg
-                  </p>
-                  <p className='text-lg text-[#737373]'>
-                    CEO at Sim
-                  </p>
-                </div>
-              </div>
-              <svg width="74" height="37" viewBox="0 0 74 37" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <title>Sim</title>
-<path d="M0.17395 28.1654H5.10302C5.10302 29.5163 5.59593 30.5934 6.58175 31.3967C7.56756 32.1634 8.90024 32.5468 10.5798 32.5468C12.4054 32.5468 13.8111 32.2 14.7969 31.5062C15.7827 30.776 16.2756 29.8084 16.2756 28.6036C16.2756 27.7273 16.0018 26.997 15.4541 26.4129C14.9429 25.8287 13.9936 25.354 12.6062 24.9889L7.89617 23.8936C5.52291 23.3094 3.75209 22.4148 2.58372 21.2099C1.45186 20.0051 0.885928 18.4168 0.885928 16.4452C0.885928 14.8021 1.30581 13.3782 2.14558 12.1733C3.02186 10.9684 4.20849 10.0374 5.70547 9.38017C7.23896 8.72296 8.99152 8.39435 10.9631 8.39435C12.9348 8.39435 14.6326 8.74122 16.0565 9.43494C17.517 10.1287 18.6488 11.0962 19.4521 12.3376C20.2919 13.579 20.73 15.0577 20.7665 16.7738H15.8375C15.8009 15.3863 15.3445 14.3092 14.4683 13.5425C13.592 12.7758 12.3688 12.3924 10.7988 12.3924C9.19233 12.3924 7.95093 12.7392 7.07465 13.433C6.19837 14.1267 5.76023 15.076 5.76023 16.2809C5.76023 18.0699 7.07465 19.2931 9.70349 19.9503L14.4135 21.1004C16.6772 21.6116 18.375 22.4513 19.5069 23.6197C20.6387 24.7516 21.2047 26.3033 21.2047 28.275C21.2047 29.9545 20.7483 31.4332 19.8355 32.7111C18.9227 33.9525 17.663 34.9201 16.0565 35.6138C14.4865 36.271 12.6244 36.5996 10.4702 36.5996C7.33024 36.5996 4.82919 35.8329 2.96709 34.2994C1.105 32.7659 0.17395 30.7212 0.17395 28.1654Z" fill="#999999"/>
-<path d="M24.8295 35.9424V9.1611C26.8823 9.90612 27.7875 9.90612 29.9777 9.1611V35.9424H24.8295ZM27.3489 7.39078C26.4361 7.39078 25.6328 7.06217 24.9391 6.40496C24.2819 5.71124 23.9533 4.90798 23.9533 3.99519C23.9533 3.04589 24.2819 2.24263 24.9391 1.58542C25.6328 0.928214 26.4361 0.599609 27.3489 0.599609C28.2982 0.599609 29.1014 0.928214 29.7586 1.58542C30.4158 2.24263 30.7444 3.04589 30.7444 3.99519C30.7444 4.90798 30.4158 5.71124 29.7586 6.40496C29.1014 7.06217 28.2982 7.39078 27.3489 7.39078Z" fill="#999999"/>
-<path d="M39.0583 35.9424H33.9102V9.1611H38.5107V13.6798C39.0583 12.1829 40.1172 10.9137 41.5776 9.92784C43.0746 8.90552 44.882 8.39435 46.9996 8.39435C49.3729 8.39435 51.3445 9.03331 52.9145 10.3112C54.4845 11.5891 55.5068 13.2869 55.9815 15.4046H55.0505C55.4156 13.2869 56.4196 11.5891 58.0627 10.3112C59.7057 9.03331 61.7321 8.39435 64.1418 8.39435C67.2088 8.39435 69.6186 9.28889 71.3712 11.078C73.1237 12.867 74 15.3133 74 18.4168V35.9424H68.9614V19.6765C68.9614 17.5588 68.4137 15.934 67.3184 14.8022C66.2595 13.6338 64.8173 13.0496 62.9917 13.0496C61.7138 13.0496 60.582 13.3417 59.5961 13.9259C58.6468 14.4735 57.8984 15.2768 57.3507 16.3356C56.803 17.3945 56.5292 18.6359 56.5292 20.0598V35.9424H51.4358V19.6217C51.4358 17.504 50.9064 15.8975 49.8475 14.8022C48.7887 13.6703 47.3465 13.1044 45.5209 13.1044C44.243 13.1044 43.1111 13.3965 42.1253 13.9806C41.176 14.5283 40.4275 15.3316 39.8798 16.3904C39.3322 17.4127 39.0583 18.6359 39.0583 20.0598V35.9424Z" fill="#999999"/>
-</svg>
-
-
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className='flex flex-col gap-12 md:gap-16 border-border border-b border-t'>
-        <div className='flex flex-col md:flex-row w-full'>
           <div className='flex flex-col px-4 py-8 sm:p-6 md:p-8 lg:p-12 xl:p-16 gap-12 border-r border-border w-full'>
             <div className='gap-8 flex flex-col'>
             <div className='flex flex-col gap-3'>

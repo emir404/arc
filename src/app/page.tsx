@@ -255,7 +255,7 @@ function Home() {
               </div>
               <div className='flex items-center gap-2'>
                 <CheckIcon />
-                <p className='text-xl text-[#e5e5e5]'>Pause or resume anytime</p>
+                <p className='text-xl text-[#e5e5e5]'>Pause or resume anytime (non refundable)</p>
               </div>
               <div className='flex items-center gap-2'>
                 <CheckIcon />

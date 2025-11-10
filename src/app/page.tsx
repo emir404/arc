@@ -164,38 +164,38 @@ function Home() {
             <div className='gap-8 flex flex-col'>
             <div className='flex flex-col gap-3'>
             <p className='text-3xl font-medium'>
-              Landing Page
+              Custom Project
             </p>
             <p className='text-xl text-[#6b6b6b]'>
               Best for busy founders who want
               <br/>
-              to get a landing page done fast.
+              a tailored solution built from the ground up.
             </p>
             </div>
             <p className='text-6xl font-medium text-[#202020] tracking-[-0.02em]'>
-            $2295
+            Custom Quote
             </p>
             </div>
             <div className='flex flex-col gap-4'>
                 <div className='flex items-center gap-2'>
                   <CheckIcon />
-                  <p className='text-xl text-[#484848]'>Single Page</p>
+                  <p className='text-xl text-[#484848]'>Fully Personalized Scope</p>
                 </div>
                 <div className='flex items-center gap-2'>
                   <CheckIcon />
-                  <p className='text-xl text-[#484848]'>Conversion Optimized</p>
+                  <p className='text-xl text-[#484848]'>Conversion & Story-Driven Design</p>
                 </div>
                 <div className='flex items-center gap-2'>
                   <CheckIcon />
-                  <p className='text-xl text-[#484848]'>Animations</p>
+                  <p className='text-xl text-[#484848]'>Motion Design</p>
                 </div>
                 <div className='flex items-center gap-2'>
                   <CheckIcon />
-                  <p className='text-xl text-[#484848]'>Basic Copywriting</p>
+                  <p className='text-xl text-[#484848]'>Refined Messaging</p>
                 </div>
                 <div className='flex items-center gap-2'>
                   <CheckIcon />
-                  <p className='text-xl text-[#484848]'>7 Day Delivery</p>
+                  <p className='text-xl text-[#484848]'>Flexible Timeline</p>
                 </div>
                 <div className='flex items-center gap-2'>
                   <CheckIcon />
@@ -203,7 +203,7 @@ function Home() {
                 </div>
                 <div className='flex items-center gap-2'>
                   <CheckIcon />
-                  <p className='text-xl text-[#484848]'>3 Design Concepts</p>
+                  <p className='text-xl text-[#484848]'>Multiple Concept Rounds</p>
               </div>
               
             </div>
@@ -229,7 +229,7 @@ function Home() {
             </p>
             </div>
             <p className='text-6xl font-medium text-[#fefefe] tracking-[-0.02em]'>
-            $3497/mo
+            $4697/mo
             </p>
             </div>
             <div className='flex flex-col gap-4'>

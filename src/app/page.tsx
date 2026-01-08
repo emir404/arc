@@ -440,6 +440,7 @@ function Home() {
           className="w-28 h-auto"
         />
       </div>
+      {/*
       <div className="flex flex-col gap-12 md:gap-16 border-border border-b border-t">
         <div className="flex flex-col md:flex-row w-full">
           <div className="flex flex-col px-4 py-8 sm:p-6 md:p-8 lg:p-12 xl:p-16 gap-12 border-r border-border w-full">
@@ -566,6 +567,7 @@ function Home() {
           </div>
         </div>
       </div>
+      */}
       <div className="px-4 py-12 sm:px-6 md:px-8 lg:px-12 xl:px-16 flex flex-col border-border border-t">
         <p className="text-xl text-[#6b6b6b]">&copy; 2025 Arc Studio</p>
       </div>

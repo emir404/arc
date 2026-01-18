@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import Script from "next/script";
 import "./globals.css";
 
+import Header from "@/components/layout/header";
 
 const OverusedGrotesk = localFont({
   src: "../../public/OverusedGroteskRoman-VF.ttf",
@@ -24,19 +25,20 @@ export const viewport: Viewport = {
 const structuredData = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  "name": "Arc Creative Studio",
-  "url": "https://witharc.co",
-  "logo": "https://witharc.co/logo.png",
-  "description": "Arc is a global web Studio focused on blending innovation, creativity, and cutting-edge technology to craft unique, high-impact digital experiences.",
-  "contactPoint": {
+  name: "Arc Creative Studio",
+  url: "https://witharc.co",
+  logo: "https://witharc.co/logo.png",
+  description:
+    "Arc is a global web Studio focused on blending innovation, creativity, and cutting-edge technology to craft unique, high-impact digital experiences.",
+  contactPoint: {
     "@type": "ContactPoint",
-    "contactType": "customer service",
-    "email": "hello@witharc.co"
+    contactType: "customer service",
+    email: "hello@witharc.co",
   },
-  "sameAs": [
+  sameAs: [
     "https://instagram.com/witharc.co",
-    "https://linkedin.com/company/witharcstudio"
-  ]
+    "https://linkedin.com/company/witharcstudio",
+  ],
 };
 
 export const metadata: Metadata = {
@@ -44,8 +46,10 @@ export const metadata: Metadata = {
     default: "Arc • Creative Web Studio",
     template: "%s • Arc ",
   },
-  description: "Arc is a global web Studio focused on blending innovation, creativity, and cutting-edge technology to craft unique, high-impact digital experiences.",
-  keywords: "web Studio, creative Studio, web development, digital experiences, UI/UX design, web design, digital innovation",
+  description:
+    "Arc is a global web Studio focused on blending innovation, creativity, and cutting-edge technology to craft unique, high-impact digital experiences.",
+  keywords:
+    "web Studio, creative Studio, web development, digital experiences, UI/UX design, web design, digital innovation",
   authors: [{ name: "Arc Creative Studio" }],
   creator: "Arc Creative Studio",
   publisher: "Arc Creative Studio",
@@ -63,14 +67,16 @@ export const metadata: Metadata = {
     url: "https://witharc.co",
     images: ["https://witharc.co/thumbnail.png"],
     title: "Arc - Creative Web Studio",
-    description: "Arc is a global web studio focused on blending innovation, creativity, and cutting-edge technology to craft unique, high-impact digital experiences.",
+    description:
+      "Arc is a global web studio focused on blending innovation, creativity, and cutting-edge technology to craft unique, high-impact digital experiences.",
     siteName: "Arc Creative Studio",
   },
   twitter: {
     card: "summary_large_image",
     images: ["https://witharc.co/thumbnail.png"],
     title: "Arc - Creative Web Studio",
-    description: "Arc is a global web studio focused on blending innovation, creativity, and cutting-edge technology to craft unique, high-impact digital experiences.",
+    description:
+      "Arc is a global web studio focused on blending innovation, creativity, and cutting-edge technology to craft unique, high-impact digital experiences.",
   },
 };
 
@@ -99,16 +105,17 @@ export default function RootLayout({
           defer
           data-website-id="68165f18fba37b98f0bbc62f"
           data-domain="witharc.co"
-          src="https://datafa.st/js/script.js">
-        </Script>
-        <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
+          src="https://datafa.st/js/script.js"
+        ></Script>
+        <script type="application/ld+json">
+          {JSON.stringify(structuredData)}
+        </script>
       </head>
       <body
-        className={`${OverusedGrotesk.variable}  antialiased overflow-x-hidden bg-background font-sans flex justify-center px-2 sm:px-6 md:px-10 lg:px-16 xl:px-20`}
+        className={`${OverusedGrotesk.variable}  antialiased overflow-x-hidden bg-background font-sans`}
       >
-        <div className="w-full max-w-[1440px] relative flex flex-col min-h-screen border-l border-r border-gray-200 gap-12 overflow-x-hidden">
-          {children}
-        </div>
+        <Header />
+        {children}
       </body>
     </html>
   );

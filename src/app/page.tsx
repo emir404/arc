@@ -7,7 +7,7 @@ import Pricing from "@/components/sections/pricing";
 
 const Home = () => {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col overflow-x-hidden">
       <Hero />
       <Showreel />
       <About />

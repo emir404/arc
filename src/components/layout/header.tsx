@@ -13,7 +13,7 @@ const Header = () => {
           className="cursor-pointer"
           target="_blank"
         >
-          <Button variant="outline" className="cursor-pointer">
+          <Button variant="outline" className="cursor-pointer hidden md:flex">
             Send a message
           </Button>
         </Link>

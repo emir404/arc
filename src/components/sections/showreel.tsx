@@ -34,7 +34,7 @@ const Showreel = () => {
   return (
     <motion.div
       initial={{ filter: "blur(10px)", y: -20 }}
-      animate={{ filter: "blur(0px)", y: 0 }}
+      animate={{ filter: "none", y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut", delay: 0.6 }}
       className="flex flex-col w-full p-4 mb-16"
     >

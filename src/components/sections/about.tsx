@@ -10,7 +10,7 @@ const About = () => {
     <div className="flex flex-col gap-10 pb-16 px-5 md:px-12 lg:px-24 xl:px-32">
       <motion.p
         initial={{ filter: "blur(10px)", y: -20 }}
-        whileInView={{ filter: "blur(0px)", y: 0 }}
+        whileInView={{ filter: "none", y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6, ease: "easeOut" }}
         className="text-6xl font-medium tracking-tight max-w-4xl"
@@ -20,7 +20,7 @@ const About = () => {
       <div className="flex flex-col gap-6 text-xl text-muted-foreground max-w-2xl">
         <motion.p
           initial={{ filter: "blur(10px)", y: -20 }}
-          whileInView={{ filter: "blur(0px)", y: 0 }}
+          whileInView={{ filter: "none", y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
         >
@@ -32,7 +32,7 @@ const About = () => {
         </motion.p>
         <motion.p
           initial={{ filter: "blur(10px)", y: -20 }}
-          whileInView={{ filter: "blur(0px)", y: 0 }}
+          whileInView={{ filter: "none", y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: "easeOut", delay: 0.3 }}
         >
@@ -42,7 +42,7 @@ const About = () => {
         </motion.p>
         <motion.p
           initial={{ filter: "blur(10px)", y: -20 }}
-          whileInView={{ filter: "blur(0px)", y: 0 }}
+          whileInView={{ filter: "none", y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: "easeOut", delay: 0.4 }}
         >
@@ -55,7 +55,7 @@ const About = () => {
         </motion.p>
         <motion.p
           initial={{ filter: "blur(10px)", y: -20 }}
-          whileInView={{ filter: "blur(0px)", y: 0 }}
+          whileInView={{ filter: "none", y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: "easeOut", delay: 0.5 }}
         >
@@ -74,7 +74,7 @@ const About = () => {
         </motion.p>
         <motion.p
           initial={{ filter: "blur(10px)", y: -20 }}
-          whileInView={{ filter: "blur(0px)", y: 0 }}
+          whileInView={{ filter: "none", y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: "easeOut", delay: 0.6 }}
         >
@@ -85,7 +85,7 @@ const About = () => {
       </div>
       <motion.div
         initial={{ filter: "blur(10px)", y: -20 }}
-        whileInView={{ filter: "blur(0px)", y: 0 }}
+        whileInView={{ filter: "none", y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6, ease: "easeOut", delay: 0.7 }}
         className="rounded-3xl p-6 border-border border max-w-2xl gap-8 shadow-xs flex flex-col justify-between"

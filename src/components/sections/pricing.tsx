@@ -26,21 +26,21 @@ const Pricing = () => {
   return (
     <div className="flex w-full flex-col gap-10 pb-16 px-5 md:px-12 lg:px-24 xl:px-32">
       <motion.p
-        initial={{ filter: "blur(10px)", y: -20 }}
-        whileInView={{ filter: "none", y: 0 }}
+        initial={{ filter: "blur(10px)", opacity: 0, y: 20 }}
+        whileInView={{ filter: "blur(0px)", opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className="text-6xl font-medium tracking-tight max-w-4xl"
+        className="text-6xl font-medium tracking-tight max-w-4xl will-change-[filter] backface-hidden"
       >
         Simple ways to work with
       </motion.p>
       <div className="flex flex-col lg:flex-row lg:items-end w-full gap-5">
         <motion.div
-          initial={{ filter: "blur(10px)", y: -20 }}
-          whileInView={{ filter: "none", y: 0 }}
+          initial={{ filter: "blur(10px)", opacity: 0, y: 20 }}
+          whileInView={{ filter: "blur(0px)", opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
-          className="flex w-full h-[23rem] bg-[#101010] rounded-3xl p-6 flex-col gap-8"
+          className="flex w-full h-[23rem] bg-[#101010] rounded-3xl p-6 flex-col gap-8 will-change-[filter] backface-hidden"
         >
           <div className="flex flex-col gap-1">
             <p className="text-white text-3xl font-medium">Partnership</p>
@@ -83,11 +83,11 @@ const Pricing = () => {
           </div>
         </motion.div>
         <motion.div
-          initial={{ filter: "blur(10px)", y: -20 }}
-          whileInView={{ filter: "none", y: 0 }}
+          initial={{ filter: "blur(10px)", opacity: 0, y: 20 }}
+          whileInView={{ filter: "blur(0px)", opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: "easeOut", delay: 0.4 }}
-          className="flex w-full h-[23rem] border border-border shadow-xs rounded-3xl p-6 flex-col gap-8"
+          className="flex w-full h-[23rem] border border-border shadow-xs rounded-3xl p-6 flex-col gap-8 will-change-[filter] backface-hidden"
         >
           <div className="flex flex-col gap-1">
             <p className="text-foreground text-3xl font-medium">Sprint</p>

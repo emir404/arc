@@ -87,7 +87,7 @@ const Pricing = () => {
           whileInView={{ filter: "blur(0px)", y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: "easeOut", delay: 0.4 }}
-          className="flex w-full h-[21rem] border border-border shadow-xs rounded-3xl p-6 flex-col gap-4"
+          className="flex w-full h-[23rem] border border-border shadow-xs rounded-3xl p-6 flex-col gap-4"
         >
           <div className="flex flex-col gap-1">
             <p className="text-foreground text-3xl font-medium">Sprint</p>

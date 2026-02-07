@@ -69,7 +69,7 @@ const Pricing = () => {
           <div className="w-full flex justify-between">
             <div className="flex flex-col gap-0">
               <p className="font-medium text-white">Starting at</p>
-              <p className="text-3xl font-medium text-white">$5k/mo</p>
+              <p className="text-3xl font-medium text-white">$4.5k/mo</p>
             </div>
             <Link
               href={"https://cal.com/emirayaz"}

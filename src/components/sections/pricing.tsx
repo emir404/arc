@@ -59,7 +59,9 @@ const Pricing = () => {
             </div>
             <div className="flex gap-2 items-center">
               <CheckCircle2Icon className="text-white w-4 h-4" />
-              <p className="text-white font-medium">No code development</p>
+              <p className="text-white font-medium">
+                Custom code / No code development
+              </p>
             </div>
             <div className="flex gap-2 items-center">
               <CheckCircle2Icon className="text-white w-4 h-4" />

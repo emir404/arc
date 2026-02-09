@@ -5,6 +5,8 @@ import "./globals.css";
 
 import Header from "@/components/layout/header";
 
+import { Agentation } from "agentation";
+
 const OverusedGrotesk = localFont({
   src: "../../public/OverusedGroteskRoman-VF.ttf",
   variable: "--font-sans",
@@ -115,6 +117,9 @@ export default function RootLayout({
         className={`${OverusedGrotesk.variable}  antialiased overflow-x-hidden bg-background font-sans`}
       >
         <Header />
+        {process.env.NODE_ENV === "development" && (
+          <Agentation endpoint="http://127.0.0.1:4747" />
+        )}
         {children}
       </body>
     </html>

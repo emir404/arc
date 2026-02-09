@@ -147,3 +147,9 @@ Concise rules for building accessible, fast, delightful UIs. Use MUST/SHOULD/NEV
 - MUST: Increase contrast on `:hover`/`:active`/`:focus`
 - SHOULD: Match browser UI to bg
 - SHOULD: Avoid dark color gradient banding (use background images when needed)
+
+## Annotation
+
+When I say "watch mode", call agentation_watch_annotations in a loop.
+For each annotation: acknowledge it, make the fix, then resolve it with a summary.
+Continue watching until I say stop or timeout is reached.

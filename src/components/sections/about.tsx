@@ -10,7 +10,20 @@ const testimonials = [
     quote:
       "Emir is a talented designer with massive potential. He\u2019s both a developer and designer, making his skillset highly valuable for fast-moving teams.",
     name: "Emir Karabeg",
-    role: "CEO, Sim (YC\u00a0X25)",
+    role: (
+      <>
+        CEO,{" "}
+        <a
+          href="https://sim.ai"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline decoration-muted-foreground/50 underline-offset-2 hover:decoration-muted-foreground transition-colors"
+        >
+          Sim
+        </a>
+        {" "}(YC&nbsp;X25)
+      </>
+    ),
     image:
       "https://494510hkri.ufs.sh/f/3d9AyaVNUM8wAWpSXJiXFHyYdLri97MVlCEIpf80RoNbWOnm",
   },
@@ -18,14 +31,40 @@ const testimonials = [
     quote:
       "Emir is a fantastic person and an excellent professional. He is one of the best designers I have ever worked with. His work with Tesseract is incredible, those sharp edges impress me every single day. + rep",
     name: "Vicente Sanchez",
-    role: "Founder of Tesseract, SWE",
+    role: (
+      <>
+        Founder of{" "}
+        <a
+          href="https://x.com/usetesseract"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline decoration-muted-foreground/50 underline-offset-2 hover:decoration-muted-foreground transition-colors"
+        >
+          Tesseract
+        </a>
+        , SWE
+      </>
+    ),
     image: "/vicente.jpg",
   },
   {
     quote:
-      "Emir took our rough reference drawings and turned it into a beautiful design. His amazing work emphasized the uniqueness of our brand while prioritizing the UX. Every customer we onboard compliments the style of our app!",
+      "Emir's amazing work emphasized the uniqueness of our brand while prioritizing the UX. Every customer we onboard compliments the style of our app!",
     name: "Shreyash Nigam",
-    role: "CEO, Chonkie (YC\u00a0X25)",
+    role: (
+      <>
+        CEO,{" "}
+        <a
+          href="https://chonkie.ai"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline decoration-muted-foreground/50 underline-offset-2 hover:decoration-muted-foreground transition-colors"
+        >
+          Chonkie
+        </a>
+        {" "}(YC&nbsp;X25)
+      </>
+    ),
     image: "/shreyash.jpg",
   },
 ];
@@ -141,7 +180,7 @@ const About = () => {
         whileInView={{ filter: "blur(0px)", opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6, ease: "easeOut", delay: 0.7 }}
-        className="rounded-3xl p-6 border-border border max-w-2xl shadow-xs flex flex-col gap-6 will-change-[filter] backface-hidden h-[200px] overflow-hidden relative"
+        className="rounded-3xl p-6 border-border border max-w-2xl shadow-xs flex flex-col gap-6 will-change-[filter] backface-hidden h-72 lg:h-52 overflow-hidden relative"
       >
         <div className="flex-1 min-h-0">
           <AnimatePresence mode="popLayout">

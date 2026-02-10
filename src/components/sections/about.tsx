@@ -23,7 +23,7 @@ const testimonials = [
   },
   {
     quote:
-      "Emir is a rare designer who can think, design, and build. He took Chonkie from early concept to a real, shipped product, including Chonkie News and our website. Fast, sharp, and deeply thoughtful about product.",
+      "Emir took our rough reference drawings and turned it into a beautiful design. His amazing work emphasized the uniqueness of our brand while prioritizing the UX. Every customer we onboard compliments the style of our app!",
     name: "Shreyash Nigam",
     role: "CEO, Chonkie (YC\u00a0X25)",
     image: "/shreyash.jpg",

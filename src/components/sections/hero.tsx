@@ -21,9 +21,9 @@ const LOGOS: LogoDef[] = [
   { name: "AgentMail", src: "/brands/agentmail.svg", width: 219, height: 40 },
   { name: "Dot", src: "/brands/dot.svg", width: 114, height: 40 },
   { name: "Fontface", src: "/brands/fontface.svg", width: 169, height: 40 },
-  { name: "Parrychain", src: "/brands/parrychain.svg", width: 211, height: 25 },
+  { name: "Tesseract", src: "/brands/tesseract.svg", width: 180, height: 50 },
   { name: "Someone", src: "/brands/someone.svg", width: 176, height: 30 },
-  { name: "Tesseract", src: "/brands/tesseract.svg", width: 162, height: 45 },
+  { name: "Parrychain", src: "/brands/parrychain.svg", width: 211, height: 25 },
 ];
 
 // ── Carousel constants ──────────────────────────────────────────────
@@ -141,7 +141,7 @@ const Hero = () => {
         initial={{ filter: "blur(10px)", opacity: 0, y: 20 }}
         animate={{ filter: "blur(0px)", opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: "easeOut", delay: 0.3 }}
-        className="flex items-center gap-6 will-change-[filter] backface-hidden"
+        className="flex items-center gap-2 will-change-[filter] backface-hidden"
       >
         {Array.from({ length: SLOT_COUNT }, (_, i) => (
           <LogoSlot key={i} slotIndex={i} />

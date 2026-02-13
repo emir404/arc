@@ -5,7 +5,7 @@ interface LogoProps {
   fill?: string;
 }
 
-function Logo({ className, fill = "#000000" }: LogoProps) {
+function Logo({ className, fill = "currentColor" }: LogoProps) {
   return (
     <svg
       className={className}

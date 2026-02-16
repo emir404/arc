@@ -1,12 +1,14 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 
 const IMAGE_LINKS = [
   "https://494510hkri.ufs.sh/f/3d9AyaVNUM8w36URyDVNUM8wsF1VBZOHcvIdTi9DhgQ7Rpmu",
+  "https://494510hkri.ufs.sh/f/3d9AyaVNUM8wtc1hUFMYZjvNFCAUWr1ncwPQR7T4hm8pI5kV",
   "https://494510hkri.ufs.sh/f/3d9AyaVNUM8wOqI2ETkCmxdvfqiDUQANc63RleuKp0a1ygHt",
   "https://494510hkri.ufs.sh/f/3d9AyaVNUM8wmo2TwcaI0TuRiKvWN36gjOJDhEzkplXCmeAY",
   "https://494510hkri.ufs.sh/f/3d9AyaVNUM8wEwPxiMqhFvnVqJMwHyLro5RN9sWceEY6Dgpl",
@@ -22,6 +24,9 @@ const IMAGE_LINKS = [
 
 const Showreel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isHovering, setIsHovering] = useState(false);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const containerRef = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -31,31 +36,66 @@ const Showreel = () => {
     return () => clearInterval(interval);
   }, []);
 
+  const handleMouseMove = (e: React.MouseEvent) => {
+    setMousePos({ x: e.clientX, y: e.clientY });
+  };
+
   return (
-    <motion.div
-      initial={{ filter: "blur(10px)", opacity: 0, y: 20 }}
-      animate={{ filter: "blur(0px)", opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, ease: "easeOut", delay: 0.6 }}
-      className="flex flex-col w-full p-4 mb-16 will-change-[filter] backface-hidden"
-    >
-      <div className="h-96 md:p-12 lg:p-16 xl:p-24 md:h-[64rem] items-center justify-center flex items-center justify-center bg-[#f9f9f9]">
-        <div className="relative w-full h-full overflow-hidden">
-          {IMAGE_LINKS.map((src, index) => (
-            <Image
-              key={src}
-              src={src}
-              alt={`Showreel image ${index + 1}`}
-              fill
-              draggable={false}
-              className={`object-contain ${
-                index === currentIndex ? "opacity-100" : "opacity-0"
-              }`}
-              priority={index === 0}
-            />
-          ))}
-        </div>
-      </div>
-    </motion.div>
+    <>
+      <motion.div
+        initial={{ filter: "blur(10px)", opacity: 0, y: 20 }}
+        animate={{ filter: "blur(0px)", opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut", delay: 0.6 }}
+        className="flex flex-col w-full p-4 mb-16 will-change-[filter] backface-hidden"
+      >
+        <Link
+          href="/works"
+          ref={containerRef}
+          onMouseEnter={(e) => {
+            setMousePos({ x: e.clientX, y: e.clientY });
+            setIsHovering(true);
+          }}
+          onMouseLeave={() => setIsHovering(false)}
+          onMouseMove={handleMouseMove}
+          className="h-96 md:p-12 lg:p-16 xl:p-24 md:h-[64rem] items-center justify-center flex items-center justify-center bg-[#f9f9f9]"
+          style={{ cursor: isHovering ? "none" : undefined }}
+        >
+          <div className="relative w-full h-full overflow-hidden">
+            {IMAGE_LINKS.map((src, index) => (
+              <Image
+                key={src}
+                src={src}
+                alt={`Showreel image ${index + 1}`}
+                fill
+                draggable={false}
+                className={`object-contain ${
+                  index === currentIndex ? "opacity-100" : "opacity-0"
+                }`}
+                priority={index === 0}
+              />
+            ))}
+          </div>
+        </Link>
+      </motion.div>
+
+      <AnimatePresence>
+        {isHovering && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.6, filter: "blur(4px)", x: "-50%", y: "-50%" }}
+            animate={{ opacity: 1, scale: 1, filter: "blur(0px)", x: "-50%", y: "-50%" }}
+            exit={{ opacity: 0, scale: 0.6, filter: "blur(4px)", x: "-50%", y: "-50%" }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            className="pointer-events-none fixed z-50 flex items-center justify-center rounded-full bg-black px-5 py-2.5 text-sm font-medium text-white"
+            style={{
+              left: mousePos.x,
+              top: mousePos.y,
+            }}
+          >
+            View works
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 };
 

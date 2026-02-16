@@ -61,6 +61,54 @@
     }
 }
 
+@property --background {
+    syntax: '<color>';
+    inherits: true;
+    initial-value: oklch(0.997 0 0);
+}
+
+@property --foreground {
+    syntax: '<color>';
+    inherits: true;
+    initial-value: oklch(0.145 0 0);
+}
+
+@property --muted-foreground {
+    syntax: '<color>';
+    inherits: true;
+    initial-value: oklch(0.556 0 0);
+}
+
+@property --border {
+    syntax: '<color>';
+    inherits: true;
+    initial-value: oklch(0.922 0 0);
+}
+
+@property --primary {
+    syntax: '<color>';
+    inherits: true;
+    initial-value: oklch(0.205 0 0);
+}
+
+@property --primary-foreground {
+    syntax: '<color>';
+    inherits: true;
+    initial-value: oklch(0.985 0 0);
+}
+
+@property --input {
+    syntax: '<color>';
+    inherits: true;
+    initial-value: oklch(0.922 0 0);
+}
+
+@property --ring {
+    syntax: '<color>';
+    inherits: true;
+    initial-value: oklch(0.708 0 0);
+}
+
 :root {
     --radius: 0.625rem;
     --background: oklch(0.997 0 0);
@@ -133,6 +181,17 @@
 @layer base {
     * {
         @apply border-border outline-ring/50;
+    }
+    html {
+        transition:
+            --background 0.3s ease,
+            --foreground 0.3s ease,
+            --muted-foreground 0.3s ease,
+            --border 0.3s ease,
+            --primary 0.3s ease,
+            --primary-foreground 0.3s ease,
+            --input 0.3s ease,
+            --ring 0.3s ease;
     }
     body {
         @apply bg-background text-foreground;

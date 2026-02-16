@@ -27,11 +27,11 @@ export const viewport: Viewport = {
 const structuredData = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "Arc Creative Studio",
+  name: "Arc Studio",
   url: "https://witharc.co",
   logo: "https://witharc.co/logo.png",
   description:
-    "Arc is a global web Studio focused on blending innovation, creativity, and cutting-edge technology to craft unique, high-impact digital experiences.",
+    "Arc is a global Studio focused on blending innovation, creativity, and cutting-edge technology to craft unique, high-impact digital experiences.",
   contactPoint: {
     "@type": "ContactPoint",
     contactType: "customer service",
@@ -45,16 +45,16 @@ const structuredData = {
 
 export const metadata: Metadata = {
   title: {
-    default: "Arc • Creative Web Studio",
+    default: "Arc • Creative Studio",
     template: "%s • Arc ",
   },
   description:
-    "Arc is a global web Studio focused on blending innovation, creativity, and cutting-edge technology to craft unique, high-impact digital experiences.",
+    "Arc is a global Studio focused on blending innovation, creativity, and cutting-edge technology to craft unique, high-impact digital experiences.",
   keywords:
     "web Studio, creative Studio, web development, digital experiences, UI/UX design, web design, digital innovation",
-  authors: [{ name: "Arc Creative Studio" }],
-  creator: "Arc Creative Studio",
-  publisher: "Arc Creative Studio",
+  authors: [{ name: "Arc Studio" }],
+  creator: "Arc Studio",
+  publisher: "Arc Studio",
   robots: {
     index: true,
     follow: true,
@@ -70,15 +70,15 @@ export const metadata: Metadata = {
     images: ["https://witharc.co/thumbnail.png"],
     title: "Arc - Creative Web Studio",
     description:
-      "Arc is a global web studio focused on blending innovation, creativity, and cutting-edge technology to craft unique, high-impact digital experiences.",
-    siteName: "Arc Creative Studio",
+      "Arc is a global studio focused on blending innovation, creativity, and cutting-edge technology to craft unique, high-impact digital experiences.",
+    siteName: "Arc Studio",
   },
   twitter: {
     card: "summary_large_image",
     images: ["https://witharc.co/thumbnail.png"],
-    title: "Arc - Creative Web Studio",
+    title: "Arc - Creative Studio",
     description:
-      "Arc is a global web studio focused on blending innovation, creativity, and cutting-edge technology to craft unique, high-impact digital experiences.",
+      "Arc is a global studio focused on blending innovation, creativity, and cutting-edge technology to craft unique, high-impact digital experiences.",
   },
 };
 
@@ -103,12 +103,6 @@ export default function RootLayout({
             gtag('config', 'G-L6GMH3LB5W');
           `}
         </Script>
-        <Script
-          defer
-          data-website-id="68165f18fba37b98f0bbc62f"
-          data-domain="witharc.co"
-          src="https://datafa.st/js/script.js"
-        ></Script>
         <script type="application/ld+json">
           {JSON.stringify(structuredData)}
         </script>

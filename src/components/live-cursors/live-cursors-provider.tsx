@@ -28,6 +28,7 @@ export function LiveCursorsProvider({ children }: { children: ReactNode }) {
   return (
     <LiveblocksProvider publicApiKey={PUBLIC_KEY} throttle={16}>
       <RoomProvider
+        key={roomId}
         id={roomId}
         initialPresence={{ cursor: null, name: "", color: "" }}
       >

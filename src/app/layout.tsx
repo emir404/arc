@@ -1,9 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
+import { GeistMono } from "geist/font/mono";
 import Script from "next/script";
 import "./globals.css";
 
 import Header from "@/components/layout/header";
+import { LiveCursorsProvider } from "@/components/live-cursors/live-cursors-provider";
 
 import { Agentation } from "agentation";
 
@@ -108,13 +110,15 @@ export default function RootLayout({
         </script>
       </head>
       <body
-        className={`${OverusedGrotesk.variable}  antialiased overflow-x-hidden bg-background font-sans`}
+        className={`${OverusedGrotesk.variable} ${GeistMono.variable} antialiased overflow-x-hidden bg-background font-sans`}
       >
-        <Header />
-        {process.env.NODE_ENV === "development" && (
-          <Agentation endpoint="http://127.0.0.1:4747" />
-        )}
-        {children}
+        <LiveCursorsProvider>
+          <Header />
+          {process.env.NODE_ENV === "development" && (
+            <Agentation endpoint="http://127.0.0.1:4747" />
+          )}
+          {children}
+        </LiveCursorsProvider>
       </body>
     </html>
   );

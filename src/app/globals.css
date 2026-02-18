@@ -179,6 +179,7 @@
 }
 
 /* Hide Liveblocks free-tier badge */
+#liveblocks-badge,
 [data-liveblocks-portal] {
   display: none !important;
 }

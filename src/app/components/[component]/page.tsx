@@ -1,17 +1,34 @@
 import fs from "node:fs";
 import path from "node:path";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { codeToHtml } from "shiki";
 import { LogoCarousel } from "@/components/ui/logo-carousel";
 import { ComponentDetail } from "./component-detail";
 
-const COMPONENTS: Record<string, { title: string; file: string; preview: React.ReactNode }> = {
+const COMPONENTS: Record<string, { title: string; description: string; file: string; preview: React.ReactNode }> = {
   "logo-carousel": {
     title: "Logo Carousel",
+    description: "Animated logo carousel with staggered cycling, image preloading, and reduced-motion support.",
     file: "src/components/ui/logo-carousel.tsx",
     preview: <LogoCarousel />,
   },
 };
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ component: string }>;
+}): Promise<Metadata> {
+  const { component } = await params;
+  const entry = COMPONENTS[component];
+  if (!entry) return {};
+
+  return {
+    title: entry.title,
+    description: entry.description,
+  };
+}
 
 export function generateStaticParams() {
   return Object.keys(COMPONENTS).map((component) => ({ component }));

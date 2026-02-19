@@ -5,7 +5,7 @@ import Link from "next/link";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { cn } from "@/lib/utils";
 
-// ── Logo definitions ────────────────────────────────────────────────
+// ── Types ───────────────────────────────────────────────────────────
 
 interface LogoDef {
   name: string;
@@ -14,6 +14,8 @@ interface LogoDef {
   width: number;
   height: number;
 }
+
+// ── Logo data ───────────────────────────────────────────────────────
 
 const LOGOS: LogoDef[] = [
   { name: "Lantern", src: "/brands/lantern.svg", url: "https://withlantern.com", width: 186, height: 40 },
@@ -27,16 +29,22 @@ const LOGOS: LogoDef[] = [
   { name: "Parrychain", src: "/brands/parrychain.svg", url: "https://parrychain.ai", width: 211, height: 25 },
 ];
 
-const LOGO_SRCS = LOGOS.map((l) => l.src);
+// ── Constants ───────────────────────────────────────────────────────
 
-// ── Carousel constants ──────────────────────────────────────────────
-
-const SLOT_WIDTH = Math.max(...LOGOS.map((l) => l.width));
-const SLOT_HEIGHT = Math.max(...LOGOS.map((l) => l.height));
 const SLOT_COUNT = 3;
+const SLOT_HEIGHT = Math.max(...LOGOS.map((l) => l.height));
 const INITIAL_DELAY = 2500;
 const SLOT_STAGGER = 150;
 const CYCLE_INTERVAL = 3000;
+
+/** Logos assigned to each slot (round-robin). */
+const SLOT_LOGOS = Array.from({ length: SLOT_COUNT }, (_, slot) =>
+  LOGOS.filter((_, i) => i % SLOT_COUNT === slot),
+);
+
+const SLOT_WIDTH = 240;
+
+const LOGO_SRCS = LOGOS.map((l) => l.src);
 
 // ── Hooks ───────────────────────────────────────────────────────────
 
@@ -70,7 +78,7 @@ function useImagesPreloaded(srcs: readonly string[]): boolean {
 }
 
 /**
- * Cycles through logos assigned to `slotIndex` (round-robin across slots).
+ * Cycles through logos assigned to a slot.
  * Pauses when the tab is hidden so staggered delays stay in sync on return.
  */
 function useLogoCarousel(
@@ -80,8 +88,8 @@ function useLogoCarousel(
 ) {
   const [step, setStep] = useState(0);
 
-  const slotLogos = LOGOS.filter((_, i) => i % SLOT_COUNT === slotIndex);
-  const logoIndex = LOGOS.indexOf(slotLogos[step % slotLogos.length]);
+  const logos = SLOT_LOGOS[slotIndex];
+  const current = logos[step % logos.length];
 
   useEffect(() => {
     if (!enabled) return;
@@ -105,18 +113,12 @@ function useLogoCarousel(
     };
 
     const onVisibilityChange = () => {
-      if (document.hidden) {
-        pause();
-      } else {
-        schedule(remaining);
-      }
+      if (document.hidden) pause();
+      else schedule(remaining);
     };
 
     document.addEventListener("visibilitychange", onVisibilityChange);
-
-    if (!document.hidden) {
-      schedule(remaining);
-    }
+    if (!document.hidden) schedule(remaining);
 
     return () => {
       if (timeoutId != null) clearTimeout(timeoutId);
@@ -124,7 +126,7 @@ function useLogoCarousel(
     };
   }, [enabled, step, initialDelay]);
 
-  return { logoIndex, hasCycled: step > 0 };
+  return { current, hasCycled: step > 0 };
 }
 
 // ── LogoSlot ────────────────────────────────────────────────────────
@@ -139,21 +141,41 @@ function LogoSlot({
   disableLinks?: boolean;
 }) {
   const reducedMotion = useReducedMotion();
-  const { logoIndex, hasCycled } = useLogoCarousel(
+  const { current: logo, hasCycled } = useLogoCarousel(
     slotIndex,
     INITIAL_DELAY + slotIndex * SLOT_STAGGER,
     enabled,
   );
-  const logo = LOGOS[logoIndex];
+
+  const imgEl = (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={logo.src}
+      alt={disableLinks ? logo.name : ""}
+      width={logo.width}
+      height={logo.height}
+      className={cn(
+        "brightness-0 opacity-40 dark:invert",
+        !disableLinks && "transition-opacity duration-200 hover:opacity-60",
+      )}
+    />
+  );
 
   return (
     <div
+      role="group"
+      aria-roledescription="slide"
+      aria-label={logo.name}
       className="overflow-hidden flex items-center justify-center"
-      style={{ width: SLOT_WIDTH, height: SLOT_HEIGHT + 40, marginBlock: -20 }}
+      style={{
+        width: SLOT_WIDTH,
+        height: SLOT_HEIGHT + 40,
+        marginBlock: -20,
+      }}
     >
       <AnimatePresence mode="popLayout" initial={false}>
         <motion.div
-          key={logoIndex}
+          key={logo.name}
           initial={
             !hasCycled
               ? false
@@ -175,29 +197,15 @@ function LogoSlot({
           className="flex items-center justify-center will-change-[filter] backface-hidden"
         >
           {disableLinks ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={logo.src}
-              alt={logo.name}
-              width={logo.width}
-              height={logo.height}
-              className="brightness-0 opacity-40 dark:invert"
-            />
+            imgEl
           ) : (
             <Link
               href={`${logo.url}?ref=arc`}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label={logo.name}
+              aria-label={`${logo.name} (opens in new tab)`}
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={logo.src}
-                alt={logo.name}
-                width={logo.width}
-                height={logo.height}
-                className="brightness-0 opacity-40 dark:invert transition-opacity duration-200 hover:opacity-60"
-              />
+              {imgEl}
             </Link>
           )}
         </motion.div>
@@ -219,13 +227,21 @@ export function LogoCarousel({
 
   return (
     <motion.div
+      role="region"
+      aria-roledescription="carousel"
+      aria-label="Companies we've partnered with"
       initial={{ opacity: 0 }}
       animate={{ opacity: allLoaded ? 1 : 0 }}
       transition={{ duration: 0.4, ease: "easeOut" }}
-      className={cn("flex items-center gap-2", className)}
+      className={cn("flex items-center gap-4", className)}
     >
       {Array.from({ length: SLOT_COUNT }, (_, i) => (
-        <LogoSlot key={i} slotIndex={i} enabled={allLoaded} disableLinks={disableLinks} />
+        <LogoSlot
+          key={i}
+          slotIndex={i}
+          enabled={allLoaded}
+          disableLinks={disableLinks}
+        />
       ))}
     </motion.div>
   );

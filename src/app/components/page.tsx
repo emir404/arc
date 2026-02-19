@@ -1,5 +1,12 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { LogoCarousel } from "@/components/ui/logo-carousel";
+
+export const metadata: Metadata = {
+  title: "Components",
+  description:
+    "Open-source UI components by Arc. Browse, preview, and install with the shadcn CLI.",
+};
 
 const COMPONENTS = [
   { slug: "logo-carousel", title: "Logo Carousel", preview: <LogoCarousel disableLinks /> },

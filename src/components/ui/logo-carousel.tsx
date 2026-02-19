@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { cn } from "@/lib/utils";
@@ -31,22 +31,42 @@ const LOGOS: LogoDef[] = [
 
 // ── Constants ───────────────────────────────────────────────────────
 
-const SLOT_COUNT = 3;
+const SLOT_WIDTH = 240;
 const SLOT_HEIGHT = Math.max(...LOGOS.map((l) => l.height));
 const INITIAL_DELAY = 2500;
 const SLOT_STAGGER = 150;
 const CYCLE_INTERVAL = 3000;
 
-/** Logos assigned to each slot (round-robin). */
-const SLOT_LOGOS = Array.from({ length: SLOT_COUNT }, (_, slot) =>
-  LOGOS.filter((_, i) => i % SLOT_COUNT === slot),
-);
-
-const SLOT_WIDTH = 240;
-
 const LOGO_SRCS = LOGOS.map((l) => l.src);
 
 // ── Hooks ───────────────────────────────────────────────────────────
+
+/** Returns responsive slot count: 1 on mobile, 2 on tablet, 3 on desktop. */
+function useSlotCount(): number {
+  const [count, setCount] = useState(3);
+
+  useEffect(() => {
+    const mqMd = window.matchMedia("(min-width: 768px)");
+    const mqLg = window.matchMedia("(min-width: 1024px)");
+
+    const update = () => {
+      if (mqLg.matches) setCount(3);
+      else if (mqMd.matches) setCount(2);
+      else setCount(1);
+    };
+
+    update();
+    mqMd.addEventListener("change", update);
+    mqLg.addEventListener("change", update);
+
+    return () => {
+      mqMd.removeEventListener("change", update);
+      mqLg.removeEventListener("change", update);
+    };
+  }, []);
+
+  return count;
+}
 
 /** Resolves `true` once every image in `srcs` has loaded (or errored). */
 function useImagesPreloaded(srcs: readonly string[]): boolean {
@@ -78,17 +98,15 @@ function useImagesPreloaded(srcs: readonly string[]): boolean {
 }
 
 /**
- * Cycles through logos assigned to a slot.
+ * Cycles through a list of logos.
  * Pauses when the tab is hidden so staggered delays stay in sync on return.
  */
-function useLogoCarousel(
-  slotIndex: number,
+function useLogoCycle(
+  logos: LogoDef[],
   initialDelay: number,
   enabled: boolean,
 ) {
   const [step, setStep] = useState(0);
-
-  const logos = SLOT_LOGOS[slotIndex];
   const current = logos[step % logos.length];
 
   useEffect(() => {
@@ -145,19 +163,21 @@ const variantStyles: Record<CarouselVariant, { base: string; interactive: string
 };
 
 function LogoSlot({
+  logos,
   slotIndex,
   enabled,
   disableLinks,
   variant = "muted",
 }: {
+  logos: LogoDef[];
   slotIndex: number;
   enabled: boolean;
   disableLinks?: boolean;
   variant?: CarouselVariant;
 }) {
   const reducedMotion = useReducedMotion();
-  const { current: logo, hasCycled } = useLogoCarousel(
-    slotIndex,
+  const { current: logo, hasCycled } = useLogoCycle(
+    logos,
     INITIAL_DELAY + slotIndex * SLOT_STAGGER,
     enabled,
   );
@@ -239,6 +259,15 @@ export function LogoCarousel({
   variant?: CarouselVariant;
 }) {
   const allLoaded = useImagesPreloaded(LOGO_SRCS);
+  const slotCount = useSlotCount();
+
+  const slotLogos = useMemo(
+    () =>
+      Array.from({ length: slotCount }, (_, slot) =>
+        LOGOS.filter((_, i) => i % slotCount === slot),
+      ),
+    [slotCount],
+  );
 
   return (
     <motion.div
@@ -250,9 +279,10 @@ export function LogoCarousel({
       transition={{ duration: 0.4, ease: "easeOut" }}
       className={cn("flex items-center gap-4", className)}
     >
-      {Array.from({ length: SLOT_COUNT }, (_, i) => (
+      {slotLogos.map((logos, i) => (
         <LogoSlot
           key={i}
+          logos={logos}
           slotIndex={i}
           enabled={allLoaded}
           disableLinks={disableLinks}

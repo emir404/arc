@@ -99,7 +99,7 @@ export function ComponentDetail({
       <motion.div
         {...blurIn}
         transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
-        className="flex bg-neutral-100 rounded-3xl md:h-[36rem] items-center justify-center relative will-change-[filter] backface-hidden"
+        className="flex bg-neutral-100 rounded-3xl h-[12rem] md:h-[36rem] items-center justify-center relative overflow-hidden will-change-[filter] backface-hidden"
       >
         <p className="font-mono text-[#909090] tracking-wider uppercase absolute top-8 left-8 font-medium">
           {title}

@@ -29,12 +29,13 @@ const Showreel = () => {
   const containerRef = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
+    if (isHovering) return;
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % IMAGE_LINKS.length);
     }, 3000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [isHovering]);
 
   const handleMouseMove = (e: React.MouseEvent) => {
     setMousePos({ x: e.clientX, y: e.clientY });
@@ -57,7 +58,7 @@ const Showreel = () => {
           }}
           onMouseLeave={() => setIsHovering(false)}
           onMouseMove={handleMouseMove}
-          className="h-96 md:p-12 lg:p-16 xl:p-24 md:h-[64rem] items-center justify-center flex items-center justify-center bg-[#f9f9f9] relative"
+          className="h-96 md:p-12 lg:p-16 xl:p-24 md:h-[64rem] flex items-center justify-center bg-[#f9f9f9] relative"
           style={{ cursor: isHovering ? "none" : undefined }}
         >
           <motion.div
@@ -96,32 +97,13 @@ const Showreel = () => {
       <AnimatePresence>
         {isHovering && (
           <motion.div
-            initial={{
-              opacity: 0,
-              scale: 0.6,
-              filter: "blur(4px)",
-              x: "-50%",
-              y: "-50%",
-            }}
-            animate={{
-              opacity: 1,
-              scale: 1,
-              filter: "blur(0px)",
-              x: "-50%",
-              y: "-50%",
-            }}
-            exit={{
-              opacity: 0,
-              scale: 0.6,
-              filter: "blur(4px)",
-              x: "-50%",
-              y: "-50%",
-            }}
+            initial={{ opacity: 0, scale: 0.6, filter: "blur(4px)" }}
+            animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+            exit={{ opacity: 0, scale: 0.6, filter: "blur(4px)" }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className="pointer-events-none fixed z-50 flex items-center justify-center rounded-full bg-black px-5 py-2.5 text-sm font-medium text-white"
+            className="pointer-events-none fixed left-0 top-0 z-50 flex items-center justify-center rounded-full bg-black px-5 py-2.5 text-sm font-medium text-white will-change-transform"
             style={{
-              left: mousePos.x,
-              top: mousePos.y,
+              translate: `calc(${mousePos.x}px - 50%) calc(${mousePos.y}px - 50%)`,
             }}
           >
             View works

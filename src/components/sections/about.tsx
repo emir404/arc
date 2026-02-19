@@ -74,6 +74,7 @@ const ROTATION_INTERVAL = 5000;
 const About = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [progressKey, setProgressKey] = useState(0);
+  const [paused, setPaused] = useState(false);
   const timeoutRef = useRef<ReturnType<typeof setTimeout>>(null);
 
   const advance = useCallback(() => {
@@ -87,15 +88,16 @@ const About = () => {
   }, []);
 
   useEffect(() => {
+    if (paused) return;
     timeoutRef.current = setTimeout(advance, ROTATION_INTERVAL);
     return () => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
-  }, [advance, progressKey]);
+  }, [advance, progressKey, paused]);
 
   return (
     <div className="flex flex-col gap-10 pb-16 px-5 md:px-12 lg:px-24 xl:px-32">
-      <motion.p
+      <motion.h2
         initial={{ filter: "blur(10px)", opacity: 0, y: 20 }}
         whileInView={{ filter: "blur(0px)", opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -103,7 +105,7 @@ const About = () => {
         className="text-6xl font-medium tracking-tight max-w-4xl will-change-[filter] backface-hidden"
       >
         From ideas to brands, products, websites, and experiences.
-      </motion.p>
+      </motion.h2>
       <div className="flex flex-col gap-6 text-xl text-muted-foreground max-w-2xl">
         <motion.p
           initial={{ filter: "blur(10px)", opacity: 0, y: 20 }}
@@ -181,6 +183,12 @@ const About = () => {
         viewport={{ once: true }}
         transition={{ duration: 0.6, ease: "easeOut", delay: 0.7 }}
         className="rounded-3xl p-6 border-border border max-w-2xl shadow-xs flex flex-col gap-6 will-change-[filter] backface-hidden h-72 lg:h-52 overflow-hidden relative"
+        onMouseEnter={() => setPaused(true)}
+        onMouseLeave={() => setPaused(false)}
+        onFocus={() => setPaused(true)}
+        onBlur={(e) => {
+          if (!e.currentTarget.contains(e.relatedTarget)) setPaused(false);
+        }}
       >
         <div className="flex-1 min-h-0">
           <AnimatePresence mode="popLayout">
@@ -231,28 +239,32 @@ const About = () => {
               key={i}
               onClick={() => goTo(i)}
               aria-label={`Show testimonial ${i + 1}`}
-              className="relative h-[2px] flex-1 rounded-full overflow-hidden bg-foreground/10 touch-manipulation"
+              className="relative flex-1 touch-manipulation flex items-center py-4 -my-4"
             >
-              <AnimatePresence>
-                {i === activeIndex && (
-                  <motion.div
-                    key={progressKey}
-                    className="absolute inset-0 rounded-full bg-foreground/50 origin-left"
-                    initial={{ scaleX: 0 }}
-                    animate={{
-                      scaleX: 1,
-                      transition: {
-                        duration: ROTATION_INTERVAL / 1000,
-                        ease: "linear",
-                      },
-                    }}
-                    exit={{
-                      scaleX: 0,
-                      transition: { duration: 0.4, ease: "easeOut" },
-                    }}
-                  />
-                )}
-              </AnimatePresence>
+              <span className="relative h-[2px] w-full rounded-full overflow-hidden bg-foreground/10">
+                <AnimatePresence>
+                  {i === activeIndex && (
+                    <motion.span
+                      key={progressKey}
+                      className="absolute inset-0 rounded-full bg-foreground/50 origin-left"
+                      initial={{ scaleX: 0 }}
+                      animate={{
+                        scaleX: paused ? undefined : 1,
+                        transition: paused
+                          ? undefined
+                          : {
+                              duration: ROTATION_INTERVAL / 1000,
+                              ease: "linear",
+                            },
+                      }}
+                      exit={{
+                        scaleX: 0,
+                        transition: { duration: 0.4, ease: "easeOut" },
+                      }}
+                    />
+                  )}
+                </AnimatePresence>
+              </span>
             </button>
           ))}
         </div>

@@ -10,22 +10,16 @@ const Header = () => {
         <Logo className="size-16" />
       </Link>
       <div className="flex items-center gap-3">
-        <Link
-          href={"https://t.me/emirthedev"}
-          className="cursor-pointer"
-          target="_blank"
-        >
-          <Button variant="outline" className="cursor-pointer hidden md:flex">
+        <Button variant="outline" className="cursor-pointer hidden md:flex" asChild>
+          <Link href="https://t.me/emirthedev" target="_blank">
             Send a message
-          </Button>
-        </Link>
-        <Link
-          href={"https://cal.com/emirayaz"}
-          className="cursor-pointer"
-          target="_blank"
-        >
-          <Button className="cursor-pointer">Book a call</Button>
-        </Link>
+          </Link>
+        </Button>
+        <Button className="cursor-pointer" asChild>
+          <Link href="https://cal.com/emirayaz" target="_blank">
+            Book a call
+          </Link>
+        </Button>
       </div>
     </header>
   );

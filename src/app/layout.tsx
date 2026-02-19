@@ -4,6 +4,8 @@ import { GeistMono } from "geist/font/mono";
 import Script from "next/script";
 import "./globals.css";
 
+import { MotionConfig } from "motion/react";
+
 import Header from "@/components/layout/header";
 import { LiveCursorsProvider } from "@/components/live-cursors/live-cursors-provider";
 
@@ -113,13 +115,23 @@ export default function RootLayout({
       <body
         className={`${OverusedGrotesk.variable} ${GeistMono.variable} antialiased overflow-x-hidden bg-background font-sans`}
       >
-        <LiveCursorsProvider>
-          <Header />
-          {process.env.NODE_ENV === "development" && (
-            <Agentation endpoint="http://127.0.0.1:4747" />
-          )}
-          {children}
-        </LiveCursorsProvider>
+        <MotionConfig reducedMotion="user">
+          <LiveCursorsProvider>
+            <a
+              href="#main"
+              className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[9999] focus:rounded-lg focus:bg-background focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:shadow-lg focus:ring-2 focus:ring-ring"
+            >
+              Skip to content
+            </a>
+            <Header />
+            {process.env.NODE_ENV === "development" && (
+              <Agentation endpoint="http://127.0.0.1:4747" />
+            )}
+            <main id="main">
+              {children}
+            </main>
+          </LiveCursorsProvider>
+        </MotionConfig>
       </body>
     </html>
   );

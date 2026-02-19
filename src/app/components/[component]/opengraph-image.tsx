@@ -20,16 +20,9 @@ export default async function OGImage({
   const { component } = await params;
   const title = COMPONENTS[component] ?? component;
 
-  const inter = fetch(
-    new URL("https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap"),
-  ).then((res) => res.text())
-    .then((css) => {
-      const url = css.match(/src: url\((.+?)\)/)?.[1];
-      if (!url) throw new Error("Font URL not found");
-      return fetch(url).then((res) => res.arrayBuffer());
-    });
-
-  const fontData = await inter;
+  const fontData = await fetch(
+    new URL("https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuI6fMZs.woff"),
+  ).then((res) => res.arrayBuffer());
 
   return new ImageResponse(
     (

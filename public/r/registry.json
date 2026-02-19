@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "arc",
+  "homepage": "https://witharc.co/components",
+  "items": [
+    {
+      "name": "logo-carousel",
+      "type": "registry:component",
+      "title": "Logo Carousel",
+      "description": "Animated logo carousel with staggered cycling, image preloading, and reduced-motion support.",
+      "dependencies": ["motion", "next"],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "src/components/ui/logo-carousel.tsx",
+          "type": "registry:component",
+          "target": "components/ui/logo-carousel.tsx"
+        }
+      ]
+    }
+  ]
+}

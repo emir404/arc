@@ -81,7 +81,7 @@ export function ComponentDetail({
   const installCommand = `${runner} shadcn add ${REGISTRY_BASE}/${slug}.json`;
 
   return (
-    <div className="flex flex-col w-full px-4 pb-24 md:px-12 lg:px-24 xl:px-32 gap-8">
+    <div className="flex flex-col w-full px-4 pb-24 md:px-12 lg:px-24 xl:px-32 gap-4">
       <motion.div
         {...blurIn}
         transition={{ duration: 0.6, ease: "easeOut" }}
@@ -110,7 +110,7 @@ export function ComponentDetail({
       <motion.div
         {...blurIn}
         transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
-        className="flex items-center bg-neutral-100 rounded-2xl px-5 py-3 will-change-[filter] backface-hidden"
+        className="flex items-center bg-neutral-100 rounded-3xl px-5 py-3 will-change-[filter] backface-hidden"
       >
         <AnimatePresence mode="wait" initial={false}>
           <motion.code

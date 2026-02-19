@@ -11,7 +11,7 @@ const COMPONENTS: Record<string, { title: string; description: string; file: str
     title: "Logo Carousel",
     description: "Animated logo carousel with staggered cycling, image preloading, and reduced-motion support.",
     file: "src/components/ui/logo-carousel.tsx",
-    preview: <LogoCarousel />,
+    preview: <LogoCarousel variant="dark" />,
   },
 };
 

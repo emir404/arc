@@ -131,14 +131,29 @@ function useLogoCarousel(
 
 // ── LogoSlot ────────────────────────────────────────────────────────
 
+type CarouselVariant = "muted" | "dark";
+
+const variantStyles: Record<CarouselVariant, { base: string; interactive: string }> = {
+  muted: {
+    base: "brightness-0 opacity-40 dark:invert",
+    interactive: "transition-opacity duration-200 hover:opacity-60",
+  },
+  dark: {
+    base: "brightness-0 dark:invert",
+    interactive: "transition-opacity duration-200 opacity-80 hover:opacity-100",
+  },
+};
+
 function LogoSlot({
   slotIndex,
   enabled,
   disableLinks,
+  variant = "muted",
 }: {
   slotIndex: number;
   enabled: boolean;
   disableLinks?: boolean;
+  variant?: CarouselVariant;
 }) {
   const reducedMotion = useReducedMotion();
   const { current: logo, hasCycled } = useLogoCarousel(
@@ -147,6 +162,7 @@ function LogoSlot({
     enabled,
   );
 
+  const styles = variantStyles[variant];
   const imgEl = (
     // eslint-disable-next-line @next/next/no-img-element
     <img
@@ -154,10 +170,7 @@ function LogoSlot({
       alt={disableLinks ? logo.name : ""}
       width={logo.width}
       height={logo.height}
-      className={cn(
-        "brightness-0 opacity-40 dark:invert",
-        !disableLinks && "transition-opacity duration-200 hover:opacity-60",
-      )}
+      className={cn(styles.base, !disableLinks && styles.interactive)}
     />
   );
 
@@ -219,9 +232,11 @@ function LogoSlot({
 export function LogoCarousel({
   className,
   disableLinks,
+  variant = "muted",
 }: {
   className?: string;
   disableLinks?: boolean;
+  variant?: CarouselVariant;
 }) {
   const allLoaded = useImagesPreloaded(LOGO_SRCS);
 
@@ -241,6 +256,7 @@ export function LogoCarousel({
           slotIndex={i}
           enabled={allLoaded}
           disableLinks={disableLinks}
+          variant={variant}
         />
       ))}
     </motion.div>

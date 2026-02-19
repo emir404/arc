@@ -81,6 +81,7 @@ const Showreel = () => {
                 src={src}
                 alt={`Showreel image ${index + 1}`}
                 fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
                 draggable={false}
                 className={`object-contain ${
                   index === currentIndex ? "opacity-100" : "opacity-0"

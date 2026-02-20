@@ -5,7 +5,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "motion/react";
 import { ArrowLeft, Copy, Check } from "lucide-react";
 
-const REGISTRY_BASE = "https://witharc.co/r";
+const REGISTRY_NAMESPACE = "@arc";
 
 const RUNNERS = ["npx", "bunx", "pnpx"] as const;
 type Runner = (typeof RUNNERS)[number];
@@ -78,7 +78,7 @@ export function ComponentDetail({
   sourceCode: string;
 }) {
   const [runner, setRunner] = useState<Runner>("npx");
-  const installCommand = `${runner} shadcn add ${REGISTRY_BASE}/${slug}.json`;
+  const installCommand = `${runner} shadcn@latest add ${REGISTRY_NAMESPACE}/${slug}`;
 
   return (
     <div className="flex flex-col w-full px-4 pb-24 md:px-12 lg:px-24 xl:px-32 gap-4">

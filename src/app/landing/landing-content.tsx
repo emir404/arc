@@ -75,7 +75,7 @@ const LandingContent = () => {
         className="flex items-center gap-3 will-change-[filter] backface-hidden"
       >
         <span className="text-5xl lg:text-6xl xl:text-7xl font-medium tracking-[-0.03em]">
-          $1,000
+          $850
         </span>
         <span className="text-2xl lg:text-3xl text-muted-foreground line-through decoration-2">
           $2,000

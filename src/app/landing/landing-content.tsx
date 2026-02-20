@@ -112,7 +112,7 @@ const LandingContent = () => {
         initial={{ filter: "blur(10px)", opacity: 0, y: 20 }}
         whileInView={{ filter: "blur(0px)", opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        transition={{ duration: 0.6, ease: "easeOut", delay: 0.6 }}
         className="flex flex-col items-center gap-6 w-full will-change-[filter] backface-hidden"
       >
         <p className="text-sm text-muted-foreground font-medium">

@@ -90,8 +90,8 @@ const LandingContent = () => {
         transition={{ duration: 0.6, ease: "easeOut", delay: 0.4 }}
         className="flex flex-col items-center gap-4 will-change-[filter] backface-hidden"
       >
-        <p className="text-sm text-muted-foreground font-medium">
-          Only 5&nbsp;spots available
+        <p className="text-sm font-medium text-red-500">
+          Only 1&nbsp;slot left
         </p>
         <div className="flex flex-col sm:flex-row justify-center gap-4 px-5 md:px-12 lg:px-24 xl:px-32">
           <Button className="cursor-pointer" asChild>

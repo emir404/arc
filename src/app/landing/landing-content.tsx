@@ -90,14 +90,12 @@ const LandingContent = () => {
         transition={{ duration: 0.6, ease: "easeOut", delay: 0.4 }}
         className="flex flex-col items-center gap-4 will-change-[filter] backface-hidden"
       >
-        <p className="text-sm font-medium text-red-500">
-          Only 1&nbsp;slot left
+        <p className="text-sm font-medium text-muted-foreground">
+          All slots are booked
         </p>
         <div className="flex flex-col sm:flex-row justify-center gap-4 px-5 md:px-12 lg:px-24 xl:px-32">
-          <Button className="cursor-pointer" asChild>
-            <Link href="https://whop.com/arc-8d3a/landing-page-56/" target="_blank">
-              Get yours now
-            </Link>
+          <Button disabled>
+            Booked til March&nbsp;7
           </Button>
           <Button variant="outline" className="cursor-pointer" asChild>
             <Link href="https://t.me/emirthedev" target="_blank">

@@ -272,21 +272,6 @@ function FormatTabs({
   );
 }
 
-// --- Presets ---
-
-const PRESETS = [
-  { label: "Cream", hex: "#efeac9" },
-  { label: "Blue", hex: "#3b82f6" },
-  { label: "Coral", hex: "#f97066" },
-  { label: "Emerald", hex: "#34d399" },
-  { label: "Violet", hex: "#8b5cf6" },
-  { label: "Amber", hex: "#f59e0b" },
-  { label: "Rose", hex: "#f43f5e" },
-  { label: "Cyan", hex: "#06b6d4" },
-  { label: "Lime", hex: "#84cc16" },
-  { label: "Fuchsia", hex: "#d946ef" },
-];
-
 // --- Main ---
 
 export function FindYourBlack() {
@@ -318,10 +303,6 @@ export function FindYourBlack() {
     setInputValue(hex);
   }, []);
 
-  const handlePreset = useCallback((hex: string) => {
-    setBrandColor(hex);
-    setInputValue(hex);
-  }, []);
 
   useEffect(() => {
     const mq = window.matchMedia("(pointer: fine)");
@@ -372,26 +353,6 @@ export function FindYourBlack() {
             className="w-full rounded-lg border border-border bg-background px-3.5 py-2.5 font-mono text-sm text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 transition-shadow"
             aria-label="Brand color hex value"
           />
-
-          {/* Presets */}
-          <div className="flex flex-wrap gap-2">
-            {PRESETS.map((p) => (
-              <button
-                key={p.hex}
-                type="button"
-                onClick={() => handlePreset(p.hex)}
-                className="inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:border-foreground/20 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 cursor-pointer"
-                aria-label={`Use ${p.label} preset: ${p.hex}`}
-              >
-                <span
-                  className="size-2.5 rounded-full shrink-0"
-                  style={{ backgroundColor: p.hex }}
-                  aria-hidden="true"
-                />
-                {p.label}
-              </button>
-            ))}
-          </div>
 
           {/* Format tabs */}
           <FormatTabs value={format} onChange={setFormat} />

@@ -203,3 +203,25 @@
         @apply bg-background text-foreground;
     }
 }
+
+/* react-colorful overrides */
+.react-colorful {
+    width: 100% !important;
+    height: auto !important;
+    gap: 12px;
+}
+.react-colorful__saturation {
+    border-radius: 12px !important;
+    aspect-ratio: 5 / 3;
+    border-bottom: none !important;
+}
+.react-colorful__hue {
+    border-radius: 9999px !important;
+    height: 12px !important;
+}
+.react-colorful__pointer {
+    width: 18px !important;
+    height: 18px !important;
+    border-width: 2px !important;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2), 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+}

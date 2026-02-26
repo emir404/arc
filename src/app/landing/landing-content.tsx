@@ -91,11 +91,13 @@ const LandingContent = () => {
         className="flex flex-col items-center gap-4 will-change-[filter] backface-hidden"
       >
         <p className="text-sm font-medium text-muted-foreground">
-          All slots are booked
+          2&nbsp;slots available
         </p>
         <div className="flex flex-col sm:flex-row justify-center gap-4 px-5 md:px-12 lg:px-24 xl:px-32">
-          <Button disabled>
-            Booked til March&nbsp;7
+          <Button className="cursor-pointer" asChild>
+            <Link href="https://t.me/emirthedev" target="_blank">
+              Book a slot
+            </Link>
           </Button>
           <Button variant="outline" className="cursor-pointer" asChild>
             <Link href="https://t.me/emirthedev" target="_blank">

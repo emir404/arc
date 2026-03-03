@@ -1,22 +1,37 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
-import { GeistMono } from "geist/font/mono";
 import Script from "next/script";
 import "./globals.css";
 
 import { MotionConfig } from "motion/react";
 
-import Header from "@/components/layout/header";
+import HeaderWrapper from "@/components/layout/header-wrapper";
 import { LiveCursorsProvider } from "@/components/live-cursors/live-cursors-provider";
 
 import { Agentation } from "agentation";
 
-const OverusedGrotesk = localFont({
-  src: "../../public/OverusedGroteskRoman-VF.ttf",
+const TWKLausanne = localFont({
+  src: [
+    { path: "./fonts/TWKLausanne-100.woff2", weight: "100", style: "normal" },
+    { path: "./fonts/TWKLausanne-100Italic.woff2", weight: "100", style: "italic" },
+    { path: "./fonts/TWKLausanne-200.woff2", weight: "200", style: "normal" },
+    { path: "./fonts/TWKLausanne-300.woff2", weight: "300", style: "normal" },
+    { path: "./fonts/TWKLausanne-300Italic.woff2", weight: "300", style: "italic" },
+    { path: "./fonts/TWKLausanne-400.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/TWKLausanne-400Italic.woff2", weight: "400", style: "italic" },
+    { path: "./fonts/TWKLausanne-500.woff2", weight: "500", style: "normal" },
+    { path: "./fonts/TWKLausanne-500Italic.woff2", weight: "500", style: "italic" },
+    { path: "./fonts/TWKLausanne-600.woff2", weight: "600", style: "normal" },
+    { path: "./fonts/TWKLausanne-600Italic.woff2", weight: "600", style: "italic" },
+    { path: "./fonts/TWKLausanne-700.woff2", weight: "700", style: "normal" },
+    { path: "./fonts/TWKLausanne-700Italic.woff2", weight: "700", style: "italic" },
+    { path: "./fonts/TWKLausanne-800.woff2", weight: "800", style: "normal" },
+    { path: "./fonts/TWKLausanne-800Italic.woff2", weight: "800", style: "italic" },
+    { path: "./fonts/TWKLausanne-900.woff2", weight: "900", style: "normal" },
+    { path: "./fonts/TWKLausanne-900Italic.woff2", weight: "900", style: "italic" },
+  ],
   variable: "--font-sans",
   display: "swap",
-  weight: "100 900",
-  style: "normal",
 });
 
 export const viewport: Viewport = {
@@ -35,7 +50,7 @@ const structuredData = {
   url: "https://witharc.co",
   logo: "https://witharc.co/logo.png",
   description:
-    "Arc is a global Studio focused on blending innovation, creativity, and cutting-edge technology to craft unique, high-impact digital experiences.",
+    "Arc is the all-in-one design studio for early-stage startups. Brand, product, and web design under one roof.",
   contactPoint: {
     "@type": "ContactPoint",
     contactType: "customer service",
@@ -50,13 +65,13 @@ const structuredData = {
 export const metadata: Metadata = {
   metadataBase: new URL("https://witharc.co"),
   title: {
-    default: "Arc • Creative Studio",
-    template: "%s • Arc ",
+    default: "Arc • All-in-one design studio for early-stage startups",
+    template: "%s • Arc",
   },
   description:
-    "Arc is a global Studio focused on blending innovation, creativity, and cutting-edge technology to craft unique, high-impact digital experiences.",
+    "Arc is the all-in-one design studio for early-stage startups. Brand, product, and web design under one roof.",
   keywords:
-    "web Studio, creative Studio, web development, digital experiences, UI/UX design, web design, digital innovation",
+    "design studio, startup design, early-stage startups, brand design, product design, web design, UI/UX design, startup branding",
   authors: [{ name: "Arc Studio" }],
   creator: "Arc Studio",
   publisher: "Arc Studio",
@@ -73,17 +88,17 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://witharc.co",
     images: ["https://witharc.co/thumbnail.png"],
-    title: "Arc - Creative Web Studio",
+    title: "Arc • All-in-one design studio for early-stage startups",
     description:
-      "Arc is a global studio focused on blending innovation, creativity, and cutting-edge technology to craft unique, high-impact digital experiences.",
+      "Arc is the all-in-one design studio for early-stage startups. Brand, product, and web design under one roof.",
     siteName: "Arc Studio",
   },
   twitter: {
     card: "summary_large_image",
     images: ["https://witharc.co/thumbnail.png"],
-    title: "Arc - Creative Studio",
+    title: "Arc • All-in-one design studio for early-stage startups",
     description:
-      "Arc is a global studio focused on blending innovation, creativity, and cutting-edge technology to craft unique, high-impact digital experiences.",
+      "Arc is the all-in-one design studio for early-stage startups. Brand, product, and web design under one roof.",
   },
 };
 
@@ -113,7 +128,7 @@ export default function RootLayout({
         </script>
       </head>
       <body
-        className={`${OverusedGrotesk.variable} ${GeistMono.variable} antialiased overflow-x-hidden bg-background font-sans`}
+        className={`${TWKLausanne.variable} antialiased overflow-x-hidden bg-background font-sans`}
       >
         <MotionConfig reducedMotion="user">
           <LiveCursorsProvider>
@@ -123,7 +138,7 @@ export default function RootLayout({
             >
               Skip to content
             </a>
-            <Header />
+            <HeaderWrapper />
             {process.env.NODE_ENV === "development" && (
               <Agentation endpoint="http://127.0.0.1:4747" />
             )}

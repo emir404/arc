@@ -61,20 +61,6 @@ const Showreel = () => {
           className="h-96 md:p-12 lg:p-16 xl:p-24 md:h-[64rem] flex items-center justify-center bg-[#f9f9f9] relative"
           style={{ cursor: isHovering ? "none" : undefined }}
         >
-          <motion.div
-            initial={{ opacity: 0, y: -10, filter: "blur(6px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            transition={{ duration: 0.5, ease: "easeOut", delay: 1 }}
-            className="flex rounded-full px-3 py-1.5 bg-black items-center justify-center absolute top-8 left-1/2 translate-x-[-50%] will-change-[filter] backface-hidden"
-          >
-            <span className="relative flex size-2 mr-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
-              <span className="relative inline-flex size-2 rounded-full bg-green-500" />
-            </span>
-            <p className="text-sm font-mono uppercase text-white">
-              2 SLOTS AVAILABLE FOR PARTNERSHIP
-            </p>
-          </motion.div>
           <div className="relative w-full h-full overflow-hidden">
             {IMAGE_LINKS.map((src, index) => (
               <Image

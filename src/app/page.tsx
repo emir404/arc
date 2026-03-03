@@ -3,8 +3,10 @@ import type { Metadata } from "next";
 
 import Hero from "@/components/sections/hero";
 import Showreel from "@/components/sections/showreel";
-import About from "@/components/sections/about";
-import Pricing from "@/components/sections/pricing";
+import Testimonials from "@/components/sections/testimonials";
+import Booking from "@/components/sections/booking";
+import Faq from "@/components/sections/faq";
+import SiteFooter from "@/components/sections/site-footer";
 
 export const metadata: Metadata = {
   title: "Arc \u2022 Creative Studio",
@@ -17,8 +19,10 @@ const Home = () => {
     <div className="flex flex-col">
       <Hero />
       <Showreel />
-      <About />
-      <Pricing />
+      <Testimonials />
+      <Booking />
+      <Faq />
+      <SiteFooter />
     </div>
   );
 };

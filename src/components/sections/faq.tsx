@@ -73,6 +73,7 @@ const Faq = () => {
             <button
               onClick={() => toggle(i)}
               aria-expanded={openIndex === i}
+              aria-controls={`faq-panel-${i}`}
               className="w-full py-5 text-center font-normal text-black text-lg leading-[1.4] cursor-pointer touch-manipulation focus-visible:outline-2 focus-visible:outline-ring"
             >
               {item.question}
@@ -80,6 +81,8 @@ const Faq = () => {
             <AnimatePresence initial={false}>
               {openIndex === i && (
                 <motion.div
+                  id={`faq-panel-${i}`}
+                  role="region"
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: "auto", opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}

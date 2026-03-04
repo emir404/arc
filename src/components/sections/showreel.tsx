@@ -58,8 +58,7 @@ const Showreel = () => {
           }}
           onMouseLeave={() => setIsHovering(false)}
           onMouseMove={handleMouseMove}
-          className="h-96 md:p-12 lg:p-16 xl:p-24 md:h-[64rem] flex items-center justify-center bg-[#f9f9f9] relative"
-          style={{ cursor: isHovering ? "none" : undefined }}
+          className={`h-96 md:p-12 lg:p-16 xl:p-24 md:h-[64rem] flex items-center justify-center bg-[#f9f9f9] relative ${isHovering ? "cursor-none" : ""}`}
         >
           <div className="relative w-full h-full overflow-hidden">
             {IMAGE_LINKS.map((src, index) => (

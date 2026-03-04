@@ -44,6 +44,7 @@ const Hero = () => {
         <Link
           href="https://cal.com/emirayaz"
           target="_blank"
+          rel="noopener noreferrer"
           className="inline-flex items-center justify-center rounded-full bg-black text-white px-5 py-2.5 text-base font-light transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-ring"
         >
           Book a call
@@ -51,6 +52,7 @@ const Hero = () => {
         <Link
           href="https://t.me/emirthedev"
           target="_blank"
+          rel="noopener noreferrer"
           className="inline-flex items-center justify-center rounded-full bg-[#f6f6f6] text-black px-5 py-2.5 text-base font-light transition-opacity hover:opacity-70 focus-visible:outline-2 focus-visible:outline-ring"
         >
           Send a message

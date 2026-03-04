@@ -26,6 +26,7 @@ const LandingContent = () => {
           <Link
             key={preview.src}
             href="/works"
+            tabIndex={-1}
             className={`absolute ${i === 0 ? "bottom-0 left-0 z-30" : i === 1 ? "top-0 left-1/2 -translate-x-1/2 z-20" : "bottom-0 right-0 z-10"} ${i !== 1 ? "flex items-center justify-center w-[210px] h-[186px] sm:w-[290px] sm:h-[258px]" : ""}`}
           >
             <div className={`${preview.rotate} transition-transform duration-300 ease-out hover:scale-105`}>
@@ -96,6 +97,7 @@ const LandingContent = () => {
           <Link
             href="https://cal.com/emirayaz"
             target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center justify-center rounded-full bg-black text-white px-5 py-2.5 text-base font-light transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-ring"
           >
             Get yours now
@@ -103,6 +105,7 @@ const LandingContent = () => {
           <Link
             href="https://t.me/emirthedev"
             target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center justify-center rounded-full bg-[#f6f6f6] text-black px-5 py-2.5 text-base font-light transition-opacity hover:opacity-70 focus-visible:outline-2 focus-visible:outline-ring"
           >
             Send a message

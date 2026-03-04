@@ -125,20 +125,24 @@ export function ComponentDetail({
           </motion.code>
         </AnimatePresence>
         <div className="flex items-center gap-1.5 ml-auto">
-          {RUNNERS.map((r) => (
-            <button
-              key={r}
-              type="button"
-              onClick={() => setRunner(r)}
-              className={`px-2.5 py-1 rounded-lg text-sm font-mono transition-colors duration-200 cursor-pointer ${
-                runner === r
-                  ? "bg-neutral-200 text-neutral-900"
-                  : "text-[#909090] hover:text-[#606060]"
-              }`}
-            >
-              {r}
-            </button>
-          ))}
+          <div role="radiogroup" aria-label="Package runner" className="flex items-center gap-1.5">
+            {RUNNERS.map((r) => (
+              <button
+                key={r}
+                type="button"
+                role="radio"
+                aria-checked={runner === r}
+                onClick={() => setRunner(r)}
+                className={`px-2.5 py-1 rounded-lg text-sm font-mono transition-colors duration-200 cursor-pointer ${
+                  runner === r
+                    ? "bg-neutral-200 text-neutral-900"
+                    : "text-[#909090] hover:text-[#606060]"
+                }`}
+              >
+                {r}
+              </button>
+            ))}
+          </div>
           <CopyButton text={installCommand} label="Copy install command" />
         </div>
       </motion.div>

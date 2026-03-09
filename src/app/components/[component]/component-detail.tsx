@@ -104,7 +104,7 @@ export function ComponentDetail({
         <p className="font-mono text-[#909090] tracking-wider uppercase absolute top-8 left-8 font-medium">
           {title}
         </p>
-        <div className="flex items-center justify-center">{preview}</div>
+        <div className="flex w-full h-full items-center justify-center">{preview}</div>
       </motion.div>
 
       <motion.div

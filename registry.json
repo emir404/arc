@@ -17,6 +17,21 @@
           "target": "components/ui/logo-carousel.tsx"
         }
       ]
+    },
+    {
+      "name": "showreel",
+      "type": "registry:component",
+      "title": "Showreel",
+      "description": "Interactive showreel section with animated image transitions and custom hover cursor.",
+      "dependencies": ["motion", "next"],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "src/components/sections/showreel.tsx",
+          "type": "registry:component",
+          "target": "components/sections/showreel.tsx"
+        }
+      ]
     }
   ]
 }

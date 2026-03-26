@@ -8,6 +8,7 @@ const BRANDS = [
   { name: "Lantern", src: "/brands/lantern.svg", width: 120, height: 26, displayHeight: 28 },
   { name: "Langbase", src: "/brands/langbase.svg", width: 130, height: 26, displayHeight: 28 },
   { name: "AgentMail", src: "/brands/agentmail.svg", width: 140, height: 26, displayHeight: 28 },
+  { name: "Databuddy", src: "/brands/databuddy.svg", width: 120, height: 28, displayHeight: 32 },
   { name: "Fontface", src: "/brands/fontface.svg", width: 110, height: 26, displayHeight: 28 },
   { name: "Parrychain", src: "/brands/parrychain.svg", width: 130, height: 16, displayHeight: 20 },
   { name: "Tier-1", src: "/brands/tier-1.svg", width: 97, height: 24, displayHeight: 24 },

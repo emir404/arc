@@ -22,7 +22,7 @@ const FAQ_ITEMS = [
   {
     question: "How involved are you in the process?",
     answer:
-      "Deeply. We align on direction, challenge assumptions, refine scope, and move fast. Expect honest feedback and structured thinking, not surface-level visuals.",
+      "You'll get direct work from me, not anyone else. I align on direction, challenge assumptions, refine scope, and move fast. Expect honest feedback and structured thinking, not surface-level output.",
   },
   {
     question: "Can you collaborate with our engineers?",

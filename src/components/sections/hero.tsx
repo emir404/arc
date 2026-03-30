@@ -30,7 +30,7 @@ const Hero = () => {
         </p>
         <p>
           Starting from{" "}
-          <span className="font-medium text-black">$4,491/month</span>{" "}
+          <span className="font-medium text-black">$4,995/month</span>{" "}
           including strategy, design, development.
         </p>
       </motion.div>

@@ -25,6 +25,11 @@ const testimonials = [
   },
   {
     quote:
+      "Arc is honestly one of the best solo design studios i\u2019ve known for a long time now. Their work over the past year has been incredible, the portfolio is insanely strong.",
+    attribution: "\u2014 Can Vardar, Founder of cupo.la",
+  },
+  {
+    quote:
       "Emir is a fantastic person and an excellent professional. He is one of the best designers I have ever worked with. His work with Tesseract is incredible, those sharp edges impress me every single day. + rep",
     attribution: "\u2014 Vicente Sanchez, Founder of Tesseract",
   },

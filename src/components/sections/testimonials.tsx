@@ -33,6 +33,10 @@ const testimonials = [
       "Emir is a fantastic person and an excellent professional. He is one of the best designers I have ever worked with. His work with Tesseract is incredible, those sharp edges impress me every single day. + rep",
     attribution: "\u2014 Vicente Sanchez, Founder of Tesseract",
   },
+  {
+    quote: "Dm me",
+    attribution: "\u2014 MrBeast, on our client\u2019s launch",
+  },
 ];
 
 const Testimonials = () => {

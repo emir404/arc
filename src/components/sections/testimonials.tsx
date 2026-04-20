@@ -20,6 +20,11 @@ const testimonials = [
   },
   {
     quote:
+      "Emir was incredibly great to work with as a designer. What matters most in a designer today is strong taste combined with real product understanding, and Emir has both. I did not need to give him much direction, and his taste aligned closely with mine. Will work with again in the future.",
+    attribution: "\u2014 Michael Ryaboy, Co-founder of Startclaw",
+  },
+  {
+    quote:
       "I\u2019ve worked with Emir on multiple projects, and he is easily one of the best designers I know. He\u2019s a cracked, thoughtful, and relentless designer, and always a joy to work with.",
     attribution: "\u2014 Brandon McConnell, Co-founder of Fontface",
   },

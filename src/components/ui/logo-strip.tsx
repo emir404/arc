@@ -29,14 +29,14 @@ const LogoStrip = () => {
           href={brand.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="transition-opacity hover:opacity-100"
+          className="group inline-flex items-center justify-center min-h-[40px] min-w-[40px] transition-transform active:scale-[0.96]"
         >
           <Image
             src={brand.src}
             alt={brand.name}
             width={brand.width}
             height={brand.height}
-            className="brightness-0 opacity-30 w-auto"
+            className="brightness-0 opacity-30 w-auto transition-opacity group-hover:opacity-100"
             style={{ height: brand.displayHeight }}
             draggable={false}
           />

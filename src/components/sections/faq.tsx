@@ -74,7 +74,7 @@ const Faq = () => {
               onClick={() => toggle(i)}
               aria-expanded={openIndex === i}
               aria-controls={`faq-panel-${i}`}
-              className="w-full py-5 text-center font-normal text-black text-lg leading-[1.4] cursor-pointer touch-manipulation focus-visible:outline-2 focus-visible:outline-ring"
+              className="w-full py-5 text-center text-balance font-normal text-black text-lg leading-[1.4] cursor-pointer touch-manipulation focus-visible:outline-2 focus-visible:outline-ring"
             >
               {item.question}
             </button>
@@ -89,7 +89,7 @@ const Faq = () => {
                   transition={{ duration: 0.3, ease: "easeInOut" }}
                   className="overflow-hidden"
                 >
-                  <p className="pb-5 font-light text-black/75 text-lg text-center leading-[1.4]">
+                  <p className="pb-5 font-light text-black/75 text-lg text-center text-pretty leading-[1.4]">
                     {item.answer}
                   </p>
                 </motion.div>

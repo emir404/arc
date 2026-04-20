@@ -56,7 +56,7 @@ const Testimonials = () => {
           transition={{ duration: 0.6, ease: "easeOut" }}
           className="flex flex-col items-center gap-4 max-w-[400px] text-center will-change-[filter] backface-hidden"
         >
-          <p className="font-light text-black/75 text-lg leading-[1.4]">
+          <p className="font-light text-black/75 text-lg text-pretty leading-[1.4]">
             {t.quote}
           </p>
           <footer className="font-normal text-black text-lg leading-[1.4]">

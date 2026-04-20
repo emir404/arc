@@ -11,7 +11,7 @@ const Hero = () => {
         initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
         animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className="text-[26px] font-[550] tracking-[-0.24px] text-center will-change-[filter] backface-hidden"
+        className="text-[26px] font-[550] tracking-[-0.24px] text-center text-balance will-change-[filter] backface-hidden"
       >
         All-in-one design studio for early-stage startups
       </motion.h1>
@@ -20,7 +20,7 @@ const Hero = () => {
         initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
         animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
         transition={{ duration: 0.6, ease: "easeOut", delay: 0.15 }}
-        className="flex flex-col gap-5 max-w-[400px] text-center text-lg font-light text-black/75 leading-[1.4] will-change-[filter] backface-hidden"
+        className="flex flex-col gap-5 max-w-[400px] text-center text-pretty text-lg font-light text-black/75 leading-[1.4] will-change-[filter] backface-hidden"
       >
         <p>
           For teams moving fast and building with intent. We combine direction, product thinking, design, and development into one focused partnership.
@@ -45,7 +45,7 @@ const Hero = () => {
           href="https://cal.com/emirayaz"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center justify-center rounded-full bg-black text-white px-5 py-2.5 text-base font-light transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-ring"
+          className="inline-flex items-center justify-center rounded-full bg-black text-white px-5 py-2.5 text-base font-light transition-[opacity,transform] hover:opacity-80 active:scale-[0.96] focus-visible:outline-2 focus-visible:outline-ring"
         >
           Book a call
         </Link>
@@ -53,7 +53,7 @@ const Hero = () => {
           href="https://t.me/emirthedev"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center justify-center rounded-full bg-[#f6f6f6] text-black px-5 py-2.5 text-base font-light transition-opacity hover:opacity-70 focus-visible:outline-2 focus-visible:outline-ring"
+          className="inline-flex items-center justify-center rounded-full bg-[#f6f6f6] text-black px-5 py-2.5 text-base font-light transition-[opacity,transform] hover:opacity-70 active:scale-[0.96] focus-visible:outline-2 focus-visible:outline-ring"
         >
           Send a message
         </Link>

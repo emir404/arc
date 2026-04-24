@@ -12,7 +12,7 @@ const FAQ_ITEMS = [
   {
     question: "What exactly do you help with?",
     answer:
-      "Product direction, UX/UI design, design systems, landing pages, and development. From early thinking to shipped outcomes. Strategy and execution in one place.",
+      "Product direction, UX/UI design, design systems, landing pages, and development. From early thinking to shipped outcomes, all in one place.",
   },
   {
     question: "Are you just a design studio?",

@@ -8,6 +8,7 @@ const BRANDS = [
   { name: "Lantern", src: "/brands/lantern.svg", width: 120, height: 26, displayHeight: 28, url: "https://withlantern.com" },
   { name: "Langbase", src: "/brands/langbase.svg", width: 130, height: 26, displayHeight: 28, url: "https://langbase.com" },
   { name: "AgentMail", src: "/brands/agentmail.svg", width: 140, height: 26, displayHeight: 28, url: "https://agentmail.to" },
+  { name: "Agentphone", src: "/brands/agentphone.svg", width: 191, height: 36, displayHeight: 24, url: "https://agentphone.to" },
   { name: "Orchid", src: "/brands/orchid.svg", width: 133, height: 32, displayHeight: 30, url: "https://orchid.ai" },
   { name: "Vetted", src: "/brands/vetted.svg", width: 177, height: 33, displayHeight: 24, url: "https://waitlist.vetted.cv" },
   { name: "Databuddy", src: "/brands/databuddy.svg", width: 120, height: 28, displayHeight: 32, url: "https://databuddy.cc" },

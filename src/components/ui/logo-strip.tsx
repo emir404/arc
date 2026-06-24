@@ -11,7 +11,6 @@ const BRANDS = [
   { name: "Agentphone", src: "/brands/agentphone.svg", width: 191, height: 36, displayHeight: 32, url: "https://agentphone.to" },
   { name: "Orchid", src: "/brands/orchid.svg", width: 133, height: 32, displayHeight: 30, url: "https://orchid.ai" },
   { name: "Vetted", src: "/brands/vetted.svg", width: 177, height: 33, displayHeight: 24, url: "https://waitlist.vetted.cv" },
-  { name: "Databuddy", src: "/brands/databuddy.svg", width: 120, height: 28, displayHeight: 32, url: "https://databuddy.cc" },
   { name: "Fontface", src: "/brands/fontface.svg", width: 110, height: 26, displayHeight: 28, url: "https://fontface.ai" },
   { name: "Parrychain", src: "/brands/parrychain.svg", width: 130, height: 16, displayHeight: 20, url: "https://parrychain.ai" },
 ];

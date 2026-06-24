@@ -45,6 +45,11 @@ const FAQ_ITEMS = [
       "Not necessarily. Some teams work with us for a specific phase. Others stay longer-term as their product evolves. It\u2019s structured, but flexible.",
   },
   {
+    question: "What\u2019s your refund policy?",
+    answer:
+      "The partnership model is non-refundable. It\u2019s built to be flexible, though \u2014 you can pause anytime and use whatever time is left whenever you\u2019re ready to pick things back up.",
+  },
+  {
     question: "What if we\u2019re still figuring things out?",
     answer:
       "That\u2019s normal. Early-stage is messy. We help bring structure to ambiguity and turn loose ideas into clear product direction.",

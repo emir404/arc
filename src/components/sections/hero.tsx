@@ -2,7 +2,7 @@
 
 import { motion } from "motion/react";
 import Link from "next/link";
-import LogoStrip from "@/components/ui/logo-strip";
+import { LogoCarousel } from "@/components/ui/logo-carousel";
 
 const Hero = () => {
   return (
@@ -60,7 +60,7 @@ const Hero = () => {
       </motion.div>
 
       <div className="mt-11">
-        <LogoStrip />
+        <LogoCarousel />
       </div>
     </section>
   );

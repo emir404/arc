@@ -1,3 +1,6 @@
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
+
 import { ImageResponse } from "next/og";
 
 const COMPONENTS: Record<string, string> = {
@@ -21,11 +24,9 @@ export default async function OGImage({
   const { component } = await params;
   const title = COMPONENTS[component] ?? component;
 
-  const fontData = await fetch(
-    new URL(
-      "https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuI6fMZs.woff",
-    ),
-  ).then((res) => res.arrayBuffer());
+  const fontData = await readFile(
+    join(process.cwd(), "src/app/fonts/Inter-Medium.woff"),
+  );
 
   return new ImageResponse(
     <div

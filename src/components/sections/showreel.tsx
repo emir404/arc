@@ -6,6 +6,7 @@ import Link from "next/link";
 import type React from "react";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { EASE } from "@/lib/animation";
 
 const IMAGE_LINKS = [
   "https://494510hkri.ufs.sh/f/3d9AyaVNUM8w36URyDVNUM8wsF1VBZOHcvIdTi9DhgQ7Rpmu",
@@ -28,6 +29,10 @@ type ShowreelProps = {
   link?: string | null;
   linkTitle?: string;
   buttonTitle?: string;
+  /** Tailwind background class for the frame (e.g. "bg-transparent"). */
+  background?: string;
+  /** Delay before the reel fades in — lets a parent reveal finish first. */
+  revealDelay?: number;
 };
 
 const Showreel = ({
@@ -35,6 +40,8 @@ const Showreel = ({
   link = "/works",
   linkTitle = "View works",
   buttonTitle = "Preview",
+  background = "bg-[#f9f9f9]",
+  revealDelay = 0.6,
 }: ShowreelProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
@@ -85,7 +92,8 @@ const Showreel = ({
   };
 
   const baseClassName = [
-    "flex items-center justify-center bg-[#f9f9f9] relative",
+    "flex items-center justify-center relative",
+    background,
     compact
       ? "w-full h-full p-4 md:p-6 lg:p-8 xl:p-10"
       : "h-96 md:h-[64rem] md:p-12 lg:p-16 xl:p-24",
@@ -96,7 +104,7 @@ const Showreel = ({
     `${baseClassName} ${isHovering ? "cursor-none" : ""}`.trim();
 
   const content = (
-    <div className="relative w-full h-full overflow-hidden">
+    <div className="relative h-full w-full overflow-visible">
       {IMAGE_LINKS.map((src, index) => (
         <Image
           key={src}
@@ -105,7 +113,7 @@ const Showreel = ({
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
           draggable={false}
-          className={`object-contain ${
+          className={`object-contain [filter:drop-shadow(0_1px_2px_rgba(3,22,47,0.06))_drop-shadow(0_12px_32px_rgba(3,22,47,0.12))] ${
             index === currentIndex ? "opacity-100" : "opacity-0"
           }`}
           priority={index === 0}
@@ -119,7 +127,7 @@ const Showreel = ({
       <motion.div
         initial={{ filter: "blur(10px)", opacity: 0, y: 20 }}
         animate={{ filter: "blur(0px)", opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: "easeOut", delay: 0.6 }}
+        transition={{ duration: 0.7, ease: EASE, delay: revealDelay }}
         className={`flex flex-col w-full will-change-[filter] backface-hidden ${
           compact ? "h-full p-0 mb-0" : "p-4 mb-16"
         }`}

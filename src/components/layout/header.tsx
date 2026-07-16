@@ -1,33 +1,37 @@
-import React from "react";
-import Logo from "@/components/ui/logo";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import Logo from "@/components/ui/logo";
 
-const Header = ({ minimal }: { minimal?: boolean }) => {
+const Header = () => {
   return (
-    <header className={`w-full px-5 md:px-12 lg:px-24 xl:px-32 items-center flex py-12 transition-colors duration-500 ${minimal ? "justify-center" : "justify-between"}`}>
-      <Link href="/" aria-label="Arc home">
-        <Logo className="size-16" />
+    <header className="w-full px-5 md:px-12 lg:px-24 items-center flex justify-between py-12 transition-colors duration-500">
+      <Link
+        href="/"
+        aria-label="Arc home"
+        className="rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+      >
+        <Logo className="h-10 w-auto" />
       </Link>
-      {!minimal && (
-        <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2">
+        <Button asChild variant="secondary" className="hidden md:inline-flex">
           <Link
             href="https://t.me/emirthedev"
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden md:inline-flex items-center justify-center rounded-full bg-[#f6f6f6] text-black px-5 py-2.5 text-base font-light transition-opacity hover:opacity-70 focus-visible:outline-2 focus-visible:outline-ring"
           >
-            Send a message
+            Send message
           </Link>
+        </Button>
+        <Button asChild>
           <Link
-            href="https://cal.com/emirayaz"
+            href="https://cal.com/team/arc-studio/intro-call"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center rounded-full bg-black text-white px-5 py-2.5 text-base font-light transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-ring"
           >
             Book a call
           </Link>
-        </div>
-      )}
+        </Button>
+      </div>
     </header>
   );
 };

@@ -1,67 +1,101 @@
 "use client";
 
 import { motion } from "motion/react";
+import Image from "next/image";
 import Link from "next/link";
+import Showreel from "@/components/sections/showreel";
+import { Button } from "@/components/ui/button";
+import Logo from "@/components/ui/logo";
 import { LogoCarousel } from "@/components/ui/logo-carousel";
+import { riseIn } from "@/lib/animation";
 
 const Hero = () => {
   return (
-    <section className="flex flex-col items-center gap-5 px-5 md:px-12 lg:px-24 xl:px-32 pb-16">
-      <motion.h1
-        initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
-        animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        className="text-[26px] font-[550] tracking-[-0.24px] text-center text-balance will-change-[filter] backface-hidden"
-      >
-        All-in-one design studio for early-stage startups
-      </motion.h1>
-
-      <motion.div
-        initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
-        animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-        transition={{ duration: 0.6, ease: "easeOut", delay: 0.15 }}
-        className="flex flex-col gap-5 max-w-[400px] text-center text-pretty text-lg font-light text-black/75 leading-[1.4] will-change-[filter] backface-hidden"
-      >
-        <p>
-          For teams moving fast and building with intent. We combine direction, product thinking, design, and development into one focused partnership.
-        </p>
-        <p>
-          From defining what to build to designing and shipping it properly, we work closely with founders to turn early ideas into clear, scalable products built for real traction and long-term growth.
-        </p>
-        <p>
-          Starting from{" "}
-          <span className="font-medium text-black">$6,500/month</span>{" "}
-          including design and development.
-        </p>
-      </motion.div>
-
-      <motion.div
-        initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
-        animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-        transition={{ duration: 0.6, ease: "easeOut", delay: 0.3 }}
-        className="flex items-center gap-3 mt-5 will-change-[filter] backface-hidden"
-      >
+    <section className="relative bg-white">
+      {/* Header */}
+      <header className="flex w-full items-center justify-between px-5 py-12 md:px-12 lg:px-24">
         <Link
-          href="https://cal.com/emirayaz"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center justify-center rounded-full bg-black text-white px-5 py-2.5 text-base font-light transition-[opacity,transform] hover:opacity-80 active:scale-[0.96] focus-visible:outline-2 focus-visible:outline-ring"
+          href="/"
+          aria-label="Arc home"
+          className="rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
         >
-          Book a call
+          <Logo className="h-10 w-auto" />
         </Link>
-        <Link
-          href="https://t.me/emirthedev"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center justify-center rounded-full bg-[#f6f6f6] text-black px-5 py-2.5 text-base font-light transition-[opacity,transform] hover:opacity-70 active:scale-[0.96] focus-visible:outline-2 focus-visible:outline-ring"
-        >
-          Send a message
-        </Link>
-      </motion.div>
+        <div className="flex items-center gap-2">
+          <Button asChild variant="secondary" className="hidden md:inline-flex">
+            <Link
+              href="https://t.me/emirthedev"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Send message
+            </Link>
+          </Button>
+          <Button asChild>
+            <Link
+              href="https://cal.com/team/arc-studio/intro-call"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Book a call
+            </Link>
+          </Button>
+        </div>
+      </header>
 
-      <div className="mt-11">
-        <LogoCarousel />
+      {/* Heading + client logos */}
+      <div className="mt-6 flex flex-wrap items-end justify-between gap-x-10 gap-y-10 px-5 pb-20 md:px-12 lg:px-24">
+        <div className="flex flex-col items-start gap-7">
+          <motion.p
+            {...riseIn()}
+            className="inline-flex items-center gap-1.5 rounded-[8px] bg-[#ff6601]/10 px-2 py-1 text-sm leading-none text-[#e7a478] will-change-[filter] backface-hidden"
+          >
+            Worked with 10+
+            <span className="inline-flex items-center gap-1 text-[#ff6601]">
+              <Image
+                src="/brands/y-combinator.png"
+                alt="Y"
+                width={16}
+                height={16}
+                className="size-4 rounded-[2px]"
+              />
+              Combinator
+            </span>
+            companies
+          </motion.p>
+          <motion.h1
+            {...riseIn(0.08)}
+            className="max-w-[761px] text-[34px] font-semibold leading-none tracking-[-0.03em] text-black sm:text-[44px] lg:text-6xl will-change-[filter] backface-hidden"
+          >
+            All-in-one design studio <br className="hidden sm:block" />
+            for early-stage startups
+          </motion.h1>
+        </div>
+
+        {/* Definite width (100% capped at 442px) so the fluid slots resolve
+            to fixed percentages — 442px keeps the row intact at 1440. */}
+        <motion.div
+          {...riseIn(0.16)}
+          className="w-full min-w-0 max-w-[442px] will-change-[filter] backface-hidden"
+        >
+          <LogoCarousel
+            variant="muted"
+            slots={3}
+            slotWidth="fluid"
+            logoScale={0.72}
+          />
+        </motion.div>
       </div>
+
+      {/* Works showreel panel */}
+      <motion.div
+        {...riseIn(0.24)}
+        className="w-full px-3 pb-6 will-change-[filter] backface-hidden"
+      >
+        <div className="mx-auto h-96 w-full max-w-[1600px] overflow-hidden rounded-[8px] bg-[#f8fbfe] bg-[url('/showreel-bg.png')] bg-cover bg-center p-2 sm:h-auto sm:aspect-[1408/1024] sm:max-h-[64rem] md:p-6 lg:p-10 xl:p-20">
+          <Showreel compact background="bg-transparent" revealDelay={0.4} />
+        </div>
+      </motion.div>
     </section>
   );
 };

@@ -1,8 +1,9 @@
 "use client";
 
+import { motion } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "motion/react";
+import { Button } from "@/components/ui/button";
 import { LogoCarousel } from "@/components/ui/logo-carousel";
 
 const previews = [
@@ -93,23 +94,25 @@ const LandingContent = () => {
         <p className="text-sm font-medium text-muted-foreground">
           2 slots left
         </p>
-        <div className="flex flex-col sm:flex-row justify-center gap-3 px-5 md:px-12 lg:px-24 xl:px-32">
-          <Link
-            href="https://cal.com/emirayaz"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center rounded-full bg-black text-white px-5 py-2.5 text-base font-light transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-ring"
-          >
-            Get yours now
-          </Link>
-          <Link
-            href="https://t.me/emirthedev"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center rounded-full bg-[#f6f6f6] text-black px-5 py-2.5 text-base font-light transition-opacity hover:opacity-70 focus-visible:outline-2 focus-visible:outline-ring"
-          >
-            Send a message
-          </Link>
+        <div className="flex flex-col sm:flex-row justify-center gap-2 px-5 md:px-12 lg:px-24 xl:px-32">
+          <Button asChild>
+            <Link
+              href="https://cal.com/team/arc-studio/intro-call"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Get yours now
+            </Link>
+          </Button>
+          <Button asChild variant="secondary">
+            <Link
+              href="https://t.me/emirthedev"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Send a message
+            </Link>
+          </Button>
         </div>
       </motion.div>
 

@@ -6,7 +6,6 @@ import "./globals.css";
 import { MotionConfig } from "motion/react";
 
 import HeaderWrapper from "@/components/layout/header-wrapper";
-import { LiveCursorsProvider } from "@/components/live-cursors/live-cursors-provider";
 
 import { Agentation } from "agentation";
 
@@ -50,7 +49,7 @@ const structuredData = {
   url: "https://witharc.co",
   logo: "https://witharc.co/logo.png",
   description:
-    "Arc is the all-in-one design studio for early-stage startups. Brand, product, and web design under one roof.",
+    "Arc is the all-in-one design studio for early-stage startups. Brand, product, and web design in one partnership — trusted by 10+ Y Combinator companies.",
   contactPoint: {
     "@type": "ContactPoint",
     contactType: "customer service",
@@ -69,9 +68,9 @@ export const metadata: Metadata = {
     template: "%s • Arc",
   },
   description:
-    "Arc is the all-in-one design studio for early-stage startups. Brand, product, and web design under one roof.",
+    "Arc is the all-in-one design studio for early-stage startups. Brand, product, and web design in one partnership — trusted by 10+ Y Combinator companies.",
   keywords:
-    "design studio, startup design, early-stage startups, brand design, product design, web design, UI/UX design, startup branding",
+    "design studio, startup design, early-stage startups, Y Combinator startups, brand design, product design, web design, UI/UX design, startup branding",
   authors: [{ name: "Arc Studio" }],
   creator: "Arc Studio",
   publisher: "Arc Studio",
@@ -90,7 +89,7 @@ export const metadata: Metadata = {
     images: ["https://witharc.co/thumbnail.png"],
     title: "Arc • All-in-one design studio for early-stage startups",
     description:
-      "Arc is the all-in-one design studio for early-stage startups. Brand, product, and web design under one roof.",
+      "Arc is the all-in-one design studio for early-stage startups. Brand, product, and web design in one partnership — trusted by 10+ Y Combinator companies.",
     siteName: "Arc Studio",
   },
   twitter: {
@@ -98,7 +97,7 @@ export const metadata: Metadata = {
     images: ["https://witharc.co/thumbnail.png"],
     title: "Arc • All-in-one design studio for early-stage startups",
     description:
-      "Arc is the all-in-one design studio for early-stage startups. Brand, product, and web design under one roof.",
+      "Arc is the all-in-one design studio for early-stage startups. Brand, product, and web design in one partnership — trusted by 10+ Y Combinator companies.",
   },
 };
 
@@ -131,21 +130,19 @@ export default function RootLayout({
         className={`${TWKLausanne.variable} antialiased overflow-x-hidden bg-background font-sans`}
       >
         <MotionConfig reducedMotion="user">
-          <LiveCursorsProvider>
-            <a
-              href="#main"
-              className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[9999] focus:rounded-lg focus:bg-background focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:shadow-lg focus:ring-2 focus:ring-ring"
-            >
-              Skip to content
-            </a>
-            <HeaderWrapper />
-            {process.env.NODE_ENV === "development" && (
-              <Agentation endpoint="http://127.0.0.1:4747" />
-            )}
-            <main id="main">
-              {children}
-            </main>
-          </LiveCursorsProvider>
+          <a
+            href="#main"
+            className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[9999] focus:rounded-lg focus:bg-background focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:shadow-lg focus:ring-2 focus:ring-ring"
+          >
+            Skip to content
+          </a>
+          <HeaderWrapper />
+          {process.env.NODE_ENV === "development" && (
+            <Agentation endpoint="http://127.0.0.1:4747" />
+          )}
+          <main id="main">
+            {children}
+          </main>
         </MotionConfig>
       </body>
     </html>

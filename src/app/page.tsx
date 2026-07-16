@@ -1,27 +1,27 @@
-import React from "react";
-import type { Metadata } from "next";
-
-import Hero from "@/components/sections/hero";
-import Showreel from "@/components/sections/showreel";
-import Testimonials from "@/components/sections/testimonials";
+import type { Metadata, Viewport } from "next";
 import Booking from "@/components/sections/booking";
-import Faq from "@/components/sections/faq";
+import Hero from "@/components/sections/hero";
+import Pricing from "@/components/sections/pricing";
 import SiteFooter from "@/components/sections/site-footer";
+import Testimonials from "@/components/sections/testimonials";
+
+export const viewport: Viewport = {
+  themeColor: "#ffffff",
+};
 
 export const metadata: Metadata = {
-  title: "Arc \u2022 Creative Studio",
+  title: "Arc \u2022 All-in-one design studio for early-stage startups",
   description:
-    "Arc is a global Studio focused on blending innovation, creativity, and cutting-edge technology to craft unique, high-impact digital experiences.",
+    "Arc is the all-in-one design studio for early-stage startups. Brand, product, and web design in one partnership \u2014 trusted by 10+ Y Combinator companies.",
 };
 
 const Home = () => {
   return (
     <div className="flex flex-col">
       <Hero />
-      <Showreel />
       <Testimonials />
+      <Pricing headingAs="h2" />
       <Booking />
-      <Faq />
       <SiteFooter />
     </div>
   );

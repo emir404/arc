@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import Link from "next/link";
-import { motion, AnimatePresence, useReducedMotion } from "motion/react";
+import { useEffect, useMemo, useState } from "react";
 import { cn } from "@/lib/utils";
 
 // ── Types ───────────────────────────────────────────────────────────
@@ -31,8 +31,9 @@ const LOGOS: LogoDef[] = [
 
 // ── Constants ───────────────────────────────────────────────────────
 
+const LOGO_SCALE = 0.8;
 const SLOT_WIDTH = 240;
-const SLOT_HEIGHT = Math.max(...LOGOS.map((l) => l.height));
+const MAX_LOGO_HEIGHT = Math.max(...LOGOS.map((l) => l.height));
 const INITIAL_DELAY = 2500;
 const SLOT_STAGGER = 150;
 const CYCLE_INTERVAL = 3000;
@@ -149,7 +150,7 @@ function useLogoCycle(
 
 // ── LogoSlot ────────────────────────────────────────────────────────
 
-type CarouselVariant = "muted" | "dark";
+type CarouselVariant = "muted" | "dark" | "light";
 
 const variantStyles: Record<CarouselVariant, { base: string; interactive: string }> = {
   muted: {
@@ -160,6 +161,11 @@ const variantStyles: Record<CarouselVariant, { base: string; interactive: string
     base: "brightness-0 dark:invert",
     interactive: "transition-opacity duration-200 opacity-80 hover:opacity-100",
   },
+  /* White logos for blue/dark banners */
+  light: {
+    base: "brightness-0 invert opacity-55",
+    interactive: "transition-opacity duration-200 hover:opacity-90",
+  },
 };
 
 function LogoSlot({
@@ -168,14 +174,27 @@ function LogoSlot({
   enabled,
   disableLinks,
   variant = "muted",
+  slotWidth = SLOT_WIDTH,
+  slotShare,
+  logoScale = LOGO_SCALE,
 }: {
   logos: LogoDef[];
   slotIndex: number;
   enabled: boolean;
   disableLinks?: boolean;
   variant?: CarouselVariant;
+  slotWidth?: number | "fit";
+  /** Fluid mode: this slot's fixed share of the container width (0–1). */
+  slotShare?: number;
+  logoScale?: number;
 }) {
   const reducedMotion = useReducedMotion();
+  // "fit" sizes the slot to its own widest logo, so idle air stays minimal
+  // while the width still never changes as logos cycle.
+  const resolvedSlotWidth =
+    slotWidth === "fit"
+      ? Math.round(Math.max(...logos.map((l) => l.width)) * logoScale)
+      : slotWidth;
   const { current: logo, hasCycled } = useLogoCycle(
     logos,
     INITIAL_DELAY + slotIndex * SLOT_STAGGER,
@@ -188,11 +207,19 @@ function LogoSlot({
     <img
       src={logo.src}
       alt={disableLinks ? logo.name : ""}
-      width={logo.width}
-      height={logo.height}
-      className={cn(styles.base, !disableLinks && styles.interactive)}
+      width={Math.round(logo.width * logoScale)}
+      height={Math.round(logo.height * logoScale)}
+      className={cn("h-auto max-w-full", styles.base, !disableLinks && styles.interactive)}
     />
   );
+
+  // A share-sized slot is a fixed percentage of the container, so its width
+  // depends only on the viewport — never on which logo is currently shown.
+  // 88% is distributable; the remaining 12% becomes gaps via justify-between.
+  const sizing =
+    slotShare != null
+      ? { width: `${(slotShare * 88).toFixed(2)}%`, flex: "0 0 auto" }
+      : { flex: `0 1 ${resolvedSlotWidth}px` };
 
   return (
     <div
@@ -201,8 +228,9 @@ function LogoSlot({
       aria-label={logo.name}
       className="overflow-hidden flex items-center justify-center"
       style={{
-        width: SLOT_WIDTH,
-        height: SLOT_HEIGHT + 40,
+        ...sizing,
+        minWidth: 0,
+        height: MAX_LOGO_HEIGHT * logoScale + 40,
         marginBlock: -20,
       }}
     >
@@ -227,7 +255,7 @@ function LogoSlot({
               : { y: -20, opacity: 0, filter: "blur(8px)" }
           }
           transition={{ duration: 0.5, ease: "easeInOut" }}
-          className="flex items-center justify-center will-change-[filter] backface-hidden"
+          className="flex max-w-full items-center justify-center will-change-[filter] backface-hidden"
         >
           {disableLinks ? (
             imgEl
@@ -237,6 +265,7 @@ function LogoSlot({
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`${logo.name} (opens in new tab)`}
+              className="flex max-w-full"
             >
               {imgEl}
             </Link>
@@ -253,13 +282,30 @@ export function LogoCarousel({
   className,
   disableLinks,
   variant = "muted",
+  slotWidth,
+  maxSlots,
+  slots,
+  logoScale,
 }: {
   className?: string;
   disableLinks?: boolean;
   variant?: CarouselVariant;
+  /**
+   * Slot sizing: a fixed pixel width, "fit" (each slot hugs its widest logo),
+   * or "fluid" (each slot is a fixed percentage of the container, sized
+   * proportionally to its widest logo — widths never move during transitions).
+   */
+  slotWidth?: number | "fit" | "fluid";
+  maxSlots?: number;
+  /** Fixed slot count on every breakpoint (overrides responsive counting). */
+  slots?: number;
+  logoScale?: number;
 }) {
   const allLoaded = useImagesPreloaded(LOGO_SRCS);
-  const slotCount = useSlotCount();
+  const responsiveSlots = useSlotCount();
+  const slotCount =
+    slots ??
+    (maxSlots ? Math.min(responsiveSlots, maxSlots) : responsiveSlots);
 
   const slotLogos = useMemo(
     () =>
@@ -269,6 +315,18 @@ export function LogoCarousel({
     [slotCount],
   );
 
+  // Fluid mode: each slot's share of the row is proportional to the widest
+  // logo it will ever show, so no rotation can outgrow its box.
+  const fluid = slotWidth === "fluid";
+  const slotShares = useMemo(() => {
+    if (!fluid) return null;
+    const widest = slotLogos.map((logos) =>
+      Math.max(...logos.map((l) => l.width)),
+    );
+    const total = widest.reduce((sum, w) => sum + w, 0);
+    return widest.map((w) => w / total);
+  }, [fluid, slotLogos]);
+
   return (
     <motion.div
       role="region"
@@ -277,7 +335,11 @@ export function LogoCarousel({
       initial={{ opacity: 0 }}
       animate={{ opacity: allLoaded ? 1 : 0 }}
       transition={{ duration: 0.4, ease: "easeOut" }}
-      className={cn("flex items-center gap-4", className)}
+      className={cn(
+        "flex items-center",
+        fluid ? "w-full justify-between" : "gap-4",
+        className,
+      )}
     >
       {slotLogos.map((logos, i) => (
         <LogoSlot
@@ -287,6 +349,9 @@ export function LogoCarousel({
           enabled={allLoaded}
           disableLinks={disableLinks}
           variant={variant}
+          slotWidth={fluid ? "fit" : slotWidth}
+          slotShare={slotShares?.[i]}
+          logoScale={logoScale}
         />
       ))}
     </motion.div>

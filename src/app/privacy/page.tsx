@@ -75,9 +75,6 @@ export default function PrivacyPage() {
           <li>
             <strong>Telegram</strong> — direct messaging when you reach out.
           </li>
-          <li>
-            <strong>Liveblocks</strong> — live cursor presence on the Site.
-          </li>
         </ul>
       </section>
 

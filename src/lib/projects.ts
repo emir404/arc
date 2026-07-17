@@ -37,9 +37,9 @@ export const PROJECTS: Project[] = [
     year: "2025",
     dark: true,
     images: [
-      "/works/agentphone-1.webp",
-      "/works/agentphone-2.webp",
-      "/works/agentphone-3.webp",
+      "/works/agentphone-1.png",
+      "/works/agentphone-2.png",
+      "/works/agentphone-3.png",
     ],
   },
   {
@@ -57,7 +57,7 @@ export const PROJECTS: Project[] = [
     description: "The Complete Web Intelligence API",
     year: "2025",
     images: [
-      "/works/thehog-1.webp",
+      "/works/thehog-1.png",
       "/works/thehog-2.webp",
       "/works/thehog-3.webp",
     ],

@@ -46,15 +46,21 @@ export const PROJECTS: Project[] = [
     name: "Orchid",
     description: "AI Personal Assistant",
     year: "2025",
-    // TODO: awaiting design uploads (3 images).
-    images: [],
+    images: [
+      "/works/orchid-1.webp",
+      "/works/orchid-2.webp",
+      "/works/orchid-3.webp",
+    ],
   },
   {
     name: "The Hog",
     description: "The Complete Web Intelligence API",
     year: "2025",
-    // TODO: awaiting design uploads (3 images).
-    images: [],
+    images: [
+      "/works/thehog-1.webp",
+      "/works/thehog-2.png",
+      "/works/thehog-3.png",
+    ],
   },
   {
     name: "Bloom",

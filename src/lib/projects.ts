@@ -57,7 +57,7 @@ export const PROJECTS: Project[] = [
     description: "The Complete Web Intelligence API",
     year: "2025",
     images: [
-      "/works/thehog-1.png",
+      "/works/thehog-1.webp",
       "/works/thehog-2.webp",
       "/works/thehog-3.webp",
     ],

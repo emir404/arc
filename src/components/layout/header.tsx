@@ -14,13 +14,7 @@ const Header = () => {
       </Link>
       <div className="flex items-center gap-2">
         <Button asChild variant="secondary" className="hidden md:inline-flex">
-          <Link
-            href="https://t.me/emirthedev"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Send message
-          </Link>
+          <Link href="mailto:omeroztok@witharc.co">Send message</Link>
         </Button>
         <Button asChild>
           <Link

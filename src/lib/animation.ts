@@ -2,7 +2,7 @@ import type { MotionProps } from "motion/react";
 
 type Ease = [number, number, number, number];
 
-/** Shared easing — decisive start, silky settle (easeOutExpo family). */
+/** Shared easing: decisive start, silky settle (easeOutExpo family). */
 export const EASE: Ease = [0.16, 1, 0.3, 1];
 
 const HIDDEN = { opacity: 0, y: 20, filter: "blur(10px)" };

@@ -105,13 +105,7 @@ const LandingContent = () => {
             </Link>
           </Button>
           <Button asChild variant="secondary">
-            <Link
-              href="https://t.me/emirthedev"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Send a message
-            </Link>
+            <Link href="mailto:omeroztok@witharc.co">Send a message</Link>
           </Button>
         </div>
       </motion.div>

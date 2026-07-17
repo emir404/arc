@@ -30,9 +30,9 @@ export default function PrivacyPage() {
           </li>
           <li>
             <strong>Information collected automatically.</strong> Like most
-            websites, we collect basic technical and usage data — such as your
+            websites, we collect basic technical and usage data (such as your
             browser type, device, approximate location, pages viewed, and
-            referring links — through analytics and similar technologies.
+            referring links) through analytics and similar technologies.
           </li>
         </ul>
       </section>
@@ -67,13 +67,13 @@ export default function PrivacyPage() {
         </p>
         <ul>
           <li>
-            <strong>Google Analytics</strong> — website analytics.
+            <strong>Google Analytics</strong> for website analytics.
           </li>
           <li>
-            <strong>Cal.com</strong> — scheduling and booking calls.
+            <strong>Cal.com</strong> for scheduling and booking calls.
           </li>
           <li>
-            <strong>Telegram</strong> — direct messaging when you reach out.
+            <strong>Telegram</strong> for direct messaging when you reach out.
           </li>
         </ul>
       </section>

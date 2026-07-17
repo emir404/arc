@@ -35,24 +35,24 @@ const testimonials: Testimonial[] = [
   },
   {
     quote:
-      "Emir was incredibly great to work with as a designer. What matters most in a designer today is strong taste combined with real product understanding, and Emir has both. I did not need to give him much direction, and his taste aligned closely with mine. Will work with again in the future.",
+      "Emir was incredibly great to work with as a designer. What matters most today is strong taste combined with real product understanding, and Emir has both. Will work with again.",
     name: "Michael Ryaboy",
-    role: "Co-founder, Startclaw",
-  },
-  // TODO: last two repeat existing quotes to fill the 3×2 grid per the Figma — swap in new testimonials as they arrive.
-  {
-    quote:
-      "You’re the best dude and thanks for giving our brand so much life and recognition. Was a pleasure working with you and I’d recommend your service to any founder.",
-    name: "Adi Singh",
-    role: "CEO, AgentMail (YC S25)",
-    avatar: "/testimonials/adi-singh.png",
+    role: "Serial Founder, Startclaw, Setupclaw, Rebates & more",
+    avatar: "/testimonials/michael-ryaboy.png",
   },
   {
     quote:
-      "Emir is a talented designer with massive potential. He’s both a developer and designer, making his skillset highly valuable for fast-moving teams.",
-    name: "Emir Karabeg",
-    role: "CEO, Sim.ai (YC X25)",
-    avatar: "/testimonials/emir-karabeg.png",
+      "Arc brought our brand to life with a world-class site that went viral on Twitter in a month. A pleasure working with them, and I’d recommend them to any founder.",
+    name: "Nizzy Abi Zaher",
+    role: "Co-founder, Orchid (YC X25)",
+    avatar: "/testimonials/nizzy-abi-zaher.png",
+  },
+  {
+    quote:
+      "Arc handled our brand, website, product, and everything in between, down to hackathon flyers and t-shirts, all on short notice. Work that usually takes several agencies, done by one studio.",
+    name: "Meet Modi",
+    role: "Co-founder, AgentPhone (YC P26)",
+    avatar: "/testimonials/meet-modi.png",
   },
 ];
 
@@ -70,11 +70,12 @@ const Testimonials = () => {
             {...riseInView((i % 3) * 0.08)}
             className="relative flex flex-col gap-7 overflow-hidden rounded-2xl border border-[#f6f6f6] bg-[#fafafa] p-9 shadow-[0px_4px_8px_0px_rgba(0,0,0,0.02)] will-change-[filter] backface-hidden"
           >
-            {/* Every quote reserves exactly 5 lines so the grid stays uniform. */}
-            <p className="min-h-[7em] text-lg font-[450] leading-[1.4] text-black line-clamp-5">
+            {/* Every quote reserves 4 lines so the grid stays uniform; a 5th
+                line still fits before clamping on narrower desktop cards. */}
+            <p className="min-h-[5.6em] text-lg font-[450] leading-[1.4] text-black line-clamp-5">
               {t.quote}
             </p>
-            <footer className="flex items-center gap-4">
+            <footer className="mt-auto flex items-center gap-4">
               {t.avatar ? (
                 <Image
                   src={t.avatar}
@@ -94,11 +95,11 @@ const Testimonials = () => {
                     .join("")}
                 </span>
               )}
-              <div className="flex min-w-0 flex-col gap-2 leading-none">
+              <div className="flex min-w-0 flex-col gap-1.5 leading-none">
                 <cite className="text-base font-normal not-italic text-black">
                   {t.name}
                 </cite>
-                <span className="text-sm font-light text-black/75">
+                <span className="text-sm font-light leading-[1.3] text-black/75">
                   {t.role}
                 </span>
               </div>

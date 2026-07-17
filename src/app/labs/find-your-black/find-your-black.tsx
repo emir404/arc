@@ -332,7 +332,7 @@ export function FindYourBlack() {
 
       {/* Two-column layout */}
       <div className="flex flex-col xl:flex-row gap-10 xl:gap-8">
-        {/* Left — picker + input + result */}
+        {/* Left: picker + input + result */}
         <motion.div
           {...fade}
           transition={{ duration: 0.5, ease, delay: 0.3 }}
@@ -393,7 +393,7 @@ export function FindYourBlack() {
           </div>
         </motion.div>
 
-        {/* Right — comparison cards */}
+        {/* Right: comparison cards */}
         <motion.div
           {...fade}
           transition={{ duration: 0.5, ease, delay: 0.45 }}

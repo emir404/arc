@@ -23,13 +23,7 @@ const Hero = () => {
         </Link>
         <div className="flex items-center gap-2">
           <Button asChild variant="secondary" className="hidden md:inline-flex">
-            <Link
-              href="https://t.me/emirthedev"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Send message
-            </Link>
+            <Link href="mailto:omeroztok@witharc.co">Send message</Link>
           </Button>
           <Button asChild>
             <Link
@@ -73,7 +67,7 @@ const Hero = () => {
         </div>
 
         {/* Definite width (100% capped at 442px) so the fluid slots resolve
-            to fixed percentages — 442px keeps the row intact at 1440. */}
+            to fixed percentages; 442px keeps the row intact at 1440. */}
         <motion.div
           {...riseIn(0.16)}
           className="w-full min-w-0 max-w-[442px] will-change-[filter] backface-hidden"

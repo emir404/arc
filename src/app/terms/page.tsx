@@ -59,7 +59,7 @@ export default function TermsPage() {
           </strong>{" "}
           Instead of refunds, your time is flexible: you can pause your
           engagement at any time and use any remaining time whenever you’re
-          ready to resume. Paused time doesn’t expire — it stays available to
+          ready to resume. Paused time doesn’t expire; it stays available to
           you until it’s used.
         </p>
       </section>
@@ -118,9 +118,9 @@ export default function TermsPage() {
         <h2>Termination</h2>
         <p>
           Either party may end an engagement as described in the applicable
-          agreement. Sections that by their nature should survive — including
+          agreement. Sections that by their nature should survive (including
           payment obligations, intellectual property, confidentiality,
-          disclaimers, and limitation of liability — continue after an
+          disclaimers, and limitation of liability) continue after an
           engagement ends. As noted above, ending an engagement doesn’t entitle
           you to a refund of amounts already paid.
         </p>

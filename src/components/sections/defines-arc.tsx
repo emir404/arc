@@ -21,7 +21,7 @@ import { cn } from "@/lib/utils";
  * marks sit exactly on its endpoints.
  *
  * Coordinates live in a 62.2629 x 60 viewBox whose 50.263 x 48 content box
- * starts at (6, 3) — the surrounding margin is glow bleed.
+ * starts at (6, 3); the surrounding margin is glow bleed.
  */
 const ARC =
   "M10.1122 47.0853C7.71191 37.2269 6.51175 29.1571 6.72178 22.7665C6.93182 16.376 8.55202 11.6649 11.7925 8.52417C15.0329 5.38345 19.8935 3.81309 26.5844 3.70404C33.2753 3.59497 41.7963 4.94722 52.3577 7.65173";
@@ -158,7 +158,7 @@ const ArcMark = ({
           style={{ pathLength: progress }}
         />
 
-        {/* Origin — always lit; every card starts from somewhere */}
+        {/* Origin: always lit; every card starts from somewhere */}
         <motion.g
           filter={`url(#${glow})`}
           style={{
@@ -171,7 +171,7 @@ const ArcMark = ({
           <path d={ORIGIN_EDGE} stroke={LIT_EDGE} strokeWidth="0.75" />
         </motion.g>
 
-        {/* Arrival — lands as the curve closes the distance */}
+        {/* Arrival: lands as the curve closes the distance */}
         {litTarget && (
           <motion.g filter={`url(#${glow})`} style={{ opacity: arrival }}>
             <path d={TARGET} fill={LIT} />
@@ -203,7 +203,7 @@ const TraitCard = ({ trait }: { trait: Trait }) => {
   // Reduced motion resolves here rather than at each `style`, so both branches
   // stay MotionValues. That matters: motion only scrapes plain numbers out of
   // `style` for "forced" values like scale, so a literal 1 on `pathLength` is
-  // dropped — stranding the arc at the server-rendered 0 and erasing it.
+  // dropped, stranding the arc at the server-rendered 0 and erasing it.
   const progress = reduced ? settled : scrolled;
 
   // max-w is inert at the 1440 design width (columns are 373px) and only bites

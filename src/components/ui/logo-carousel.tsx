@@ -18,15 +18,14 @@ interface LogoDef {
 // ── Logo data ───────────────────────────────────────────────────────
 
 const LOGOS: LogoDef[] = [
-  { name: "Lantern", src: "/brands/lantern.svg", url: "https://withlantern.com", width: 186, height: 40 },
   { name: "Sim", src: "/brands/sim.svg", url: "https://sim.ai", width: 84, height: 41 },
-  { name: "Langbase", src: "/brands/langbase.svg", url: "https://langbase.com", width: 202, height: 40 },
   { name: "AgentMail", src: "/brands/agentmail.svg", url: "https://agentmail.to", width: 219, height: 40 },
-  { name: "Dot", src: "/brands/dot.svg", url: "https://bydot.studio", width: 114, height: 40 },
-  { name: "Fontface", src: "/brands/fontface.svg", url: "https://fontface.ai", width: 169, height: 40 },
-  { name: "Tesseract", src: "/brands/tesseract.svg", url: "https://x.com/usetesseract", width: 180, height: 50 },
-  { name: "Someone", src: "/brands/someone.svg", url: "https://someo.ne", width: 176, height: 30 },
-  { name: "Parrychain", src: "/brands/parrychain.svg", url: "https://parrychain.ai", width: 211, height: 25 },
+  { name: "AgentPhone", src: "/brands/agentphone.svg", url: "https://agentphone.ai", width: 212, height: 40 },
+  { name: "Orchid", src: "/brands/orchid.svg", url: "https://orchid.ai", width: 166, height: 40 },
+  { name: "StarSling", src: "/brands/starsling.svg", url: "https://starsling.dev", width: 163, height: 40 },
+  { name: "The Hog", src: "/brands/thehog.svg", url: "https://thehog.ai", width: 169, height: 37 },
+  { name: "Feyn", src: "/brands/feyn.svg", url: "https://usefeyn.com", width: 88, height: 37 },
+  { name: "Bloom", src: "/brands/bloom.svg", url: "https://trybloom.ai", width: 132, height: 36 },
 ];
 
 // ── Constants ───────────────────────────────────────────────────────
@@ -214,7 +213,7 @@ function LogoSlot({
   );
 
   // A share-sized slot is a fixed percentage of the container, so its width
-  // depends only on the viewport — never on which logo is currently shown.
+  // depends only on the viewport, never on which logo is currently shown.
   // 88% is distributable; the remaining 12% becomes gaps via justify-between.
   const sizing =
     slotShare != null
@@ -293,7 +292,7 @@ export function LogoCarousel({
   /**
    * Slot sizing: a fixed pixel width, "fit" (each slot hugs its widest logo),
    * or "fluid" (each slot is a fixed percentage of the container, sized
-   * proportionally to its widest logo — widths never move during transitions).
+   * proportionally to its widest logo; widths never move during transitions).
    */
   slotWidth?: number | "fit" | "fluid";
   maxSlots?: number;
@@ -303,9 +302,11 @@ export function LogoCarousel({
 }) {
   const allLoaded = useImagesPreloaded(LOGO_SRCS);
   const responsiveSlots = useSlotCount();
-  const slotCount =
-    slots ??
-    (maxSlots ? Math.min(responsiveSlots, maxSlots) : responsiveSlots);
+  // Never more slots than logos; an empty slot has nothing to render.
+  const slotCount = Math.min(
+    LOGOS.length,
+    slots ?? (maxSlots ? Math.min(responsiveSlots, maxSlots) : responsiveSlots),
+  );
 
   const slotLogos = useMemo(
     () =>

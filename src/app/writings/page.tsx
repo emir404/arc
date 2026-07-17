@@ -18,7 +18,7 @@ const WritingsPage = () => {
         </h1>
         <p className="max-w-[461px] text-lg font-light leading-[1.4] text-black/75 text-pretty">
           Notes on design, product, and building for early-stage startups. The
-          first essays are in the works — check back soon.
+          first essays are in the works. Check back soon.
         </p>
         <Button asChild variant="secondary">
           <Link href="/">Back to home</Link>

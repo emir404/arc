@@ -23,18 +23,12 @@ const linkColumns: { title: string; links: FooterLink[] }[] = [
         href: "https://linkedin.com/company/witharcstudio",
         external: true,
       },
-      {
-        label: "Contra",
-        href: "https://contra.com/emirthedev",
-        external: true,
-      },
     ],
   },
   {
     title: "Website",
     links: [
-      { label: "Writings", href: "/writings" },
-      { label: "Start", href: "/" },
+      { label: "Works", href: "/works" },
       { label: "Testimonials", href: "/#testimonials" },
       { label: "Pricing", href: "/#pricing" },
     ],
@@ -89,13 +83,7 @@ const SiteFooter = () => {
                 </Link>
               </Button>
               <Button asChild variant="secondary">
-                <Link
-                  href="https://t.me/emirthedev"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Send message
-                </Link>
+                <Link href="mailto:omeroztok@witharc.co">Send message</Link>
               </Button>
             </div>
           </motion.div>
@@ -123,18 +111,18 @@ const SiteFooter = () => {
         </motion.nav>
       </div>
 
-      {/* Bottom: wordmark + legal */}
+      {/* Bottom: squares-and-arches pattern + legal */}
       <div className="flex flex-col gap-8 lg:gap-12">
         <motion.div
           {...riseInView()}
           className="will-change-[filter] backface-hidden"
         >
           <Image
-            src="/footer-wordmark.svg"
+            src="/footer-pattern.svg"
             alt=""
             aria-hidden
             width={1248}
-            height={88}
+            height={89}
             className="h-auto w-full"
           />
         </motion.div>

@@ -13,7 +13,7 @@ type ButtonVariant = VariantProps<typeof buttonVariants>["variant"];
 type Cta = { label: string; href: string; variant: ButtonVariant };
 
 const CAL_URL = "https://cal.com/team/arc-studio/intro-call";
-const TELEGRAM_URL = "https://t.me/emirthedev";
+const EMAIL_URL = "mailto:omeroztok@witharc.co";
 
 const plans: {
   name: string;
@@ -38,7 +38,7 @@ const plans: {
     ],
     ctas: [
       { label: "Book a call", href: CAL_URL, variant: "secondary" },
-      { label: "Send message", href: TELEGRAM_URL, variant: "glass" },
+      { label: "Send message", href: EMAIL_URL, variant: "glass" },
     ],
     featured: true,
   },
@@ -47,7 +47,7 @@ const plans: {
     price: "Custom",
     period: "",
     description:
-      "A defined scope with a clear timeline — for landing pages, brand work, or a focused product sprint.",
+      "A defined scope with a clear timeline for landing pages, brand work, or a focused product sprint.",
     features: [
       "Fixed scope & timeline",
       "Designs delivered in Figma",
@@ -56,7 +56,7 @@ const plans: {
     ],
     ctas: [
       { label: "Book a call", href: CAL_URL, variant: "default" },
-      { label: "Send message", href: TELEGRAM_URL, variant: "secondary" },
+      { label: "Send message", href: EMAIL_URL, variant: "secondary" },
     ],
     featured: false,
   },
@@ -148,8 +148,9 @@ const Pricing = ({ headingAs = "h1" }: { headingAs?: "h1" | "h2" }) => {
                 <Button key={cta.label} asChild variant={cta.variant}>
                   <Link
                     href={cta.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    {...(cta.href.startsWith("mailto:")
+                      ? {}
+                      : { target: "_blank", rel: "noopener noreferrer" })}
                   >
                     {cta.label}
                   </Link>

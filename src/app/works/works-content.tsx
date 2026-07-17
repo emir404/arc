@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { motion } from "motion/react";
 import { useEffect, useRef, useCallback } from "react";
-import { PROJECTS } from "@/lib/projects";
+import { PUBLISHED_PROJECTS } from "@/lib/projects";
 
 export default function WorksContent() {
   const darkRefs = useRef<Map<number, HTMLElement>>(new Map());
@@ -56,7 +56,7 @@ export default function WorksContent() {
 
   return (
     <div className="flex flex-col gap-24 px-4 pt-20 pb-24 md:px-12 lg:px-24 xl:px-32">
-      {PROJECTS.map((project, projectIndex) => (
+      {PUBLISHED_PROJECTS.map((project, projectIndex) => (
         <motion.section
           key={project.name}
           ref={project.dark ? setDarkRef(projectIndex) : undefined}

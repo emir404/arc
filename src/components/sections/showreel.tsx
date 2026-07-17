@@ -7,22 +7,10 @@ import type React from "react";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { EASE } from "@/lib/animation";
+import { SHOWREEL_IMAGES } from "@/lib/projects";
 
-const IMAGE_LINKS = [
-  "https://494510hkri.ufs.sh/f/3d9AyaVNUM8w36URyDVNUM8wsF1VBZOHcvIdTi9DhgQ7Rpmu",
-  "https://494510hkri.ufs.sh/f/3d9AyaVNUM8wtc1hUFMYZjvNFCAUWr1ncwPQR7T4hm8pI5kV",
-  "https://494510hkri.ufs.sh/f/3d9AyaVNUM8wOqI2ETkCmxdvfqiDUQANc63RleuKp0a1ygHt",
-  "https://494510hkri.ufs.sh/f/3d9AyaVNUM8wmo2TwcaI0TuRiKvWN36gjOJDhEzkplXCmeAY",
-  "https://494510hkri.ufs.sh/f/3d9AyaVNUM8wEwPxiMqhFvnVqJMwHyLro5RN9sWceEY6Dgpl",
-  "https://494510hkri.ufs.sh/f/3d9AyaVNUM8wCLBrHN02g0NPOiTH8EVzMJdeZDkqQ5hlp9uf",
-  "https://494510hkri.ufs.sh/f/3d9AyaVNUM8wrx0Z3MnFtc80pzOYxZ3yevLma4hXGJluCH9i",
-  "https://494510hkri.ufs.sh/f/3d9AyaVNUM8wBIBmaGlvQ6EnK4ZYi1eOC2y9IVwq0JdcbWBS",
-  "https://494510hkri.ufs.sh/f/3d9AyaVNUM8w1Rsybv6xglOBVtHY5mXKeI3TMDawiLuErfNZ",
-  "https://494510hkri.ufs.sh/f/3d9AyaVNUM8wzcVZxM1pfMwZhC4cjWIA8mLPTOJias9FulD3",
-  "https://494510hkri.ufs.sh/f/3d9AyaVNUM8w4UQS1ed5YfAKtoRjdOaDVs1c9Fnql80rEx3B",
-  "https://494510hkri.ufs.sh/f/3d9AyaVNUM8wdQY0JGCEtBUvonjplAG039xzaROYHSZCwWbN",
-  "https://494510hkri.ufs.sh/f/3d9AyaVNUM8w3ko5lDDVNUM8wsF1VBZOHcvIdTi9DhgQ7Rpm",
-];
+// One representative design per company, in the order they appear in works.
+const IMAGE_LINKS = SHOWREEL_IMAGES;
 
 type ShowreelProps = {
   compact?: boolean;

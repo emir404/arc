@@ -14,9 +14,16 @@ type Testimonial = {
 const testimonials: Testimonial[] = [
   {
     quote:
+      "As a unicorn founder, I’ve rarely met founders who operate with the agency, speed, and relentless execution that Arc Studio consistently demonstrate.",
+    name: "Kagan Sumer",
+    role: "Co-founder, Gorillas (acq. $1.2B)",
+    avatar: "/testimonials/kagan-sumer.png",
+  },
+  {
+    quote:
       "Emir is a talented designer with massive potential. He’s both a developer and designer, making his skillset highly valuable for fast-moving teams.",
     name: "Emir Karabeg",
-    role: "CEO, Sim.ai (YC X25)",
+    role: "CEO, Sim (YC X25)",
     avatar: "/testimonials/emir-karabeg.png",
   },
   {
@@ -32,13 +39,6 @@ const testimonials: Testimonial[] = [
     name: "Shreyash Nigam",
     role: "CEO, Feyn (YC X25)",
     avatar: "/testimonials/shreyash-nigam.png",
-  },
-  {
-    quote:
-      "Emir was incredibly great to work with as a designer. What matters most today is strong taste combined with real product understanding, and Emir has both. Will work with again.",
-    name: "Michael Ryaboy",
-    role: "Serial Founder, Startclaw, Setupclaw, Rebates & more",
-    avatar: "/testimonials/michael-ryaboy.png",
   },
   {
     quote:
@@ -63,16 +63,16 @@ const Testimonials = () => {
       className="scroll-mt-24 bg-white px-5 py-12 md:px-12 lg:px-24"
     >
       <h2 className="sr-only">Testimonials</h2>
-      <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
         {testimonials.map((t, i) => (
           <motion.blockquote
             key={`${t.name}-${i}`}
             {...riseInView((i % 3) * 0.08)}
             className="relative flex flex-col gap-7 overflow-hidden rounded-2xl border border-[#f6f6f6] bg-[#fafafa] p-9 shadow-[0px_4px_8px_0px_rgba(0,0,0,0.02)] will-change-[filter] backface-hidden"
           >
-            {/* Every quote reserves 4 lines so the grid stays uniform; a 5th
-                line still fits before clamping on narrower desktop cards. */}
-            <p className="min-h-[5.6em] text-lg font-[450] leading-[1.4] text-black line-clamp-5">
+            {/* Every quote reserves 4 lines so the grid stays uniform; quotes
+                are never clamped — cards grow and rows equalize via grid. */}
+            <p className="min-h-[5.6em] text-lg font-[450] leading-[1.4] text-black">
               {t.quote}
             </p>
             <footer className="mt-auto flex items-center gap-4">
@@ -95,11 +95,11 @@ const Testimonials = () => {
                     .join("")}
                 </span>
               )}
-              <div className="flex min-w-0 flex-col gap-1.5 leading-none">
-                <cite className="text-base font-normal not-italic text-black">
+              <div className="flex min-w-0 flex-col gap-1">
+                <cite className="text-base font-normal not-italic leading-none text-black">
                   {t.name}
                 </cite>
-                <span className="text-sm font-light leading-[1.3] text-black/75">
+                <span className="text-sm font-light leading-[1.2] text-black/75">
                   {t.role}
                 </span>
               </div>

@@ -31,7 +31,7 @@ type ShowreelProps = {
   buttonTitle?: string;
   /** Tailwind background class for the frame (e.g. "bg-transparent"). */
   background?: string;
-  /** Delay before the reel fades in — lets a parent reveal finish first. */
+  /** Delay before the reel fades in; lets a parent reveal finish first. */
   revealDelay?: number;
 };
 
@@ -139,6 +139,7 @@ const Showreel = ({
             onMouseEnter={handleMouseEnter}
             onMouseLeave={() => setIsHovering(false)}
             onMouseMove={handleMouseMove}
+            onClick={() => setIsHovering(false)}
             className={interactiveClassName}
           >
             {content}

@@ -49,7 +49,7 @@ const structuredData = {
   url: "https://witharc.co",
   logo: "https://witharc.co/logo.png",
   description:
-    "Arc is the all-in-one design studio for early-stage startups. Brand, product, and web design in one partnership — trusted by 10+ Y Combinator companies.",
+    "Arc is the all-in-one design studio for early-stage startups. Brand, product, and web design in one partnership, trusted by 10+ Y Combinator companies.",
   contactPoint: {
     "@type": "ContactPoint",
     contactType: "customer service",
@@ -68,7 +68,7 @@ export const metadata: Metadata = {
     template: "%s • Arc",
   },
   description:
-    "Arc is the all-in-one design studio for early-stage startups. Brand, product, and web design in one partnership — trusted by 10+ Y Combinator companies.",
+    "Arc is the all-in-one design studio for early-stage startups. Brand, product, and web design in one partnership, trusted by 10+ Y Combinator companies.",
   keywords:
     "design studio, startup design, early-stage startups, Y Combinator startups, brand design, product design, web design, UI/UX design, startup branding",
   authors: [{ name: "Arc Studio" }],
@@ -89,7 +89,7 @@ export const metadata: Metadata = {
     images: ["https://witharc.co/thumbnail.png"],
     title: "Arc • All-in-one design studio for early-stage startups",
     description:
-      "Arc is the all-in-one design studio for early-stage startups. Brand, product, and web design in one partnership — trusted by 10+ Y Combinator companies.",
+      "Arc is the all-in-one design studio for early-stage startups. Brand, product, and web design in one partnership, trusted by 10+ Y Combinator companies.",
     siteName: "Arc Studio",
   },
   twitter: {
@@ -97,14 +97,16 @@ export const metadata: Metadata = {
     images: ["https://witharc.co/thumbnail.png"],
     title: "Arc • All-in-one design studio for early-stage startups",
     description:
-      "Arc is the all-in-one design studio for early-stage startups. Brand, product, and web design in one partnership — trusted by 10+ Y Combinator companies.",
+      "Arc is the all-in-one design studio for early-stage startups. Brand, product, and web design in one partnership, trusted by 10+ Y Combinator companies.",
   },
 };
 
 export default function RootLayout({
   children,
+  modal,
 }: Readonly<{
   children: React.ReactNode;
+  modal: React.ReactNode;
 }>) {
   return (
     <html lang="en">
@@ -143,6 +145,7 @@ export default function RootLayout({
           <main id="main">
             {children}
           </main>
+          {modal}
         </MotionConfig>
       </body>
     </html>

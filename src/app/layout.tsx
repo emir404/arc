@@ -94,6 +94,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
+    site: "@witharc_co",
     images: ["https://witharc.co/thumbnail.png"],
     title: "Arc • All-in-one design studio for early-stage startups",
     description:

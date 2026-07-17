@@ -88,7 +88,7 @@ export default function WorksContent() {
                 alt={`${project.name} ${i + 1}`}
                 width={1920}
                 height={1080}
-                className="w-full h-auto border border-border"
+                className="w-full h-auto rounded-2xl border border-border"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 80vw"
               />
             ))}

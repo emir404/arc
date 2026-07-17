@@ -105,7 +105,7 @@ const Showreel = ({
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
             draggable={false}
-            className={`rounded-[8px] object-contain [filter:drop-shadow(0_1px_2px_rgba(3,22,47,0.06))_drop-shadow(0_12px_32px_rgba(3,22,47,0.12))] ${
+            className={`rounded-2xl object-contain [filter:drop-shadow(0_1px_2px_rgba(3,22,47,0.06))_drop-shadow(0_12px_32px_rgba(3,22,47,0.12))] ${
               index === currentIndex ? "opacity-100" : "opacity-0"
             }`}
             priority={index === 0}

@@ -4,6 +4,9 @@ export type Project = {
   year: string;
   /** Flips the site into dark mode while the section is centered in view. */
   dark?: boolean;
+  /** Drops the hairline image border (for designs whose own light/gradient
+      edges make the border read as a partial outline). */
+  borderless?: boolean;
   images: string[];
 };
 
@@ -56,6 +59,7 @@ export const PROJECTS: Project[] = [
     name: "The Hog",
     description: "The Complete Web Intelligence API",
     year: "2025",
+    borderless: true,
     images: [
       "/works/thehog-1.webp",
       "/works/thehog-2.webp",

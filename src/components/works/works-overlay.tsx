@@ -181,7 +181,9 @@ const WorksOverlay = () => {
                                 ? "eager"
                                 : undefined
                             }
-                            className="h-auto w-full rounded-2xl border border-[#e5e5e5]"
+                            className={`h-auto w-full rounded-2xl${
+                              project.borderless ? "" : " border border-[#e5e5e5]"
+                            }`}
                             sizes="(max-width: 768px) 95vw, (max-width: 1400px) 88vw, 1138px"
                           />
                         ))}

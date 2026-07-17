@@ -104,21 +104,26 @@ const Showreel = ({
     `${baseClassName} ${isHovering ? "cursor-none" : ""}`.trim();
 
   const content = (
-    <div className="relative h-full w-full overflow-visible">
-      {IMAGE_LINKS.map((src, index) => (
-        <Image
-          key={src}
-          src={src}
-          alt={`Showreel image ${index + 1}`}
-          fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
-          draggable={false}
-          className={`object-contain [filter:drop-shadow(0_1px_2px_rgba(3,22,47,0.06))_drop-shadow(0_12px_32px_rgba(3,22,47,0.12))] ${
-            index === currentIndex ? "opacity-100" : "opacity-0"
-          }`}
-          priority={index === 0}
-        />
-      ))}
+    <div className="relative flex h-full w-full items-center justify-center [container-type:size]">
+      {/* Reel images are 5760×4096 (45:32). This wrapper contain-fits that
+          exact ratio, so the corner radius hugs the visible bitmap instead
+          of a letterboxed element edge. 140.625cqh = 100cqh × 45/32. */}
+      <div className="relative aspect-[45/32] w-[min(100%,140.625cqh)]">
+        {IMAGE_LINKS.map((src, index) => (
+          <Image
+            key={src}
+            src={src}
+            alt={`Showreel image ${index + 1}`}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
+            draggable={false}
+            className={`rounded-[8px] object-contain [filter:drop-shadow(0_1px_2px_rgba(3,22,47,0.06))_drop-shadow(0_12px_32px_rgba(3,22,47,0.12))] ${
+              index === currentIndex ? "opacity-100" : "opacity-0"
+            }`}
+            priority={index === 0}
+          />
+        ))}
+      </div>
     </div>
   );
 

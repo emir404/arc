@@ -9,7 +9,8 @@ import { cn } from "@/lib/utils";
 
 interface LogoDef {
   name: string;
-  src: string;
+  /** Image logo; absent for text-only slides (e.g. "& more"). */
+  src?: string;
   url: string;
   width: number;
   height: number;
@@ -17,15 +18,22 @@ interface LogoDef {
 
 // ── Logo data ───────────────────────────────────────────────────────
 
+/**
+ * width/height are the drawn box at scale 1. Every logo's visible ink is
+ * exactly 40 tall: boxes taller than 40 compensate for empty padding baked
+ * into that SVG's viewBox (StarSling 15%, The Hog 8%), so on-screen heights
+ * stay uniform as slots cycle. Widths follow each viewBox aspect ratio.
+ */
 const LOGOS: LogoDef[] = [
-  { name: "Sim", src: "/brands/sim.svg", url: "https://sim.ai", width: 84, height: 41 },
+  { name: "Sim", src: "/brands/sim.svg", url: "https://sim.ai", width: 82, height: 40 },
   { name: "AgentMail", src: "/brands/agentmail.svg", url: "https://agentmail.to", width: 219, height: 40 },
   { name: "AgentPhone", src: "/brands/agentphone.svg", url: "https://agentphone.ai", width: 212, height: 40 },
   { name: "Orchid", src: "/brands/orchid.svg", url: "https://orchid.ai", width: 166, height: 40 },
-  { name: "StarSling", src: "/brands/starsling.svg", url: "https://starsling.dev", width: 163, height: 40 },
-  { name: "The Hog", src: "/brands/thehog.svg", url: "https://thehog.ai", width: 169, height: 37 },
-  { name: "Feyn", src: "/brands/feyn.svg", url: "https://usefeyn.com", width: 88, height: 37 },
-  { name: "Bloom", src: "/brands/bloom.svg", url: "https://trybloom.ai", width: 132, height: 36 },
+  { name: "StarSling", src: "/brands/starsling.svg", url: "https://starsling.dev", width: 191, height: 47 },
+  { name: "The Hog", src: "/brands/thehog.svg", url: "https://thehog.ai", width: 199, height: 43 },
+  { name: "Feyn", src: "/brands/feyn.svg", url: "https://usefeyn.com", width: 95, height: 40 },
+  { name: "Bloom", src: "/brands/bloom.svg", url: "https://trybloom.ai", width: 147, height: 40 },
+  { name: "& more", url: "/works", width: 96, height: 40 },
 ];
 
 // ── Constants ───────────────────────────────────────────────────────
@@ -37,7 +45,7 @@ const INITIAL_DELAY = 2500;
 const SLOT_STAGGER = 150;
 const CYCLE_INTERVAL = 3000;
 
-const LOGO_SRCS = LOGOS.map((l) => l.src);
+const LOGO_SRCS = LOGOS.flatMap((l) => (l.src ? [l.src] : []));
 
 // ── Hooks ───────────────────────────────────────────────────────────
 
@@ -167,6 +175,22 @@ const variantStyles: Record<CarouselVariant, { base: string; interactive: string
   },
 };
 
+/* Text slides ("& more") mirror each variant's filtered-image color. */
+const textVariantStyles: Record<CarouselVariant, { base: string; interactive: string }> = {
+  muted: {
+    base: "text-black opacity-40 dark:text-white",
+    interactive: "transition-opacity duration-200 hover:opacity-60",
+  },
+  dark: {
+    base: "text-black dark:text-white",
+    interactive: "transition-opacity duration-200 opacity-80 hover:opacity-100",
+  },
+  light: {
+    base: "text-white opacity-55",
+    interactive: "transition-opacity duration-200 hover:opacity-90",
+  },
+};
+
 function LogoSlot({
   logos,
   slotIndex,
@@ -201,7 +225,15 @@ function LogoSlot({
   );
 
   const styles = variantStyles[variant];
-  const imgEl = (
+  const textStyles = textVariantStyles[variant];
+  // Fluid slots size every logo as a fraction of the slot width (cqw), so
+  // when the container squeezes the slot, all logos shrink by one shared
+  // factor — a per-logo max-w clamp would shrink only the widest and break
+  // the uniform ink height.
+  const fluid = slotShare != null;
+  const widestWidth = Math.max(...logos.map((l) => l.width));
+  const TEXT_SIZE = 24; // def-space font size for text slides ("& more")
+  const imgEl = logo.src ? (
     // eslint-disable-next-line @next/next/no-img-element
     <img
       src={logo.src}
@@ -209,7 +241,23 @@ function LogoSlot({
       width={Math.round(logo.width * logoScale)}
       height={Math.round(logo.height * logoScale)}
       className={cn("h-auto max-w-full", styles.base, !disableLinks && styles.interactive)}
+      style={fluid ? { width: `${((logo.width / widestWidth) * 100).toFixed(2)}cqw` } : undefined}
     />
+  ) : (
+    <span
+      className={cn(
+        "whitespace-nowrap font-normal leading-none tracking-[-0.01em]",
+        textStyles.base,
+        !disableLinks && textStyles.interactive,
+      )}
+      style={{
+        fontSize: fluid
+          ? `${((TEXT_SIZE / widestWidth) * 100).toFixed(2)}cqw`
+          : Math.round(TEXT_SIZE * logoScale),
+      }}
+    >
+      {logo.name}
+    </span>
   );
 
   // A share-sized slot is a fixed percentage of the container, so its width
@@ -225,7 +273,10 @@ function LogoSlot({
       role="group"
       aria-roledescription="slide"
       aria-label={logo.name}
-      className="overflow-hidden flex items-center justify-center"
+      className={cn(
+        "overflow-hidden flex items-center justify-center",
+        fluid && "[container-type:inline-size]",
+      )}
       style={{
         ...sizing,
         minWidth: 0,
@@ -258,12 +309,20 @@ function LogoSlot({
         >
           {disableLinks ? (
             imgEl
-          ) : (
+          ) : logo.src ? (
             <Link
               href={`${logo.url}?ref=arc`}
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`${logo.name} (opens in new tab)`}
+              className="flex max-w-full"
+            >
+              {imgEl}
+            </Link>
+          ) : (
+            <Link
+              href={logo.url}
+              aria-label={`${logo.name} — view all works`}
               className="flex max-w-full"
             >
               {imgEl}

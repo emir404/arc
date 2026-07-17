@@ -37,9 +37,9 @@ export const PROJECTS: Project[] = [
     year: "2025",
     dark: true,
     images: [
-      "/works/agentphone-1.png",
-      "/works/agentphone-2.png",
-      "/works/agentphone-3.png",
+      "/works/agentphone-1.webp",
+      "/works/agentphone-2.webp",
+      "/works/agentphone-3.webp",
     ],
   },
   {

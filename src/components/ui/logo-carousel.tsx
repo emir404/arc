@@ -33,12 +33,20 @@ const LOGOS: LogoDef[] = [
   { name: "The Hog", src: "/brands/thehog.svg", url: "https://thehog.ai", width: 199, height: 43 },
   { name: "Feyn", src: "/brands/feyn.svg", url: "https://usefeyn.com", width: 95, height: 40 },
   { name: "Bloom", src: "/brands/bloom.svg", url: "https://trybloom.ai", width: 147, height: 40 },
-  { name: "& more", url: "/works", width: 96, height: 40 },
+  { name: "& more", url: "/works", width: 139, height: 40 },
 ];
 
 // ── Constants ───────────────────────────────────────────────────────
 
 const LOGO_SCALE = 0.8;
+/**
+ * Font size for text slides ("& more") at scale 1. Sized by cap height rather
+ * than by the 40-tall ink rule above: that box also spans icons, ascenders and
+ * descenders, so matching it would leave text — which is all cap and x-height —
+ * overpowering its neighbors. TWK Lausanne's cap is 0.714em, so 44 lands a ~31
+ * cap, level with the wordmark logos.
+ */
+const TEXT_SIZE = 44;
 const SLOT_WIDTH = 240;
 const MAX_LOGO_HEIGHT = Math.max(...LOGOS.map((l) => l.height));
 const INITIAL_DELAY = 2500;
@@ -232,7 +240,6 @@ function LogoSlot({
   // the uniform ink height.
   const fluid = slotShare != null;
   const widestWidth = Math.max(...logos.map((l) => l.width));
-  const TEXT_SIZE = 24; // def-space font size for text slides ("& more")
   const imgEl = logo.src ? (
     // eslint-disable-next-line @next/next/no-img-element
     <img
@@ -275,11 +282,19 @@ function LogoSlot({
       aria-label={logo.name}
       className={cn(
         "overflow-hidden flex items-center justify-center",
+        // Containment stops contents from contributing intrinsic width, so it
+        // is only safe where an ancestor fixes the width — true of fluid mode,
+        // which requires a definite width anyway, but not of the shrink-to-fit
+        // parents non-fluid carousels sit in.
         fluid && "[container-type:inline-size]",
       )}
       style={{
         ...sizing,
-        minWidth: 0,
+        // Non-fluid slots equalize to the mean width of whatever is on screen.
+        // An image absorbs that via `max-w-full`, but nowrap text can only
+        // clip, so floor a text slot at the width its own label needs — the
+        // automatic minimum that would do this is zeroed by `overflow-hidden`.
+        minWidth: fluid || logo.src ? 0 : Math.round(logo.width * logoScale),
         height: MAX_LOGO_HEIGHT * logoScale + 40,
         marginBlock: -20,
       }}

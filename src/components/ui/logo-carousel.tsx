@@ -33,7 +33,7 @@ const LOGOS: LogoDef[] = [
   { name: "The Hog", src: "/brands/thehog.svg", url: "https://thehog.ai", width: 199, height: 43 },
   { name: "Feyn", src: "/brands/feyn.svg", url: "https://usefeyn.com", width: 95, height: 40 },
   { name: "Bloom", src: "/brands/bloom.svg", url: "https://trybloom.ai", width: 147, height: 40 },
-  { name: "& more", url: "/works", width: 96, height: 40 },
+  { name: "& more", url: "/works", width: 168, height: 40 },
 ];
 
 // ── Constants ───────────────────────────────────────────────────────
@@ -232,7 +232,7 @@ function LogoSlot({
   // the uniform ink height.
   const fluid = slotShare != null;
   const widestWidth = Math.max(...logos.map((l) => l.width));
-  const TEXT_SIZE = 24; // def-space font size for text slides ("& more")
+  const TEXT_SIZE = 42; // def-space font size for text slides ("& more")
   const imgEl = logo.src ? (
     // eslint-disable-next-line @next/next/no-img-element
     <img

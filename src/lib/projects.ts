@@ -39,7 +39,7 @@ export const PROJECTS: Project[] = [
     images: [
       "/works/agentphone-1.webp",
       "/works/agentphone-2.webp",
-      "/works/agentphone-3.png",
+      "/works/agentphone-3.webp",
     ],
   },
   {

@@ -58,8 +58,8 @@ export const PROJECTS: Project[] = [
     year: "2025",
     images: [
       "/works/thehog-1.webp",
-      "/works/thehog-2.png",
-      "/works/thehog-3.png",
+      "/works/thehog-2.webp",
+      "/works/thehog-3.webp",
     ],
   },
   {

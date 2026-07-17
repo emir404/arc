@@ -66,8 +66,11 @@ export const PROJECTS: Project[] = [
     name: "Bloom",
     description: "The Brand Layer for Agents",
     year: "2025",
-    // TODO: awaiting design uploads (3 images).
-    images: [],
+    images: [
+      "/works/bloom-1.webp",
+      "/works/bloom-2.webp",
+      "/works/bloom-3.webp",
+    ],
   },
   {
     name: "Lantern",

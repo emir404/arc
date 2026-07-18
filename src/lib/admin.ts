@@ -78,6 +78,11 @@ export type AdminApplication = {
   name: string;
   email: string;
   portfolio_url: string;
+  engagement: string | null;
+  focus: string | null;
+  experience: string | null;
+  availability: string | null;
+  location: string | null;
   message: string | null;
   created_at: string;
 };
@@ -131,7 +136,7 @@ export const getAllJobs = async (): Promise<AdminJob[] | null> => {
 
 export const getApplications = async (): Promise<AdminApplication[] | null> => {
   const res = await adminSupabaseFetch(
-    "applications?select=id,job_title,name,email,portfolio_url,message,created_at&order=created_at.desc",
+    "applications?select=id,job_title,name,email,portfolio_url,engagement,focus,experience,availability,location,message,created_at&order=created_at.desc",
   );
   if (!res?.ok) {
     logAdminFetchFailure("applications", res, (await res?.text()) ?? "");

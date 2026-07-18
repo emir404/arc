@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, Loader2 } from "lucide-react";
+import { Check, ChevronDown, Loader2 } from "lucide-react";
 import Link from "next/link";
 import {
   type FormEvent,
@@ -11,14 +11,41 @@ import {
   useState,
 } from "react";
 import { Button } from "@/components/ui/button";
+import {
+  AVAILABILITY_OPTIONS,
+  ENGAGEMENT_OPTIONS,
+  EXPERIENCE_OPTIONS,
+  FOCUS_OPTIONS,
+} from "@/lib/careers-application";
 
-type FieldName = "name" | "email" | "portfolio" | "message";
+type FieldName =
+  | "name"
+  | "email"
+  | "portfolio"
+  | "engagement"
+  | "focus"
+  | "experience"
+  | "availability"
+  | "location"
+  | "message";
 type FieldErrors = Partial<Record<FieldName, string>>;
+type Values = Record<FieldName, string>;
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const FIELD_ORDER: FieldName[] = ["name", "email", "portfolio", "message"];
+/** Visual order, used to focus the first invalid field on submit. */
+const FIELD_ORDER: FieldName[] = [
+  "name",
+  "email",
+  "portfolio",
+  "engagement",
+  "focus",
+  "experience",
+  "availability",
+  "location",
+  "message",
+];
 
-const validate = (values: Record<FieldName, string>): FieldErrors => {
+const validate = (values: Values): FieldErrors => {
   const errors: FieldErrors = {};
   if (!values.name) errors.name = "Please add your name.";
   else if (values.name.length > 200)
@@ -29,6 +56,16 @@ const validate = (values: Record<FieldName, string>): FieldErrors => {
   if (!values.portfolio) errors.portfolio = "Please add a link to your work.";
   else if (values.portfolio.length > 500)
     errors.portfolio = "Please keep the link under 500 characters.";
+  if (!values.engagement)
+    errors.engagement = "Please choose an engagement type.";
+  if (!values.focus) errors.focus = "Please choose your main focus.";
+  if (!values.experience)
+    errors.experience = "Please choose your experience level.";
+  if (!values.availability)
+    errors.availability = "Please choose when you could start.";
+  if (!values.location) errors.location = "Please add your city and timezone.";
+  else if (values.location.length > 200)
+    errors.location = "Please keep this under 200 characters.";
   if (values.message.length > 5000)
     errors.message = "Please keep your message under 5,000 characters.";
   return errors;
@@ -36,6 +73,59 @@ const validate = (values: Record<FieldName, string>): FieldErrors => {
 
 const inputClass =
   "h-12 w-full rounded-xl border border-black/15 bg-white px-4 text-base font-light text-black transition-colors placeholder:text-black/35 hover:border-black/25 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary aria-invalid:border-destructive/60";
+const selectClass =
+  "h-12 w-full appearance-none rounded-xl border border-black/15 bg-white pl-4 pr-10 text-base font-light text-black transition-colors hover:border-black/25 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary aria-invalid:border-destructive/60";
+const labelClass = "text-base font-[450] leading-none text-black";
+const errorClass = "text-sm font-light leading-[1.4] text-destructive";
+
+const SelectField = ({
+  id,
+  label,
+  name,
+  options,
+  error,
+}: {
+  id: string;
+  label: string;
+  name: FieldName;
+  options: readonly string[];
+  error?: string;
+}) => (
+  <div className="flex w-full flex-col gap-2">
+    <label htmlFor={id} className={labelClass}>
+      {label}
+    </label>
+    <div className="relative">
+      <select
+        id={id}
+        name={name}
+        required
+        defaultValue=""
+        aria-invalid={error ? true : undefined}
+        aria-describedby={error ? `${id}-error` : undefined}
+        className={selectClass}
+      >
+        <option value="" disabled>
+          Select…
+        </option>
+        {options.map((option) => (
+          <option key={option} value={option}>
+            {option}
+          </option>
+        ))}
+      </select>
+      <ChevronDown
+        aria-hidden
+        className="pointer-events-none absolute top-1/2 right-3.5 size-4 -translate-y-1/2 text-black/40"
+      />
+    </div>
+    {error && (
+      <p id={`${id}-error`} className={errorClass}>
+        {error}
+      </p>
+    )}
+  </div>
+);
 
 const ApplyForm = ({
   jobSlug,
@@ -80,10 +170,15 @@ const ApplyForm = ({
     const form = event.currentTarget;
     const data = new FormData(form);
     const read = (field: string) => String(data.get(field) ?? "").trim();
-    const values = {
+    const values: Values = {
       name: read("name"),
       email: read("email"),
       portfolio: read("portfolio"),
+      engagement: read("engagement"),
+      focus: read("focus"),
+      experience: read("experience"),
+      availability: read("availability"),
+      location: read("location"),
       message: read("message"),
     };
 
@@ -195,10 +290,7 @@ const ApplyForm = ({
           </div>
 
           <div className="flex w-full flex-col gap-2">
-            <label
-              htmlFor={`${id}-name`}
-              className="text-base font-[450] leading-none text-black"
-            >
+            <label htmlFor={`${id}-name`} className={labelClass}>
               Name
             </label>
             <input
@@ -213,20 +305,14 @@ const ApplyForm = ({
               className={inputClass}
             />
             {errors.name && (
-              <p
-                id={`${id}-name-error`}
-                className="text-sm font-light leading-[1.4] text-destructive"
-              >
+              <p id={`${id}-name-error`} className={errorClass}>
                 {errors.name}
               </p>
             )}
           </div>
 
           <div className="flex w-full flex-col gap-2">
-            <label
-              htmlFor={`${id}-email`}
-              className="text-base font-[450] leading-none text-black"
-            >
+            <label htmlFor={`${id}-email`} className={labelClass}>
               Email
             </label>
             <input
@@ -244,20 +330,14 @@ const ApplyForm = ({
               className={inputClass}
             />
             {errors.email && (
-              <p
-                id={`${id}-email-error`}
-                className="text-sm font-light leading-[1.4] text-destructive"
-              >
+              <p id={`${id}-email-error`} className={errorClass}>
                 {errors.email}
               </p>
             )}
           </div>
 
           <div className="flex w-full flex-col gap-2">
-            <label
-              htmlFor={`${id}-portfolio`}
-              className="text-base font-[450] leading-none text-black"
-            >
+            <label htmlFor={`${id}-portfolio`} className={labelClass}>
               Portfolio, LinkedIn, or GitHub
             </label>
             <input
@@ -277,20 +357,72 @@ const ApplyForm = ({
               className={inputClass}
             />
             {errors.portfolio && (
-              <p
-                id={`${id}-portfolio-error`}
-                className="text-sm font-light leading-[1.4] text-destructive"
-              >
+              <p id={`${id}-portfolio-error`} className={errorClass}>
                 {errors.portfolio}
               </p>
             )}
           </div>
 
+          <div className="grid w-full gap-6 sm:grid-cols-2 sm:gap-5">
+            <SelectField
+              id={`${id}-engagement`}
+              label="Engagement type"
+              name="engagement"
+              options={ENGAGEMENT_OPTIONS}
+              error={errors.engagement}
+            />
+            <SelectField
+              id={`${id}-focus`}
+              label="Main focus"
+              name="focus"
+              options={FOCUS_OPTIONS}
+              error={errors.focus}
+            />
+          </div>
+
+          <div className="grid w-full gap-6 sm:grid-cols-2 sm:gap-5">
+            <SelectField
+              id={`${id}-experience`}
+              label="Experience"
+              name="experience"
+              options={EXPERIENCE_OPTIONS}
+              error={errors.experience}
+            />
+            <SelectField
+              id={`${id}-availability`}
+              label="Available to start"
+              name="availability"
+              options={AVAILABILITY_OPTIONS}
+              error={errors.availability}
+            />
+          </div>
+
           <div className="flex w-full flex-col gap-2">
-            <label
-              htmlFor={`${id}-message`}
-              className="text-base font-[450] leading-none text-black"
-            >
+            <label htmlFor={`${id}-location`} className={labelClass}>
+              Where are you based?
+            </label>
+            <input
+              id={`${id}-location`}
+              name="location"
+              type="text"
+              required
+              autoComplete="off"
+              placeholder="City and timezone, e.g. Istanbul, GMT+3…"
+              aria-invalid={errors.location ? true : undefined}
+              aria-describedby={
+                errors.location ? `${id}-location-error` : undefined
+              }
+              className={inputClass}
+            />
+            {errors.location && (
+              <p id={`${id}-location-error`} className={errorClass}>
+                {errors.location}
+              </p>
+            )}
+          </div>
+
+          <div className="flex w-full flex-col gap-2">
+            <label htmlFor={`${id}-message`} className={labelClass}>
               Message{" "}
               <span className="font-light text-black/40">(optional)</span>
             </label>
@@ -307,10 +439,7 @@ const ApplyForm = ({
               className={`${inputClass} h-auto min-h-[132px] resize-y py-3`}
             />
             {errors.message && (
-              <p
-                id={`${id}-message-error`}
-                className="text-sm font-light leading-[1.4] text-destructive"
-              >
+              <p id={`${id}-message-error`} className={errorClass}>
                 {errors.message}
               </p>
             )}

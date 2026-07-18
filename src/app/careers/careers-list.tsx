@@ -30,11 +30,12 @@ const CareersList = ({ jobs }: { jobs: Job[] }) => {
           {...riseIn(0.08)}
           className="flex w-full max-w-[720px] flex-col border-t border-black/10 will-change-[filter] backface-hidden"
         >
+          {/* border-b lives on each li: on the rounded links it would curve at the ends */}
           {jobs.map((job) => (
-            <li key={job.id}>
+            <li key={job.id} className="border-b border-black/10">
               <Link
                 href={`/careers/${job.slug}`}
-                className="group flex items-center justify-between gap-4 rounded-sm border-b border-black/10 py-6 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                className="group flex items-center justify-between gap-4 rounded-sm py-6 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
               >
                 <span className="flex min-w-0 flex-col gap-1.5">
                   <span className="text-2xl font-[450] leading-[1.2] tracking-[-0.02em] text-black transition-colors duration-200 group-hover:text-primary">

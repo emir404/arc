@@ -1,4 +1,10 @@
 import { after } from "next/server";
+import {
+  AVAILABILITY_OPTIONS,
+  ENGAGEMENT_OPTIONS,
+  EXPERIENCE_OPTIONS,
+  FOCUS_OPTIONS,
+} from "@/lib/careers-application";
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const SUPABASE_SECRET_KEY = process.env.SUPABASE_SECRET_KEY;
@@ -11,7 +17,18 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const GENERIC_ERROR = `Something went wrong and your application wasn’t sent. Please try again, or email us at ${NOTIFY_EMAIL}.`;
 
 type FieldErrors = Partial<
-  Record<"name" | "email" | "portfolio" | "message", string>
+  Record<
+    | "name"
+    | "email"
+    | "portfolio"
+    | "engagement"
+    | "focus"
+    | "experience"
+    | "availability"
+    | "location"
+    | "message",
+    string
+  >
 >;
 
 /** Accepts bare domains ("dribbble.com/jane") and normalizes to https. */
@@ -40,6 +57,7 @@ const notifyByEmail = async (application: {
   name: string;
   email: string;
   portfolioUrl: string;
+  details: [label: string, value: string][];
   message: string;
 }) => {
   if (!RESEND_API_KEY) {
@@ -48,7 +66,7 @@ const notifyByEmail = async (application: {
     );
     return;
   }
-  const { jobTitle, name, email, portfolioUrl, message } = application;
+  const { jobTitle, name, email, portfolioUrl, details, message } = application;
   const projectRef = SUPABASE_URL
     ? new URL(SUPABASE_URL).hostname.split(".")[0]
     : null;
@@ -61,6 +79,12 @@ const notifyByEmail = async (application: {
     `<h2 style="font-size:18px;margin:0 0 16px">New application — ${escapeHtml(jobTitle)}</h2>`,
     `<p style="margin:0 0 4px"><strong>${escapeHtml(name)}</strong> · <a href="mailto:${escapeHtml(email)}">${escapeHtml(email)}</a></p>`,
     `<p style="margin:0 0 16px"><a href="${escapeHtml(portfolioUrl)}">${escapeHtml(portfolioUrl)}</a></p>`,
+    `<p style="margin:0 0 16px">${details
+      .map(
+        ([label, value]) =>
+          `<span style="color:#777">${escapeHtml(label)}:</span> ${escapeHtml(value)}`,
+      )
+      .join("<br>")}</p>`,
     message
       ? `<p style="white-space:pre-wrap;margin:0 0 16px">${escapeHtml(message)}</p>`
       : "",
@@ -76,6 +100,8 @@ const notifyByEmail = async (application: {
     name,
     email,
     portfolioUrl,
+    "",
+    ...details.map(([label, value]) => `${label}: ${value}`),
     message ? `\n${message}` : "",
     dashboardUrl ? `\nAll applications: ${dashboardUrl}` : "",
   ].join("\n");
@@ -132,6 +158,11 @@ export const POST = async (request: Request) => {
   const name = read("name");
   const email = read("email");
   const portfolio = read("portfolio");
+  const engagement = read("engagement");
+  const focus = read("focus");
+  const experience = read("experience");
+  const availability = read("availability");
+  const location = read("location");
   const message = read("message");
   const honeypot = read("company");
 
@@ -152,6 +183,17 @@ export const POST = async (request: Request) => {
   if (!portfolio) errors.portfolio = "Please add a link to your work.";
   else if (portfolio.length > 500 || !portfolioUrl)
     errors.portfolio = "That link doesn’t look right — double-check it.";
+  if (!(ENGAGEMENT_OPTIONS as readonly string[]).includes(engagement))
+    errors.engagement = "Please choose an engagement type.";
+  if (!(FOCUS_OPTIONS as readonly string[]).includes(focus))
+    errors.focus = "Please choose your main focus.";
+  if (!(EXPERIENCE_OPTIONS as readonly string[]).includes(experience))
+    errors.experience = "Please choose your experience level.";
+  if (!(AVAILABILITY_OPTIONS as readonly string[]).includes(availability))
+    errors.availability = "Please choose when you could start.";
+  if (!location) errors.location = "Please add your city and timezone.";
+  else if (location.length > 200)
+    errors.location = "Please keep this under 200 characters.";
   if (message.length > 5000)
     errors.message = "Please keep your message under 5,000 characters.";
   if (Object.keys(errors).length > 0 || !portfolioUrl) {
@@ -193,6 +235,11 @@ export const POST = async (request: Request) => {
       name,
       email,
       portfolio_url: portfolioUrl,
+      engagement,
+      focus,
+      experience,
+      availability,
+      location,
       message: message || null,
     }),
   });
@@ -207,7 +254,20 @@ export const POST = async (request: Request) => {
   // Notify after the response is sent — a mail hiccup must not fail an
   // application that is already stored.
   after(() =>
-    notifyByEmail({ jobTitle: job.title, name, email, portfolioUrl, message }),
+    notifyByEmail({
+      jobTitle: job.title,
+      name,
+      email,
+      portfolioUrl,
+      details: [
+        ["Engagement", engagement],
+        ["Focus", focus],
+        ["Experience", experience],
+        ["Available", availability],
+        ["Based in", location],
+      ],
+      message,
+    }),
   );
 
   return Response.json({ ok: true });

@@ -42,6 +42,23 @@ const ApplicationRow = ({ application }: { application: AdminApplication }) => (
         {displayUrl(application.portfolio_url)}&nbsp;↗
       </a>
     </div>
+    {(application.engagement ||
+      application.focus ||
+      application.experience ||
+      application.availability ||
+      application.location) && (
+      <p className="text-sm font-light leading-[1.5] text-black/50">
+        {[
+          application.engagement,
+          application.focus,
+          application.experience,
+          application.availability,
+          application.location,
+        ]
+          .filter(Boolean)
+          .join(" · ")}
+      </p>
+    )}
     {application.message && (
       <p className="max-w-[720px] whitespace-pre-wrap text-base font-light leading-[1.5] text-black/75 break-words">
         {application.message}

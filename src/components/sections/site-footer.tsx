@@ -19,7 +19,7 @@ const linkColumns: { title: string; links: FooterLink[] }[] = [
       },
       {
         label: "LinkedIn",
-        href: "https://www.linkedin.com/company/witharcstudio",
+        href: "https://www.linkedin.com/company/design-studio-arc/",
         external: true,
       },
     ],

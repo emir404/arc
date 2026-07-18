@@ -13,11 +13,10 @@ type Testimonial = {
 
 const testimonials: Testimonial[] = [
   {
-    quote:
-      "As a unicorn founder, I’ve rarely met founders who operate with the agency, speed, and relentless execution that Arc Studio consistently demonstrate.",
-    name: "Kagan Sumer",
-    role: "Co-founder, Gorillas (acq. $1.2B)",
-    avatar: "/testimonials/kagan-sumer.png",
+    quote: "Dude, you should join Vercel!",
+    name: "Guillermo Rauch",
+    role: "Co-Founder & CEO, Vercel",
+    avatar: "/testimonials/guillermo-rauch.jpg",
   },
   {
     quote:

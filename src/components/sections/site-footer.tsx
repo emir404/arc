@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "motion/react";
-import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import Logo from "@/components/ui/logo";
@@ -20,7 +19,7 @@ const linkColumns: { title: string; links: FooterLink[] }[] = [
       },
       {
         label: "LinkedIn",
-        href: "https://www.linkedin.com/company/witharcstudio",
+        href: "https://www.linkedin.com/company/design-studio-arc/",
         external: true,
       },
     ],
@@ -48,7 +47,7 @@ const FooterNavLink = ({ link }: { link: FooterLink }) => (
 
 const SiteFooter = () => {
   return (
-    <footer className="flex flex-col gap-16 bg-white px-5 py-12 md:px-12 md:py-16 lg:gap-[120px] lg:px-24 lg:py-20">
+    <footer className="flex flex-col gap-12 bg-white px-5 py-12 md:px-12 md:py-16 lg:gap-16 lg:px-24 lg:py-20">
       {/* Top: logo · heading + CTAs · link columns (single row at xl, per the 1440 Figma) */}
       <div className="flex flex-col gap-12 lg:flex-row lg:items-start lg:justify-between lg:gap-8">
         <div className="flex min-w-0 flex-col gap-12 xl:flex-row xl:gap-0">
@@ -112,38 +111,23 @@ const SiteFooter = () => {
         </motion.nav>
       </div>
 
-      {/* Bottom: squares-and-arches pattern + legal */}
-      <div className="flex flex-col gap-8 lg:gap-12">
-        <motion.div
-          {...riseInView()}
-          className="will-change-[filter] backface-hidden"
-        >
-          <Image
-            src="/footer-pattern.svg"
-            alt=""
-            aria-hidden
-            width={1248}
-            height={89}
-            className="h-auto w-full"
-          />
-        </motion.div>
-        <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3 text-base font-light leading-[1.4] text-black/75">
-          <p>© Arc Studio</p>
-          <nav aria-label="Legal" className="flex items-center gap-6">
-            <Link
-              href="/privacy"
-              className="rounded-sm transition-colors hover:text-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
-            >
-              Privacy Policy
-            </Link>
-            <Link
-              href="/terms"
-              className="rounded-sm transition-colors hover:text-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
-            >
-              Terms of Service
-            </Link>
-          </nav>
-        </div>
+      {/* Bottom: legal */}
+      <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3 text-base font-light leading-[1.4] text-black/75">
+        <p>© Arc Studio</p>
+        <nav aria-label="Legal" className="flex items-center gap-6">
+          <Link
+            href="/privacy"
+            className="rounded-sm transition-colors hover:text-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+          >
+            Privacy Policy
+          </Link>
+          <Link
+            href="/terms"
+            className="rounded-sm transition-colors hover:text-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+          >
+            Terms of Service
+          </Link>
+        </nav>
       </div>
     </footer>
   );

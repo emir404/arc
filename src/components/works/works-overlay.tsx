@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { EASE, riseInView } from "@/lib/animation";
-import { PROJECTS } from "@/lib/projects";
+import { PUBLISHED_PROJECTS } from "@/lib/projects";
 
 const backdropVariants: Variants = {
   hidden: { opacity: 0, transition: { duration: 0.3, ease: EASE } },
@@ -149,7 +149,7 @@ const WorksOverlay = () => {
                 className="min-h-0 flex-1 overflow-y-auto overscroll-contain focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary"
               >
                 <div className="flex flex-col gap-16 pb-10 md:pb-12">
-                  {PROJECTS.map((project, projectIndex) => (
+                  {PUBLISHED_PROJECTS.map((project, projectIndex) => (
                     <motion.section
                       key={project.name}
                       {...riseInView(projectIndex === 0 ? 0.25 : 0)}
@@ -181,7 +181,9 @@ const WorksOverlay = () => {
                                 ? "eager"
                                 : undefined
                             }
-                            className="h-auto w-full rounded-lg border border-[#e5e5e5]"
+                            className={`h-auto w-full rounded-2xl${
+                              project.borderless ? "" : " border border-[#e5e5e5]"
+                            }`}
                             sizes="(max-width: 768px) 95vw, (max-width: 1400px) 88vw, 1138px"
                           />
                         ))}

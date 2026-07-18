@@ -57,7 +57,7 @@ const structuredData = {
   },
   sameAs: [
     "https://instagram.com/witharc.co",
-    "https://linkedin.com/company/witharcstudio",
+    "https://www.linkedin.com/company/design-studio-arc/",
   ],
 };
 

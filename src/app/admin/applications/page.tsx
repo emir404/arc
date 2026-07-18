@@ -41,12 +41,33 @@ const ApplicationRow = ({ application }: { application: AdminApplication }) => (
       >
         {displayUrl(application.portfolio_url)}&nbsp;↗
       </a>
+      {application.x_url && (
+        <a
+          href={application.x_url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="max-w-full truncate rounded-sm text-primary transition-colors hover:text-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+        >
+          {displayUrl(application.x_url)}&nbsp;↗
+        </a>
+      )}
+      {application.linkedin_url && (
+        <a
+          href={application.linkedin_url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="max-w-full truncate rounded-sm text-primary transition-colors hover:text-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+        >
+          {displayUrl(application.linkedin_url)}&nbsp;↗
+        </a>
+      )}
     </div>
     {(application.engagement ||
       application.focus ||
       application.experience ||
       application.availability ||
-      application.location) && (
+      application.location ||
+      application.compensation) && (
       <p className="text-sm font-light leading-[1.5] text-black/50">
         {[
           application.engagement,
@@ -54,6 +75,7 @@ const ApplicationRow = ({ application }: { application: AdminApplication }) => (
           application.experience,
           application.availability,
           application.location,
+          application.compensation,
         ]
           .filter(Boolean)
           .join(" · ")}

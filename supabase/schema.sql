@@ -26,6 +26,8 @@ create table if not exists public.applications (
   name text not null,
   email text not null,
   portfolio_url text not null,
+  x_url text,
+  linkedin_url text,
   -- Structured answers from the form's select questions
   -- (option lists live in src/lib/careers-application.ts).
   engagement text,
@@ -33,17 +35,21 @@ create table if not exists public.applications (
   experience text,
   availability text,
   location text,
+  compensation text,
   message text,
   created_at timestamptz not null default now()
 );
 
--- Idempotent upgrade for databases created before the structured questions.
+-- Idempotent upgrade for databases created before the extra questions.
 alter table public.applications
   add column if not exists engagement text,
   add column if not exists focus text,
   add column if not exists experience text,
   add column if not exists availability text,
-  add column if not exists location text;
+  add column if not exists location text,
+  add column if not exists x_url text,
+  add column if not exists linkedin_url text,
+  add column if not exists compensation text;
 
 alter table public.jobs enable row level security;
 alter table public.applications enable row level security;

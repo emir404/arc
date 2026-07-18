@@ -22,11 +22,14 @@ type FieldName =
   | "name"
   | "email"
   | "portfolio"
+  | "x"
+  | "linkedin"
   | "engagement"
   | "focus"
   | "experience"
   | "availability"
   | "location"
+  | "compensation"
   | "message";
 type FieldErrors = Partial<Record<FieldName, string>>;
 type Values = Record<FieldName, string>;
@@ -37,11 +40,14 @@ const FIELD_ORDER: FieldName[] = [
   "name",
   "email",
   "portfolio",
+  "x",
+  "linkedin",
   "engagement",
   "focus",
   "experience",
   "availability",
   "location",
+  "compensation",
   "message",
 ];
 
@@ -56,6 +62,10 @@ const validate = (values: Values): FieldErrors => {
   if (!values.portfolio) errors.portfolio = "Please add a link to your work.";
   else if (values.portfolio.length > 500)
     errors.portfolio = "Please keep the link under 500 characters.";
+  if (values.x.length > 200)
+    errors.x = "Please keep this under 200 characters.";
+  if (values.linkedin.length > 300)
+    errors.linkedin = "Please keep this under 300 characters.";
   if (!values.engagement)
     errors.engagement = "Please choose an engagement type.";
   if (!values.focus) errors.focus = "Please choose your main focus.";
@@ -66,6 +76,10 @@ const validate = (values: Values): FieldErrors => {
   if (!values.location) errors.location = "Please add your city and timezone.";
   else if (values.location.length > 200)
     errors.location = "Please keep this under 200 characters.";
+  if (!values.compensation)
+    errors.compensation = "Please add your compensation expectation.";
+  else if (values.compensation.length > 200)
+    errors.compensation = "Please keep this under 200 characters.";
   if (values.message.length > 5000)
     errors.message = "Please keep your message under 5,000 characters.";
   return errors;
@@ -174,11 +188,14 @@ const ApplyForm = ({
       name: read("name"),
       email: read("email"),
       portfolio: read("portfolio"),
+      x: read("x"),
+      linkedin: read("linkedin"),
       engagement: read("engagement"),
       focus: read("focus"),
       experience: read("experience"),
       availability: read("availability"),
       location: read("location"),
+      compensation: read("compensation"),
       message: read("message"),
     };
 
@@ -338,7 +355,7 @@ const ApplyForm = ({
 
           <div className="flex w-full flex-col gap-2">
             <label htmlFor={`${id}-portfolio`} className={labelClass}>
-              Portfolio, LinkedIn, or GitHub
+              Portfolio or website
             </label>
             <input
               id={`${id}-portfolio`}
@@ -361,6 +378,58 @@ const ApplyForm = ({
                 {errors.portfolio}
               </p>
             )}
+          </div>
+
+          <div className="grid w-full gap-6 sm:grid-cols-2 sm:gap-5">
+            <div className="flex w-full flex-col gap-2">
+              <label htmlFor={`${id}-x`} className={labelClass}>
+                X profile{" "}
+                <span className="font-light text-black/40">(optional)</span>
+              </label>
+              <input
+                id={`${id}-x`}
+                name="x"
+                type="text"
+                autoComplete="off"
+                autoCapitalize="none"
+                spellCheck={false}
+                placeholder="@yourhandle…"
+                aria-invalid={errors.x ? true : undefined}
+                aria-describedby={errors.x ? `${id}-x-error` : undefined}
+                className={inputClass}
+              />
+              {errors.x && (
+                <p id={`${id}-x-error`} className={errorClass}>
+                  {errors.x}
+                </p>
+              )}
+            </div>
+            <div className="flex w-full flex-col gap-2">
+              <label htmlFor={`${id}-linkedin`} className={labelClass}>
+                LinkedIn{" "}
+                <span className="font-light text-black/40">(optional)</span>
+              </label>
+              <input
+                id={`${id}-linkedin`}
+                name="linkedin"
+                type="text"
+                autoComplete="url"
+                inputMode="url"
+                autoCapitalize="none"
+                spellCheck={false}
+                placeholder="linkedin.com/in/you…"
+                aria-invalid={errors.linkedin ? true : undefined}
+                aria-describedby={
+                  errors.linkedin ? `${id}-linkedin-error` : undefined
+                }
+                className={inputClass}
+              />
+              {errors.linkedin && (
+                <p id={`${id}-linkedin-error`} className={errorClass}>
+                  {errors.linkedin}
+                </p>
+              )}
+            </div>
           </div>
 
           <div className="grid w-full gap-6 sm:grid-cols-2 sm:gap-5">
@@ -417,6 +486,30 @@ const ApplyForm = ({
             {errors.location && (
               <p id={`${id}-location-error`} className={errorClass}>
                 {errors.location}
+              </p>
+            )}
+          </div>
+
+          <div className="flex w-full flex-col gap-2">
+            <label htmlFor={`${id}-compensation`} className={labelClass}>
+              Compensation expectation
+            </label>
+            <input
+              id={`${id}-compensation`}
+              name="compensation"
+              type="text"
+              required
+              autoComplete="off"
+              placeholder="$4k/month, $60/hour, or per-project…"
+              aria-invalid={errors.compensation ? true : undefined}
+              aria-describedby={
+                errors.compensation ? `${id}-compensation-error` : undefined
+              }
+              className={inputClass}
+            />
+            {errors.compensation && (
+              <p id={`${id}-compensation-error`} className={errorClass}>
+                {errors.compensation}
               </p>
             )}
           </div>

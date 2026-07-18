@@ -21,11 +21,14 @@ type FieldErrors = Partial<
     | "name"
     | "email"
     | "portfolio"
+    | "x"
+    | "linkedin"
     | "engagement"
     | "focus"
     | "experience"
     | "availability"
     | "location"
+    | "compensation"
     | "message",
     string
   >
@@ -42,6 +45,13 @@ const normalizeUrl = (raw: string): string | null => {
   } catch {
     return null;
   }
+};
+
+/** Accepts "@handle", "handle", or any x.com/twitter URL. */
+const normalizeXUrl = (raw: string): string | null => {
+  const handle = raw.replace(/^@/, "");
+  if (/^[A-Za-z0-9_]{1,15}$/.test(handle)) return `https://x.com/${handle}`;
+  return normalizeUrl(raw);
 };
 
 const escapeHtml = (value: string) =>
@@ -158,6 +168,9 @@ export const POST = async (request: Request) => {
   const name = read("name");
   const email = read("email");
   const portfolio = read("portfolio");
+  const x = read("x");
+  const linkedin = read("linkedin");
+  const compensation = read("compensation");
   const engagement = read("engagement");
   const focus = read("focus");
   const experience = read("experience");
@@ -183,6 +196,16 @@ export const POST = async (request: Request) => {
   if (!portfolio) errors.portfolio = "Please add a link to your work.";
   else if (portfolio.length > 500 || !portfolioUrl)
     errors.portfolio = "That link doesn’t look right — double-check it.";
+  const xUrl = x ? normalizeXUrl(x) : null;
+  if (x && (x.length > 200 || !xUrl))
+    errors.x = "That doesn’t look like an X profile — double-check it.";
+  const linkedinUrl = linkedin ? normalizeUrl(linkedin) : null;
+  if (linkedin && (linkedin.length > 300 || !linkedinUrl))
+    errors.linkedin = "That link doesn’t look right — double-check it.";
+  if (!compensation)
+    errors.compensation = "Please add your compensation expectation.";
+  else if (compensation.length > 200)
+    errors.compensation = "Please keep this under 200 characters.";
   if (!(ENGAGEMENT_OPTIONS as readonly string[]).includes(engagement))
     errors.engagement = "Please choose an engagement type.";
   if (!(FOCUS_OPTIONS as readonly string[]).includes(focus))
@@ -235,11 +258,14 @@ export const POST = async (request: Request) => {
       name,
       email,
       portfolio_url: portfolioUrl,
+      x_url: xUrl,
+      linkedin_url: linkedinUrl,
       engagement,
       focus,
       experience,
       availability,
       location,
+      compensation,
       message: message || null,
     }),
   });
@@ -265,6 +291,9 @@ export const POST = async (request: Request) => {
         ["Experience", experience],
         ["Available", availability],
         ["Based in", location],
+        ["Compensation", compensation],
+        ...(xUrl ? [["X", xUrl] as [string, string]] : []),
+        ...(linkedinUrl ? [["LinkedIn", linkedinUrl] as [string, string]] : []),
       ],
       message,
     }),

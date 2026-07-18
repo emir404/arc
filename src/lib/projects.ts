@@ -26,7 +26,7 @@ export const PROJECTS: Project[] = [
   {
     name: "AgentMail",
     description: "Email for AI Agents",
-    year: "2025",
+    year: "2026",
     dark: true,
     images: [
       "https://494510hkri.ufs.sh/f/3d9AyaVNUM8w5LTQDLt1oRY7wDTKfMrq8Sn2isyOdjuzhmc3",
@@ -37,7 +37,7 @@ export const PROJECTS: Project[] = [
   {
     name: "AgentPhone",
     description: "Phone Numbers for AI Agents",
-    year: "2025",
+    year: "2026",
     dark: true,
     images: [
       "/works/agentphone-1.webp",
@@ -48,7 +48,7 @@ export const PROJECTS: Project[] = [
   {
     name: "Orchid",
     description: "AI Personal Assistant",
-    year: "2025",
+    year: "2026",
     images: [
       "/works/orchid-1.webp",
       "/works/orchid-2.webp",
@@ -58,7 +58,7 @@ export const PROJECTS: Project[] = [
   {
     name: "The Hog",
     description: "The Complete Web Intelligence API",
-    year: "2025",
+    year: "2026",
     borderless: true,
     images: [
       "/works/thehog-1.webp",

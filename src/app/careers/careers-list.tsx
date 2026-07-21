@@ -19,7 +19,7 @@ const CareersList = ({ jobs }: { jobs: Job[] }) => {
         </h1>
         <p className="max-w-[461px] text-lg font-light leading-[1.4] text-black/75 text-pretty">
           Arc is a small studio designing brand, product, and web for
-          early-stage startups — including 10+ Y&nbsp;Combinator companies. If
+          early-stage startups, including 10+ Y&nbsp;Combinator companies. If
           you sweat the details and want your work to ship, we’d love to meet
           you.
         </p>

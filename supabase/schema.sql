@@ -98,7 +98,7 @@ Arc is the all-in-one design studio for early-stage startups, trusted by 10+ Y C
 - Experience with early-stage startups is a plus
 
 ## How we work
-Small team, direct communication, tight feedback loops. Remote-first and async-friendly. We’re open to full-time, contract, or project-based engagements — tell us what suits you when you apply.
+Small team, direct communication, tight feedback loops. Remote-first and async-friendly. We’re open to full-time, contract, or project-based engagements, tell us what suits you when you apply.
 $description$,
     0
   )

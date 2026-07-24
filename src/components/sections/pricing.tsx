@@ -26,7 +26,7 @@ const plans: {
 }[] = [
   {
     name: "Partnership",
-    price: "$7,000",
+    price: "$8,000",
     period: "/month",
     description:
       "A monthly retainer with unlimited design. Direction, product thinking, design, and development in one focused partnership.",

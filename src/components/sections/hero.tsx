@@ -84,9 +84,9 @@ const Hero = () => {
       {/* Works showreel panel */}
       <motion.div
         {...riseIn(0.24)}
-        className="w-full px-3 pb-6 will-change-[filter] backface-hidden"
+        className="w-full px-5 pb-6 md:px-12 lg:px-24 will-change-[filter] backface-hidden"
       >
-        <div className="mx-auto h-96 w-full max-w-[1600px] overflow-hidden rounded-[8px] bg-[#f8fbfe] bg-[url('/showreel-bg.png')] bg-cover bg-center p-2 sm:h-auto sm:aspect-[1408/1024] sm:max-h-[64rem] md:p-6 lg:p-10 xl:p-20">
+        <div className="h-96 w-full overflow-hidden rounded-[8px] bg-[#f8fbfe] bg-[url('/showreel-bg.png')] bg-cover bg-center p-2 sm:h-auto sm:aspect-[1408/1024] sm:max-h-[64rem] md:p-6 lg:p-10 xl:p-20">
           <Showreel compact background="bg-transparent" revealDelay={0.4} />
         </div>
       </motion.div>

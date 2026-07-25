@@ -86,7 +86,15 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://witharc.co",
-    images: ["https://witharc.co/thumbnail.png"],
+    images: [
+      {
+        url: "/og.png",
+        width: 1200,
+        height: 675,
+        alt: "Arc • All-in-one design studio for early-stage startups",
+        type: "image/png",
+      },
+    ],
     title: "Arc • All-in-one design studio for early-stage startups",
     description:
       "Arc is the all-in-one design studio for early-stage startups. Brand, product, and web design in one partnership, trusted by 10+ Y Combinator companies.",
@@ -95,7 +103,12 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     site: "@witharc_co",
-    images: ["https://witharc.co/thumbnail.png"],
+    images: [
+      {
+        url: "/og.png",
+        alt: "Arc • All-in-one design studio for early-stage startups",
+      },
+    ],
     title: "Arc • All-in-one design studio for early-stage startups",
     description:
       "Arc is the all-in-one design studio for early-stage startups. Brand, product, and web design in one partnership, trusted by 10+ Y Combinator companies.",

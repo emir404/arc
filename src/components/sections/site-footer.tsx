@@ -14,7 +14,7 @@ const linkColumns: { title: string; links: FooterLink[] }[] = [
     links: [
       {
         label: "X (formerly Twitter)",
-        href: "https://x.com/emirayaaz",
+        href: "https://x.com/witharc_co",
         external: true,
       },
       {

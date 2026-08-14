@@ -102,7 +102,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    site: "@witharc_co",
+    site: "@arcstudio",
     images: [
       {
         url: "/og.png",

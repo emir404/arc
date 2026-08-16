@@ -5,7 +5,7 @@ import SiteFooter from "@/components/sections/site-footer";
 export const metadata: Metadata = {
   title: "Arc • Pricing",
   description:
-    "Simple pricing for startups: an all-inclusive design partnership at $7,000/month, or a one time project scoped to your needs.",
+    "Simple pricing for startups: an all-inclusive design partnership from $10,000/month, or a one time project from $15,000.",
 };
 
 const PricingPage = () => {

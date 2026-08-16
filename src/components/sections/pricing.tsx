@@ -18,6 +18,7 @@ const EMAIL_URL = "mailto:omeroztok@witharc.co";
 const plans: {
   name: string;
   price: string;
+  /** Muted qualifier trailing the figure: a unit ("/month") or wording. */
   period: string;
   description: string;
   features: string[];
@@ -26,7 +27,7 @@ const plans: {
 }[] = [
   {
     name: "Partnership",
-    price: "$8,000",
+    price: "$10,000",
     period: "/month",
     description:
       "A monthly retainer with unlimited design. Direction, product thinking, design, and development in one focused partnership.",
@@ -44,8 +45,8 @@ const plans: {
   },
   {
     name: "One time project",
-    price: "Custom",
-    period: "",
+    price: "$15,000",
+    period: "Starts from",
     description:
       "A defined scope with a clear timeline for landing pages, brand work, or a focused product sprint.",
     features: [
@@ -108,7 +109,10 @@ const Pricing = ({ headingAs = "h1" }: { headingAs?: "h1" | "h2" }) => {
                 {plan.price}
                 {plan.period && (
                   <span
-                    className={`text-lg font-light tracking-normal ${plan.featured ? "text-white/75" : "text-black/75"}`}
+                    className={`text-lg font-light tracking-normal ${
+                      /* A unit hugs the figure; worded qualifiers need air. */
+                      plan.period.startsWith("/") ? "" : "ml-2"
+                    } ${plan.featured ? "text-white/75" : "text-black/75"}`}
                   >
                     {plan.period}
                   </span>

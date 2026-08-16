@@ -57,12 +57,17 @@ const Hero = () => {
             </span>
             companies
           </motion.p>
+          {/* `items-end` aligns boxes, not ink, so the heading floats a descender
+              above the logos. Trim that space (TWK Lausanne: 0.2002em descent less
+              0.0557em half-leading at leading-none) and add back the carousel's own
+              3.9px of slack — its row is sized to the tallest padded viewBox at
+              logoScale while fluid sizing draws the ink smaller — landing the
+              baseline on the logo bottoms. */}
           <motion.h1
             {...riseIn(0.08)}
-            className="max-w-[761px] text-[34px] font-semibold leading-none tracking-[-0.03em] text-black sm:text-[44px] lg:text-6xl will-change-[filter] backface-hidden"
+            className="mb-[calc(3.9px_-_0.1445em)] text-[34px] font-semibold leading-none tracking-[-0.03em] text-black sm:text-[44px] lg:text-6xl will-change-[filter] backface-hidden"
           >
-            All-in-one design studio <br className="hidden sm:block" />
-            for early-stage startups
+            All-in-one design studio.
           </motion.h1>
         </div>
 

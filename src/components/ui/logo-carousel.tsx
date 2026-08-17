@@ -23,16 +23,31 @@ interface LogoDef {
  * exactly 40 tall: boxes taller than 40 compensate for empty padding baked
  * into that SVG's viewBox (StarSling 15%, The Hog 8%), so on-screen heights
  * stay uniform as slots cycle. Widths follow each viewBox aspect ratio.
+ *
+ * Automattic is the one entry sized off that rule. Every other box also spans
+ * an icon, ascenders and descenders, so only ~0.61 of it carries letterforms;
+ * Automattic is a bare all-caps wordmark whose box is 0.94 letterform. Giving
+ * it a 40 box would draw its caps half again too large — and at 12.9:1 that is
+ * 518 wide, starving every other slot. A 26 box (0.61 × 40 ÷ 0.94) lands its
+ * caps on the row's cap line at a third of that width.
+ *
+ * Order is load-bearing, not just reading order. Slots take every third entry
+ * and each slot is as wide as its widest member, so the row's scale is set by
+ * the sum of those three widths. Holding the three widest logos in one slot
+ * (indices 1, 4, 7) keeps only one of them in that sum. "& more" is pinned
+ * last, which puts it in slot 0 — the one logo that can only clip rather than
+ * scale down, so that slot needs a widest member (Orchid) it clears easily.
  */
 const LOGOS: LogoDef[] = [
   { name: "Sim", src: "/brands/sim.svg", url: "https://sim.ai", width: 82, height: 40 },
-  { name: "AgentMail", src: "/brands/agentmail.svg", url: "https://agentmail.to", width: 219, height: 40 },
-  { name: "AgentPhone", src: "/brands/agentphone.svg", url: "https://agentphone.ai", width: 212, height: 40 },
-  { name: "Orchid", src: "/brands/orchid.svg", url: "https://orchid.ai", width: 166, height: 40 },
-  { name: "StarSling", src: "/brands/starsling.svg", url: "https://starsling.dev", width: 191, height: 47 },
-  { name: "The Hog", src: "/brands/thehog.svg", url: "https://thehog.ai", width: 199, height: 43 },
-  { name: "Feyn", src: "/brands/feyn.svg", url: "https://usefeyn.com", width: 95, height: 40 },
+  { name: "Automattic", src: "/brands/automattic.svg", url: "https://automattic.com", width: 337, height: 26 },
   { name: "Bloom", src: "/brands/bloom.svg", url: "https://trybloom.ai", width: 147, height: 40 },
+  { name: "Orchid", src: "/brands/orchid.svg", url: "https://orchid.ai", width: 166, height: 40 },
+  { name: "AgentMail", src: "/brands/agentmail.svg", url: "https://agentmail.to", width: 219, height: 40 },
+  { name: "StarSling", src: "/brands/starsling.svg", url: "https://starsling.dev", width: 191, height: 47 },
+  { name: "Feyn", src: "/brands/feyn.svg", url: "https://usefeyn.com", width: 95, height: 40 },
+  { name: "AgentPhone", src: "/brands/agentphone.svg", url: "https://agentphone.ai", width: 212, height: 40 },
+  { name: "The Hog", src: "/brands/thehog.svg", url: "https://thehog.ai", width: 199, height: 43 },
   { name: "& more", url: "/works", width: 139, height: 40 },
 ];
 
@@ -47,7 +62,12 @@ const LOGO_SCALE = 0.8;
  * cap, level with the wordmark logos.
  */
 const TEXT_SIZE = 44;
-const SLOT_WIDTH = 240;
+/**
+ * Fixed-width slots clamp with `max-w-full`, which would shrink only the
+ * widest logo and break the uniform ink height — so this floors at Automattic
+ * drawn at LOGO_SCALE (337 × 0.8 = 270), the widest anything ever gets.
+ */
+const SLOT_WIDTH = 280;
 const MAX_LOGO_HEIGHT = Math.max(...LOGOS.map((l) => l.height));
 const INITIAL_DELAY = 2500;
 const SLOT_STAGGER = 150;

@@ -46,7 +46,7 @@ const plans: {
   {
     name: "One time project",
     price: "$15,000",
-    period: "Starts from",
+    period: "Starting price",
     description:
       "A defined scope with a clear timeline for landing pages, brand work, or a focused product sprint.",
     features: [

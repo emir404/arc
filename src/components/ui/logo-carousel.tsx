@@ -13,65 +13,77 @@ interface LogoDef {
   src?: string;
   url: string;
   width: number;
+  /** Drawn box height; for text slides, the font size. */
   height: number;
 }
 
 // ── Logo data ───────────────────────────────────────────────────────
 
 /**
- * width/height are the drawn box at scale 1. Every logo's visible ink is
- * exactly 40 tall: boxes taller than 40 compensate for empty padding baked
- * into that SVG's viewBox (StarSling 15%, The Hog 8%), so on-screen heights
- * stay uniform as slots cycle. Widths follow each viewBox aspect ratio.
+ * Order is display order: a row shows `slots` logos at a time and cycles
+ * through the list in rounds, so the three-slot hero shows Automattic, Axiom,
+ * AgentMail, then Sim, Orchid, "& more".
  *
- * Automattic is the one entry sized off that rule. Every other box also spans
- * an icon, ascenders and descenders, so only ~0.61 of it carries letterforms;
- * Automattic is a bare all-caps wordmark whose box is 0.94 letterform. Giving
- * it a 40 box would draw its caps half again too large — and at 12.9:1 that is
- * 518 wide, starving every other slot. A 26 box (0.61 × 40 ÷ 0.94) lands its
- * caps on the row's cap line at a third of that width.
- *
- * Order is load-bearing, not just reading order. Slots take every third entry
- * and each slot is as wide as its widest member, so the row's scale is set by
- * the sum of those three widths. Holding the three widest logos in one slot
- * (indices 1, 4, 7) keeps only one of them in that sum. "& more" is pinned
- * last, which puts it in slot 0 — the one logo that can only clip rather than
- * scale down, so that slot needs a widest member (Orchid) it clears easily.
+ * width/height are the drawn box at a nominal scale where the marks read as
+ * one size. Bounding boxes can't be equalized directly — each SVG's box spans
+ * a different mix of icon, ascenders and descenders — so the letterforms are
+ * matched instead and the box follows from the viewBox:
+ *   box height = viewBox height × target letterform ÷ letterform in viewBox.
+ * Mixed-case wordmarks (AgentMail, Orchid, "& more") share a 27 cap height.
+ * The all-caps wordmarks (Automattic, Axiom) take 0.88 of that: a word set
+ * entirely in caps reads larger than its cap height. Sim, lowercase-only,
+ * matches on x-height at 0.78 of the cap (mixed-case x-heights here run
+ * ~0.72). Widths follow each viewBox's aspect ratio; "& more" is its measured
+ * advance at that font size.
  */
 const LOGOS: LogoDef[] = [
-  { name: "Sim", src: "/brands/sim.svg", url: "https://sim.ai", width: 82, height: 40 },
-  { name: "Automattic", src: "/brands/automattic.svg", url: "https://automattic.com", width: 337, height: 26 },
-  { name: "Bloom", src: "/brands/bloom.svg", url: "https://trybloom.ai", width: 147, height: 40 },
-  { name: "Orchid", src: "/brands/orchid.svg", url: "https://orchid.ai", width: 166, height: 40 },
-  { name: "AgentMail", src: "/brands/agentmail.svg", url: "https://agentmail.to", width: 219, height: 40 },
-  { name: "StarSling", src: "/brands/starsling.svg", url: "https://starsling.dev", width: 191, height: 47 },
-  { name: "Feyn", src: "/brands/feyn.svg", url: "https://usefeyn.com", width: 95, height: 40 },
-  { name: "AgentPhone", src: "/brands/agentphone.svg", url: "https://agentphone.ai", width: 212, height: 40 },
-  { name: "The Hog", src: "/brands/thehog.svg", url: "https://thehog.ai", width: 199, height: 43 },
-  { name: "& more", url: "/works", width: 139, height: 40 },
+  {
+    name: "Automattic",
+    src: "/brands/automattic.svg",
+    url: "https://automattic.com",
+    width: 331,
+    height: 25.5,
+  },
+  {
+    name: "Axiom",
+    src: "/brands/axiom.svg",
+    url: "https://axiom.trade",
+    width: 148,
+    height: 30.7,
+  },
+  {
+    name: "AgentMail",
+    src: "/brands/agentmail.svg",
+    url: "https://agentmail.to",
+    width: 219,
+    height: 40,
+  },
+  {
+    name: "Sim",
+    src: "/brands/sim.svg",
+    url: "https://sim.ai",
+    width: 55,
+    height: 27,
+  },
+  {
+    name: "Orchid",
+    src: "/brands/orchid.svg",
+    url: "https://orchid.ai",
+    width: 172,
+    height: 41.3,
+  },
+  { name: "& more", url: "/works", width: 126, height: 40 },
 ];
 
 // ── Constants ───────────────────────────────────────────────────────
 
-const LOGO_SCALE = 0.8;
-/**
- * Font size for text slides ("& more") at scale 1. Sized by cap height rather
- * than by the 40-tall ink rule above: that box also spans icons, ascenders and
- * descenders, so matching it would leave text — which is all cap and x-height —
- * overpowering its neighbors. TWK Lausanne's cap is 0.714em, so 44 lands a ~31
- * cap, level with the wordmark logos.
- */
-const TEXT_SIZE = 44;
-/**
- * Fixed-width slots clamp with `max-w-full`, which would shrink only the
- * widest logo and break the uniform ink height — so this floors at Automattic
- * drawn at LOGO_SCALE (337 × 0.8 = 270), the widest anything ever gets.
- */
-const SLOT_WIDTH = 280;
-const MAX_LOGO_HEIGHT = Math.max(...LOGOS.map((l) => l.height));
+/** Gap between neighbouring logos, in the same nominal units as the boxes. */
+const GAP = 50;
 const INITIAL_DELAY = 2500;
-const SLOT_STAGGER = 150;
 const CYCLE_INTERVAL = 3000;
+/** Seconds between neighbours starting their transition. */
+const STAGGER = 0.15;
+const TRANSITION = { duration: 0.5, ease: "easeInOut" } as const;
 
 const LOGO_SRCS = LOGOS.flatMap((l) => (l.src ? [l.src] : []));
 
@@ -134,23 +146,18 @@ function useImagesPreloaded(srcs: readonly string[]): boolean {
 }
 
 /**
- * Cycles through a list of logos.
- * Pauses when the tab is hidden so staggered delays stay in sync on return.
+ * Counts up every CYCLE_INTERVAL after an initial delay.
+ * Pauses when the tab is hidden so the cadence resumes where it left off.
  */
-function useLogoCycle(
-  logos: LogoDef[],
-  initialDelay: number,
-  enabled: boolean,
-) {
+function useCycle(enabled: boolean): number {
   const [step, setStep] = useState(0);
-  const current = logos[step % logos.length];
 
   useEffect(() => {
     if (!enabled) return;
 
     let timeoutId: ReturnType<typeof setTimeout> | null = null;
     let startedAt = 0;
-    let remaining = step === 0 ? initialDelay : CYCLE_INTERVAL;
+    let remaining = step === 0 ? INITIAL_DELAY : CYCLE_INTERVAL;
 
     const schedule = (delay: number) => {
       remaining = delay;
@@ -178,16 +185,19 @@ function useLogoCycle(
       if (timeoutId != null) clearTimeout(timeoutId);
       document.removeEventListener("visibilitychange", onVisibilityChange);
     };
-  }, [enabled, step, initialDelay]);
+  }, [enabled, step]);
 
-  return { current, hasCycled: step > 0 };
+  return step;
 }
 
-// ── LogoSlot ────────────────────────────────────────────────────────
+// ── Styles ──────────────────────────────────────────────────────────
 
 type CarouselVariant = "muted" | "dark" | "light";
 
-const variantStyles: Record<CarouselVariant, { base: string; interactive: string }> = {
+const variantStyles: Record<
+  CarouselVariant,
+  { base: string; interactive: string }
+> = {
   muted: {
     base: "brightness-0 opacity-40 dark:invert",
     interactive: "transition-opacity duration-200 hover:opacity-60",
@@ -204,7 +214,10 @@ const variantStyles: Record<CarouselVariant, { base: string; interactive: string
 };
 
 /* Text slides ("& more") mirror each variant's filtered-image color. */
-const textVariantStyles: Record<CarouselVariant, { base: string; interactive: string }> = {
+const textVariantStyles: Record<
+  CarouselVariant,
+  { base: string; interactive: string }
+> = {
   muted: {
     base: "text-black opacity-40 dark:text-white",
     interactive: "transition-opacity duration-200 hover:opacity-60",
@@ -219,56 +232,53 @@ const textVariantStyles: Record<CarouselVariant, { base: string; interactive: st
   },
 };
 
-function LogoSlot({
-  logos,
-  slotIndex,
-  enabled,
+// ── Motion ──────────────────────────────────────────────────────────
+
+/* Rows only orchestrate: neighbours start STAGGER apart, on the way in and out. */
+const rowVariants = {
+  enter: { transition: { staggerChildren: STAGGER } },
+  exit: { transition: { staggerChildren: STAGGER } },
+};
+
+const slideVariants = {
+  initial: { y: 20, opacity: 0, filter: "blur(8px)" },
+  enter: { y: 0, opacity: 1, filter: "blur(0px)", transition: TRANSITION },
+  exit: { y: -20, opacity: 0, filter: "blur(8px)", transition: TRANSITION },
+};
+
+const reducedSlideVariants = {
+  initial: { opacity: 0 },
+  enter: { opacity: 1, transition: TRANSITION },
+  exit: { opacity: 0, transition: TRANSITION },
+};
+
+// ── Slide ───────────────────────────────────────────────────────────
+
+function Slide({
+  logo,
+  unit,
   disableLinks,
-  variant = "muted",
-  slotWidth = SLOT_WIDTH,
-  slotShare,
-  logoScale = LOGO_SCALE,
+  variant,
 }: {
-  logos: LogoDef[];
-  slotIndex: number;
-  enabled: boolean;
+  logo: LogoDef;
+  /** cqw per nominal unit. */
+  unit: number;
   disableLinks?: boolean;
-  variant?: CarouselVariant;
-  slotWidth?: number | "fit";
-  /** Fluid mode: this slot's fixed share of the container width (0–1). */
-  slotShare?: number;
-  logoScale?: number;
+  variant: CarouselVariant;
 }) {
   const reducedMotion = useReducedMotion();
-  // "fit" sizes the slot to its own widest logo, so idle air stays minimal
-  // while the width still never changes as logos cycle.
-  const resolvedSlotWidth =
-    slotWidth === "fit"
-      ? Math.round(Math.max(...logos.map((l) => l.width)) * logoScale)
-      : slotWidth;
-  const { current: logo, hasCycled } = useLogoCycle(
-    logos,
-    INITIAL_DELAY + slotIndex * SLOT_STAGGER,
-    enabled,
-  );
-
   const styles = variantStyles[variant];
   const textStyles = textVariantStyles[variant];
-  // Fluid slots size every logo as a fraction of the slot width (cqw), so
-  // when the container squeezes the slot, all logos shrink by one shared
-  // factor — a per-logo max-w clamp would shrink only the widest and break
-  // the uniform ink height.
-  const fluid = slotShare != null;
-  const widestWidth = Math.max(...logos.map((l) => l.width));
-  const imgEl = logo.src ? (
+
+  const content = logo.src ? (
     // eslint-disable-next-line @next/next/no-img-element
     <img
       src={logo.src}
       alt={disableLinks ? logo.name : ""}
-      width={Math.round(logo.width * logoScale)}
-      height={Math.round(logo.height * logoScale)}
-      className={cn("h-auto max-w-full", styles.base, !disableLinks && styles.interactive)}
-      style={fluid ? { width: `${((logo.width / widestWidth) * 100).toFixed(2)}cqw` } : undefined}
+      width={Math.round(logo.width)}
+      height={Math.round(logo.height)}
+      className={cn("h-auto", styles.base, !disableLinks && styles.interactive)}
+      style={{ width: `${(logo.width * unit).toFixed(3)}cqw` }}
     />
   ) : (
     <span
@@ -277,150 +287,95 @@ function LogoSlot({
         textStyles.base,
         !disableLinks && textStyles.interactive,
       )}
-      style={{
-        fontSize: fluid
-          ? `${((TEXT_SIZE / widestWidth) * 100).toFixed(2)}cqw`
-          : Math.round(TEXT_SIZE * logoScale),
-      }}
+      style={{ fontSize: `${(logo.height * unit).toFixed(3)}cqw` }}
     >
       {logo.name}
     </span>
   );
 
-  // A share-sized slot is a fixed percentage of the container, so its width
-  // depends only on the viewport, never on which logo is currently shown.
-  // 88% is distributable; the remaining 12% becomes gaps via justify-between.
-  const sizing =
-    slotShare != null
-      ? { width: `${(slotShare * 88).toFixed(2)}%`, flex: "0 0 auto" }
-      : { flex: `0 1 ${resolvedSlotWidth}px` };
-
   return (
-    <div
+    <motion.div
       role="group"
       aria-roledescription="slide"
       aria-label={logo.name}
-      className={cn(
-        "overflow-hidden flex items-center justify-center",
-        // Containment stops contents from contributing intrinsic width, so it
-        // is only safe where an ancestor fixes the width — true of fluid mode,
-        // which requires a definite width anyway, but not of the shrink-to-fit
-        // parents non-fluid carousels sit in.
-        fluid && "[container-type:inline-size]",
-      )}
-      style={{
-        ...sizing,
-        // Non-fluid slots equalize to the mean width of whatever is on screen.
-        // An image absorbs that via `max-w-full`, but nowrap text can only
-        // clip, so floor a text slot at the width its own label needs — the
-        // automatic minimum that would do this is zeroed by `overflow-hidden`.
-        minWidth: fluid || logo.src ? 0 : Math.round(logo.width * logoScale),
-        height: MAX_LOGO_HEIGHT * logoScale + 40,
-        marginBlock: -20,
-      }}
+      variants={reducedMotion ? reducedSlideVariants : slideVariants}
+      className="flex shrink-0 items-center will-change-[filter] backface-hidden"
     >
-      <AnimatePresence mode="popLayout" initial={false}>
-        <motion.div
-          key={logo.name}
-          initial={
-            !hasCycled
-              ? false
-              : reducedMotion
-                ? { opacity: 0 }
-                : { y: 20, opacity: 0, filter: "blur(8px)" }
-          }
-          animate={
-            reducedMotion
-              ? { opacity: 1 }
-              : { y: 0, opacity: 1, filter: "blur(0px)" }
-          }
-          exit={
-            reducedMotion
-              ? { opacity: 0 }
-              : { y: -20, opacity: 0, filter: "blur(8px)" }
-          }
-          transition={{ duration: 0.5, ease: "easeInOut" }}
-          className="flex max-w-full items-center justify-center will-change-[filter] backface-hidden"
+      {disableLinks ? (
+        content
+      ) : logo.src ? (
+        <Link
+          href={`${logo.url}?ref=arc`}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`${logo.name} (opens in new tab)`}
+          className="flex"
         >
-          {disableLinks ? (
-            imgEl
-          ) : logo.src ? (
-            <Link
-              href={`${logo.url}?ref=arc`}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`${logo.name} (opens in new tab)`}
-              className="flex max-w-full"
-            >
-              {imgEl}
-            </Link>
-          ) : (
-            <Link
-              href={logo.url}
-              aria-label={`${logo.name} — view all works`}
-              className="flex max-w-full"
-            >
-              {imgEl}
-            </Link>
-          )}
-        </motion.div>
-      </AnimatePresence>
-    </div>
+          {content}
+        </Link>
+      ) : (
+        <Link
+          href={logo.url}
+          aria-label={`${logo.name} — view all works`}
+          className="flex"
+        >
+          {content}
+        </Link>
+      )}
+    </motion.div>
   );
 }
 
 // ── LogoCarousel ────────────────────────────────────────────────────
 
+/**
+ * Fills its container and cycles through LOGOS a round at a time. Every logo
+ * is sized as a share of the container width (cqw) with one scale for the
+ * whole set — the one that lets the widest round fit — so ink heights stay
+ * uniform across rounds and nothing ever reflows. Narrower rounds are shorter
+ * than the container; align them with a `justify-*` class on `className`
+ * (rows are centered by default). Cap the size with a `max-w-*`.
+ */
 export function LogoCarousel({
   className,
   disableLinks,
   variant = "muted",
-  slotWidth,
-  maxSlots,
   slots,
-  logoScale,
 }: {
   className?: string;
   disableLinks?: boolean;
   variant?: CarouselVariant;
-  /**
-   * Slot sizing: a fixed pixel width, "fit" (each slot hugs its widest logo),
-   * or "fluid" (each slot is a fixed percentage of the container, sized
-   * proportionally to its widest logo; widths never move during transitions).
-   */
-  slotWidth?: number | "fit" | "fluid";
-  maxSlots?: number;
-  /** Fixed slot count on every breakpoint (overrides responsive counting). */
+  /** Logos per round on every breakpoint (overrides responsive counting). */
   slots?: number;
-  logoScale?: number;
 }) {
   const allLoaded = useImagesPreloaded(LOGO_SRCS);
   const responsiveSlots = useSlotCount();
-  // Never more slots than logos; an empty slot has nothing to render.
-  const slotCount = Math.min(
-    LOGOS.length,
-    slots ?? (maxSlots ? Math.min(responsiveSlots, maxSlots) : responsiveSlots),
-  );
+  const slotCount = Math.min(LOGOS.length, slots ?? responsiveSlots);
 
-  const slotLogos = useMemo(
+  const rounds = useMemo(
     () =>
-      Array.from({ length: slotCount }, (_, slot) =>
-        LOGOS.filter((_, i) => i % slotCount === slot),
+      Array.from({ length: Math.ceil(LOGOS.length / slotCount) }, (_, i) =>
+        LOGOS.slice(i * slotCount, (i + 1) * slotCount),
       ),
     [slotCount],
   );
 
-  // Fluid mode: each slot's share of the row is proportional to the widest
-  // logo it will ever show, so no rotation can outgrow its box.
-  const fluid = slotWidth === "fluid";
-  const slotShares = useMemo(() => {
-    if (!fluid) return null;
-    const widest = slotLogos.map((logos) =>
-      Math.max(...logos.map((l) => l.width)),
+  // One scale for every round: the widest row, gaps included, spans 100cqw.
+  const unit = useMemo(() => {
+    const widest = Math.max(
+      ...rounds.map(
+        (round) =>
+          round.reduce((sum, l) => sum + l.width, 0) + GAP * (round.length - 1),
+      ),
     );
-    const total = widest.reduce((sum, w) => sum + w, 0);
-    return widest.map((w) => w / total);
-  }, [fluid, slotLogos]);
+    return 100 / widest;
+  }, [rounds]);
+  // Rows share one height — the tallest box in the set — so the row never
+  // moves when a round with shorter marks takes over.
+  const rowHeight = Math.max(...LOGOS.map((l) => l.height)) * unit;
+
+  const step = useCycle(allLoaded && rounds.length > 1);
+  const round = step % rounds.length;
 
   return (
     <motion.div
@@ -430,25 +385,38 @@ export function LogoCarousel({
       initial={{ opacity: 0 }}
       animate={{ opacity: allLoaded ? 1 : 0 }}
       transition={{ duration: 0.4, ease: "easeOut" }}
+      // The query container: cqw resolves against this box, so it needs a
+      // definite width from its parent. Rows shrink-wrap their logos and this
+      // flex box positions them, which is what makes `justify-*` work.
       className={cn(
-        "flex items-center",
-        fluid ? "w-full justify-between" : "gap-4",
+        "relative flex w-full justify-center [container-type:inline-size]",
         className,
       )}
     >
-      {slotLogos.map((logos, i) => (
-        <LogoSlot
-          key={i}
-          logos={logos}
-          slotIndex={i}
-          enabled={allLoaded}
-          disableLinks={disableLinks}
-          variant={variant}
-          slotWidth={fluid ? "fit" : slotWidth}
-          slotShare={slotShares?.[i]}
-          logoScale={logoScale}
-        />
-      ))}
+      <AnimatePresence mode="popLayout" initial={false}>
+        <motion.div
+          key={round}
+          variants={rowVariants}
+          initial="initial"
+          animate="enter"
+          exit="exit"
+          className="flex items-center"
+          style={{
+            columnGap: `${(GAP * unit).toFixed(3)}cqw`,
+            height: `${rowHeight.toFixed(3)}cqw`,
+          }}
+        >
+          {rounds[round].map((logo) => (
+            <Slide
+              key={logo.name}
+              logo={logo}
+              unit={unit}
+              disableLinks={disableLinks}
+              variant={variant}
+            />
+          ))}
+        </motion.div>
+      </AnimatePresence>
     </motion.div>
   );
 }

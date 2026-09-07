@@ -37,9 +37,11 @@ const Hero = () => {
         </div>
       </header>
 
-      {/* Heading + client logos */}
-      <div className="mt-6 flex flex-wrap items-end justify-between gap-x-10 gap-y-10 px-5 pb-20 md:px-12 lg:px-24">
-        <div className="flex flex-col items-start gap-7">
+      {/* Heading + client logos. Side by side from xl, where the 641px heading
+          still leaves the carousel 400px+; below that the carousel drops under
+          the heading, left-aligned like it. */}
+      <div className="mt-6 flex flex-col gap-y-10 px-5 pb-20 md:px-12 lg:px-24 xl:flex-row xl:items-end xl:justify-between xl:gap-x-10">
+        <div className="flex flex-col items-start gap-7 xl:shrink-0">
           <motion.p
             {...riseIn()}
             className="inline-flex items-center gap-1.5 rounded-[8px] bg-[#ff6601]/10 px-2 py-1 text-sm leading-none text-[#e7a478] will-change-[filter] backface-hidden"
@@ -59,30 +61,31 @@ const Hero = () => {
           </motion.p>
           {/* `items-end` aligns boxes, not ink, so the heading floats a descender
               above the logos. Trim that space (TWK Lausanne: 0.2002em descent less
-              0.0557em half-leading at leading-none) and add back the carousel's own
-              5.84px of slack — its row is sized to the tallest padded viewBox at
-              logoScale while fluid sizing draws the ink smaller — landing the
-              baseline on the logo bottoms. Re-derive this whenever a logo's width
-              changes: (47 × 0.72 − 40 × 0.88 × 442 / Σ slot widths) / 2. */}
+              0.0557em half-leading at leading-none) and add back the height the
+              logos' own baselines sit above the carousel row's bottom — 5px in the
+              520px box, where the wordmarks are centered in a row as tall as the
+              tallest mark. Re-measure this whenever a logo's box changes. */}
           <motion.h1
             {...riseIn(0.08)}
-            className="mb-[calc(5.84px_-_0.1445em)] text-[34px] font-semibold leading-none tracking-[-0.03em] text-black sm:text-[44px] lg:text-6xl will-change-[filter] backface-hidden"
+            className="text-[34px] font-semibold leading-none tracking-[-0.03em] text-black sm:text-[44px] lg:text-6xl xl:mb-[calc(5px_-_0.1445em)] will-change-[filter] backface-hidden"
           >
             All-in-one design studio.
           </motion.h1>
         </div>
 
-        {/* Definite width (100% capped at 442px) so the fluid slots resolve
-            to fixed percentages; 442px keeps the row intact at 1440. */}
+        {/* Definite width so the carousel's cqw sizing resolves: 100% under the
+            heading, and beside it whatever the heading leaves, capped at 520px —
+            the most that still clears the heading by ~80px at 1440. Rows sit
+            flush with the heading's edge below xl and with the page's right
+            edge beside it. */}
         <motion.div
           {...riseIn(0.16)}
-          className="w-full min-w-0 max-w-[442px] will-change-[filter] backface-hidden"
+          className="w-full max-w-[520px] xl:min-w-0 xl:flex-1 will-change-[filter] backface-hidden"
         >
           <LogoCarousel
             variant="muted"
             slots={3}
-            slotWidth="fluid"
-            logoScale={0.72}
+            className="justify-start xl:justify-end"
           />
         </motion.div>
       </div>

@@ -16,7 +16,7 @@ const COMPONENTS: Record<
     description:
       "Animated logo carousel with staggered cycling, image preloading, and reduced-motion support.",
     file: "src/components/ui/logo-carousel.tsx",
-    preview: <LogoCarousel variant="dark" />,
+    preview: <LogoCarousel variant="dark" className="max-w-[640px] px-8" />,
   },
   showreel: {
     title: "Showreel",

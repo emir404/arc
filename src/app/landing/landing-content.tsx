@@ -121,7 +121,7 @@ const LandingContent = () => {
         <p className="text-sm text-muted-foreground font-medium">
           Trusted by
         </p>
-        <LogoCarousel />
+        <LogoCarousel className="max-w-[640px] px-6" />
       </motion.div>
     </div>
   );

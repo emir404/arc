@@ -13,7 +13,7 @@ const COMPONENTS = [
   {
     slug: "logo-carousel",
     title: "Logo Carousel",
-    preview: <LogoCarousel disableLinks />,
+    preview: <LogoCarousel disableLinks className="max-w-[640px] px-8" />,
   },
   {
     slug: "showreel",

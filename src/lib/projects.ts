@@ -68,24 +68,6 @@ export const PROJECTS: Project[] = [
     ],
   },
   {
-    name: "Sim",
-    description: "Agent Workflow Builder",
-    year: "2025",
-    images: [
-      { src: "/works/sim-1.webp", width: 2000, height: 1173 },
-      {
-        src: "https://494510hkri.ufs.sh/f/3d9AyaVNUM8w36URyDVNUM8wsF1VBZOHcvIdTi9DhgQ7Rpmu",
-        width: 5760,
-        height: 4096,
-      },
-      {
-        src: "https://494510hkri.ufs.sh/f/3d9AyaVNUM8wt8TS6XMYZjvNFCAUWr1ncwPQR7T4hm8pI5kV",
-        width: 5760,
-        height: 2354,
-      },
-    ],
-  },
-  {
     name: "AgentMail",
     description: "Email for AI Agents",
     year: "2026",
@@ -109,17 +91,6 @@ export const PROJECTS: Project[] = [
     ],
   },
   {
-    name: "AgentPhone",
-    description: "Phone Numbers for AI Agents",
-    year: "2026",
-    dark: true,
-    images: [
-      { src: "/works/agentphone-1.webp", width: 2000, height: 1422 },
-      { src: "/works/agentphone-2.webp", width: 2000, height: 1422 },
-      { src: "/works/agentphone-3.webp", width: 2000, height: 1422 },
-    ],
-  },
-  {
     name: "Orchid",
     description: "AI Personal Assistant",
     year: "2026",
@@ -127,38 +98,6 @@ export const PROJECTS: Project[] = [
       { src: "/works/orchid-1.webp", width: 2000, height: 1422 },
       { src: "/works/orchid-2.webp", width: 2000, height: 1283 },
       { src: "/works/orchid-3.webp", width: 2000, height: 1686 },
-    ],
-  },
-  {
-    name: "The Hog",
-    description: "The Complete Web Intelligence API",
-    year: "2026",
-    images: [
-      { src: "/works/thehog-1.webp", width: 2000, height: 1422 },
-      { src: "/works/thehog-2.webp", width: 2000, height: 1642 },
-      { src: "/works/thehog-3.webp", width: 2000, height: 1692 },
-    ],
-  },
-  {
-    name: "Lantern",
-    description: "Your Marketing Team, but 50% Smaller",
-    year: "2025",
-    images: [
-      {
-        src: "https://494510hkri.ufs.sh/f/3d9AyaVNUM8wFVCkWZEPMGNpU9kvXazwSY5JBur4xRVbDceI",
-        width: 5760,
-        height: 4096,
-      },
-      {
-        src: "https://494510hkri.ufs.sh/f/3d9AyaVNUM8wlp6RkJeu8cHmb9N4ef5r2S7WwnKEFpXG0QCJ",
-        width: 5760,
-        height: 3732,
-      },
-      {
-        src: "https://494510hkri.ufs.sh/f/3d9AyaVNUM8wLHFQ4CW2jANIaUiTJPEQpOBsS7c8ltMZRmfn",
-        width: 5760,
-        height: 3400,
-      },
     ],
   },
 ];

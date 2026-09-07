@@ -40,3 +40,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# raw design exports; the site serves optimized copies from Vercel Blob
+/new works/

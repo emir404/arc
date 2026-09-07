@@ -2,11 +2,11 @@
 
 import { X } from "lucide-react";
 import { AnimatePresence, motion, type Variants } from "motion/react";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
+import WorkFrame from "@/components/works/work-frame";
 import { EASE, riseInView } from "@/lib/animation";
-import { PUBLISHED_PROJECTS } from "@/lib/projects";
+import { firstImage, PUBLISHED_PROJECTS } from "@/lib/projects";
 
 const backdropVariants: Variants = {
   hidden: { opacity: 0, transition: { duration: 0.3, ease: EASE } },
@@ -169,20 +169,16 @@ const WorksOverlay = () => {
                         </span>
                       </div>
                       <div className="flex flex-col gap-2">
-                        {project.images.map((src, i) => (
-                          <Image
-                            key={src}
-                            src={src}
+                        {project.images.map((frame, i) => (
+                          <WorkFrame
+                            key={firstImage(frame).src}
+                            frame={frame}
                             alt={`${project.name} ${i + 1}`}
-                            width={1920}
-                            height={1080}
-                            loading={
-                              projectIndex === 0 && i === 0
-                                ? "eager"
-                                : undefined
-                            }
-                            className={`h-auto w-full rounded-2xl${
-                              project.borderless ? "" : " border border-[#e5e5e5]"
+                            eager={projectIndex === 0 && i === 0}
+                            className={`rounded-2xl${
+                              project.borderless
+                                ? ""
+                                : " border border-[#e5e5e5]"
                             }`}
                             sizes="(max-width: 768px) 95vw, (max-width: 1400px) 88vw, 1138px"
                           />

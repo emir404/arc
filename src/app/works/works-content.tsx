@@ -1,9 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import { motion } from "motion/react";
-import { useEffect, useRef, useCallback } from "react";
-import { PUBLISHED_PROJECTS } from "@/lib/projects";
+import { useCallback, useEffect, useRef } from "react";
+import WorkFrame from "@/components/works/work-frame";
+import { firstImage, PUBLISHED_PROJECTS } from "@/lib/projects";
 
 export default function WorksContent() {
   const darkRefs = useRef<Map<number, HTMLElement>>(new Map());
@@ -13,7 +13,7 @@ export default function WorksContent() {
       if (el) darkRefs.current.set(index, el);
       else darkRefs.current.delete(index);
     },
-    []
+    [],
   );
 
   useEffect(() => {
@@ -38,15 +38,17 @@ export default function WorksContent() {
         });
 
         const shouldBeDark = Array.from(darkRefs.current.values()).some(
-          (el) => el.dataset.intersecting === "true"
+          (el) => el.dataset.intersecting === "true",
         );
 
         document.documentElement.classList.toggle("dark", shouldBeDark);
       },
-      { rootMargin: "-50% 0px -50% 0px", threshold: 0 }
+      { rootMargin: "-50% 0px -50% 0px", threshold: 0 },
     );
 
-    darkRefs.current.forEach((el) => observer.observe(el));
+    darkRefs.current.forEach((el) => {
+      observer.observe(el);
+    });
 
     return () => {
       observer.disconnect();
@@ -81,14 +83,12 @@ export default function WorksContent() {
           </div>
 
           <div className="flex flex-col gap-2">
-            {project.images.map((src, i) => (
-              <Image
-                key={src}
-                src={src}
+            {project.images.map((frame, i) => (
+              <WorkFrame
+                key={firstImage(frame).src}
+                frame={frame}
                 alt={`${project.name} ${i + 1}`}
-                width={1920}
-                height={1080}
-                className={`w-full h-auto rounded-2xl${
+                className={`rounded-2xl${
                   project.borderless ? "" : " border border-border"
                 }`}
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 80vw"

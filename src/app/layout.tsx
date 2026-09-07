@@ -64,7 +64,7 @@ const structuredData = {
 export const metadata: Metadata = {
   metadataBase: new URL("https://witharc.co"),
   title: {
-    default: "Arc • All-in-one design studio for early-stage startups",
+    default: "Arc Studio",
     template: "%s • Arc",
   },
   description:

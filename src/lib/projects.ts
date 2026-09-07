@@ -1,3 +1,18 @@
+export type WorkImage = {
+  src: string;
+  /** Intrinsic pixel size, so the browser reserves the right box before the
+      image loads (no layout shift) and the optimizer knows what it serves. */
+  width: number;
+  height: number;
+};
+
+/**
+ * One framed image in the works list. A full-page design taller than the
+ * image optimizer's 8192px source cap is stored as consecutive segments,
+ * which the frame renders seamlessly as one image.
+ */
+export type WorkFrame = WorkImage | WorkImage[];
+
 export type Project = {
   name: string;
   description: string;
@@ -7,20 +22,67 @@ export type Project = {
   /** Drops the hairline image border (for designs whose own light/gradient
       edges make the border read as a partial outline). */
   borderless?: boolean;
-  images: string[];
+  /** Showreel image (45:32); defaults to the first frame's first image. */
+  cover?: WorkImage;
+  images: WorkFrame[];
 };
+
+/**
+ * Vercel Blob store `arc-works` (connected to the arc-8o98 project), holding
+ * the newer works. Add a design with
+ * `vercel blob put <file> --pathname works/<brand>/<name>.webp`, using the
+ * BLOB_READ_WRITE_TOKEN from .env.local.
+ */
+const BLOB = "https://v5k8hekvpojqzsbx.public.blob.vercel-storage.com/works";
+const blob = (path: string) => `${BLOB}/${path}`;
 
 // Projects whose `images` are still empty are awaiting their design uploads;
 // they are filtered out of the showreel and works views until populated.
 export const PROJECTS: Project[] = [
   {
+    name: "Axiom",
+    description: "The Only Trading Platform You’ll Ever Need",
+    year: "2026",
+    dark: true,
+    cover: { src: blob("axiom/cover.webp"), width: 2000, height: 1422 },
+    images: [
+      [
+        { src: blob("axiom/landing-1.webp"), width: 2000, height: 7538 },
+        { src: blob("axiom/landing-2.webp"), width: 2000, height: 7684 },
+      ],
+    ],
+  },
+  {
+    name: "Automattic",
+    description: "Spacefast, the Publishing Layer for Your Agents",
+    year: "2026",
+    cover: { src: blob("automattic/cover.webp"), width: 2000, height: 1422 },
+    images: [
+      [
+        { src: blob("automattic/landing-1.webp"), width: 2000, height: 4841 },
+        { src: blob("automattic/landing-2.webp"), width: 2000, height: 5991 },
+      ],
+      { src: blob("automattic/banner.webp"), width: 2000, height: 667 },
+      { src: blob("automattic/domains.webp"), width: 2000, height: 1422 },
+      { src: blob("automattic/members.webp"), width: 2000, height: 1422 },
+    ],
+  },
+  {
     name: "Sim",
     description: "Agent Workflow Builder",
     year: "2025",
     images: [
-      "/works/sim-1.webp",
-      "https://494510hkri.ufs.sh/f/3d9AyaVNUM8w36URyDVNUM8wsF1VBZOHcvIdTi9DhgQ7Rpmu",
-      "https://494510hkri.ufs.sh/f/3d9AyaVNUM8wt8TS6XMYZjvNFCAUWr1ncwPQR7T4hm8pI5kV",
+      { src: "/works/sim-1.webp", width: 2000, height: 1173 },
+      {
+        src: "https://494510hkri.ufs.sh/f/3d9AyaVNUM8w36URyDVNUM8wsF1VBZOHcvIdTi9DhgQ7Rpmu",
+        width: 5760,
+        height: 4096,
+      },
+      {
+        src: "https://494510hkri.ufs.sh/f/3d9AyaVNUM8wt8TS6XMYZjvNFCAUWr1ncwPQR7T4hm8pI5kV",
+        width: 5760,
+        height: 2354,
+      },
     ],
   },
   {
@@ -29,9 +91,21 @@ export const PROJECTS: Project[] = [
     year: "2026",
     dark: true,
     images: [
-      "https://494510hkri.ufs.sh/f/3d9AyaVNUM8w5LTQDLt1oRY7wDTKfMrq8Sn2isyOdjuzhmc3",
-      "https://494510hkri.ufs.sh/f/3d9AyaVNUM8wcMT3iMM5XwSYHFfxQrqugz251M6OZPGKCNso",
-      "https://494510hkri.ufs.sh/f/3d9AyaVNUM8wveBSEYQzr6o3qQ0XHuiJjTO9KPEfdgxUynIW",
+      {
+        src: "https://494510hkri.ufs.sh/f/3d9AyaVNUM8w5LTQDLt1oRY7wDTKfMrq8Sn2isyOdjuzhmc3",
+        width: 5760,
+        height: 4096,
+      },
+      {
+        src: "https://494510hkri.ufs.sh/f/3d9AyaVNUM8wcMT3iMM5XwSYHFfxQrqugz251M6OZPGKCNso",
+        width: 5760,
+        height: 4744,
+      },
+      {
+        src: "https://494510hkri.ufs.sh/f/3d9AyaVNUM8wveBSEYQzr6o3qQ0XHuiJjTO9KPEfdgxUynIW",
+        width: 5760,
+        height: 5156,
+      },
     ],
   },
   {
@@ -40,9 +114,9 @@ export const PROJECTS: Project[] = [
     year: "2026",
     dark: true,
     images: [
-      "/works/agentphone-1.webp",
-      "/works/agentphone-2.webp",
-      "/works/agentphone-3.webp",
+      { src: "/works/agentphone-1.webp", width: 2000, height: 1422 },
+      { src: "/works/agentphone-2.webp", width: 2000, height: 1422 },
+      { src: "/works/agentphone-3.webp", width: 2000, height: 1422 },
     ],
   },
   {
@@ -50,9 +124,9 @@ export const PROJECTS: Project[] = [
     description: "AI Personal Assistant",
     year: "2026",
     images: [
-      "/works/orchid-1.webp",
-      "/works/orchid-2.webp",
-      "/works/orchid-3.webp",
+      { src: "/works/orchid-1.webp", width: 2000, height: 1422 },
+      { src: "/works/orchid-2.webp", width: 2000, height: 1283 },
+      { src: "/works/orchid-3.webp", width: 2000, height: 1686 },
     ],
   },
   {
@@ -60,9 +134,9 @@ export const PROJECTS: Project[] = [
     description: "The Complete Web Intelligence API",
     year: "2026",
     images: [
-      "/works/thehog-1.webp",
-      "/works/thehog-2.webp",
-      "/works/thehog-3.webp",
+      { src: "/works/thehog-1.webp", width: 2000, height: 1422 },
+      { src: "/works/thehog-2.webp", width: 2000, height: 1642 },
+      { src: "/works/thehog-3.webp", width: 2000, height: 1692 },
     ],
   },
   {
@@ -70,12 +144,28 @@ export const PROJECTS: Project[] = [
     description: "Your Marketing Team, but 50% Smaller",
     year: "2025",
     images: [
-      "https://494510hkri.ufs.sh/f/3d9AyaVNUM8wFVCkWZEPMGNpU9kvXazwSY5JBur4xRVbDceI",
-      "https://494510hkri.ufs.sh/f/3d9AyaVNUM8wlp6RkJeu8cHmb9N4ef5r2S7WwnKEFpXG0QCJ",
-      "https://494510hkri.ufs.sh/f/3d9AyaVNUM8wLHFQ4CW2jANIaUiTJPEQpOBsS7c8ltMZRmfn",
+      {
+        src: "https://494510hkri.ufs.sh/f/3d9AyaVNUM8wFVCkWZEPMGNpU9kvXazwSY5JBur4xRVbDceI",
+        width: 5760,
+        height: 4096,
+      },
+      {
+        src: "https://494510hkri.ufs.sh/f/3d9AyaVNUM8wlp6RkJeu8cHmb9N4ef5r2S7WwnKEFpXG0QCJ",
+        width: 5760,
+        height: 3732,
+      },
+      {
+        src: "https://494510hkri.ufs.sh/f/3d9AyaVNUM8wLHFQ4CW2jANIaUiTJPEQpOBsS7c8ltMZRmfn",
+        width: 5760,
+        height: 3400,
+      },
     ],
   },
 ];
+
+/** A frame's first image: its list key, and the showreel fallback. */
+export const firstImage = (frame: WorkFrame): WorkImage =>
+  Array.isArray(frame) ? frame[0] : frame;
 
 /** Projects that currently have at least one design image to show. */
 export const PUBLISHED_PROJECTS = PROJECTS.filter(
@@ -84,5 +174,5 @@ export const PUBLISHED_PROJECTS = PROJECTS.filter(
 
 /** One representative image per published project — the showreel "one of each". */
 export const SHOWREEL_IMAGES = PUBLISHED_PROJECTS.map(
-  (project) => project.images[0],
+  (project) => (project.cover ?? firstImage(project.images[0])).src,
 );

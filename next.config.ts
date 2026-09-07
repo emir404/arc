@@ -10,6 +10,13 @@ const nextConfig: NextConfig = {
         port: "",
         pathname: "/**",
       },
+      // Vercel Blob store holding the newer works (see src/lib/projects.ts).
+      {
+        protocol: "https",
+        hostname: "v5k8hekvpojqzsbx.public.blob.vercel-storage.com",
+        port: "",
+        pathname: "/works/**",
+      },
     ],
   },
 };

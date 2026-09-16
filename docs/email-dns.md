@@ -5,9 +5,10 @@ hosts may send mail as `@witharc.co`.
 
 That is worse than it sounds here, because a DMARC policy is already live at
 `p=quarantine` and no Google DKIM key is published either. Mail sent from the
-Google Workspace mailboxes (`emir@`, `hello@`, `omeroztok@`) currently fails both
-DMARC checks, and every receiver honoring that policy is entitled to put it
-straight in spam. Publishing the SPF record below fixes it.
+Google Workspace mailboxes (`emir@`, `hello@`, `omeroztok@`) fails both DMARC
+checks, so every receiver honoring that policy is entitled to put it straight in
+spam — and confirmed in practice: mail from `emir@witharc.co` lands in spam.
+Publishing the records below fixes it. Section 4 explains the mechanism.
 
 These records live at the DNS provider, not in this repo. Publish them there,
 then verify with `npm run email:check`.
@@ -88,7 +89,47 @@ Keep `p=quarantine` once SPF and DKIM are live. If you would rather not risk
 delivery while the two records propagate, drop to `p=none` first and restore
 `p=quarantine` after a clean week of reports.
 
-## 4. Verify
+## 4. Why mail from the mailboxes lands in spam
+
+Both DMARC checks fail on every message, and the policy already says what to do
+about that.
+
+- **SPF** has no record to evaluate, so the check returns `none`. Nothing to
+  align.
+- **DKIM** looks like it passes, which is why this is easy to misread. With no
+  custom key published, Google Workspace still signs outbound mail — with its
+  own fallback key, `d=witharc-co.<date>.gappssmtp.com`. The signature is valid,
+  but the signing domain isn't `witharc.co`, so it does not align and DMARC
+  ignores it.
+- **DMARC** therefore evaluates `fail` against `p=quarantine`, and quarantine
+  means the spam folder. Gmail and Microsoft 365 both honor it.
+
+The domain is not on Spamhaus DBL, SURBL or NordSpam, so this is an
+authentication failure rather than a reputation one. Order of operations:
+
+1. **Publish the SPF record** (section 1). Direct mail starts passing DMARC via
+   SPF as soon as it propagates — minutes to an hour on the TTL above. This is
+   the one that stops the bleeding.
+2. **Enable Workspace DKIM** (section 2). Needed for mail that gets forwarded or
+   passes through a mailing list, where SPF breaks by design. Remember the
+   **Start authentication** click — until then Google keeps using the
+   `gappssmtp.com` fallback and nothing changes.
+3. **Repoint `rua=`** (section 3) so the next failure is visible without anyone
+   reporting it by hand.
+
+Confirm the fix by mailing a Gmail address and opening **Show original**. The
+header block should read `SPF: PASS`, `DKIM: PASS` and `DMARC: PASS`, with
+`mailed-by`/`signed-by` both showing `witharc.co` — not `gappssmtp.com`.
+[mail-tester.com](https://www.mail-tester.com) gives the same answer with a
+score attached.
+
+Placement may lag the fix by a few days where recipients or their providers have
+already learned to distrust the domain. Don't send anything bulk from it while
+that settles, and it's worth asking the handful of people whose threads matter
+most to mark an existing message **Not spam** and add the address to their
+contacts.
+
+## 5. Verify
 
 ```bash
 npm run email:check

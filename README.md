@@ -20,6 +20,13 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Email
+
+The careers form sends notification mail as `careers@witharc.co` through Resend.
+The DNS records that authorize it — SPF, DKIM, DMARC — are documented in
+[`docs/email-dns.md`](docs/email-dns.md), and `npm run email:check` verifies them
+against the live zone.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

@@ -7,6 +7,7 @@
     "build": "next build --turbopack",
     "start": "next start",
     "lint": "biome check",
+    "email:check": "node scripts/check-email-dns.mjs",
     "format": "biome format --write",
     "registry": "npx shadcn build"
   },

@@ -7,6 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button, type buttonVariants } from "@/components/ui/button";
 import { riseInView } from "@/lib/animation";
+import { cn } from "@/lib/utils";
 
 type ButtonVariant = VariantProps<typeof buttonVariants>["variant"];
 
@@ -45,10 +46,10 @@ const plans: {
   },
   {
     name: "One time project",
-    price: "$15,000",
-    period: "Starting price",
+    price: "Custom",
+    period: "",
     description:
-      "A defined scope with a clear timeline for landing pages, brand work, or a focused product sprint.",
+      "A defined scope with a clear timeline \u2014 for landing pages, brand work, or a focused product sprint.",
     features: [
       "Fixed scope & timeline",
       "Designs delivered in Figma",
@@ -63,22 +64,34 @@ const plans: {
   },
 ];
 
-const Pricing = ({ headingAs = "h1" }: { headingAs?: "h1" | "h2" }) => {
+const Pricing = ({
+  headingAs = "h1",
+  heading = true,
+}: {
+  headingAs?: "h1" | "h2";
+  /** The rail column labels the view in its nav, so the title is redundant there. */
+  heading?: boolean;
+}) => {
   const MotionHeading = headingAs === "h2" ? motion.h2 : motion.h1;
-  const CardHeading = headingAs === "h2" ? "h3" : "h2";
+  const CardHeading = heading && headingAs === "h1" ? "h2" : "h3";
   return (
     <section
       id="pricing"
+      data-nav="pricing"
       className="scroll-mt-24 bg-white px-5 py-20 md:px-12 lg:px-24"
     >
-      <MotionHeading
-        {...riseInView()}
-        className="text-[40px] font-semibold leading-none tracking-[-0.03em] text-black will-change-[filter] backface-hidden"
-      >
-        Pricing
-      </MotionHeading>
+      {heading ? (
+        <MotionHeading
+          {...riseInView()}
+          className="text-[40px] font-semibold leading-none tracking-[-0.03em] text-black will-change-[filter] backface-hidden"
+        >
+          Pricing
+        </MotionHeading>
+      ) : (
+        <h2 className="sr-only">Pricing</h2>
+      )}
 
-      <div className="mt-12 grid gap-5 md:grid-cols-2">
+      <div className={cn("grid gap-5 md:grid-cols-2", heading && "mt-12")}>
         {plans.map((plan, i) => (
           <motion.div
             key={plan.name}

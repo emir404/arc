@@ -47,13 +47,14 @@ const FooterNavLink = ({ link }: { link: FooterLink }) => (
 
 const SiteFooter = () => {
   return (
-    <footer className="flex flex-col gap-12 bg-white px-5 py-12 md:px-12 md:py-16 lg:gap-16 lg:px-24 lg:py-20">
-      {/* Top: logo · heading + CTAs · link columns (single row at xl, per the 1440 Figma) */}
-      <div className="flex flex-col gap-12 lg:flex-row lg:items-start lg:justify-between lg:gap-8">
-        <div className="flex min-w-0 flex-col gap-12 xl:flex-row xl:gap-0">
+    <footer className="@container flex flex-col gap-12 bg-white px-5 py-12 md:px-12 md:py-16 lg:gap-16 lg:px-24 lg:py-20">
+      {/* Top: logo · heading + CTAs · link columns (single row once there is room
+          for the 461px heading beside them, per the 1440 Figma) */}
+      <div className="flex flex-col gap-12 @4xl:flex-row @4xl:items-start @4xl:justify-between @4xl:gap-8">
+        <div className="flex min-w-0 flex-col gap-12 @6xl:flex-row @6xl:gap-0">
           <motion.div
             {...riseInView()}
-            className="shrink-0 will-change-[filter] backface-hidden xl:w-[262px]"
+            className="shrink-0 will-change-[filter] backface-hidden @6xl:w-[262px]"
           >
             <Link
               href="/"
@@ -66,7 +67,7 @@ const SiteFooter = () => {
 
           <motion.div
             {...riseInView(0.08)}
-            className="flex max-w-[461px] flex-col items-start gap-10 will-change-[filter] backface-hidden lg:gap-16"
+            className="flex max-w-[461px] flex-col items-start gap-10 will-change-[filter] backface-hidden @4xl:gap-16"
           >
             <h2 className="text-[32px] font-semibold leading-[1.1] tracking-[-0.03em] text-black lg:text-[40px] lg:leading-none">
               You got in. Now let’s take <br className="hidden sm:block" />

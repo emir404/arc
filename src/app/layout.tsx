@@ -9,28 +9,25 @@ import HeaderWrapper from "@/components/layout/header-wrapper";
 
 import { Agentation } from "agentation";
 
-const TWKLausanne = localFont({
-  src: [
-    { path: "./fonts/TWKLausanne-100.woff2", weight: "100", style: "normal" },
-    { path: "./fonts/TWKLausanne-100Italic.woff2", weight: "100", style: "italic" },
-    { path: "./fonts/TWKLausanne-200.woff2", weight: "200", style: "normal" },
-    { path: "./fonts/TWKLausanne-300.woff2", weight: "300", style: "normal" },
-    { path: "./fonts/TWKLausanne-300Italic.woff2", weight: "300", style: "italic" },
-    { path: "./fonts/TWKLausanne-400.woff2", weight: "400", style: "normal" },
-    { path: "./fonts/TWKLausanne-400Italic.woff2", weight: "400", style: "italic" },
-    { path: "./fonts/TWKLausanne-500.woff2", weight: "500", style: "normal" },
-    { path: "./fonts/TWKLausanne-500Italic.woff2", weight: "500", style: "italic" },
-    { path: "./fonts/TWKLausanne-600.woff2", weight: "600", style: "normal" },
-    { path: "./fonts/TWKLausanne-600Italic.woff2", weight: "600", style: "italic" },
-    { path: "./fonts/TWKLausanne-700.woff2", weight: "700", style: "normal" },
-    { path: "./fonts/TWKLausanne-700Italic.woff2", weight: "700", style: "italic" },
-    { path: "./fonts/TWKLausanne-800.woff2", weight: "800", style: "normal" },
-    { path: "./fonts/TWKLausanne-800Italic.woff2", weight: "800", style: "italic" },
-    { path: "./fonts/TWKLausanne-900.woff2", weight: "900", style: "normal" },
-    { path: "./fonts/TWKLausanne-900Italic.woff2", weight: "900", style: "italic" },
-  ],
+/* Inter, as one variable file (wght 100–900 + an optical-size axis Safari and
+   Chrome apply automatically), subset to Latin + Latin Extended-A. */
+const inter = localFont({
+  src: "./fonts/Inter.woff2",
+  weight: "100 900",
+  style: "normal",
   variable: "--font-sans",
   display: "swap",
+  adjustFontFallback: "Arial",
+});
+
+/* Tiempos Text carries the display line only — one weight, one cut. */
+const tiempos = localFont({
+  src: "./fonts/TiemposText-Regular.woff2",
+  weight: "400",
+  style: "normal",
+  variable: "--font-serif",
+  display: "swap",
+  adjustFontFallback: "Times New Roman",
 });
 
 export const viewport: Viewport = {
@@ -143,7 +140,7 @@ export default function RootLayout({
         </script>
       </head>
       <body
-        className={`${TWKLausanne.variable} antialiased overflow-x-hidden bg-background font-sans`}
+        className={`${inter.variable} ${tiempos.variable} font-sans antialiased overflow-x-clip bg-background`}
       >
         <MotionConfig reducedMotion="user">
           <a

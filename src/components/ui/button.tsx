@@ -26,6 +26,8 @@ const buttonVariants = cva(
       size: {
         /* Figma pill: 18px label + 14px vertical padding = 46px */
         default: "h-[46px] px-4.5 text-lg",
+        /* Figma rail: 16px label + 12px vertical padding = 40px, squared off */
+        md: "h-10 rounded-[12px] px-4 text-base font-[600]",
         sm: "h-9 gap-1.5 px-3.5 text-base",
         lg: "h-14 px-6 text-xl",
         icon: "size-12",

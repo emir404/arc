@@ -59,15 +59,16 @@ const Testimonials = () => {
   return (
     <section
       id="testimonials"
-      className="scroll-mt-24 bg-white px-5 py-12 md:px-12 lg:px-24"
+      data-nav="testimonials"
+      className="@container scroll-mt-24 bg-white px-5 py-12 md:px-12 lg:px-24"
     >
       <h2 className="sr-only">Testimonials</h2>
-      <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
+      <div className="grid grid-cols-1 gap-5 @2xl:grid-cols-2 @6xl:grid-cols-3">
         {testimonials.map((t, i) => (
           <motion.blockquote
             key={`${t.name}-${i}`}
             {...riseInView((i % 3) * 0.08)}
-            className="relative flex flex-col gap-7 overflow-hidden rounded-2xl border border-[#f6f6f6] bg-[#fafafa] p-9 shadow-[0px_4px_8px_0px_rgba(0,0,0,0.02)] will-change-[filter] backface-hidden"
+            className="relative flex min-h-[269px] flex-col justify-between gap-7 overflow-hidden rounded-2xl border border-[#f6f6f6] bg-[#fafafa] p-9 shadow-[0px_4px_8px_0px_rgba(0,0,0,0.02)] will-change-[filter] backface-hidden"
           >
             {/* Every quote reserves 4 lines so the grid stays uniform; quotes
                 are never clamped — cards grow and rows equalize via grid. */}
@@ -94,7 +95,7 @@ const Testimonials = () => {
                     .join("")}
                 </span>
               )}
-              <div className="flex min-w-0 flex-col gap-1">
+              <div className="flex min-w-0 flex-col gap-2">
                 <cite className="text-base font-normal not-italic leading-none text-black">
                   {t.name}
                 </cite>

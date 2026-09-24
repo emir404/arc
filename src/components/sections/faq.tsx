@@ -1,7 +1,10 @@
 "use client";
 
+import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { MinusIcon, PlusIcon } from "@/components/ui/icons";
+import { EASE } from "@/lib/animation";
+import { cn } from "@/lib/utils";
 
 const FAQ_ITEMS = [
   {
@@ -56,53 +59,96 @@ const FAQ_ITEMS = [
   },
 ];
 
+const PANEL = { duration: 0.32, ease: EASE } as const;
+
+/** Plus turns into minus: the vertical bar swings out as the dash swings in. */
+const Toggle = ({ open }: { open: boolean }) => (
+  <span className="relative block size-5 shrink-0" aria-hidden>
+    <motion.span
+      className="absolute inset-0 text-black"
+      animate={{ opacity: open ? 0 : 1, rotate: open ? 90 : 0 }}
+      transition={PANEL}
+    >
+      <PlusIcon />
+    </motion.span>
+    <motion.span
+      className="absolute inset-0 text-black/40"
+      animate={{ opacity: open ? 1 : 0, rotate: open ? 0 : -90 }}
+      transition={PANEL}
+    >
+      <MinusIcon />
+    </motion.span>
+  </span>
+);
+
 const Faq = () => {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  // The first answer is open on arrival, as in the design — a column of shut
+  // rows gives a reader nothing to read.
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   const toggle = (index: number) => {
     setOpenIndex((prev) => (prev === index ? null : index));
   };
 
   return (
-    <section className="flex flex-col items-center px-5 md:px-12 lg:px-24 xl:px-32 py-16">
-      <div className="flex flex-col w-full max-w-[400px]">
-        {FAQ_ITEMS.map((item, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
-            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            viewport={{ once: true, margin: "-30px" }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="border-b border-black/10 will-change-[filter] backface-hidden"
-          >
-            <button
-              onClick={() => toggle(i)}
-              aria-expanded={openIndex === i}
-              aria-controls={`faq-panel-${i}`}
-              className="w-full py-5 text-center text-balance font-normal text-black text-lg leading-[1.4] cursor-pointer touch-manipulation focus-visible:outline-2 focus-visible:outline-ring"
-            >
-              {item.question}
-            </button>
-            <AnimatePresence initial={false}>
-              {openIndex === i && (
-                <motion.div
-                  id={`faq-panel-${i}`}
-                  role="region"
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: "auto", opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.3, ease: "easeInOut" }}
-                  className="overflow-hidden"
+    <section id="faq" data-nav="faq" aria-labelledby="faq-heading">
+      <h2 id="faq-heading" className="sr-only">
+        About Arc
+      </h2>
+      <ul className="flex flex-col gap-3">
+        {FAQ_ITEMS.map((item, i) => {
+          const open = openIndex === i;
+
+          return (
+            <li key={item.question} className="flex flex-col">
+              <h3>
+                <button
+                  type="button"
+                  onClick={() => toggle(i)}
+                  id={`faq-trigger-${i}`}
+                  aria-expanded={open}
+                  aria-controls={`faq-panel-${i}`}
+                  className={cn(
+                    "flex w-full touch-manipulation items-center justify-between gap-4 rounded-[12px] px-4 py-3 text-left transition-colors duration-200",
+                    "focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary",
+                    open ? "bg-black/5" : "bg-[#f6f6f6] hover:bg-[#ededed]",
+                  )}
                 >
-                  <p className="pb-5 font-light text-black/75 text-lg text-center text-pretty leading-[1.4]">
-                    {item.answer}
-                  </p>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </motion.div>
-        ))}
-      </div>
+                  <span className="text-base leading-[1.1] font-medium tracking-[-0.02em] text-black">
+                    {item.question}
+                  </span>
+                  <Toggle open={open} />
+                </button>
+              </h3>
+              <AnimatePresence initial={false}>
+                {open && (
+                  <motion.section
+                    id={`faq-panel-${i}`}
+                    aria-labelledby={`faq-trigger-${i}`}
+                    initial={{ height: 0, opacity: 0, filter: "blur(6px)" }}
+                    animate={{
+                      height: "auto",
+                      opacity: 1,
+                      filter: "blur(0px)",
+                    }}
+                    exit={{ height: 0, opacity: 0, filter: "blur(6px)" }}
+                    transition={PANEL}
+                    className="overflow-hidden backface-hidden will-change-[filter]"
+                  >
+                    {/* The 6px gap rides inside the panel so it opens and
+                        closes with it instead of snapping. */}
+                    <div className="pt-1.5">
+                      <p className="rounded-[12px] bg-black/5 px-4 py-3 text-sm leading-[1.3] tracking-[0.03em] text-pretty text-black/75">
+                        {item.answer}
+                      </p>
+                    </div>
+                  </motion.section>
+                )}
+              </AnimatePresence>
+            </li>
+          );
+        })}
+      </ul>
     </section>
   );
 };

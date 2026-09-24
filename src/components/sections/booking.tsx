@@ -22,10 +22,13 @@ const Booking = () => {
   }, []);
 
   return (
-    <section className="bg-[#f9f9f9] px-5 md:px-12 lg:px-24 xl:px-32 py-16">
+    <section aria-labelledby="booking-heading">
+      <h2 id="booking-heading" className="sr-only">
+        Book a call
+      </h2>
       <motion.div
         {...riseInView()}
-        className="w-full will-change-[filter] backface-hidden"
+        className="overflow-hidden rounded-[12px] bg-[#f9f9f9] px-4 py-10 backface-hidden will-change-[filter] sm:px-10"
       >
         <Cal
           namespace="30min"

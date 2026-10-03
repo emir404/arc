@@ -1,0 +1,44 @@
+---
+import Layout from "./Layout.astro";
+import Sidebar from "../components/Sidebar.astro";
+import Logo from "../components/Logo.astro";
+import Footer from "../components/Footer.astro";
+
+// The layout of the legal pages, src/pages/privacy.md and terms.md. Their text is Markdown so it can be edited as plain text.
+interface Props {
+  frontmatter: {
+    title: string;
+    description: string;
+    /** When the text last changed, as YYYY-MM-DD. It shows under the title as "Last updated". */
+    updated: string;
+  };
+}
+
+const { title, description, updated } = Astro.props.frontmatter;
+const date = new Date(updated);
+---
+
+<Layout title={`${title} · Arc Studio`} description={description}>
+  <Sidebar back={{ href: "/", label: "Arc Studio" }} />
+
+  <main>
+    <header class="col intro" id="top">
+      <Logo href="/" label="Arc, back to the main page" />
+
+      <div class="intro__text">
+        <div>
+          <h1 class="intro__name">{title}</h1>
+          <p class="muted">
+            Last updated <time datetime={date.toISOString().slice(0, 10)}>{date.toLocaleDateString("en-US", { dateStyle: "long", timeZone: "UTC" })}</time>
+          </p>
+        </div>
+      </div>
+    </header>
+
+    <article class="col legal">
+      <slot />
+    </article>
+
+    <Footer />
+  </main>
+</Layout>

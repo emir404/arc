@@ -1,0 +1,66 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Sidebar from "../components/Sidebar.astro";
+import Logo from "../components/Logo.astro";
+import YcLogo from "../components/YcLogo.astro";
+import WorksStrip from "../components/WorksStrip.astro";
+import Testimonials from "../components/Testimonials.astro";
+import Pricing from "../components/Pricing.astro";
+import Closing from "../components/Closing.astro";
+import Footer from "../components/Footer.astro";
+import { bookCallUrl } from "../data/links";
+import { ycDiscount as discount } from "../data/plans";
+import ycOg from "../assets/og-yc.png";
+---
+
+<Layout
+  title="Arc Studio · All-in-one design studio for YC founders"
+  description={`Arc Studio is the all-in-one design studio for YC founders. Worked with 10+ Y Combinator companies. YC companies get ${discount}% off.`}
+  og={{ image: ycOg, alt: `Arc Studio. All-in-one design studio. Worked with 10+ YC companies. YC founders get ${discount}% off.` }}
+  lead
+>
+  <!-- As on the main page, the logo heads the sidebar; here it leads back to the main page. -->
+  <Sidebar
+    sections={[
+      { id: "top", label: "Arc Studio", logo: true, href: "/" },
+      { id: "works", label: "Works" },
+      { id: "testimonials", label: "Testimonials" },
+      { id: "pricing", label: "Pricing" },
+      { id: "contact", label: "Contact" },
+    ]}
+  />
+
+  <main>
+    <header class="col intro intro--lead" id="top">
+      <Logo href="/" label="Arc, back to the main page" />
+
+      <div class="lead">
+        <h1 class="visually-hidden">Arc Studio for YC founders</h1>
+        <!-- The logo stands in for the "Y" of Y Combinator, and screen readers get a plain "Y" in its place. -->
+        <p>
+          <span class="hl">For YC founders.</span> Worked with 10+ <span class="nowrap"><YcLogo /><span class="visually-hidden">Y</span> Combinator</span> companies.
+        </p>
+        <p>YC companies get <mark class="marker">{discount}% off</mark>.</p>
+        <p><a class="lead__link" href={bookCallUrl} target="_blank">Book a call</a></p>
+      </div>
+    </header>
+
+    <WorksStrip
+      works={["axiom", "orchid", "anything", "conviction", "sim", "agentphone", "agentmail", "bloom", "starsling", "the-hog", "chonkie"]}
+      start="orchid"
+      label="Work for YC companies"
+      from="yc"
+    />
+
+    <Testimonials heading="From YC founders" quotes={["sim", "agentmail", "feyn", "orchid", "agentphone"]} />
+
+    <Pricing heading="YC pricing" discount={discount}>
+      <!-- PLACEHOLDER: the extra YC offer, still to be decided. Replace this box with the real thing. -->
+      <p class="placeholder">YC special goes here</p>
+    </Pricing>
+
+    <Closing />
+
+    <Footer />
+  </main>
+</Layout>

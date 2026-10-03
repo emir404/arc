@@ -1,0 +1,993 @@
+/*
+  The neutrals are warm greys in the page colour's hue. Each keeps the contrast its old grey had
+  against white, so the hierarchy reads the same; --faint is the lightest that passes WCAG AA.
+*/
+:root {
+  --page: #f2efe8;
+  --ink: #21201d;
+  --muted: #5d5b55;
+  --faint: #6e6c65;
+  --line: #dfdcd6;
+  --blue: #2563eb;
+  --blue-hover: #1d4fd8;
+  --column: 600px;
+  --gutter: 20px;
+  /* Funnel Display for large headlines, Funnel Sans for everything else. The variables come from the Font components in Layout.astro. */
+  --font-text: var(--font-funnel-sans);
+  --font-display: var(--font-funnel-display);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--page);
+  color: var(--ink);
+  font-family: var(--font-text);
+  font-size: 15px;
+  line-height: 22px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+p,
+ul,
+figure,
+blockquote {
+  margin: 0;
+  padding: 0;
+  font: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.hl {
+  color: var(--ink);
+}
+
+.label {
+  color: var(--muted);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Keeps a phrase on one line, such as "& more", which would read oddly split across two. */
+.nowrap {
+  white-space: nowrap;
+}
+
+.col {
+  width: min(var(--column), 100% - var(--gutter) * 2);
+  margin-inline: auto;
+}
+
+/* ---------- Sidebar ---------- */
+
+.sidebar {
+  position: fixed;
+  top: 92px;
+  left: 80px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 160px;
+  /* Set here rather than on the links, so each list item's line is 18px too and not the body's 22px. */
+  font-size: 13px;
+  line-height: 18px;
+  transition: opacity 160ms ease;
+}
+
+.sidebar.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.sidebar__group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.sidebar__link {
+  color: var(--faint);
+  font-weight: 500;
+  transition: color 120ms ease;
+}
+
+.sidebar__link:hover,
+.sidebar__link.is-active {
+  color: var(--ink);
+}
+
+/*
+  The logo in place of a link's text. The logo file carries 4px of space above the letters, which levels
+  them with the page's content (the sidebar starts 4px higher), and 15px below, which sets them apart from
+  the links like the gap between groups. It dims and lights up like the other links: at 60% the logo's
+  ink reads as the links' grey.
+*/
+.sidebar__logo {
+  display: block;
+  width: max-content;
+}
+
+.sidebar__logo img {
+  opacity: 0.6;
+  transition: opacity 120ms ease;
+}
+
+.sidebar__logo:hover img,
+.sidebar__logo.is-active img {
+  opacity: 1;
+}
+
+/* While a sidebar with the logo is showing, the page doesn't repeat it at the top. Phones keep it. */
+@media (min-width: 1120px) {
+  body:has(.sidebar__logo) .intro .logo {
+    display: none;
+  }
+}
+
+/* ---------- Intro ---------- */
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  padding-top: 96px;
+}
+
+/*
+  The logo file is drawn for the sidebar, with 4px of space above the letters and 15px below.
+  The margins take that back out, so here the letters start at the top of the intro.
+*/
+.logo {
+  display: block;
+  width: max-content;
+  margin: -4px 0 -15px;
+}
+
+.intro__text {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.intro__name {
+  font-weight: 500;
+}
+
+.intro__offer {
+  max-width: 520px;
+}
+
+/*
+  The main page opens with large type in Funnel Display, in a column 40px narrower than the rest.
+  Its colours are the logo's ink (#171614) at different strengths, and a blank line separates the paragraphs.
+*/
+.intro--lead {
+  --column: 560px;
+}
+
+.lead {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15em;
+  color: rgba(23, 22, 20, 0.7);
+  font-family: var(--font-display);
+  font-size: 32px;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+}
+
+.lead .hl {
+  color: rgba(23, 22, 20, 0.85);
+  font-weight: 500;
+}
+
+.lead__link {
+  color: rgba(23, 22, 20, 0.8);
+  text-decoration: underline dotted rgba(23, 22, 20, 0.4);
+  text-decoration-thickness: 0.1em;
+  text-underline-offset: 0.16em;
+  transition: color 120ms ease, text-decoration-color 120ms ease;
+}
+
+.lead__link:hover {
+  color: #171614;
+  text-decoration-color: currentColor;
+}
+
+/* The link to the YC page holds the handwritten note, so it stays on one line for the note to hang from. */
+.yc__link {
+  position: relative;
+  white-space: nowrap;
+}
+
+/* Puts the link on a line of its own on phones; see "Smaller screens". */
+.yc__break {
+  display: none;
+}
+
+/* The note hangs below the end of "YC founder?", in the blank line under it, with its arrow pointing up at the words. */
+.yc__note {
+  position: absolute;
+  top: calc(100% - 7px);
+  left: calc(100% - 58px);
+  width: 140px;
+  height: 46px;
+  color: var(--ink);
+}
+
+/* The arrow is drawn pointing down and flipped to point up; 15px from the top puts it where it was before the flip. */
+.yc__arrow {
+  position: absolute;
+  top: 15px;
+  left: 2px;
+  width: 34px;
+  height: 28px;
+  overflow: visible;
+  stroke: currentColor;
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transform: scaleY(-1);
+}
+
+/* pathLength="1" in the markup lets one dash stand for the whole stroke, whatever its real length. */
+.yc__arrow path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  opacity: 0;
+}
+
+.yc__arrow-shaft {
+  animation: yc-draw 320ms cubic-bezier(0.6, 0, 0.3, 1) 400ms forwards;
+}
+
+.yc__arrow-head {
+  animation: yc-draw 160ms ease-out 720ms forwards;
+}
+
+/* Inside the lead, so the lead's tracking is reset for the handwriting. */
+.yc__note-text {
+  position: absolute;
+  top: 26px;
+  left: 38px;
+  font-family: var(--font-caveat);
+  font-size: 18px;
+  line-height: 20px;
+  font-weight: 400;
+  letter-spacing: normal;
+  white-space: nowrap;
+  opacity: 0;
+  transform: rotate(-4deg);
+  transform-origin: left center;
+  animation: yc-note-in 260ms ease-out 860ms forwards;
+}
+
+@keyframes yc-draw {
+  0% {
+    stroke-dashoffset: 1;
+    opacity: 0;
+  }
+  5% {
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes yc-note-in {
+  from {
+    opacity: 0;
+    transform: translateY(5px) rotate(-4deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) rotate(-4deg);
+  }
+}
+
+/*
+  The Y Combinator logo in a line of text: a square a little taller than the capitals, centred on them.
+  It is sized in em to scale with the type. An image stands on its bottom edge,
+  so vertical-align sets how far that edge sits below the line.
+*/
+.yc__mark {
+  display: inline-block;
+  width: 0.84em;
+  height: 0.84em;
+  vertical-align: -0.083em;
+}
+
+/*
+  In the link the logo takes no room of its own: it sits over the no-break spaces that start the link's words,
+  so the dotted underline runs under it. An image takes no underline, and an underline drawn in two pieces
+  would restart its dots where they meet, so the spaces and the words carry it as one unbroken line.
+*/
+.yc__link .yc__mark {
+  margin-right: -0.84em;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  padding: 0 14px;
+  border-radius: 999px;
+  background: var(--blue);
+  color: #fff;
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 500;
+  transition: background-color 120ms ease;
+}
+
+.button:hover {
+  background: var(--blue-hover);
+}
+
+/* Links in the legal pages' Markdown can't take a class, so they're selected by where they sit. */
+.text-link,
+.legal a {
+  color: var(--muted);
+  text-decoration: underline;
+  text-decoration-color: #c6c2b8;
+  text-underline-offset: 3px;
+  transition: color 120ms ease, text-decoration-color 120ms ease;
+}
+
+.text-link:hover,
+.legal a:hover {
+  color: var(--ink);
+  text-decoration-color: var(--ink);
+}
+
+/* ---------- Highlighter ---------- */
+
+/*
+  A marker-pen stroke behind a phrase, in the orange of the Y Combinator mark.
+  It starts at zero width and main.js adds .is-in when the phrase scrolls into view,
+  so the stroke swipes across from the left.
+  Sized in em so it keeps its shape in the lead's large type; at 15px these come to 1px by 4px.
+*/
+.marker {
+  margin: 0 -0.13em;
+  padding: 0.07em 0.27em;
+  border-radius: 0.2em;
+  background-color: transparent;
+  background-image: linear-gradient(
+    100deg,
+    transparent 0,
+    transparent 1%,
+    rgba(255, 102, 0, 0.24) 2%,
+    rgba(255, 102, 0, 0.24) 97%,
+    transparent 99%
+  );
+  background-repeat: no-repeat;
+  background-size: 0% 100%;
+  color: var(--ink);
+  transition: background-size 560ms cubic-bezier(0.2, 0.8, 0.2, 1) 200ms;
+}
+
+.marker.is-in {
+  background-size: 100% 100%;
+}
+
+/* In the lead the marked words keep to its inks, as strong as its highlighted phrases. */
+.lead .marker {
+  color: rgba(23, 22, 20, 0.85);
+}
+
+/* ---------- Placeholders (content still to come) ---------- */
+
+/* A dashed box marks text that is not written yet, so it cannot be mistaken for real copy. */
+.placeholder {
+  align-self: flex-start;
+  padding: 6px 10px;
+  border: 1px dashed #bbb7ad;
+  border-radius: 8px;
+  color: var(--muted);
+}
+
+/* A stand-in cover for a work that has no image yet: same size as a real cover. */
+.slide .slide__cover--placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  border: 1px dashed #bbb7ad;
+  background: #e9e7e0;
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.slide__placeholder-hint {
+  color: var(--faint);
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 400;
+}
+
+/* ---------- Works strip ---------- */
+
+/*
+  A horizontal row of covers, which main.js moves with transforms (see "Works strip" there for the motion).
+  The selection ring stays put in the middle; main.js writes --d on each slide (0 when centred, 1 when a
+  full slide away) and the cover's opacity follows it.
+*/
+.strip {
+  --slide-w: min(960px, 100vw - var(--gutter) * 2);
+  --frame-h: calc(var(--slide-w) * 680 / 960);
+  --slide-gap: 48px;
+  position: relative;
+  padding: 120px 0;
+  overflow: hidden;
+}
+
+/* Where supported, clip rather than hide, so nothing (find in page, focus) can scroll the row out from under main.js. */
+@supports (overflow: clip) {
+  .strip {
+    overflow: clip;
+  }
+}
+
+.strip__stage {
+  position: relative;
+  height: var(--frame-h);
+}
+
+.track {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  gap: var(--slide-gap);
+  padding-inline: calc(50% - var(--slide-w) / 2);
+  cursor: grab;
+  outline: none;
+  /* Sideways swipes move the covers; up and down still scroll the page. */
+  touch-action: pan-y pinch-zoom;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.track.is-dragging {
+  cursor: grabbing;
+}
+
+/*
+  main.js places every slide with a transform. Until it runs, --start (from WorksStrip.astro) shifts the
+  row so the starting cover is already in the frame, at full strength.
+*/
+.slide {
+  --d: 1;
+  position: relative;
+  flex: none;
+  width: var(--slide-w);
+  height: var(--frame-h);
+  transform: translateX(calc(var(--start, 0) * -1 * (var(--slide-w) + var(--slide-gap))));
+  will-change: transform;
+}
+
+.slide[data-start] {
+  --d: 0;
+}
+
+/* Covers fill their slide; the ones beside the frame fade to 60%. */
+.slide__cover {
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  background: #e6e2db;
+  object-fit: cover;
+  opacity: calc(1 - 0.4 * var(--d));
+  user-select: none;
+  -webkit-user-drag: none;
+  will-change: opacity;
+}
+
+/* The work in the frame opens its project page. */
+.slide.is-current {
+  cursor: pointer;
+}
+
+.frame {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  z-index: 2;
+  width: var(--slide-w);
+  height: var(--frame-h);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+/*
+  A 2px ring 5px clear of the cover, so its corners follow the cover's 12px radius 7px further out.
+  It holds perfectly still while the covers change under it.
+*/
+.frame__outline {
+  position: absolute;
+  inset: -7px;
+  border: 2px solid var(--blue);
+  border-radius: 19px;
+  transition: box-shadow 200ms ease;
+}
+
+/* The name of the work in the frame, under its bottom-left corner. */
+.frame__label {
+  position: absolute;
+  top: calc(100% + 20px);
+  left: 0;
+  display: flex;
+  align-items: center;
+  height: 24px;
+  padding: 0 8px;
+  border-radius: 5px;
+  background: var(--blue);
+  color: #fff;
+  font-size: 13px;
+  line-height: 16px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/*
+  The window the name rolls through when the work changes: main.js slides the old name out of it and the
+  new one in, and eases the label's width from one to the other. Between changes the name sits in the flow.
+*/
+.frame__names {
+  position: relative;
+  display: block;
+  height: 16px;
+  overflow: hidden;
+}
+
+.frame__name {
+  display: block;
+}
+
+.frame__names.is-rolling .frame__name {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.track:focus-visible ~ .frame .frame__outline {
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}
+
+/* ---------- Project pages (/work/<key>/) ---------- */
+
+/* Pictures run wider than the text column, stacked for scrolling. */
+.shots {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: min(920px, 100% - var(--gutter) * 2);
+  margin: 56px auto 0;
+}
+
+.shot {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #e3e0d9;
+  object-fit: cover;
+}
+
+.shot--placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  border: 1px dashed #bbb7ad;
+  background: #e9e7e0;
+  font-weight: 500;
+}
+
+.work-live {
+  margin-top: 24px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 20px;
+}
+
+/* While the sidebar is showing, the pictures must stay clear of it. */
+@media (min-width: 1120px) and (max-width: 1479px) {
+  .shots {
+    width: calc(100vw - 520px);
+  }
+}
+
+/* ---------- Legal pages (/privacy/, /terms/) ---------- */
+
+/*
+  The text comes from Markdown, so it's styled by element. As in the pricing descriptions,
+  the body is in the muted grey and what should stand out is in ink: the headings and the bold phrases.
+  The opening paragraph sits 16px under the date and is in ink, like the intro on a project page.
+*/
+.legal {
+  padding-top: 16px;
+  color: var(--muted);
+}
+
+.legal > * + * {
+  margin-top: 12px;
+}
+
+.legal > p:first-child {
+  color: var(--ink);
+}
+
+.legal h2 {
+  margin-top: 36px;
+  color: var(--ink);
+  font-weight: 500;
+  /* Leaves some space above a heading that a link such as /terms/#refunds-and-pausing scrolls to. */
+  scroll-margin-top: 40px;
+}
+
+.legal h2 + * {
+  margin-top: 6px;
+}
+
+.legal strong {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.legal ul {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-left: 20px;
+  list-style: disc;
+}
+
+.legal li::marker {
+  color: var(--faint);
+}
+
+/* ---------- Testimonials ---------- */
+
+.testimonials {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 56px;
+}
+
+.quotes {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+
+.quote {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 18px;
+}
+
+.quote + .quote {
+  border-top: 1px solid var(--line);
+}
+
+.quote__text {
+  color: var(--muted);
+  line-height: 23px;
+}
+
+.quote__author {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 8px;
+}
+
+.quote__author img {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--line);
+  object-fit: cover;
+}
+
+.quote__name {
+  font-weight: 500;
+}
+
+/* ---------- Pricing ---------- */
+
+.pricing {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 80px;
+}
+
+/* One plan per row: what it is on the left, what it costs on the right, what you get underneath. */
+.plans {
+  border-top: 1px solid var(--line);
+}
+
+.plan {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px 0 22px;
+  border-bottom: 1px solid var(--line);
+}
+
+.plan__head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: 40px;
+  align-items: start;
+}
+
+.plan__summary {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.plan__name {
+  font-weight: 500;
+}
+
+.plan__description {
+  max-width: 420px;
+  color: var(--muted);
+}
+
+.plan__price {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  white-space: nowrap;
+}
+
+.plan__amount {
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+/* The standard price, crossed out beside a discounted one. */
+.plan__was {
+  margin-right: 4px;
+  color: var(--faint);
+  font-weight: 400;
+}
+
+.plan__unit {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.plan__features {
+  display: grid;
+  /* The right column is wider so the longest feature stays on one line. */
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: 4px 24px;
+}
+
+.plan__features li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.plan__features li::before {
+  content: "";
+  flex: none;
+  width: 12px;
+  height: 12px;
+  margin-top: 5px;
+  background: no-repeat center / contain
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='%236e6c65' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 6.5 4.8 9 10 3'/%3E%3C/svg%3E");
+}
+
+/* ---------- Pull quote ---------- */
+
+.pullquote {
+  margin-top: 56px;
+  padding-left: 16px;
+  border-left: 2px solid #d8d6cf;
+}
+
+.pullquote blockquote {
+  color: var(--muted);
+  line-height: 23px;
+}
+
+.pullquote figcaption {
+  margin-top: 8px;
+  color: var(--muted);
+}
+
+/* ---------- Closing ---------- */
+
+.closing {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding-top: 64px;
+}
+
+.closing__statement {
+  font-weight: 500;
+}
+
+/* ---------- Footer ---------- */
+
+.footer {
+  padding: 112px 0 64px;
+}
+
+.footer__legal {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.footer__legal-links {
+  display: flex;
+  gap: 20px;
+}
+
+.footer__legal a:hover {
+  color: var(--ink);
+}
+
+/* ---------- Smaller screens ---------- */
+
+/* The sidebar needs the left margin to itself. */
+@media (max-width: 1119px) {
+  .sidebar {
+    display: none;
+  }
+}
+
+/*
+  After "Are you a" the link would end too far right for the handwritten note to fit beside it,
+  so on phones the link starts a line of its own and the note moves a little left.
+*/
+@media (max-width: 519px) {
+  .yc__break {
+    display: inline;
+  }
+
+  .yc__note {
+    left: calc(100% - 82px);
+  }
+}
+
+/* Below this width the handwritten note would run off the right edge of the screen. */
+@media (max-width: 359px) {
+  .yc__note {
+    display: none;
+  }
+}
+
+@media (max-width: 679px) {
+  .intro {
+    padding-top: 56px;
+  }
+
+  .lead {
+    font-size: 26px;
+  }
+
+  .strip {
+    --slide-gap: 16px;
+    padding: 48px 0 72px;
+  }
+
+  .plan__head {
+    column-gap: 20px;
+  }
+
+  .plan__features {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .sidebar,
+  .sidebar__link,
+  .sidebar__logo img,
+  .lead__link,
+  .button,
+  .text-link,
+  .legal a,
+  .frame__outline {
+    transition: none;
+  }
+
+  /* Highlights are simply there, without the swipe. */
+  .marker {
+    background-size: 100% 100%;
+    transition: none;
+  }
+
+  /* The note is simply there, already drawn. */
+  .yc__arrow path {
+    stroke-dashoffset: 0;
+    opacity: 1;
+    animation: none;
+  }
+
+  .yc__note-text {
+    opacity: 1;
+    animation: none;
+  }
+}

@@ -1,0 +1,110 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Sidebar from "../components/Sidebar.astro";
+import Logo from "../components/Logo.astro";
+import YcLogo from "../components/YcLogo.astro";
+import WorksStrip from "../components/WorksStrip.astro";
+import Testimonials from "../components/Testimonials.astro";
+import Pricing from "../components/Pricing.astro";
+import Closing from "../components/Closing.astro";
+import Footer from "../components/Footer.astro";
+import { testimonials } from "../data/testimonials";
+import { works, clients } from "../data/works";
+import { bookCallUrl, email, socials } from "../data/links";
+import logo from "../assets/logo.svg";
+
+// What search engines and AI assistants show for the studio: the category and who it's for, which the page itself leaves to the design.
+const description =
+  "Arc Studio is the all-in-one design studio for early-stage startups. Direction, product thinking, design, development and motion in one place. Worked with 10+ Y Combinator companies.";
+
+// Structured data saying which Arc Studio this is. Screenwriting software, an audio product and others share the name,
+// so the founder, country and accounts here help search engines and AI assistants tell the design studio apart.
+// The founder and country are as the Privacy Policy and Terms of Service state them.
+const organization = new URL("/#organization", Astro.site).href;
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": organization,
+      name: "Arc Studio",
+      alternateName: "Arc",
+      url: new URL("/", Astro.site).href,
+      logo: new URL(logo.src, Astro.site).href,
+      description,
+      email,
+      founder: { "@type": "Person", name: "Emir Ayaz" },
+      address: { "@type": "PostalAddress", addressCountry: "TR" },
+      sameAs: socials.map((social) => social.url),
+    },
+    {
+      "@type": "WebSite",
+      name: "Arc Studio",
+      alternateName: "Arc",
+      url: new URL("/", Astro.site).href,
+      publisher: { "@id": organization },
+    },
+  ],
+};
+---
+
+<Layout title="Arc Studio · All-in-one design studio for early-stage startups" description={description} lead>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(structuredData)} />
+  <Sidebar
+    sections={[
+      { id: "top", label: "Arc Studio", logo: true },
+      { id: "works", label: "Works" },
+      { id: "testimonials", label: "Testimonials" },
+      { id: "pricing", label: "Pricing" },
+      { id: "contact", label: "Contact" },
+    ]}
+  />
+
+  <main>
+    <header class="col intro intro--lead" id="top">
+      <Logo href="#top" label="Arc" />
+
+      <div class="lead">
+        <h1 class="visually-hidden">Arc Studio</h1>
+        <p><span class="hl">All-in-one design studio.</span></p>
+        <p>Direction, product thinking, design, development and motion in one place.</p>
+        <!-- The list stays on one line: a line break inside it would put a space before each comma. -->
+        <p>
+          Clients include {clients.map((key, i) => <>{i > 0 && ", "}<a class="lead__link" href={`/work/${key}/`} target="_blank">{works[key].name}</a></>)} <span class="nowrap">&amp; more</span>
+        </p>
+        <!--
+          The logo stands in for the "Y" of Y Combinator, and screen readers get a plain "Y" in its place.
+          The five no-break spaces lie under the logo and the gap after it, for the underline to run along.
+          A handwritten note hangs under the link: the arrow draws itself (shaft, then head), then the words appear.
+        -->
+        <p>
+          Are you a <br class="yc__break" /><a class="lead__link yc__link" href="/yc/" target="_blank"><YcLogo /><span class="visually-hidden">Y</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Combinator founder?<span class="yc__note" aria-hidden="true">
+              <svg class="yc__arrow" viewBox="0 0 44 36" fill="none">
+                <path class="yc__arrow-shaft" pathLength="1" d="M41 5.5C31.5 2.5 21 6 15.5 13.5C12 18.5 9.5 23 8 28.5" />
+                <path class="yc__arrow-head" pathLength="1" d="M4 19L8 29L17.5 23.5" />
+              </svg>
+              <span class="yc__note-text">check this out :)</span>
+            </span></a>
+        </p>
+        <p><a class="lead__link" href={bookCallUrl} target="_blank">Book a call</a></p>
+      </div>
+    </header>
+
+    <WorksStrip works={["orchid", "axiom", "automattic", "agentmail"]} start="automattic" label="Selected works" />
+
+    <Testimonials heading="Testimonials" quotes={["vercel", "sim", "agentmail", "feyn", "orchid"]} />
+
+    <Pricing heading="Pricing" />
+
+    <figure class="col pullquote">
+      <blockquote>
+        <p set:html={testimonials.agentphone.text} />
+      </blockquote>
+      <figcaption>Meet Modi, AgentPhone (YC P26)</figcaption>
+    </figure>
+
+    <Closing />
+
+    <Footer />
+  </main>
+</Layout>

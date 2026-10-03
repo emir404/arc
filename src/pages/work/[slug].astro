@@ -1,0 +1,75 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Sidebar from "../../components/Sidebar.astro";
+import Logo from "../../components/Logo.astro";
+import Closing from "../../components/Closing.astro";
+import Footer from "../../components/Footer.astro";
+import { works, isFinished, type Work } from "../../data/works";
+
+// One page per entry in src/data/works.ts.
+export function getStaticPaths() {
+  return Object.entries(works).map(([slug, work]) => ({ params: { slug }, props: { work } }));
+}
+
+interface Props {
+  work: Work;
+}
+
+const { work } = Astro.props;
+// A page still showing placeholders stays out of search results until it's finished.
+const noindex = !isFinished(work);
+---
+
+<Layout title={`${work.name} · Arc Studio`} description={work.intro ?? `Work by Arc Studio for ${work.name}.`} noindex={noindex}>
+  <Sidebar back={{ href: "/", label: "Arc Studio", id: "work-back" }} />
+
+  <main>
+    <header class="col intro" id="top">
+      <Logo href="/" label="Arc, back to the main page" />
+
+      <div class="intro__text">
+        <div>
+          <h1 class="intro__name">{work.name}</h1>
+          {work.tagline && <p class="muted">{work.tagline}</p>}
+        </div>
+        {work.intro ? <p class="intro__offer">{work.intro}</p> : <p class="placeholder">Intro goes here: what we did for {work.name}</p>}
+      </div>
+    </header>
+
+    <section class="shots" aria-label="Pictures of the work">
+      {
+        work.shots.map((src, i) =>
+          src ? (
+            <img class="shot" src={src} alt={`${work.name}, picture ${i + 1}`} loading={i === 0 ? "eager" : "lazy"} />
+          ) : (
+            <div class="shot shot--placeholder">
+              Picture {i + 1}
+              <span class="slide__placeholder-hint">To be added</span>
+            </div>
+          ),
+        )
+      }
+    </section>
+
+    {
+      work.live && (
+        <p class="col work-live">
+          See it live at <a class="text-link" href={work.live.url} target="_blank">{work.live.label}</a>
+        </p>
+      )
+    }
+
+    <Closing />
+
+    <Footer />
+  </main>
+
+  <script>
+    // Visitors who came from the YC page get a back link to it.
+    const back = document.getElementById("work-back");
+    if (back && new URLSearchParams(window.location.search).get("from") === "yc") {
+      back.setAttribute("href", "/yc/");
+      back.textContent = "← For YC founders";
+    }
+  </script>
+</Layout>

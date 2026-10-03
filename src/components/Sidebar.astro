@@ -1,0 +1,51 @@
+---
+import logo from "../assets/logo.svg";
+import { socials } from "../data/links";
+
+interface Props {
+  /** A link back to the page above this one. */
+  back?: { href: string; label: string; id?: string };
+  /**
+   * The page's sections; main.js highlights the one in view.
+   * `logo` shows the Arc Studio logo in place of the label, which stays as the link's accessible name.
+   * `href` sends the link somewhere other than its section, such as the YC page's logo, which leads back to the main page.
+   */
+  sections?: { id: string; label: string; logo?: boolean; href?: string }[];
+}
+
+const { back, sections } = Astro.props;
+---
+
+<nav class="sidebar" aria-label="Sections">
+  {
+    back && (
+      <ul class="sidebar__group">
+        <li><a class="sidebar__link" id={back.id} href={back.href}>&larr; {back.label}</a></li>
+      </ul>
+    )
+  }
+  {
+    sections && (
+      <ul class="sidebar__group">
+        {sections.map((section, i) => (
+          <li>
+            {section.logo ? (
+              <a class:list={["sidebar__link sidebar__logo", { "is-active": i === 0 }]} href={section.href ?? `#${section.id}`} data-spy={section.id} aria-label={section.label}>
+                <img src={logo.src} alt="" />
+              </a>
+            ) : (
+              <a class:list={["sidebar__link", { "is-active": i === 0 }]} href={section.href ?? `#${section.id}`} data-spy={section.id}>{section.label}</a>
+            )}
+          </li>
+        ))}
+      </ul>
+    )
+  }
+  <ul class="sidebar__group">
+    {
+      socials.map((social) => (
+        <li><a class="sidebar__link" href={social.url} target="_blank">{social.label}</a></li>
+      ))
+    }
+  </ul>
+</nav>

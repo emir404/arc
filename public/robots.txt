@@ -1,0 +1,5 @@
+# Every crawler is allowed, AI search and training crawlers included, so assistants can find, cite and learn about the studio.
+User-agent: *
+Allow: /
+
+Sitemap: https://www.witharc.co/sitemap-index.xml

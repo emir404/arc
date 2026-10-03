@@ -1,0 +1,30 @@
+---
+import { testimonials, type TestimonialKey } from "../data/testimonials";
+
+interface Props {
+  heading: string;
+  /** The quotes to show, top to bottom. */
+  quotes: TestimonialKey[];
+}
+
+const { heading } = Astro.props;
+const quotes = Astro.props.quotes.map((key) => testimonials[key]);
+---
+
+<section class="col testimonials" id="testimonials">
+  <h2 class="label">{heading}</h2>
+  <ul class="quotes">
+    {
+      quotes.map((quote) => (
+        <li class="quote">
+          <p class="quote__text" set:html={quote.text} />
+          <p class="quote__author">
+            <img src={quote.avatar} alt="" width="20" height="20" />
+            <span class="quote__name">{quote.name}</span>
+            <span class="muted">{quote.role}</span>
+          </p>
+        </li>
+      ))
+    }
+  </ul>
+</section>

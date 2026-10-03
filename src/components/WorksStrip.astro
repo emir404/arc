@@ -1,0 +1,59 @@
+---
+import { works, type WorkKey } from "../data/works";
+
+interface Props {
+  /** The works in the row, left to right. */
+  works: WorkKey[];
+  /** The work in the frame when the page opens. */
+  start: WorkKey;
+  /** Names the row for screen readers. */
+  label: string;
+  /** Tells the project pages which page to send their back link to. */
+  from?: "yc";
+}
+
+const { start, label, from } = Astro.props;
+const slides = Astro.props.works.map((key) => ({
+  ...works[key],
+  // main.js opens this address when the cover in the frame is clicked.
+  href: `/work/${key}/` + (from ? `?from=${from}` : ""),
+  isStart: key === start,
+}));
+// The CSS shifts the row by this many covers, so the starting one is in the frame before main.js runs.
+const startIndex = Math.max(0, Astro.props.works.indexOf(start));
+---
+
+<section class="strip" id="works" aria-label="Works">
+  <div class="strip__stage">
+    <div
+      class="track"
+      style={`--start: ${startIndex}`}
+      tabindex="0"
+      role="group"
+      aria-roledescription="carousel"
+      aria-label={`${label}. Use the arrow keys to move between them.`}
+    >
+      {
+        slides.map((slide) => (
+          <figure class="slide" data-name={slide.name} data-href={slide.href} data-start={slide.isStart ? "" : undefined}>
+            <figcaption class="visually-hidden">{slide.name}</figcaption>
+            {slide.cover ? (
+              <img class="slide__cover" src={slide.cover.src} alt={slide.cover.alt} width="960" height="680" draggable="false" />
+            ) : (
+              <div class="slide__cover slide__cover--placeholder">
+                <span>{slide.name}</span>
+                <span class="slide__placeholder-hint">Cover to be added</span>
+              </div>
+            )}
+          </figure>
+        ))
+      }
+    </div>
+
+    <!-- The selection sits in front of the covers and stays put while they move under it. The name rolls over inside .frame__names. -->
+    <div class="frame" aria-hidden="true">
+      <div class="frame__outline"></div>
+      <span class="frame__label"><span class="frame__names"><span class="frame__name">{works[start].name}</span></span></span>
+    </div>
+  </div>
+</section>

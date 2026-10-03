@@ -1,0 +1,48 @@
+---
+import { plans, dollars, discounted } from "../data/plans";
+
+interface Props {
+  heading: string;
+  /** Percent off every plan. The standard price is shown crossed out beside the new one. */
+  discount?: number;
+}
+
+const { heading, discount } = Astro.props;
+---
+
+<section class="col pricing" id="pricing">
+  <h2 class="label">{heading}</h2>
+  <div class="plans">
+    {
+      plans.map((plan) => (
+        <article class="plan">
+          <div class="plan__head">
+            <div class="plan__summary">
+              <h3 class="plan__name">{plan.name}</h3>
+              <p class="plan__description" set:html={plan.description} />
+            </div>
+            <p class="plan__price">
+              {discount ? (
+                <>
+                  <span class="plan__amount"><s class="plan__was">{dollars(plan.price)}</s> {dollars(discounted(plan.price, discount))}</span>
+                  <span class="plan__unit">{plan.unit}, <mark class="marker">{discount}% off</mark></span>
+                </>
+              ) : (
+                <>
+                  <span class="plan__amount">{dollars(plan.price)}</span>
+                  <span class="plan__unit">{plan.unit}</span>
+                </>
+              )}
+            </p>
+          </div>
+          <ul class="plan__features">
+            {plan.features.map((feature) => (
+              <li>{feature}</li>
+            ))}
+          </ul>
+        </article>
+      ))
+    }
+  </div>
+  <slot />
+</section>

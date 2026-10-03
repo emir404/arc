@@ -9,7 +9,7 @@ import Pricing from "../components/Pricing.astro";
 import Closing from "../components/Closing.astro";
 import Footer from "../components/Footer.astro";
 import { testimonials } from "../data/testimonials";
-import { works, clients } from "../data/works";
+import { works, clients, clientName, selectedWorks } from "../data/works";
 import { bookCallUrl, email, socials } from "../data/links";
 import logo from "../assets/logo.svg";
 
@@ -70,7 +70,7 @@ const structuredData = {
         <p>Direction, product thinking, design, development and motion in one place.</p>
         <!-- The list stays on one line: a line break inside it would put a space before each comma. -->
         <p>
-          Clients include {clients.map((key, i) => <>{i > 0 && ", "}<a class="lead__link" href={`/work/${key}/`} target="_blank">{works[key].name}</a></>)} <span class="nowrap">&amp; more</span>
+          Clients include {clients.map((key, i) => <>{i > 0 && ", "}<a class="lead__link" href={`/work/${key}/`} target="_blank">{clientName(works[key])}</a></>)} <span class="nowrap">&amp; more</span>
         </p>
         <!--
           The logo stands in for the "Y" of Y Combinator, and screen readers get a plain "Y" in its place.
@@ -90,7 +90,7 @@ const structuredData = {
       </div>
     </header>
 
-    <WorksStrip works={["orchid", "axiom", "automattic", "agentmail"]} start="automattic" label="Selected works" />
+    <WorksStrip works={selectedWorks} start="spacefast" label="Selected works" />
 
     <Testimonials heading="Testimonials" quotes={["vercel", "sim", "agentmail", "feyn", "orchid"]} />
 

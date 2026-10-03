@@ -14,6 +14,8 @@
 
 export interface Work {
   name: string;
+  /** Who it was for, if that's a company with another name. The client list names them instead of the project. */
+  client?: string;
   tagline: string | null;
   intro: string | null;
   live: { label: string; url: string } | null;
@@ -33,16 +35,17 @@ export const works = {
     },
     shots: ["/works/axiom.webp", null, null, null],
   },
-  automattic: {
-    name: "Automattic",
-    tagline: "Spacefast, the Publishing Layer for Your Agents",
+  spacefast: {
+    name: "Spacefast",
+    client: "Automattic",
+    tagline: "The Publishing Layer for Your Agents",
     intro: null,
-    live: null, // TODO: add the Spacefast address
+    live: null, // TODO: add the live address
     cover: {
-      src: "/works/automattic.webp",
+      src: "/works/spacefast.webp",
       alt: "Spacefast website for Automattic: The publishing layer for your agents.",
     },
-    shots: ["/works/automattic.webp", null, null, null],
+    shots: ["/works/spacefast.webp", null, null, null],
   },
   agentmail: {
     name: "AgentMail",
@@ -69,23 +72,25 @@ export const works = {
   // Nothing is known about these yet beyond the name.
   anything: { name: "Anything", tagline: null, intro: null, live: null, cover: null, shots: [null, null, null, null] },
   conviction: { name: "Conviction", tagline: null, intro: null, live: null, cover: null, shots: [null, null, null, null] },
-  sim: { name: "Sim", tagline: null, intro: null, live: null, cover: null, shots: [null, null, null, null] },
   agentphone: { name: "AgentPhone", tagline: null, intro: null, live: null, cover: null, shots: [null, null, null, null] },
-  bloom: { name: "Bloom", tagline: null, intro: null, live: null, cover: null, shots: [null, null, null, null] },
-  starsling: { name: "Starsling", tagline: null, intro: null, live: null, cover: null, shots: [null, null, null, null] },
-  "the-hog": { name: "The Hog", tagline: null, intro: null, live: null, cover: null, shots: [null, null, null, null] },
-  chonkie: { name: "Chonkie", tagline: null, intro: null, live: null, cover: null, shots: [null, null, null, null] },
+  // In the client list, not the strips.
+  sim: { name: "Sim", tagline: null, intro: null, live: null, cover: null, shots: [null, null, null, null] },
   flashnet: { name: "Flashnet", tagline: null, intro: null, live: null, cover: null, shots: [null, null, null, null] },
-  panta: { name: "Panta", tagline: null, intro: null, live: null, cover: null, shots: [null, null, null, null] },
-  feyn: { name: "Feyn", tagline: null, intro: null, live: null, cover: null, shots: [null, null, null, null] },
-  lantern: { name: "Lantern", tagline: null, intro: null, live: null, cover: null, shots: [null, null, null, null] },
 } satisfies Record<string, Work>;
 
 export type WorkKey = keyof typeof works;
 
+// The works strips on the main page and the YC page, left to right.
+export const selectedWorks: WorkKey[] = ["spacefast", "axiom", "orchid", "anything", "conviction", "agentphone", "agentmail"];
+
 // The clients named in the main page's intro, in order, before "& more". Each name links to the project's page.
 // llms.txt names the same clients.
-export const clients: WorkKey[] = ["automattic", "axiom", "sim", "flashnet", "agentmail", "agentphone", "orchid", "conviction"];
+export const clients: WorkKey[] = ["spacefast", "axiom", "sim", "flashnet", "agentmail", "agentphone", "orchid", "conviction"];
+
+/** The name a work goes by in the client list. */
+export function clientName(work: Work) {
+  return work.client ?? work.name;
+}
 
 /**
  * Whether a project's page is done: it has its intro and every picture, so no placeholder shows.

@@ -6,7 +6,7 @@ import type { APIRoute } from "astro";
 import { bookCallUrl, email, socials } from "../data/links";
 import { plans, dollars, discounted, ycDiscount } from "../data/plans";
 import { testimonials } from "../data/testimonials";
-import { works, clients, isFinished, type WorkKey } from "../data/works";
+import { works, clients, isFinished, type Work, type WorkKey } from "../data/works";
 import { frontmatter as terms } from "./terms.md";
 import { frontmatter as privacy } from "./privacy.md";
 
@@ -19,9 +19,11 @@ export const GET: APIRoute = ({ site }) => {
   const url = (path: string) => new URL(path, site).href;
 
   // A client's name, linked to its project page once that's finished, with its line and live site when known.
+  // A project with a name of its own follows its client's, as in "Automattic (Spacefast)".
   const client = (key: WorkKey) => {
-    const work = works[key];
-    const name = isFinished(work) ? `[${work.name}](${url(`/work/${key}/`)})` : work.name;
+    const work: Work = works[key];
+    const title = work.client ? `${work.client} (${work.name})` : work.name;
+    const name = isFinished(work) ? `[${title}](${url(`/work/${key}/`)})` : title;
     return `- ${name}${work.tagline ? `: ${work.tagline}` : ""}${work.live ? ` (${work.live.url})` : ""}`;
   };
 

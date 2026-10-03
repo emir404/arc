@@ -6,6 +6,9 @@ dist/
 # dependencies
 node_modules/
 
+# the works' PNG exports; the site serves their WebP copies in public/works/
+/works/
+
 # logs
 npm-debug.log*
 yarn-debug.log*

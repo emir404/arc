@@ -32,15 +32,22 @@ const noindex = !isFinished(work);
           <h1 class="intro__name">{work.name}</h1>
           {work.tagline && <p class="muted">{work.tagline}</p>}
         </div>
-        {work.intro ? <p class="intro__offer">{work.intro}</p> : <p class="placeholder">Intro goes here: what we did for {work.name}</p>}
+        {work.intro && <p class="intro__offer">{work.intro}</p>}
       </div>
     </header>
 
     <section class="shots" aria-label="Pictures of the work">
       {
-        work.shots.map((src, i) =>
-          src ? (
-            <img class="shot" src={src} alt={`${work.name}, picture ${i + 1}`} loading={i === 0 ? "eager" : "lazy"} />
+        work.shots.map((shot, i) =>
+          shot ? (
+            <img
+              class="shot"
+              src={shot.src}
+              width={shot.width}
+              height={shot.height}
+              alt={`${work.name}, picture ${i + 1}`}
+              loading={i === 0 ? "eager" : "lazy"}
+            />
           ) : (
             <div class="shot shot--placeholder">
               Picture {i + 1}

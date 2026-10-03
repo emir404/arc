@@ -17,7 +17,7 @@ Node 22.12 or newer.
 - `src/pages/`: the main page, the YC page, a page per project (`work/[slug].astro`), the privacy policy and terms (Markdown) and `llms.txt`.
 - `src/data/`: works, testimonials, pricing plans and links. Editing these updates every page that shows them.
 - `src/styles/global.css`: all styles. `src/scripts/main.js`: the works carousel and the sidebar.
-- `public/works/`, `public/testimonials/`: pictures, served from the site itself.
+- `public/works/`, `public/testimonials/`: pictures, served from the site itself. The works' pictures are WebP copies of the PNG exports in `works/`, which git leaves out.
 
 Fonts come from Google Fonts at build time and are served from the site too (see `fonts` in `astro.config.mjs`).
 

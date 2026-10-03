@@ -10,8 +10,8 @@
 
   Pictures live in public/works/<key>/ and are served from the site itself, so Vercel's CDN carries them. Each is a WebP copy
   of a PNG export in works/<key>/ (which git leaves out), at most 2000px wide: twice the size it shows at. Its width and
-  height let the page hold its space before it loads. A cover is one of the project's pictures: the strip crops it to its
-  960 × 680 frame around the middle.
+  height let the page hold its space before it loads. A cover is one of the project's pictures, which the strip crops to its
+  960 × 680 frame around the middle, or a cover.webp copy of one with more background where that crop would cut it.
 */
 
 /** A picture in public/works/, with its size in pixels. */
@@ -61,8 +61,8 @@ export const works = {
     intro: null,
     live: { label: "axiom.trade", url: "https://axiom.trade" },
     cover: {
-      src: "/works/axiom/13.webp",
-      alt: "Axiom website: Where most trades are happening.",
+      src: "/works/axiom/6.webp",
+      alt: "Axiom’s pyramid logo, glitching in streaks of light, on black.",
     },
     shots: [
       { src: "/works/axiom/1.webp", width: 1244, height: 1283 },
@@ -115,8 +115,9 @@ export const works = {
     intro: null,
     live: null,
     cover: {
-      src: "/works/anything/8.webp",
-      alt: "Anything merchandise: a tote bag, T-shirt and cap with its logo.",
+      // Picture 2 with more of its olive above and below, so the frame doesn't cut into the logo or the column.
+      src: "/works/anything/cover.webp",
+      alt: "Anything logo beside a stippled Ionic column: For the good of good people.",
     },
     shots: [
       { src: "/works/anything/1.webp", width: 2000, height: 1125 },
@@ -136,8 +137,8 @@ export const works = {
     intro: null,
     live: null,
     cover: {
-      src: "/works/conviction/4.webp",
-      alt: "Conviction app: Feed, everything the accounts and tickers you follow said today.",
+      src: "/works/conviction/8.webp",
+      alt: "Conviction app, dark: a chat that builds an AMD 3 Day Hold strategy, beside its backtest.",
     },
     shots: [
       { src: "/works/conviction/1.webp", width: 2000, height: 886 },
@@ -157,8 +158,9 @@ export const works = {
     intro: null,
     live: null,
     cover: {
-      src: "/works/agentphone/2.webp",
-      alt: "AgentPhone posters: Phone numbers for AI agents. Built for agents, not humans.",
+      // Picture 1 with more of its black above and below, so the wordmark keeps its margins in the frame.
+      src: "/works/agentphone/cover.webp",
+      alt: "AgentPhone logo.",
     },
     shots: [
       { src: "/works/agentphone/1.webp", width: 2000, height: 1038 },
@@ -181,8 +183,8 @@ export const works = {
     intro: null,
     live: { label: "agentmail.to", url: "https://agentmail.to" },
     cover: {
-      src: "/works/agentmail/6.webp",
-      alt: "AgentMail website: Email inboxes for AI agents.",
+      src: "/works/agentmail/1.webp",
+      alt: "AgentMail logo, white on black beside black on white.",
     },
     shots: [
       { src: "/works/agentmail/1.webp", width: 2000, height: 1389 },

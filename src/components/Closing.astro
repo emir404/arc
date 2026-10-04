@@ -1,8 +1,15 @@
 ---
 import Actions from "./Actions.astro";
+
+interface Props {
+  /** The headline above the buttons. The YC page has its own. */
+  heading?: string;
+}
+
+const { heading = "Look like the company you’re about to be." } = Astro.props;
 ---
 
 <section class="col closing" id="contact">
-  <p class="closing__statement">You got in. Now let’s take product quality to moon.</p>
+  <h2 class="closing__statement">{heading}</h2>
   <Actions />
 </section>

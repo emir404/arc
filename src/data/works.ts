@@ -208,8 +208,11 @@ export const works = {
 
 export type WorkKey = keyof typeof works;
 
-// The works strips on the main page and the YC page, left to right.
+// The works strip on the main page, left to right.
 export const selectedWorks: WorkKey[] = ["spacefast", "axiom", "orchid", "anything", "conviction", "agentphone", "agentmail"];
+
+// The YC page's strip: the same works without Spacefast, which was for Automattic.
+export const ycWorks: WorkKey[] = selectedWorks.filter((key) => key !== "spacefast");
 
 // The clients named in the main page's intro, in order, before "& more". Each name links to the project's page.
 // llms.txt names the same clients.

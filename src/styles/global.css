@@ -9,7 +9,6 @@
   --faint: #6e6c65;
   --line: #dfdcd6;
   --blue: #2563eb;
-  --blue-hover: #1d4fd8;
   --column: 600px;
   --gutter: 20px;
   /* Funnel Display for large headlines, Funnel Sans for everything else. The variables come from the Font components in Layout.astro. */
@@ -359,6 +358,7 @@ img {
   gap: 14px;
 }
 
+/* In the logo's ink; hovering darkens it to black. */
 .button {
   display: inline-flex;
   align-items: center;
@@ -366,7 +366,7 @@ img {
   height: 32px;
   padding: 0 14px;
   border-radius: 999px;
-  background: var(--blue);
+  background: #171614;
   color: #fff;
   font-size: 14px;
   line-height: 18px;
@@ -375,7 +375,7 @@ img {
 }
 
 .button:hover {
-  background: var(--blue-hover);
+  background: #000;
 }
 
 /* Links in the legal pages' Markdown can't take a class, so they're selected by where they sit. */

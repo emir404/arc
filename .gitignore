@@ -6,8 +6,9 @@ dist/
 # dependencies
 node_modules/
 
-# the works' PNG exports; the site serves their WebP copies in public/works/
+# the works' PNG exports, pictures and covers; the site serves their WebP copies in public/works/
 /works/
+/covers/
 
 # logs
 npm-debug.log*

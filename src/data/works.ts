@@ -10,8 +10,9 @@
 
   Pictures live in public/works/<key>/ and are served from the site itself, so Vercel's CDN carries them. Each is a WebP copy
   of a PNG export in works/<key>/ (which git leaves out), at most 2000px wide: twice the size it shows at. Its width and
-  height let the page hold its space before it loads. A cover is one of the project's pictures, which the strip crops to its
-  960 × 680 frame around the middle, or a cover.webp copy of one with more background where that crop would cut it.
+  height let the page hold its space before it loads. A cover is one of the project's pictures or a cover.webp beside them,
+  which the strip crops to its 960 × 680 frame around the middle. A cover.webp is made for the strip, from a PNG export in
+  covers/ (which git leaves out too), or is a copy of one of the pictures with more background where that crop would cut it.
 */
 
 /** A picture in public/works/, with its size in pixels. */
@@ -40,8 +41,8 @@ export const works = {
     intro: null,
     live: null, // TODO: add the live address
     cover: {
-      src: "/works/spacefast/1.webp",
-      alt: "Spacefast website for Automattic: Show it to your people, not the whole internet.",
+      src: "/works/spacefast/cover.webp",
+      alt: "Spacefast logo, by Automattic, on crumpled grid paper among hand-drawn stickers.",
     },
     shots: [
       { src: "/works/spacefast/1.webp", width: 2000, height: 1422 },
@@ -91,8 +92,8 @@ export const works = {
     intro: null,
     live: null, // TODO: add the live address
     cover: {
-      src: "/works/orchid/1.webp",
-      alt: "Orchid website: Meet Orchid, your personal exec.",
+      src: "/works/orchid/cover.webp",
+      alt: "Orchid logo in white, over a blurred valley at dusk with wildflowers and a river.",
     },
     shots: [
       { src: "/works/orchid/1.webp", width: 2000, height: 1422 },
@@ -137,8 +138,8 @@ export const works = {
     intro: null,
     live: null,
     cover: {
-      src: "/works/conviction/8.webp",
-      alt: "Conviction app, dark: a chat that builds an AMD 3 Day Hold strategy, beside its backtest.",
+      src: "/works/conviction/cover.webp",
+      alt: "Conviction logo on navy, over faint lines of trades filled overnight.",
     },
     shots: [
       { src: "/works/conviction/1.webp", width: 2000, height: 886 },
@@ -158,9 +159,8 @@ export const works = {
     intro: null,
     live: null,
     cover: {
-      // Picture 1 with more of its black above and below, so the wordmark keeps its margins in the frame.
       src: "/works/agentphone/cover.webp",
-      alt: "AgentPhone logo.",
+      alt: "AgentPhone logo, its robot holding a phone, on black glowing green.",
     },
     shots: [
       { src: "/works/agentphone/1.webp", width: 2000, height: 1038 },
@@ -183,8 +183,8 @@ export const works = {
     intro: null,
     live: { label: "agentmail.to", url: "https://agentmail.to" },
     cover: {
-      src: "/works/agentmail/1.webp",
-      alt: "AgentMail logo, white on black beside black on white.",
+      src: "/works/agentmail/cover.webp",
+      alt: "AgentMail logo in white, over a city skyline drawn in ASCII characters.",
     },
     shots: [
       { src: "/works/agentmail/1.webp", width: 2000, height: 1389 },

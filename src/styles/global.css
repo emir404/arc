@@ -22,9 +22,11 @@
   box-sizing: border-box;
 }
 
+/* No grey flash on tap: links and buttons show their own pressed state instead (:active below). */
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
@@ -52,6 +54,12 @@ blockquote {
 
 ul {
   list-style: none;
+}
+
+/* A double tap on a link doesn't zoom the page, so a tap is taken at once. */
+a,
+button {
+  touch-action: manipulation;
 }
 
 a {
@@ -135,9 +143,19 @@ img {
   transition: color 120ms ease;
 }
 
-.sidebar__link:hover,
-.sidebar__link.is-active {
+.sidebar__link.is-active,
+.sidebar__link:active {
   color: var(--ink);
+}
+
+/*
+  Hover effects are for a mouse or trackpad only. On a touchscreen a tapped link would keep its hover look
+  after the tap, so there the pressed state (:active) gives the feedback instead.
+*/
+@media (hover: hover) {
+  .sidebar__link:hover {
+    color: var(--ink);
+  }
 }
 
 /*
@@ -156,9 +174,15 @@ img {
   transition: opacity 120ms ease;
 }
 
-.sidebar__logo:hover img,
-.sidebar__logo.is-active img {
+.sidebar__logo.is-active img,
+.sidebar__logo:active img {
   opacity: 1;
+}
+
+@media (hover: hover) {
+  .sidebar__logo:hover img {
+    opacity: 1;
+  }
 }
 
 /* While a sidebar with the logo is showing, the page doesn't repeat it at the top. Phones keep it. */
@@ -233,9 +257,16 @@ img {
   transition: color 120ms ease, text-decoration-color 120ms ease;
 }
 
-.lead__link:hover {
+.lead__link:active {
   color: #171614;
   text-decoration-color: currentColor;
+}
+
+@media (hover: hover) {
+  .lead__link:hover {
+    color: #171614;
+    text-decoration-color: currentColor;
+  }
 }
 
 /* The link to the YC page holds the handwritten note, so it stays on one line for the note to hang from. */
@@ -371,11 +402,19 @@ img {
   font-size: 14px;
   line-height: 18px;
   font-weight: 500;
-  transition: background-color 120ms ease;
+  transition: background-color 120ms ease, transform 120ms ease;
 }
 
-.button:hover {
+/* Pressed, it darkens and gives a little under the finger or click. */
+.button:active {
   background: #000;
+  transform: scale(0.97);
+}
+
+@media (hover: hover) {
+  .button:hover {
+    background: #000;
+  }
 }
 
 /* Links in the legal pages' Markdown can't take a class, so they're selected by where they sit. */
@@ -388,10 +427,18 @@ img {
   transition: color 120ms ease, text-decoration-color 120ms ease;
 }
 
-.text-link:hover,
-.legal a:hover {
+.text-link:active,
+.legal a:active {
   color: var(--ink);
   text-decoration-color: var(--ink);
+}
+
+@media (hover: hover) {
+  .text-link:hover,
+  .legal a:hover {
+    color: var(--ink);
+    text-decoration-color: var(--ink);
+  }
 }
 
 /* ---------- Highlighter ---------- */
@@ -518,6 +565,15 @@ img {
   --d: 0;
 }
 
+/* Each cover is a link to its project page (see WorksStrip.astro), filling its slide. */
+.slide__link {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  -webkit-user-drag: none;
+}
+
 /* Covers fill their slide; the ones beside the frame fade to 60%. */
 .slide__cover {
   width: 100%;
@@ -529,11 +585,18 @@ img {
   user-select: none;
   -webkit-user-drag: none;
   will-change: opacity;
+  transition: transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 /* The work in the frame opens its project page. */
 .slide.is-current {
   cursor: pointer;
+}
+
+/* Pressed, the cover in the frame sinks a little, until the press turns into a swipe or lets go (main.js). */
+.slide.is-pressed .slide__cover {
+  transform: scale(0.98);
+  transition-duration: 120ms;
 }
 
 .frame {
@@ -559,7 +622,7 @@ img {
   transition: box-shadow 200ms ease;
 }
 
-/* The name of the work in the frame, under its bottom-left corner. */
+/* The name of the work in the frame, under its bottom-left corner. It opens the work too (main.js). */
 .frame__label {
   position: absolute;
   top: calc(100% + 20px);
@@ -575,6 +638,19 @@ img {
   line-height: 16px;
   font-weight: 500;
   white-space: nowrap;
+  pointer-events: auto;
+  cursor: pointer;
+  transition: background-color 120ms ease;
+}
+
+.frame__label:active {
+  background: #1d4fd8;
+}
+
+@media (hover: hover) {
+  .frame__label:hover {
+    background: #1d4fd8;
+  }
 }
 
 /*
@@ -891,16 +967,31 @@ img {
   gap: 20px;
 }
 
-.footer__legal a:hover {
+.footer__legal a:active {
   color: var(--ink);
+}
+
+@media (hover: hover) {
+  .footer__legal a:hover {
+    color: var(--ink);
+  }
 }
 
 /* ---------- Smaller screens ---------- */
 
-/* The sidebar needs the left margin to itself. */
+/*
+  The sidebar needs the left margin to itself.
+  Below the width that fits a full 960px cover with its neighbours showing, the covers narrow so the previous
+  and next ones still show at the edges: the row reads as one to swipe through, and a tap on either brings it in.
+*/
 @media (max-width: 1119px) {
   .sidebar {
     display: none;
+  }
+
+  .strip {
+    --slide-gap: 24px;
+    --slide-w: min(960px, 100vw - 112px);
   }
 }
 
@@ -934,8 +1025,10 @@ img {
     font-size: 26px;
   }
 
+  /* 24px of each neighbour shows beside the cover, clear of the frame's ring. */
   .strip {
     --slide-gap: 16px;
+    --slide-w: calc(100vw - 80px);
     padding: 48px 0 72px;
   }
 
@@ -948,9 +1041,44 @@ img {
   }
 }
 
+/*
+  On a touchscreen every link and button can be hit across at least 44px, however small it looks: the space
+  around it, drawn by a pseudo-element, counts as part of it. Neighbours keep their own space.
+*/
+@media (pointer: coarse) {
+  .button,
+  .text-link,
+  .footer__legal a {
+    position: relative;
+  }
+
+  .button::after,
+  .text-link::after,
+  .footer__legal a::after,
+  .frame__label::after {
+    content: "";
+    position: absolute;
+    inset: -12px -6px;
+  }
+
+  .button::after {
+    inset: -6px -4px;
+  }
+
+  .frame__label::after {
+    inset: -10px -6px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  /* Pressed things change colour but don't shrink. */
+  .button:active,
+  .slide.is-pressed .slide__cover {
+    transform: none;
   }
 
   .sidebar,
@@ -960,7 +1088,9 @@ img {
   .button,
   .text-link,
   .legal a,
-  .frame__outline {
+  .frame__outline,
+  .frame__label,
+  .slide__cover {
     transition: none;
   }
 

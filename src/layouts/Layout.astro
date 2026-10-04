@@ -40,6 +40,8 @@ const ogImage = await getImage({ src: og.image, width: 2400, format: "png", qual
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- The page colour (--page in global.css), for browsers that tint their bars to match the page. -->
+    <meta name="theme-color" content="#f2efe8" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />

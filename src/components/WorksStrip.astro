@@ -15,7 +15,8 @@ interface Props {
 const { start, label, from } = Astro.props;
 const slides = Astro.props.works.map((key) => ({
   ...works[key],
-  // main.js opens this address when the cover in the frame is clicked.
+  // Each cover links to its project page. main.js lets the link through for the cover in the frame, and
+  // brings a cover beside the frame into it instead.
   href: `/work/${key}/` + (from ? `?from=${from}` : ""),
   isStart: key === start,
 }));
@@ -35,16 +36,19 @@ const startIndex = Math.max(0, Astro.props.works.indexOf(start));
     >
       {
         slides.map((slide) => (
-          <figure class="slide" data-name={slide.name} data-href={slide.href} data-start={slide.isStart ? "" : undefined}>
+          <figure class="slide" data-name={slide.name} data-start={slide.isStart ? "" : undefined}>
             <figcaption class="visually-hidden">{slide.name}</figcaption>
-            {slide.cover ? (
-              <img class="slide__cover" src={slide.cover.src} alt={slide.cover.alt} width="960" height="680" draggable="false" />
-            ) : (
-              <div class="slide__cover slide__cover--placeholder">
-                <span>{slide.name}</span>
-                <span class="slide__placeholder-hint">Cover to be added</span>
-              </div>
-            )}
+            {/* Out of the tab order: the row takes the focus, and Enter opens the work in the frame. */}
+            <a class="slide__link" href={slide.href} target="_blank" tabindex="-1" draggable="false">
+              {slide.cover ? (
+                <img class="slide__cover" src={slide.cover.src} alt={slide.cover.alt} width="960" height="680" draggable="false" />
+              ) : (
+                <span class="slide__cover slide__cover--placeholder">
+                  <span>{slide.name}</span>
+                  <span class="slide__placeholder-hint">Cover to be added</span>
+                </span>
+              )}
+            </a>
           </figure>
         ))
       }

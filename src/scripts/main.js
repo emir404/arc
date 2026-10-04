@@ -43,6 +43,14 @@
   addSounds(".sidebar__link", "nav-hover", "nav-select");
   addSounds(".button, .text-link", "cta-hover", "cta-select");
 
+  // On a phone or tablet the site's own pages open in the same tab, so Back comes back to the page you left.
+  // A computer keeps opening them in new tabs, and other sites open in new tabs everywhere.
+  if (window.matchMedia("(hover: none) and (pointer: coarse)").matches) {
+    Array.prototype.forEach.call(document.querySelectorAll('a[target="_blank"]'), function (link) {
+      if (link.origin === location.origin) link.removeAttribute("target");
+    });
+  }
+
   /* ---------- Works strip ---------- */
 
   /*
@@ -271,9 +279,22 @@
       slides.forEach(function (slide, k) {
         slide.classList.toggle("is-current", k === i);
       });
+      keepInHistory();
     }
     showName(i, reduceMotion ? 0 : nameDelay === undefined ? NAME_DELAY_MS : nameDelay);
     wake();
+  }
+
+  // The page's history entry keeps the work in the frame, so coming back to the page (Back from a project page)
+  // finds the same one there, even when the browser has to load the page again. (window.history, as `history`
+  // here is the row's path.)
+  function keepInHistory() {
+    try {
+      var state = window.history.state && typeof window.history.state === "object" ? window.history.state : {};
+      window.history.replaceState(Object.assign({}, state, { work: slides[index].getAttribute("data-name") }), "");
+    } catch (error) {
+      // Safari limits how often a page may do this; the next change tries again.
+    }
   }
 
   function wake() {
@@ -434,7 +455,20 @@
 
   // Mouse, finger or pen. The row follows the pointer exactly; let go, it carries on to the next cover or
   // settles back, depending on how far and how fast it was thrown.
-  var drag = { id: null, active: false, moved: false, startX: 0, startY: 0, grabX: 0, grabPosition: 0, from: 0, trail: [] };
+  var drag = {
+    id: null,
+    active: false,
+    moved: false,
+    downAt: 0,
+    startX: 0,
+    startY: 0,
+    grabX: 0,
+    grabPosition: 0,
+    startPosition: 0,
+    from: 0,
+    trail: [],
+    pressed: null,
+  };
 
   // Past either end the row gives less and less, like a rubber band.
   function rubberBand(p) {
@@ -454,14 +488,23 @@
     return p < 0 ? -over : end + over;
   }
 
+  // The cover in the frame sinks a little under a press, until the press turns into a drag or lets go.
+  function press(slide) {
+    if (drag.pressed) drag.pressed.classList.remove("is-pressed");
+    drag.pressed = slide || null;
+    if (slide) slide.classList.add("is-pressed");
+  }
+
   // A new press replaces one still waiting to become a drag (its release may have landed outside the row).
   function onPointerDown(event) {
     if (drag.active || (event.pointerType === "mouse" && event.button !== 0)) return;
     drag.id = event.pointerId;
     drag.active = false;
     drag.moved = false;
+    drag.downAt = performance.now();
     drag.startX = event.clientX;
     drag.startY = event.clientY;
+    press(event.target.closest(".slide.is-current"));
   }
 
   function startDrag(event) {
@@ -472,11 +515,14 @@
       move = null;
     }
     remember(now);
+    press(null);
     drag.active = true;
     drag.moved = true;
     drag.grabX = event.clientX;
     drag.grabPosition = unstretch(position);
-    drag.from = clampIndex(Math.round(position / step));
+    drag.startPosition = position;
+    // The cover the row is on, or on its way to: a second swipe while the row is still moving carries on from there.
+    drag.from = index;
     drag.trail = [[now, position]];
     // Under the pointer the covers close up and move as one; the stagger comes back when it lets go.
     heading = 0;
@@ -513,43 +559,59 @@
   function onPointerUp(event) {
     if (event.pointerId !== drag.id) return;
     drag.id = null;
+    press(null);
     if (!drag.active) return;
     drag.active = false;
     track.classList.remove("is-dragging");
     if (track.hasPointerCapture(event.pointerId)) track.releasePointerCapture(event.pointerId);
     // The speed over the last tenth of a second; a pointer held still before letting go throws nothing.
+    var now = performance.now();
+    var released = event.type === "pointerup";
     var speed = 0;
     var first = drag.trail[0];
     var last = drag.trail[drag.trail.length - 1];
-    if (event.type === "pointerup" && performance.now() - last[0] < 80 && last[0] > first[0]) {
+    if (released && now - last[0] < 80 && last[0] > first[0]) {
       speed = (last[1] - first[1]) / (last[0] - first[0]);
     }
-    // A throw carries on to the next cover the way it was thrown (so throwing back cancels a drag); a gentle
-    // release settles on the nearest. One cover at most either way.
-    var at = position / step;
-    var target = Math.abs(speed) > 0.3 ? (speed > 0 ? Math.ceil(at) : Math.floor(at)) : Math.round(at);
+    // A swipe is a throw, or a quick flick of a thumb, which may be short and end slowly. It moves one cover on
+    // from where the row was heading; thrown back against the drag, it cancels it. A slow drag settles on the
+    // nearest cover. One cover at most either way.
+    var travelled = position - drag.startPosition;
+    var drawn = travelled > 0 ? 1 : -1;
+    var flick = released && now - drag.downAt < 300 && Math.abs(travelled) > Math.min(30, step * 0.1);
+    var thrown = Math.abs(speed) > 0.2 ? (speed > 0 ? 1 : -1) : flick ? drawn : 0;
+    var target = !thrown ? Math.round(position / step) : thrown === drawn ? drag.from + thrown : drag.from;
     go(Math.max(drag.from - 1, Math.min(drag.from + 1, target)), speed, 0);
   }
 
+  // While the row follows a finger sideways, the page mustn't start scrolling up or down under it (Safari would).
+  function onTouchMove(event) {
+    if (drag.active && event.cancelable) event.preventDefault();
+  }
+
   function onTrackClick(event) {
+    // A drag that ends over a cover isn't a click on it.
     if (drag.moved) {
       drag.moved = false;
+      event.preventDefault();
       return;
     }
     var slide = event.target.closest(".slide");
     if (!slide) return;
     var i = slides.indexOf(slide);
-    if (i !== index) {
-      go(i);
-    } else {
-      // Anywhere inside the selection frame counts, not only the cover itself.
-      openWork(slide);
-    }
+    // The cover in the frame is a link to its project page, and a click with a modifier key opens any cover's link as usual.
+    if (i === index || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    // A cover beside the frame comes into it instead.
+    event.preventDefault();
+    go(i);
   }
 
-  // The cover in the frame opens its project page in a new tab, like the site's links; WorksStrip.astro writes the address on each slide.
+  // Opens the project page of the cover in the frame by following its link (see WorksStrip.astro), for Enter
+  // and for the name under the frame: in a new tab on a computer, in the same tab on a phone or tablet.
   function openWork(slide) {
-    window.open(slide.getAttribute("data-href"), "_blank", "noopener");
+    var link = slide.querySelector(".slide__link");
+    drag.moved = false;
+    if (link) link.click();
   }
 
   function onTrackKeydown(event) {
@@ -591,13 +653,22 @@
 
   function initStrip() {
     if (!strip || !track || !slides.length) return;
-    index = shown = Math.max(
-      0,
-      slides.findIndex(function (slide) {
-        return slide.hasAttribute("data-start");
-      })
-    );
+    // The work kept in the page's history entry from an earlier visit, or else the page's starting one.
+    var kept = window.history.state && window.history.state.work;
+    index = slides.findIndex(function (slide) {
+      return slide.getAttribute("data-name") === kept;
+    });
+    if (index < 0) {
+      index = Math.max(
+        0,
+        slides.findIndex(function (slide) {
+          return slide.hasAttribute("data-start");
+        })
+      );
+    }
+    shown = index;
     slides[index].classList.add("is-current");
+    if (names && names.firstElementChild) names.firstElementChild.textContent = slides[index].getAttribute("data-name");
     if (slides.length < 2) return;
     step = measure();
     position = lastPosition = index * step;
@@ -610,9 +681,16 @@
     track.addEventListener("pointermove", onPointerMove);
     track.addEventListener("pointerup", onPointerUp);
     track.addEventListener("pointercancel", onPointerUp);
+    track.addEventListener("touchmove", onTouchMove, { passive: false });
     track.addEventListener("click", onTrackClick);
     track.addEventListener("keydown", onTrackKeydown);
     track.addEventListener("wheel", onWheel, { passive: false });
+    // The name under the frame opens the work too.
+    if (label) {
+      label.addEventListener("click", function () {
+        openWork(slides[index]);
+      });
+    }
   }
 
   // A new slide width puts the same cover back in the frame, without animating.

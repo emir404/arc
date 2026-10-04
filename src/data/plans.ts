@@ -14,14 +14,14 @@ export const plans: Plan[] = [
     name: "Partnership",
     description:
       '<span class="hl">A monthly retainer with unlimited design.</span> Direction, product thinking, design, and development in one focused partnership.',
-    price: 10000,
+    price: 12000,
     unit: "per month",
     features: ["Unlimited design requests", "Direct, async collaboration with founders", "Design & development included", "Pause or cancel anytime"],
   },
   {
     name: "One time project",
     description: '<span class="hl">A defined scope with a clear timeline</span> for landing pages, brand work, or a focused product sprint.',
-    price: 15000,
+    price: 16000,
     unit: "starting price",
     features: ["Fixed scope & timeline", "Development available as addons", "Designs delivered in Figma", "Scoped and quoted on a call"],
   },

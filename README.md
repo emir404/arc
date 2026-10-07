@@ -14,7 +14,7 @@ Node 22.12 or newer.
 
 ## Where things are
 
-- `src/pages/`: the main page, the YC page, a page per project (`work/[slug].astro`), the privacy policy and terms (Markdown) and `llms.txt`.
+- `src/pages/`: the main page, the YC and a16z speedrun pages, a page per project (`work/[slug].astro`), the privacy policy and terms (Markdown) and `llms.txt`.
 - `src/data/`: works, testimonials, pricing plans and links. Editing these updates every page that shows them.
 - `src/styles/global.css`: all styles. `src/scripts/main.js`: the works carousel and the sidebar.
 - `public/works/`, `public/testimonials/`: pictures, served from the site itself. The works' pictures are WebP copies of the PNG exports in `works/` and `covers/`, which git leaves out.

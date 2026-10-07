@@ -72,11 +72,16 @@ const noindex = !isFinished(work);
   </main>
 
   <script>
-    // Visitors who came from the YC page get a back link to it.
+    // Visitors who came from the YC or speedrun page get a back link to it.
+    const pages = new Map([
+      ["yc", { href: "/yc/", label: "For YC founders" }],
+      ["speedrun", { href: "/speedrun/", label: "For speedrun founders" }],
+    ]);
     const back = document.getElementById("work-back");
-    if (back && new URLSearchParams(window.location.search).get("from") === "yc") {
-      back.setAttribute("href", "/yc/");
-      back.textContent = "← For YC founders";
+    const from = pages.get(new URLSearchParams(window.location.search).get("from") ?? "");
+    if (back && from) {
+      back.setAttribute("href", from.href);
+      back.textContent = `← ${from.label}`;
     }
   </script>
 </Layout>

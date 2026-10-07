@@ -31,6 +31,10 @@ export const plans: Plan[] = [
 // The YC page's link preview image states it too, so a new deal needs a new export of og-yc.png.
 export const ycDiscount = 15;
 
+// The same for a16z speedrun companies, on the speedrun page. Its link preview image states it too, so a new deal
+// needs a new og-speedrun.png.
+export const speedrunDiscount = 15;
+
 export function dollars(amount: number) {
   return "$" + amount.toLocaleString("en-US");
 }

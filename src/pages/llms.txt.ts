@@ -4,7 +4,7 @@
 */
 import type { APIRoute } from "astro";
 import { bookCallUrl, email, socials } from "../data/links";
-import { plans, dollars, discounted, ycDiscount } from "../data/plans";
+import { plans, dollars, discounted, ycDiscount, speedrunDiscount } from "../data/plans";
 import { testimonials } from "../data/testimonials";
 import { works, clients, isFinished, type Work, type WorkKey } from "../data/works";
 import { frontmatter as terms } from "./terms.md";
@@ -27,6 +27,9 @@ export const GET: APIRoute = ({ site }) => {
     return `- ${name}${work.tagline ? `: ${work.tagline}` : ""}${work.live ? ` (${work.live.url})` : ""}`;
   };
 
+  // Every plan's price with a deal's percent taken off.
+  const deal = (percent: number) => plans.map((plan) => `${plan.name}, ${dollars(discounted(plan.price, percent))} (${plan.unit})`).join("; ");
+
   const body = `# Arc Studio
 
 > Arc Studio is the all-in-one design studio for early-stage startups. Direction, product thinking, design, development and motion in one place.
@@ -41,7 +44,9 @@ ${plans
   .map((plan) => [`### ${plan.name}`, "", `Price: ${dollars(plan.price)} (${plan.unit})`, "", plain(plan.description), "", ...plan.features.map((feature) => `- ${feature}`)].join("\n"))
   .join("\n\n")}
 
-Y Combinator companies get ${ycDiscount}% off every plan: ${plans.map((plan) => `${plan.name}, ${dollars(discounted(plan.price, ycDiscount))} (${plan.unit})`).join("; ")}.
+Y Combinator companies get ${ycDiscount}% off every plan: ${deal(ycDiscount)}.
+
+a16z speedrun companies get ${speedrunDiscount}% off every plan: ${deal(speedrunDiscount)}.
 
 ## Clients
 
@@ -64,6 +69,7 @@ ${socials.map((social) => `- [${social.label}](${social.url})`).join("\n")}
 
 - [Arc Studio](${url("/")}): the main page, with selected works, testimonials and pricing
 - [Arc Studio for YC founders](${url("/yc/")}): work for Y Combinator companies, and the YC deal
+- [Arc Studio for a16z speedrun founders](${url("/speedrun/")}): selected works, and the speedrun deal
 
 ## Optional
 

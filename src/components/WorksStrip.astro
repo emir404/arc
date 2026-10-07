@@ -9,7 +9,7 @@ interface Props {
   /** Names the row for screen readers. */
   label: string;
   /** Tells the project pages which page to send their back link to. */
-  from?: "yc";
+  from?: "yc" | "speedrun";
 }
 
 const { start, label, from } = Astro.props;

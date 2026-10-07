@@ -383,6 +383,21 @@ img {
   margin-right: -0.84em;
 }
 
+/*
+  The speedrun wordmark in a line of text, standing in for the word: its lowercase letters are as tall as the type's
+  (half an em) and stand on the baseline, which lies 0.36em above the image's bottom edge. The d and p reach further
+  up and down than the type, and the p would push the next line away, so the negative margin leaves its tail out of
+  the image's share of the line, and the line spacing stays even. Its ink is as strong as the lead's highlighted phrases.
+*/
+.speedrun__mark {
+  display: inline-block;
+  width: auto;
+  height: 1.22em;
+  vertical-align: -0.2em;
+  margin-bottom: -0.16em;
+  opacity: 0.85;
+}
+
 .actions {
   display: flex;
   align-items: center;
@@ -475,6 +490,19 @@ img {
 /* In the lead the marked words keep to its inks, as strong as its highlighted phrases. */
 .lead .marker {
   color: rgba(23, 22, 20, 0.85);
+}
+
+/* On the speedrun page the stroke is in speedrun's colours instead: the purple, cyan and amber of its buttons. */
+.speedrun .marker {
+  background-image: linear-gradient(
+    100deg,
+    transparent 0,
+    transparent 1%,
+    rgba(161, 98, 255, 0.22) 2%,
+    rgba(86, 250, 247, 0.32) 50%,
+    rgba(248, 220, 187, 0.7) 97%,
+    transparent 99%
+  );
 }
 
 /* ---------- Placeholders (content still to come) ---------- */

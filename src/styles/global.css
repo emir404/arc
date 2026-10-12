@@ -269,6 +269,11 @@ img {
   }
 }
 
+/* A client with no page: in the links' colour, as one of the names, but without the underline, since it goes nowhere. */
+.lead__name {
+  color: rgba(23, 22, 20, 0.8);
+}
+
 /* The link to the YC page holds the handwritten note, so it stays on one line for the note to hang from. */
 .yc__link {
   position: relative;

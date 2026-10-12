@@ -4,11 +4,13 @@ import Sidebar from "../../components/Sidebar.astro";
 import Logo from "../../components/Logo.astro";
 import Closing from "../../components/Closing.astro";
 import Footer from "../../components/Footer.astro";
-import { works, isFinished, type Work } from "../../data/works";
+import { works, hasPage, isFinished, type Work } from "../../data/works";
 
-// One page per entry in src/data/works.ts.
+// One page per entry in src/data/works.ts, except a client with no work to show yet.
 export function getStaticPaths() {
-  return Object.entries(works).map(([slug, work]) => ({ params: { slug }, props: { work } }));
+  return Object.entries(works)
+    .filter(([, work]) => hasPage(work))
+    .map(([slug, work]) => ({ params: { slug }, props: { work } }));
 }
 
 interface Props {

@@ -1,5 +1,6 @@
 /*
   Every project in the works strips and in the client list on the main page. Each one also gets its own page: /work/<key>/
+  The exception is a client with no work to show yet (page: false), which the client list names without a link.
 
   To finish a project, edit its entry below:
     tagline  one line under the name (or null)
@@ -26,6 +27,8 @@ export interface Work {
   name: string;
   /** Who it was for, if that's a company with another name. The client list names them instead of the project. */
   client?: string;
+  /** False for a client with no work to show yet: it gets no page, and the client list names it without a link. */
+  page?: false;
   tagline: string | null;
   intro: string | null;
   live: { label: string; url: string } | null;
@@ -210,7 +213,7 @@ export const works = {
   },
   // In the client list, not the strips.
   sim: { name: "Sim", tagline: null, intro: null, live: null, cover: null, shots: [null, null, null, null] },
-  flashnet: { name: "Flashnet", tagline: null, intro: null, live: null, cover: null, shots: [null, null, null, null] },
+  flashnet: { name: "Flashnet", page: false, tagline: null, intro: null, live: null, cover: null, shots: [null, null, null, null] },
 } satisfies Record<string, Work>;
 
 export type WorkKey = keyof typeof works;
@@ -221,13 +224,18 @@ export const selectedWorks: WorkKey[] = ["spacefast", "axiom", "orchid", "anythi
 // The YC page's strip: the same works without Spacefast, which was for Automattic.
 export const ycWorks: WorkKey[] = selectedWorks.filter((key) => key !== "spacefast");
 
-// The clients named in the main page's intro, in order, before "& more". Each name links to the project's page.
+// The clients named in the main page's intro, in order, before "& more". Each name links to the project's page, if it has one.
 // llms.txt names the same clients.
 export const clients: WorkKey[] = ["spacefast", "axiom", "sim", "flashnet", "agentmail", "agentphone", "orchid", "conviction"];
 
 /** The name a work goes by in the client list. */
 export function clientName(work: Work) {
   return work.client ?? work.name;
+}
+
+/** Whether a project has a page of its own, /work/<key>/. */
+export function hasPage(work: Work) {
+  return work.page !== false;
 }
 
 /**

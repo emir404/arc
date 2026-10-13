@@ -1,0 +1,135 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Sidebar from "../components/Sidebar.astro";
+import Logo from "../components/Logo.astro";
+import WorksOverlay from "../components/WorksOverlay.astro";
+import Testimonials from "../components/Testimonials.astro";
+import Closing from "../components/Closing.astro";
+import Footer from "../components/Footer.astro";
+import Copy from "../components/Copy.astro";
+import { launch, placeholders } from "../data/launch";
+import { bookCallUrl } from "../data/links";
+import { works, clientName, hasPage } from "../data/works";
+import launchOg from "../assets/og-launch.png";
+
+// Everything still to be decided: the placeholders left in the copy.
+const open = placeholders(launch);
+const left = `${open.length} placeholder${open.length === 1 ? "" : "s"} left`;
+
+/*
+  A placeholder must never reach witharc.co, so while one is left the build stops here. Vercel's previews of other
+  branches still build, since they're behind a Vercel login: they show the placeholders under the banner below.
+*/
+if (open.length > 0 && import.meta.env.PROD && process.env.VERCEL_ENV !== "preview") {
+  throw new Error(
+    `The launch page can't be published: it has ${left}. Settle them in src/data/launch.ts:\n` +
+      open.map((item) => `  - ${item}`).join("\n"),
+  );
+}
+
+// The quotes can be left out with an empty list, and their link in the sidebar goes with them.
+const hasQuotes = launch.quotes.length > 0;
+
+// The headline, without its full stop, names the page. The link preview is the page's own, a Figma export like the
+// YC page's; it states the headline and the line under the tagline, so new words there need a new export.
+---
+
+<Layout
+  title={`Arc Studio · ${launch.title.replace(/\.$/, "")}`}
+  description={`${launch.tagline} ${launch.sub}`}
+  og={{ image: launchOg, alt: "Arc Studio. Ready for launch. A fixed-scope launch package for startups about to go live." }}
+  noindex={open.length > 0}
+  lead
+>
+  {
+    open.length > 0 && (
+      <aside class="draft" aria-label="Draft">
+        <details>
+          <summary class="draft__summary">
+            <strong>Draft: do not publish.</strong> {left}
+          </summary>
+          <ol class="draft__list">
+            {open.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ol>
+        </details>
+      </aside>
+    )
+  }
+
+  <!-- As on the YC page, the logo heads the sidebar and leads back to the main page. -->
+  <Sidebar
+    sections={[
+      { id: "top", label: "Arc Studio", logo: true, href: "/" },
+      { id: "works", label: "Works" },
+      { id: "included", label: "What’s included" },
+      { id: "pricing", label: "Pricing" },
+      ...(hasQuotes ? [{ id: "testimonials", label: "Testimonials" }] : []),
+      { id: "contact", label: "Contact" },
+    ]}
+  />
+
+  <main>
+    <header class="col intro intro--lead" id="top">
+      <Logo href="/" label="Arc, back to the main page" />
+
+      <div class="lead">
+        <h1><span class="hl"><Copy text={launch.title} /></span></h1>
+        <p><Copy text={launch.tagline} /></p>
+        <p><Copy text={launch.sub} /></p>
+        <!-- As on the main page. The list stays on one line: a line break inside it would put a space before each comma. -->
+        <p>
+          Clients include {launch.clients.map((key, i) => <>{i > 0 && ", "}{hasPage(works[key]) ? <a class="lead__link" href={`/work/${key}/`} target="_blank">{clientName(works[key])}</a> : <span class="lead__name">{clientName(works[key])}</span>}</>)} <span class="nowrap">&amp; more</span>
+        </p>
+        <p><a class="lead__link" href={bookCallUrl} target="_blank">Book a call</a></p>
+      </div>
+    </header>
+
+    <WorksOverlay items={launch.caseImages} />
+
+    <section class="col included" id="included">
+      <h2 class="label">What’s included</h2>
+      <ul class="parts">
+        {
+          launch.included.map((part) => (
+            <li class="part">
+              <h3 class="part__name">{part.name}</h3>
+              <p class="part__text">
+                <Copy text={part.text} />
+              </p>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section class="col pricing" id="pricing">
+      <h2 class="label">Pricing</h2>
+      <dl class="terms">
+        <div class="terms__row">
+          <dt>Price</dt>
+          <dd>
+            <p class="terms__price"><Copy text={launch.price} /></p>
+            <p class="muted"><Copy text={launch.payment} /></p>
+            <p class="muted"><Copy text={launch.covers} /></p>
+          </dd>
+        </div>
+        <div class="terms__row">
+          <dt>Timeline</dt>
+          <dd><p><Copy text={launch.timeline} /></p></dd>
+        </div>
+        <div class="terms__row">
+          <dt>After launch</dt>
+          <dd><p><Copy text={launch.afterLaunch} /></p></dd>
+        </div>
+      </dl>
+    </section>
+
+    {hasQuotes && <Testimonials heading="From founders" quotes={launch.quotes} />}
+
+    <Closing heading={launch.title} />
+
+    <Footer />
+  </main>
+</Layout>

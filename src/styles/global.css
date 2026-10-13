@@ -532,6 +532,53 @@ img {
   font-weight: 400;
 }
 
+/*
+  Copy still to be decided, on the launch page (see src/data/launch.ts): in a yellow no finished page uses, with a
+  dashed edge, so it can't pass for one of the highlights. Each line of a placeholder that wraps gets its own edges.
+*/
+.tbd {
+  padding: 0 0.25em;
+  border: 1px dashed rgba(23, 22, 20, 0.45);
+  border-radius: 0.2em;
+  background: #ffe14d;
+  color: #171614;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+/* The banner over a page that still has placeholders. It stays at the top while the page scrolls; it opens to list them. */
+.draft {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: #171614;
+  color: #fff;
+  font-size: 13px;
+  line-height: 18px;
+}
+
+.draft__summary {
+  padding: 9px var(--gutter);
+  cursor: pointer;
+}
+
+.draft__summary:focus-visible {
+  outline: 2px solid #ffe14d;
+  outline-offset: -4px;
+  border-radius: 6px;
+}
+
+.draft__summary strong {
+  color: #ffe14d;
+  font-weight: 500;
+}
+
+.draft__list {
+  margin: 0;
+  padding: 0 var(--gutter) 12px calc(var(--gutter) + 20px);
+  color: rgba(255, 255, 255, 0.75);
+}
+
 /* ---------- Works strip ---------- */
 
 /*
@@ -978,6 +1025,460 @@ img {
   font-weight: 500;
 }
 
+/* ---------- Launch page (/launch/) ---------- */
+
+.included {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 80px;
+}
+
+/* The package's four parts, two by two in a box like the quotes'. The lines between them are its background, showing through 1px gaps. */
+.parts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--line);
+}
+
+.part {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 18px;
+  background: var(--page);
+}
+
+.part__name {
+  font-weight: 500;
+}
+
+/* Each part's line runs to two lines, and holds two lines' space whatever its length, so the parts stay even. */
+.part__text {
+  min-height: 2lh;
+  color: var(--muted);
+}
+
+/* The price and what goes with it, a row each, ruled like the plans on the main page: its name on the left, the words on the right. */
+.terms {
+  margin: 0;
+  border-top: 1px solid var(--line);
+}
+
+.terms__row {
+  display: grid;
+  grid-template-columns: 140px minmax(0, 1fr);
+  column-gap: 24px;
+  padding: 20px 0 22px;
+  border-bottom: 1px solid var(--line);
+}
+
+.terms dt {
+  color: var(--muted);
+}
+
+.terms dd {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0;
+}
+
+.terms__price {
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Case images (launch page) ---------- */
+
+/*
+  The works as one card that opens into all of them (see WorksOverlay.astro). The card and the covers share their
+  column, shape and corners, so the card turns into the first cover where it stands.
+*/
+.case-images {
+  width: min(960px, 100% - var(--gutter) * 2);
+  margin: 56px auto 0;
+}
+
+/* While the sidebar is showing, the card keeps clear of it, as the project pages' pictures do. */
+@media (min-width: 1120px) and (max-width: 1479px) {
+  .case-images {
+    width: calc(100vw - 520px);
+  }
+}
+
+.case-images__open,
+.works-dialog__cover {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 960 / 680;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #e6e2db;
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.case-images__open img,
+.works-dialog__cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/*
+  Pointed at, pressed or focused, the card takes the ring the strips draw around the cover in their frame, 5px clear
+  of it. The card itself stays as it is, so it still matches the cover it opens into.
+*/
+.case-images__open {
+  padding: 0;
+  border: 0;
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  outline: 2px solid transparent;
+  outline-offset: 5px;
+  transition: outline-color 120ms ease;
+}
+
+.case-images__open:active,
+.case-images__open:focus-visible {
+  outline-color: var(--blue);
+}
+
+@media (hover: hover) {
+  .case-images__open:hover {
+    outline-color: var(--blue);
+  }
+}
+
+/*
+  The works, open. The dialog fills the window. A layer under the covers tints and blurs the page behind them, and the
+  covers scroll in a layer of their own, 16px apart in the card's column, from where the card is: WorksOverlay.astro
+  sets --top, --left and --width from it. The close button stays in the corner while they pass.
+*/
+.works-dialog {
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  background: transparent;
+}
+
+.works-dialog::backdrop {
+  background: transparent;
+}
+
+/* The page behind stays where it was. */
+html:has(.works-dialog[open]) {
+  overflow: hidden;
+  scrollbar-gutter: stable;
+}
+
+.works-dialog__shade {
+  position: absolute;
+  inset: 0;
+  background: rgba(12, 12, 12, 0.5);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  opacity: 0;
+  transition: opacity 320ms ease;
+}
+
+.works-dialog__scroller {
+  position: absolute;
+  inset: 0;
+  padding: var(--top, 64px) 0 64px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* As the dialog closes, --shift carries the covers back until the first lies on the card again. */
+.works-dialog__list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: var(--width, 100%);
+  margin-left: var(--left, 0);
+  transform: translateY(var(--shift, 0px));
+  transition: transform 460ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* The covers after the first wait a little lower, unseen, and rise in one after another as the dialog opens. */
+.works-dialog__item + .works-dialog__item {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.works-dialog__close {
+  position: absolute;
+  top: 64px;
+  right: 64px;
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  padding: 0;
+  border: 0;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 160ms ease, background-color 120ms ease, transform 120ms ease;
+}
+
+.works-dialog__close:active {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(0.96);
+}
+
+@media (hover: hover) {
+  .works-dialog__close:hover {
+    background: rgba(255, 255, 255, 0.16);
+  }
+}
+
+.works-dialog__close:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
+.works-dialog.is-open .works-dialog__shade {
+  opacity: 1;
+}
+
+.works-dialog.is-open .works-dialog__item {
+  opacity: 1;
+  transform: none;
+  transition: opacity 320ms ease, transform 520ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition-delay: calc(min(var(--i), 6) * 40ms);
+}
+
+.works-dialog.is-open .works-dialog__close {
+  opacity: 1;
+  transition: opacity 240ms ease 120ms, background-color 120ms ease, transform 120ms ease;
+}
+
+/* Closing from far down the stack, the first cover fades with the rest instead of travelling back. */
+.works-dialog.is-far .works-dialog__item:first-child {
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+
+/* While the dialog closes, the covers can't be scrolled or clicked. */
+.works-dialog.is-closing .works-dialog__scroller {
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* ---------- Video player ---------- */
+
+/*
+  A video in a rounded frame, with controls in the site's own buttons (see VideoPlayer.astro): small pills in the
+  logo's ink, a hairline of light around them so they hold on dark frames too, and a line along the bottom edge that
+  fills in the site's blue.
+*/
+.player {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #0c0c0c;
+}
+
+.player__video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+/* While it plays untouched, the pointer goes too. */
+.player[data-idle] .player__video {
+  cursor: none;
+}
+
+/* Play or Pause on the left; Full screen and the sound on the right, the sound in the corner. */
+.player__controls {
+  position: absolute;
+  right: 12px;
+  bottom: 16px;
+  left: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  pointer-events: none;
+}
+
+.player__pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 999px;
+  background: #171614;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.14), 0 1px 2px rgba(0, 0, 0, 0.2);
+  color: #fff;
+  font: inherit;
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: opacity 200ms ease, background-color 120ms ease, transform 120ms ease;
+}
+
+.player__pill:active {
+  background: #000;
+  transform: scale(0.97);
+}
+
+@media (hover: hover) {
+  .player__pill:hover {
+    background: #000;
+  }
+}
+
+.player__pill:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+
+.player__full {
+  margin-left: auto;
+}
+
+/* Before it starts: Play and the length, nothing else. */
+.player__length {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.player[data-started] .player__length {
+  display: none;
+}
+
+.player:not([data-started]) .player__full,
+.player:not([data-started]) .player__sound {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Playing untouched: the pills step away, unless a key has put focus among them, and the sound stays while there's none. */
+.player[data-state="playing"][data-idle]:not(:has(:focus-visible)) .player__pill {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.player[data-state="playing"][data-idle][data-muted] .player__sound {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* While the video loads, a small spinner leads the Play pill's word. */
+.player__spinner {
+  display: none;
+  width: 10px;
+  height: 10px;
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: player-spin 700ms linear infinite;
+}
+
+.player[data-loading] .player__spinner {
+  display: block;
+}
+
+@keyframes player-spin {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+/*
+  The line: 3px along the bottom edge, white for the length and the site's blue for what's played (--progress, from
+  VideoPlayer.astro). It's drawn as the input's background so it can sit right on the edge, with the input's whole
+  14px height to press and drag in; it thickens under the pointer or focus.
+*/
+.player__seek {
+  --progress: 0%;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 14px;
+  margin: 0;
+  background:
+    linear-gradient(var(--blue), var(--blue)) 0 100% / var(--progress) 3px no-repeat,
+    linear-gradient(rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.35)) 0 100% / 100% 3px no-repeat;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.player__seek:hover,
+.player__seek:focus-visible {
+  background-size: var(--progress) 5px, 100% 5px;
+}
+
+.player__seek:focus-visible {
+  outline: none;
+}
+
+.player__seek::-webkit-slider-runnable-track {
+  height: 100%;
+  background: transparent;
+}
+
+.player__seek::-moz-range-track {
+  height: 100%;
+  background: transparent;
+}
+
+.player__seek::-webkit-slider-thumb {
+  width: 2px;
+  height: 14px;
+  border: 0;
+  background: transparent;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.player__seek::-moz-range-thumb {
+  width: 2px;
+  height: 14px;
+  border: 0;
+  background: transparent;
+}
+
+.player:not([data-started]) .player__seek {
+  visibility: hidden;
+}
+
+/* Full screen: the frame fills the screen and the video keeps its shape within it. */
+.player:fullscreen {
+  border-radius: 0;
+}
+
+.player:fullscreen .player__video {
+  object-fit: contain;
+}
+
 /* ---------- Footer ---------- */
 
 .footer {
@@ -1026,6 +1527,13 @@ img {
     --slide-gap: 24px;
     --slide-w: min(960px, 100vw - 112px);
   }
+
+  /* Here the covers can pass under the close button, so it takes the page's tint and blur to keep the cross clear. */
+  .works-dialog__close {
+    background: rgba(12, 12, 12, 0.5);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+  }
 }
 
 /*
@@ -1072,6 +1580,24 @@ img {
   .plan__features {
     grid-template-columns: 1fr;
   }
+
+  .parts {
+    grid-template-columns: 1fr;
+  }
+
+  .terms__row {
+    grid-template-columns: 1fr;
+    row-gap: 4px;
+  }
+
+  .works-dialog__scroller {
+    padding-bottom: var(--gutter);
+  }
+
+  .works-dialog__close {
+    top: 16px;
+    right: 16px;
+  }
 }
 
 /*
@@ -1081,7 +1607,8 @@ img {
 @media (pointer: coarse) {
   .button,
   .text-link,
-  .footer__legal a {
+  .footer__legal a,
+  .player__pill {
     position: relative;
   }
 
@@ -1098,8 +1625,18 @@ img {
     inset: -6px -4px;
   }
 
+  .player__pill::after {
+    content: "";
+    position: absolute;
+    inset: -8px -3px;
+  }
+
   .frame__label::after {
     inset: -10px -6px;
+  }
+
+  .draft__summary {
+    padding-block: 13px;
   }
 }
 
@@ -1110,7 +1647,14 @@ img {
 
   /* Pressed things change colour but don't shrink. */
   .button:active,
-  .slide.is-pressed .slide__cover {
+  .slide.is-pressed .slide__cover,
+  .works-dialog__close:active {
+    transform: none;
+  }
+
+  /* The covers fade in and out where they are, without rising or travelling. */
+  .works-dialog__item + .works-dialog__item,
+  .works-dialog.is-open .works-dialog__item {
     transform: none;
   }
 
@@ -1123,8 +1667,18 @@ img {
   .legal a,
   .frame__outline,
   .frame__label,
-  .slide__cover {
+  .slide__cover,
+  .case-images__open,
+  .player__pill {
     transition: none;
+  }
+
+  .player__pill:active {
+    transform: none;
+  }
+
+  .player__spinner {
+    animation-duration: 1.6s;
   }
 
   /* Highlights are simply there, without the swipe. */

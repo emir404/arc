@@ -1,0 +1,150 @@
+---
+/*
+  The case images as one card, "Case images", that opens into all of them: pictures from the project pages and
+  videos, stacked over the page, which dims and blurs behind them. The card shows the first of them, at its shape and
+  in the same column, so opening it leaves it where it is and the rest appear under it. With none, it opens into
+  empty covers.
+*/
+import VideoPlayer from "./VideoPlayer.astro";
+import { works } from "../data/works";
+import type { CaseImage } from "../data/launch";
+import close from "../assets/close.svg";
+
+interface Props {
+  /** Top to bottom. */
+  items: CaseImage[];
+}
+
+// A picture comes from its project's page, named as it is there.
+const items = Astro.props.items.map((item) => {
+  if ("video" in item) return { ...item, still: item.poster };
+  const work = works[item.work];
+  const shot = work.shots[item.picture - 1];
+  if (!shot) throw new Error(`Case images: ${work.name} has no picture ${item.picture}.`);
+  return { ...shot, still: shot.src, alt: `${work.name}, picture ${item.picture}` };
+});
+const lead = items[0];
+---
+
+<section class="case-images" id="works" aria-label="Works">
+  <button
+    class="case-images__open"
+    type="button"
+    aria-haspopup="dialog"
+    aria-controls="works-dialog"
+    aria-label={lead ? "Case images" : undefined}
+    style={lead && `aspect-ratio: ${lead.width} / ${lead.height}`}
+  >
+    {lead ? <img src={lead.still} alt="" width={lead.width} height={lead.height} loading="lazy" decoding="async" /> : "Case images"}
+  </button>
+
+  <dialog class="works-dialog" id="works-dialog" aria-label="Case images">
+    <div class="works-dialog__shade"></div>
+    <!-- The covers scroll in their own layer, so the close button stays in the corner while they pass. -->
+    <div class="works-dialog__scroller">
+      <ul class="works-dialog__list">
+        {
+          items.length > 0
+            ? items.map((item, i) => (
+                <li class="works-dialog__item" style={`--i: ${i}`}>
+                  {"video" in item ? (
+                    <VideoPlayer src={item.video} poster={item.poster} width={item.width} height={item.height} duration={item.duration} label={item.label} />
+                  ) : (
+                    <div class="works-dialog__cover" style={`aspect-ratio: ${item.width} / ${item.height}`}>
+                      <img
+                        src={item.src}
+                        alt={item.alt}
+                        width={item.width}
+                        height={item.height}
+                        loading={i === 0 ? "eager" : "lazy"}
+                        decoding={i === 0 ? "sync" : "async"}
+                      />
+                    </div>
+                  )}
+                </li>
+              ))
+            : [0, 1, 2, 3].map((i) => (
+                <li class="works-dialog__item" style={`--i: ${i}`} aria-hidden="true">
+                  <span class="works-dialog__cover">{i === 0 && "Case images"}</span>
+                </li>
+              ))
+        }
+      </ul>
+    </div>
+    <button class="works-dialog__close" type="button" aria-label="Close" autofocus>
+      <img src={close.src} width="32" height="32" alt="" />
+    </button>
+  </dialog>
+</section>
+
+<script>
+  /*
+    Opening: the covers take the card's column and the first lies exactly over the card, so nothing moves. The page
+    dims behind it while the rest rise in under it. Closing: the covers slide back until the first lands on the card,
+    while the rest and the dimming fade, and only then does the dialog go. From far down the stack they fade where
+    they are instead. The CSS holds the timings; this waits for its transitions to end.
+  */
+  const box = document.querySelector<HTMLButtonElement>(".case-images__open");
+  const dialog = document.querySelector<HTMLDialogElement>(".works-dialog");
+
+  if (box && dialog) {
+    const scroller = dialog.querySelector<HTMLElement>(".works-dialog__scroller")!;
+    const first = dialog.querySelector<HTMLElement>(".works-dialog__item")!;
+    const closeButton = dialog.querySelector<HTMLElement>(".works-dialog__close")!;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    // Puts the covers in the card's column, and says where the card is.
+    const align = () => {
+      const rect = box.getBoundingClientRect();
+      dialog.style.setProperty("--left", `${rect.left}px`);
+      dialog.style.setProperty("--width", `${rect.width}px`);
+      return rect;
+    };
+
+    const open = () => {
+      if (dialog.open) return;
+      const rect = align();
+      // The covers start where the card is, but never nearer the top than the close button. A card higher than that
+      // starts them scrolled by the difference, so the first still lies on it, and scrolling up shows the space.
+      // Scrolling goes by whole pixels, so the space above takes up the fraction.
+      const scroll = Math.ceil(Math.max((parseFloat(getComputedStyle(closeButton).top) || 0) - rect.top, 0));
+      dialog.style.setProperty("--top", `${rect.top + scroll}px`);
+      dialog.style.setProperty("--shift", "0px");
+      dialog.showModal();
+      scroller.scrollTop = scroll;
+      // One frame as things were, so the change to open is a transition.
+      requestAnimationFrame(() => requestAnimationFrame(() => dialog.classList.add("is-open")));
+    };
+
+    const shut = () => {
+      if (!dialog.open || dialog.classList.contains("is-closing")) return;
+      for (const video of dialog.querySelectorAll("video")) video.pause();
+      const shift = align().top - first.getBoundingClientRect().top;
+      const far = reduceMotion.matches || Math.abs(shift) > window.innerHeight;
+      dialog.style.setProperty("--shift", far ? "0px" : `${shift}px`);
+      dialog.classList.toggle("is-far", far);
+      dialog.classList.add("is-closing");
+      dialog.classList.remove("is-open");
+      const transitions = dialog.getAnimations({ subtree: true }).map((animation) => animation.finished);
+      Promise.allSettled(transitions).then(() => dialog.classList.contains("is-closing") && dialog.close());
+    };
+
+    box.addEventListener("click", open);
+    closeButton.addEventListener("click", shut);
+    // Escape closes the same way as the button, and so does a click on the space around the covers.
+    dialog.addEventListener("cancel", (event) => {
+      event.preventDefault();
+      shut();
+    });
+    scroller.addEventListener("click", (event) => {
+      if (!(event.target as Element).closest(".works-dialog__item")) shut();
+    });
+    // Back on the card, which a browser may not have focused on the click that opened it.
+    dialog.addEventListener("close", () => {
+      dialog.classList.remove("is-open", "is-closing", "is-far");
+      box.focus({ preventScroll: true });
+    });
+    // The column follows the page's if the window changes size.
+    window.addEventListener("resize", () => dialog.open && align());
+  }
+</script>

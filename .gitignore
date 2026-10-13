@@ -10,6 +10,9 @@ node_modules/
 /works/
 /covers/
 
+# the launch videos' exports, dropped at the root; the site serves smaller copies from public/launch/
+/[0-9].mp4
+
 # logs
 npm-debug.log*
 yarn-debug.log*

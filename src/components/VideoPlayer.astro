@@ -1,0 +1,220 @@
+---
+/*
+  A video with controls in the site's own buttons: small pills in the logo's ink with white words, and a thin line
+  along the bottom edge that fills in the site's blue as it plays. It starts by itself, without sound, once it's
+  mostly in view, loops, and pauses when it leaves. Before it starts, one pill: Play, with its length. While it plays
+  untouched, only the line, and the sound pill in the corner if there's no sound; a pointer or a key brings back
+  Pause on the left and Full screen and the sound pill on the right. It loads nothing until it starts.
+*/
+interface Props {
+  src: string;
+  poster: string;
+  width: number;
+  height: number;
+  /** In seconds, shown before the video has loaded anything. */
+  duration: number;
+  /** What the video is, for screen readers and the play button's name. */
+  label: string;
+}
+
+const { src, poster, width, height, duration, label } = Astro.props;
+const length = `${Math.floor(duration / 60)}:${String(Math.floor(duration % 60)).padStart(2, "0")}`;
+---
+
+<div class="player" data-player style={`aspect-ratio: ${width} / ${height}`}>
+  <video class="player__video" src={src} poster={poster} width={width} height={height} preload="none" playsinline loop aria-label={label}></video>
+  <div class="player__controls">
+    <button class="player__pill player__play" type="button" aria-label={`Play ${label}, ${length}`}>
+      <span class="player__spinner" aria-hidden="true"></span>
+      <span class="player__play-label">Play</span>
+      <span class="player__length" aria-hidden="true">{length}</span>
+    </button>
+    <button class="player__pill player__full" type="button">Full screen</button>
+    <button class="player__pill player__sound" type="button" aria-label="Turn the sound off">Sound on</button>
+  </div>
+  <input class="player__seek" type="range" min="0" max={duration} step="0.01" value="0" aria-label={`Seek ${label}`} />
+</div>
+
+<script>
+  /*
+    Every player on the page; only one plays at a time.
+
+    Autoplay: the player most in view, at least 60% of it, starts by itself when nothing else is playing, without
+    sound (browsers allow nothing else). Once the viewer has turned the sound on anywhere, the next ones try to start
+    with it, and fall back to silence where the browser says no. A player that drops below a quarter in view pauses,
+    to start again when it's back. One the viewer paused stays paused until they play it, and nothing starts by
+    itself for anyone who prefers less motion or has asked the browser to save data.
+
+    While a video plays, its pills step away after two seconds without the pointer moving over it, and any movement,
+    touch or focus brings them back; one that started by itself starts with them away. The line follows the video
+    every frame, not just at its few time updates a second, so it fills smoothly.
+    Keys, with focus in a player: K plays and pauses, M turns the sound off and on, F is full screen, and the arrows
+    go back and forward five seconds.
+  */
+  type WebKitVideo = HTMLVideoElement & { webkitEnterFullscreen?: () => void };
+  type Player = { element: HTMLElement; video: WebKitVideo; ratio: number; autoplay: () => void };
+
+  const players: Player[] = [];
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData === true;
+  let soundOn = false;
+  const format = (seconds: number) => {
+    const whole = Number.isFinite(seconds) ? Math.floor(seconds) : 0;
+    return `${Math.floor(whole / 60)}:${String(whole % 60).padStart(2, "0")}`;
+  };
+
+  for (const element of document.querySelectorAll<HTMLElement>("[data-player]")) {
+    const video = element.querySelector<WebKitVideo>("video")!;
+    const play = element.querySelector<HTMLButtonElement>(".player__play")!;
+    const playLabel = element.querySelector<HTMLElement>(".player__play-label")!;
+    const sound = element.querySelector<HTMLButtonElement>(".player__sound")!;
+    const full = element.querySelector<HTMLButtonElement>(".player__full")!;
+    const seek = element.querySelector<HTMLInputElement>(".player__seek")!;
+    const name = video.getAttribute("aria-label") ?? "the video";
+    let frame = 0;
+    let idle = 0;
+    let woken = false;
+    let chosen = false; // paused by the viewer
+    let auto = false; // the start under way is autoplay's
+
+    const begin = () => {
+      chosen = false;
+      element.setAttribute("data-loading", "");
+      video.play().catch(() => element.removeAttribute("data-loading"));
+    };
+    const toggle = () => {
+      if (video.paused || video.ended) return begin();
+      chosen = true;
+      video.pause();
+    };
+    const setSound = (on: boolean) => {
+      video.muted = !on;
+      soundOn = on;
+    };
+
+    const autoplay = () => {
+      if (chosen || reduceMotion.matches || saveData || !video.paused) return;
+      if (players.some((other) => !other.video.paused)) return;
+      auto = true;
+      video.muted = !soundOn;
+      video.play().catch(() => {
+        if (video.muted) return void (auto = false);
+        video.muted = true;
+        video.play().catch(() => (auto = false));
+      });
+    };
+    players.push({ element, video, ratio: 0, autoplay });
+
+    const paint = () => {
+      const duration = video.duration || Number(seek.max) || 0;
+      seek.value = String(video.currentTime);
+      seek.style.setProperty("--progress", `${duration ? (video.currentTime / duration) * 100 : 0}%`);
+      seek.setAttribute("aria-valuetext", `${format(video.currentTime)} of ${format(duration)}`);
+    };
+    const follow = () => {
+      paint();
+      frame = requestAnimationFrame(follow);
+    };
+
+    const rest = () => {
+      clearTimeout(idle);
+      if (!video.paused) idle = window.setTimeout(() => element.setAttribute("data-idle", ""), 2000);
+    };
+    const wake = () => {
+      element.removeAttribute("data-idle");
+      rest();
+    };
+
+    video.addEventListener("loadedmetadata", () => {
+      seek.max = String(video.duration);
+      paint();
+    });
+    video.addEventListener("play", () => {
+      for (const other of players) if (other.video !== video) other.video.pause();
+      element.setAttribute("data-started", "");
+      element.dataset.state = "playing";
+      playLabel.textContent = "Pause";
+      play.setAttribute("aria-label", `Pause ${name}`);
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(follow);
+      if (!auto) return wake();
+      auto = false;
+      clearTimeout(idle);
+      element.setAttribute("data-idle", "");
+    });
+    video.addEventListener("pause", () => {
+      element.dataset.state = video.ended ? "ended" : "paused";
+      playLabel.textContent = "Play";
+      play.setAttribute("aria-label", `Play ${name}`);
+      cancelAnimationFrame(frame);
+      paint();
+      wake();
+    });
+    video.addEventListener("waiting", () => element.setAttribute("data-loading", ""));
+    video.addEventListener("playing", () => element.removeAttribute("data-loading"));
+    // The pill shows the sound's state; its name, for screen readers, what pressing it does.
+    video.addEventListener("volumechange", () => {
+      element.toggleAttribute("data-muted", video.muted);
+      sound.textContent = video.muted ? "Sound off" : "Sound on";
+      sound.setAttribute("aria-label", video.muted ? "Turn the sound on" : "Turn the sound off");
+    });
+
+    // Pressing Play on a video that hasn't started means to watch it, so it plays with sound.
+    play.addEventListener("click", () => {
+      if (!element.hasAttribute("data-started")) setSound(true);
+      toggle();
+    });
+    sound.addEventListener("click", () => setSound(video.muted));
+    seek.addEventListener("input", () => {
+      video.currentTime = Number(seek.value);
+      paint();
+    });
+    // Full screen takes the whole player, pills and line. An iPhone only lets the video itself go, with its own controls.
+    full.addEventListener("click", () => {
+      if (document.fullscreenElement) void document.exitFullscreen();
+      else if (element.requestFullscreen) void element.requestFullscreen();
+      else video.webkitEnterFullscreen?.();
+    });
+    document.addEventListener("fullscreenchange", () => {
+      const on = document.fullscreenElement === element;
+      element.toggleAttribute("data-fullscreen", on);
+      full.textContent = on ? "Exit full screen" : "Full screen";
+    });
+
+    // A click on the picture plays and pauses. On a touchscreen, a tap while the pills are away only brings them back.
+    video.addEventListener("pointerdown", (event) => {
+      woken = event.pointerType !== "mouse" && element.hasAttribute("data-idle");
+      wake();
+    });
+    video.addEventListener("click", () => {
+      if (woken) woken = false;
+      else toggle();
+    });
+    element.addEventListener("pointermove", wake);
+    element.addEventListener("focusin", wake);
+    element.addEventListener("keydown", (event) => {
+      const key = event.key.toLowerCase();
+      if (key === "k") toggle();
+      else if (key === "m") setSound(video.muted);
+      else if (key === "f") full.click();
+      else if ((key === "arrowleft" || key === "arrowright") && event.target !== seek) video.currentTime += key === "arrowleft" ? -5 : 5;
+      else return;
+      event.preventDefault();
+    });
+  }
+
+  // Pauses what leaves the view first, then starts the player most in view.
+  const sight = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        const player = players.find((candidate) => candidate.element === entry.target)!;
+        player.ratio = entry.isIntersecting ? entry.intersectionRatio : 0;
+        if (player.ratio < 0.25 && !player.video.paused) player.video.pause();
+      }
+      const next = players.filter((player) => player.ratio >= 0.6).sort((a, b) => b.ratio - a.ratio)[0];
+      next?.autoplay();
+    },
+    { threshold: [0, 0.25, 0.6, 1] },
+  );
+  for (const player of players) sight.observe(player.element);
+</script>

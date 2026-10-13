@@ -14,10 +14,12 @@ Node 22.12 or newer.
 
 ## Where things are
 
-- `src/pages/`: the main page, the YC and a16z speedrun pages, a page per project (`work/[slug].astro`), the privacy policy and terms (Markdown) and `llms.txt`.
+- `src/pages/`: the main page, the YC and a16z speedrun pages, the launch package's page, a page per project (`work/[slug].astro`), the privacy policy and terms (Markdown) and `llms.txt`.
 - `src/data/`: works, testimonials, pricing plans and links. Editing these updates every page that shows them.
+- `src/data/launch.ts`: the launch page's copy and case images. A `{{…}}` in its copy is a placeholder: the page shows each one highlighted under a "do not publish" banner, and the build fails while one is left. Only Vercel's previews of other branches still build.
 - `src/styles/global.css`: all styles. `src/scripts/main.js`: the works carousel and the sidebar.
 - `public/works/`, `public/testimonials/`: pictures, served from the site itself. The works' pictures are WebP copies of the PNG exports in `works/` and `covers/`, which git leaves out.
+- `public/launch/`: the launch page's videos, 1080p H.264 copies of the exports dropped at the root as `1.mp4` and so on (which git leaves out), each with a WebP poster.
 
 Fonts come from Google Fonts at build time and are served from the site too (see `fonts` in `astro.config.mjs`).
 

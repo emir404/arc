@@ -1,0 +1,12 @@
+---
+// A line of the launch page's copy. A {{…}} in it is a placeholder, shown highlighted so it can't be missed (see src/data/launch.ts).
+import { parts } from "../data/launch";
+
+interface Props {
+  text: string;
+}
+
+const { text } = Astro.props;
+---
+
+{parts(text).map((part) => (part.placeholder ? <mark class="tbd">{part.text}</mark> : part.text))}

@@ -11,9 +11,11 @@ interface Props {
    * `href` sends the link somewhere other than its section, such as the YC page's logo, which leads back to the main page.
    */
   sections?: { id: string; label: string; logo?: boolean; href?: string }[];
+  /** Other pages of the site, such as the launch package, in a group of their own. They open in a new tab, as the works do. */
+  pages?: { href: string; label: string }[];
 }
 
-const { back, sections } = Astro.props;
+const { back, sections, pages } = Astro.props;
 ---
 
 <nav class="sidebar" aria-label="Sections">
@@ -37,6 +39,15 @@ const { back, sections } = Astro.props;
               <a class:list={["sidebar__link", { "is-active": i === 0 }]} href={section.href ?? `#${section.id}`} data-spy={section.id}>{section.label}</a>
             )}
           </li>
+        ))}
+      </ul>
+    )
+  }
+  {
+    pages && (
+      <ul class="sidebar__group">
+        {pages.map((page) => (
+          <li><a class="sidebar__link" href={page.href} target="_blank">{page.label}</a></li>
         ))}
       </ul>
     )

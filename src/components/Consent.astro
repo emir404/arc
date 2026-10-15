@@ -1,0 +1,87 @@
+---
+import { analytics } from "../data/analytics";
+
+// The cookie banner PostHog waits on (see PostHog.astro). It comes first on the page, so a keyboard or screen reader reaches it before anything else.
+---
+
+{
+  analytics && (
+    <section class="consent" aria-label="Cookies" tabindex="-1" hidden>
+      <p>
+        Can we use cookies to see how people use the site? <br />This includes recordings of visits.{" "}
+        <a class="text-link nowrap" href="/privacy/#cookies-and-analytics" target="_blank">Privacy Policy</a>
+      </p>
+      <div class="consent__actions">
+        <button class="button" type="button" data-consent="accept">Accept</button>
+        <button class="button consent__decline" type="button" data-consent="decline">Decline</button>
+      </div>
+    </section>
+  )
+}
+
+<script>
+  /*
+    The banner rises in once PostHog has loaded, if the visitor hasn't answered yet, and "Cookies" in the footer brings
+    it back to change the answer. PostHog keeps the answer: accepting lets it use cookies and record the visit, and
+    declining has it count the visit without either.
+  */
+  type PostHog = {
+    get_explicit_consent_status(): "granted" | "denied" | "pending";
+    opt_in_capturing(): void;
+    opt_out_capturing(): void;
+  };
+  // PostHog once loaded (see PostHog.astro); until then, window.posthog is the snippet's stand-in, which queues calls.
+  const page = window as typeof window & { posthog?: PostHog; posthogLoaded?: PostHog };
+  const banner = document.querySelector<HTMLElement>(".consent");
+
+  if (banner) {
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    // The footer's "Cookies", while it has the banner open, so the keyboard goes back to it afterwards.
+    let opener: HTMLElement | null = null;
+
+    const show = () => {
+      if (banner.classList.contains("is-open")) return;
+      banner.hidden = false;
+      // One frame as it was, so appearing is a transition.
+      requestAnimationFrame(() => requestAnimationFrame(() => banner.classList.add("is-open")));
+    };
+
+    const hide = () => {
+      banner.classList.remove("is-open");
+      if (reduceMotion.matches) banner.hidden = true;
+      else
+        banner.addEventListener(
+          "transitionend",
+          () => {
+            if (!banner.classList.contains("is-open")) banner.hidden = true;
+          },
+          { once: true },
+        );
+      if (opener && banner.contains(document.activeElement)) opener.focus();
+      opener = null;
+    };
+
+    banner.addEventListener("click", (event) => {
+      const answer = (event.target as HTMLElement).closest<HTMLElement>("[data-consent]")?.dataset.consent;
+      if (!answer) return;
+      const posthog = page.posthogLoaded ?? page.posthog;
+      if (answer === "accept") posthog?.opt_in_capturing();
+      else posthog?.opt_out_capturing();
+      hide();
+    });
+
+    document.querySelectorAll<HTMLElement>("[data-consent-open]").forEach((button) => {
+      button.addEventListener("click", () => {
+        opener = button;
+        show();
+        banner.focus();
+      });
+    });
+
+    const ask = () => {
+      if (page.posthogLoaded?.get_explicit_consent_status() === "pending") show();
+    };
+    if (page.posthogLoaded) ask();
+    else window.addEventListener("posthog:loaded", ask, { once: true });
+  }
+</script>

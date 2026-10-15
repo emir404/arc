@@ -18,6 +18,27 @@ export default defineConfig({
   // Writes /sitemap-index.xml, which robots.txt points crawlers to.
   integrations: [sitemap({ filter: (page) => !unfinished.includes(new URL(page).pathname) })],
   /*
+    PostHog's requests go to /relay on the site, which vercel.json's rewrites pass on to PostHog (see
+    src/components/PostHog.astro). `astro preview` passes them on the same way, so a local build behaves like
+    the live site. The addresses match vercel.json's.
+  */
+  vite: {
+    preview: {
+      proxy: {
+        "^/relay/(static|array)/": {
+          target: "https://us-assets.i.posthog.com",
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/relay/, ""),
+        },
+        "/relay": {
+          target: "https://us.i.posthog.com",
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/relay/, ""),
+        },
+      },
+    },
+  },
+  /*
     The typefaces, downloaded from Google Fonts at build time and served from the site itself; Layout.astro
     preloads them. "block" holds text back for the moment the files take to arrive, instead of drawing it in a
     stand-in typeface and swapping, which visibly redrew the page on a first visit. A font that fails to arrive

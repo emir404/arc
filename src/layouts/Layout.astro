@@ -2,6 +2,8 @@
 import type { ImageMetadata } from "astro";
 import { Font, getImage } from "astro:assets";
 import studioOg from "../assets/og.png";
+import PostHog from "../components/PostHog.astro";
+import Consent from "../components/Consent.astro";
 import "../styles/global.css";
 
 interface Props {
@@ -72,8 +74,10 @@ const ogImage = await getImage({ src: og.image, width: 2400, format: "png", qual
     <Font cssVariable="--font-caveat" />
     <!-- Whatever a page adds to the head, such as the main page's structured data. -->
     <slot name="head" />
+    <PostHog />
   </head>
   <body>
+    <Consent />
     <slot />
 
     <script>

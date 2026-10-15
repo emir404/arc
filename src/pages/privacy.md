@@ -2,7 +2,7 @@
 layout: ../layouts/Legal.astro
 title: Privacy Policy
 description: How Arc Studio collects, uses, and protects your information when you visit witharc.co or get in touch.
-updated: 2026-10-03
+updated: 2026-10-15
 ---
 
 This Privacy Policy explains how Arc Studio (“Arc,” “we,” “us,” or “our”) collects, uses, and protects your information when you visit witharc.co (the “Site”) or get in touch with us. Arc Studio is a sole proprietorship owned by Emir Ayaz and established in Türkiye, and is the data controller of your information. By using the Site, you agree to the practices described here.
@@ -18,13 +18,18 @@ We use your information to reply to enquiries, schedule and hold calls, deliver 
 
 ## Cookies and analytics
 
-We use Google Analytics to understand how people use the Site, so we can improve it. It may set cookies or use similar technologies to collect usage data. You can refuse or delete cookies in your browser settings.
+We use PostHog to understand how people use the Site, so we can improve it. On your first visit, we ask whether we may use cookies, and PostHog collects nothing until you answer.
+
+- **If you accept**, PostHog stores cookies on your device to recognize you across visits and records your visit: the pages you view, where you click and how you scroll. We may watch these recordings to see where the Site works and where it doesn’t.
+- **If you decline**, PostHog still counts your visit, the pages you view and what you click, but without cookies or a recording. It tells visits apart with an identifier that changes every day, so visits on different days can’t be linked to each other.
+
+You can change your answer at any time under “Cookies” at the bottom of every page.
 
 ## Who we share it with
 
 We don’t sell or rent your personal information. We share it with a few trusted services that help us run the Site and our business. Each handles data under its own privacy policy and gets only what it needs to provide its service:
 
-- **Google Analytics**, for website analytics.
+- **PostHog**, for website analytics and visit recordings.
 - **Google Fonts**, which serves the Site’s typefaces. Your browser loads them from Google, which receives your IP address.
 - **Our hosting provider**, which serves the Site and keeps standard server logs.
 - **Cal.com**, for booking calls.

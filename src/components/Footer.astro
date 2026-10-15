@@ -1,9 +1,15 @@
+---
+import { analytics } from "../data/analytics";
+---
+
 <footer class="col footer">
   <div class="footer__legal">
     <span>© Arc Studio</span>
     <span class="footer__legal-links">
       <a href="/privacy/" target="_blank">Privacy Policy</a>
       <a href="/terms/" target="_blank">Terms of Service</a>
+      <!-- Brings back the cookie banner (Consent.astro), so an answer can be changed as easily as it was given. -->
+      {analytics && <button type="button" data-consent-open>Cookies</button>}
     </span>
   </div>
 </footer>

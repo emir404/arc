@@ -6,6 +6,6 @@ export const email = "omeroztok@witharc.co";
 
 // The studio's accounts, linked in the sidebar. The main page's structured data names them too, which tells search engines they belong to this Arc Studio.
 export const socials = [
-  { label: "X (formerly Twitter)", url: "https://x.com/arcstudio" },
+  { label: "X (formerly Twitter)", url: "https://x.com/witharc_co" },
   { label: "LinkedIn", url: "https://www.linkedin.com/company/design-studio-arc/" },
 ];

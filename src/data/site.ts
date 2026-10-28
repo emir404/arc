@@ -71,9 +71,9 @@ export const LAUNCH_MONTH = {
     { week: "Week 1", name: "Brand", text: "Positioning, name check, identity system." },
     { week: "Week 2", name: "Site and product", text: "Site designed, product screens designed." },
     { week: "Week 3", name: "Build and video", text: "Site and screens built, launch video cut." },
-    { week: "Week 4", name: "Launch", text: "Final fixes, launch day, then two weeks of fixes." },
+    { week: "Week 4", name: "Launch", text: "Final polish, launch day, then two weeks of fixes." },
   ],
-  after: "At handoff we’ll propose a Partnership so the same team keeps shipping.",
+  after: "At handoff, we’ll offer a Partnership so we can keep working on it.",
 };
 
 export const PARTNERSHIP_TURNAROUND = "24–36 hours after feedback";

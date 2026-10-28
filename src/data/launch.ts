@@ -34,7 +34,7 @@ export interface CaseVideo {
 export type CaseImage = CasePicture | CaseVideo;
 
 export interface Launch {
-  /** The headline, at the top and again over the buttons at the end. */
+  /** The headline, at the top. */
   title: string;
   tagline: string;
   /** The line under the tagline: what the package is, and who it's for. */
@@ -49,17 +49,20 @@ export interface Launch {
   caseImages: CaseImage[];
   /** The quotes, from the main page, top to bottom. [] leaves them out. */
   quotes: TestimonialKey[];
+  /** The headline over the buttons at the end. */
+  closing: string;
 }
 
 export const launch: Launch = {
-  title: "Ready for launch.",
-  tagline: "Branding, website, product and video. One studio.",
-  sub: "A fixed-scope launch package for startups about to go live.",
+  // A non-breaking space keeps "a month." together, so the headline never ends on a word of its own.
+  title: "Everything you need to launch, in a\u00a0month.",
+  tagline: "Brand, website, product, and video, all done by us.",
+  sub: "Fixed scope, fixed price, for startups about to launch.",
   clients: ["spacefast", "axiom", "flashnet", "agentmail", "agentphone", "orchid", "conviction"],
   included: [
-    { name: "Branding", text: "Identity, logo and a brand guide, carried through everything else." },
+    { name: "Branding", text: "Identity, logo, and a brand guide. We use it on the site, product, and video." },
     { name: "Website", text: "A landing page for launch day, designed and built." },
-    { name: "Product", text: "Up to 12 launch-critical screens, designed and built. Front end only." },
+    { name: "Product", text: "Up to 12 screens you need for launch, designed and built. Front end only." },
     { name: "Video", text: "A launch video, up to 90 seconds, made from your brand and product." },
   ],
   call: "30 minutes with Emir and Omer. You’ll know price, scope, and start date by the end of it.",
@@ -79,6 +82,7 @@ export const launch: Launch = {
     { work: "spacefast", picture: 8 },
   ],
   quotes: ["agentphone", "orchid", "agentmail", "feyn", "vercel"],
+  closing: "Book a call. We’ll set your launch date.",
 };
 
 const placeholder = /\{\{\s*(.+?)\s*\}\}/g;

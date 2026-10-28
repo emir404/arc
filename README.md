@@ -36,6 +36,20 @@ PostHog, on production builds that have `PUBLIC_POSTHOG_PROJECT_TOKEN` (`src/dat
 
 `page` is `home`, `yc`, `speedrun`, `launch`, or a path such as `work-axiom`. Every event of a visit also carries the UTM tags and `ref` the visitor arrived with.
 
+### Short links
+
+For posts and profiles, so a visit says where it came from (LinkedIn sends no referrer at all). Each answers with a 302 to its page, tagged; the tags then reach Cal.com with a booking.
+
+| Link | Goes to |
+| --- | --- |
+| `witharc.co/x` | `/launch/?utm_source=x&utm_medium=social&utm_campaign=profile` |
+| `witharc.co/r` | `/launch/?utm_source=x&utm_medium=social&utm_campaign=redesign_series` |
+| `witharc.co/yc-x` | `/yc/?utm_source=x&utm_medium=social&utm_campaign=yc` |
+| `witharc.co/sr-x` | `/speedrun/?utm_source=x&utm_medium=social&utm_campaign=speedrun` |
+| `witharc.co/li` | `/launch/?utm_source=linkedin&utm_medium=social&utm_campaign=profile` |
+
+They're redirects in `vercel.json`; a new one is a new line there.
+
 ### Internal traffic
 
 Open any page of the site once with `?internal=1` (such as `https://www.witharc.co/?internal=1`) on every browser and phone the team uses. The browser remembers it (`arc_internal` in localStorage), and from then on every event it sends carries `is_internal: true`; `?internal=0` undoes it. Nothing is dropped, so the team's own clicks can still be looked at.

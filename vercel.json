@@ -7,7 +7,12 @@
     { "source": "/landing", "destination": "/", "permanent": true },
     { "source": "/a16z{/}?", "destination": "/speedrun/", "permanent": true },
     { "source": "/a16z-speedrun{/}?", "destination": "/speedrun/", "permanent": true },
-    { "source": "/sr{/}?", "destination": "/speedrun/", "permanent": true }
+    { "source": "/sr{/}?", "destination": "/speedrun/", "permanent": true },
+    { "source": "/x{/}?", "destination": "/launch/?utm_source=x&utm_medium=social&utm_campaign=profile", "statusCode": 302 },
+    { "source": "/r{/}?", "destination": "/launch/?utm_source=x&utm_medium=social&utm_campaign=redesign_series", "statusCode": 302 },
+    { "source": "/yc-x{/}?", "destination": "/yc/?utm_source=x&utm_medium=social&utm_campaign=yc", "statusCode": 302 },
+    { "source": "/sr-x{/}?", "destination": "/speedrun/?utm_source=x&utm_medium=social&utm_campaign=speedrun", "statusCode": 302 },
+    { "source": "/li{/}?", "destination": "/launch/?utm_source=linkedin&utm_medium=social&utm_campaign=profile", "statusCode": 302 }
   ],
   "rewrites": [
     { "source": "/relay/static/:path(.*)", "destination": "https://us-assets.i.posthog.com/static/:path" },

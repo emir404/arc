@@ -62,6 +62,19 @@ export const ACCELERATOR_CHECK = "Tell us your batch on the call. We check it ag
 /** The FAQ's answer to who a client works with. [NEEDS EMIR: confirm this is true] */
 export const WHO_YOU_WORK_WITH = "Emir and Omer, on every project. No hand-offs to juniors.";
 
+/**
+ * The launch page's month, week by week, and the line under it. [NEEDS EMIR: confirm the real week-by-week]
+ */
+export const LAUNCH_MONTH = {
+  weeks: [
+    { week: "Week 1", name: "Brand", text: "Positioning, name check, identity system." },
+    { week: "Week 2", name: "Site and product", text: "Site designed, product screens designed." },
+    { week: "Week 3", name: "Build and video", text: "Site and screens built, launch video cut." },
+    { week: "Week 4", name: "Launch", text: "Final fixes, launch day, then two weeks of fixes." },
+  ],
+  after: "At handoff we’ll propose a Partnership so the same team keeps shipping.",
+};
+
 export const PARTNERSHIP_TURNAROUND = "24–36 hours after feedback";
 export const PARTNERSHIP_VIDEOS = "up to 3 videos a month, depending on complexity";
 

@@ -1210,6 +1210,38 @@ img {
   color: var(--muted);
 }
 
+/* The month, a week per row, ruled like the plans: the week on the left, what happens in it on the right. */
+.month {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 80px;
+}
+
+.weeks {
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+  list-style: none;
+}
+
+.week {
+  display: grid;
+  grid-template-columns: 140px minmax(0, 1fr);
+  column-gap: 24px;
+  padding: 20px 0 22px;
+  border-bottom: 1px solid var(--line);
+}
+
+.week__when {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.week__name {
+  font-weight: 500;
+}
+
 /* ---------- Case images (launch page) ---------- */
 
 /*
@@ -1882,6 +1914,11 @@ body:has(.consent.is-open) .sticky-book {
 
   .parts {
     grid-template-columns: 1fr;
+  }
+
+  .week {
+    grid-template-columns: 1fr;
+    row-gap: 4px;
   }
 
   .works-dialog__scroller {

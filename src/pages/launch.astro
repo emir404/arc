@@ -14,7 +14,7 @@ import Actions from "../components/Actions.astro";
 import { launch, placeholders } from "../data/launch";
 import { works, clientName, hasPage } from "../data/works";
 import { capacity, dollars } from "../data/plans";
-import { PRICES } from "../data/site";
+import { LAUNCH_MONTH, PRICES } from "../data/site";
 import launchOg from "../assets/og-launch.png";
 
 // Everything still to be decided: the placeholders left in the copy.
@@ -69,6 +69,7 @@ const hasQuotes = launch.quotes.length > 0;
       { id: "top", label: "Arc Studio", logo: true, href: "/" },
       { id: "works", label: "Works" },
       { id: "included", label: "What’s included" },
+      { id: "month", label: "The month" },
       { id: "pricing", label: "Pricing" },
       ...(hasQuotes ? [{ id: "testimonials", label: "Testimonials" }] : []),
       { id: "faq", label: "FAQ" },
@@ -110,6 +111,24 @@ const hasQuotes = launch.quotes.length > 0;
           ))
         }
       </ul>
+    </section>
+
+    <section class="col month" id="month">
+      <h2 class="label">What happens in the month</h2>
+      <ol class="weeks">
+        {
+          LAUNCH_MONTH.weeks.map((step) => (
+            <li class="week">
+              <p class="week__when">{step.week}</p>
+              <div>
+                <h3 class="week__name">{step.name}</h3>
+                <p class="muted">{step.text}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+      <p class="muted">{LAUNCH_MONTH.after}</p>
     </section>
 
     <Pricing />

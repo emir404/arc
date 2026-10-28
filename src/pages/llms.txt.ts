@@ -5,7 +5,7 @@
 import type { APIRoute } from "astro";
 import { CONTACT_EMAIL, socials } from "../data/site";
 import { buildCalUrl } from "../data/booking";
-import { plans, dollars, discounted, ycDiscount, speedrunDiscount } from "../data/plans";
+import { plans, custom, dollars, discounted, ycDiscount, speedrunDiscount } from "../data/plans";
 import { testimonials } from "../data/testimonials";
 import { works, clients, isFinished, type Work, type WorkKey } from "../data/works";
 import { frontmatter as terms } from "./terms.md";
@@ -44,6 +44,10 @@ Prices are in US dollars.
 ${plans
   .map((plan) => [`### ${plan.name}`, "", `Price: ${dollars(plan.price)} (${plan.unit})`, "", plain(plan.description), "", ...plan.features.map((feature) => `- ${feature}`)].join("\n"))
   .join("\n\n")}
+
+### ${custom.name}
+
+${custom.description}
 
 Y Combinator companies get ${ycDiscount}% off every plan: ${deal(ycDiscount)}.
 

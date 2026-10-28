@@ -18,14 +18,13 @@ export const plans: Plan[] = [
     unit: "per month",
     features: ["Unlimited design requests", "Direct, async collaboration with founders", "Design & development included", "Pause or cancel anytime"],
   },
-  {
-    name: "One time project",
-    description: '<span class="hl">A defined scope with a clear timeline</span> for landing pages, brand work, or a focused product sprint.',
-    price: 16000,
-    unit: "starting price",
-    features: ["Fixed scope & timeline", "Development available as addons", "Designs delivered in Figma", "Scoped and quoted on a call"],
-  },
 ];
+
+// Under the plans, without a price: anything else is scoped on a call.
+export const custom = {
+  name: "Custom projects",
+  description: "Need something else? Custom projects are scoped on a call.",
+};
 
 // The YC deal, in percent: offered in the YC page's intro and taken off every plan there.
 // The YC page's link preview image states it too, so a new deal needs a new export of og-yc.png.

@@ -1024,6 +1024,20 @@ img {
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='%236e6c65' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 6.5 4.8 9 10 3'/%3E%3C/svg%3E");
 }
 
+/* Custom projects, under the plans and ruled like them: no price, just a call. */
+.custom {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: 40px;
+  align-items: start;
+  padding: 20px 0 22px;
+  border-bottom: 1px solid var(--line);
+}
+
+.custom__link {
+  white-space: nowrap;
+}
+
 /* ---------- Pull quote ---------- */
 
 .pullquote {

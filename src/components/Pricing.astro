@@ -1,5 +1,6 @@
 ---
-import { plans, dollars, discounted } from "../data/plans";
+import { plans, custom, dollars, discounted } from "../data/plans";
+import { buildCalUrl, pageName } from "../data/booking";
 
 interface Props {
   heading: string;
@@ -43,6 +44,13 @@ const { heading, discount } = Astro.props;
         </article>
       ))
     }
+    <div class="custom">
+      <div class="plan__summary">
+        <h3 class="plan__name">{custom.name}</h3>
+        <p class="plan__description">{custom.description}</p>
+      </div>
+      <a class="text-link custom__link" href={buildCalUrl(pageName(Astro.url.pathname))} target="_blank" data-book="pricing" data-offer="custom">Book a call&nbsp;→</a>
+    </div>
   </div>
   <slot />
 </section>

@@ -8,6 +8,7 @@ import Pricing from "../components/Pricing.astro";
 import Closing from "../components/Closing.astro";
 import Footer from "../components/Footer.astro";
 import Faq from "../components/Faq.astro";
+import StickyBook from "../components/StickyBook.astro";
 import Copy from "../components/Copy.astro";
 import Actions from "../components/Actions.astro";
 import { launch, placeholders } from "../data/launch";
@@ -120,5 +121,7 @@ const hasQuotes = launch.quotes.length > 0;
     <Closing heading={launch.title} />
 
     <Footer />
+
+    <StickyBook />
   </main>
 </Layout>

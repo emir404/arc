@@ -1711,18 +1711,88 @@ html:has(.works-dialog[open]) {
   outline-offset: 2px;
 }
 
-.consent__decline {
+/* The pale pill, for the answer or action beside an ink one: as easy to press, without reading as one dark block. */
+.button--pale {
   background: rgba(23, 22, 20, 0.07);
   color: var(--ink);
 }
 
-.consent__decline:active {
+.button--pale:active {
   background: rgba(23, 22, 20, 0.14);
 }
 
 @media (hover: hover) {
-  .consent__decline:hover {
+  .button--pale:hover {
     background: rgba(23, 22, 20, 0.11);
+  }
+}
+
+/* ---------- Sticky booking bar (StickyBook.astro) ---------- */
+
+/*
+  Phones and tablets only: a white pill along the bottom, clear of the home bar, holding the two pills. It rises in
+  and sinks away by a few pixels, like the cookie banner, which it steps aside for.
+*/
+.sticky-book {
+  position: fixed;
+  right: 0;
+  bottom: calc(var(--gutter) + env(safe-area-inset-bottom, 0px));
+  left: 0;
+  z-index: 15;
+  display: flex;
+  gap: 6px;
+  width: min(420px, 100% - var(--gutter) * 2);
+  margin-inline: auto;
+  padding: 6px;
+  border-radius: 999px;
+  background: #fff;
+  box-shadow:
+    0 0 0 1px rgba(23, 22, 20, 0.06),
+    0 1px 2px rgba(23, 22, 20, 0.06),
+    0 8px 24px rgba(23, 22, 20, 0.1);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 200ms ease, transform 200ms ease;
+}
+
+.sticky-book.is-shown {
+  opacity: 1;
+  transform: none;
+}
+
+/* Its display would otherwise outrank the hidden attribute, leaving an unseen bar to catch taps and focus. */
+.sticky-book[hidden] {
+  display: none;
+}
+
+.sticky-book .button {
+  height: 44px;
+  padding: 0 18px;
+  font-size: 15px;
+}
+
+.sticky-book__book {
+  flex: 1;
+}
+
+.sticky-book button {
+  border: 0;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.sticky-book .button:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+
+body:has(.consent.is-open) .sticky-book {
+  visibility: hidden;
+}
+
+@media not ((max-width: 1119px) and (pointer: coarse)) {
+  .sticky-book {
+    display: none;
   }
 }
 
@@ -1900,8 +1970,9 @@ html:has(.works-dialog[open]) {
     transition: none;
   }
 
-  /* The cookie banner is simply there, and simply gone. */
-  .consent {
+  /* The cookie banner and the booking bar are simply there, and simply gone. */
+  .consent,
+  .sticky-book {
     transform: none;
     transition: none;
   }

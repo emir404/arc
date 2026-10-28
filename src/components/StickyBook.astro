@@ -1,0 +1,69 @@
+---
+import { buildCalUrl, pageName } from "../data/booking";
+
+/*
+  On a phone or tablet, a "Book a Launch call" bar along the bottom of the screen, so booking stays one tap away while
+  the page scrolls. It rises in once the hero's button has scrolled away, and steps aside at the closing section, which
+  has buttons of its own, and while the cookie banner is open. "Hide" puts it away for the rest of the visit.
+*/
+---
+
+<div class="sticky-book" hidden>
+  <a class="button sticky-book__book" href={buildCalUrl(pageName(Astro.url.pathname))} target="_blank" data-book="sticky" data-offer="launch">Book a Launch call</a>
+  <button class="button button--pale" type="button" data-sticky-hide>Hide</button>
+</div>
+
+<script>
+  const bar = document.querySelector<HTMLElement>(".sticky-book");
+  const hero = document.querySelector(".lead .cta");
+  const closing = document.getElementById("contact");
+  // Phones and tablets: no sidebar, and a finger rather than a mouse.
+  const touch = window.matchMedia("(max-width: 1119px) and (pointer: coarse)");
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const KEY = "arc:sticky-hidden";
+
+  if (bar && hero) {
+    let dismissed = false;
+    try {
+      dismissed = sessionStorage.getItem(KEY) === "1";
+    } catch {}
+    let pastHero = false;
+    let atClosing = false;
+
+    const update = () => {
+      const show = touch.matches && !dismissed && pastHero && !atClosing;
+      if (show && bar.hidden) {
+        bar.hidden = false;
+        // One frame as it was, so appearing is a transition.
+        requestAnimationFrame(() => requestAnimationFrame(() => bar.classList.add("is-shown")));
+      } else if (!show && !bar.hidden) {
+        bar.classList.remove("is-shown");
+        const done = () => {
+          if (!bar.classList.contains("is-shown")) bar.hidden = true;
+        };
+        if (reduceMotion.matches) done();
+        else bar.addEventListener("transitionend", done, { once: true });
+      }
+    };
+
+    new IntersectionObserver(([entry]) => {
+      pastHero = !entry.isIntersecting && entry.boundingClientRect.top < 0;
+      update();
+    }).observe(hero);
+    if (closing) {
+      new IntersectionObserver(([entry]) => {
+        atClosing = entry.isIntersecting || entry.boundingClientRect.top < 0;
+        update();
+      }).observe(closing);
+    }
+
+    bar.querySelector("[data-sticky-hide]")?.addEventListener("click", () => {
+      dismissed = true;
+      try {
+        sessionStorage.setItem(KEY, "1");
+      } catch {}
+      update();
+    });
+    touch.addEventListener("change", update);
+  }
+</script>

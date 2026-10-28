@@ -15,8 +15,8 @@ import { works, clients, clientName, hasPage, selectedWorks } from "../data/work
 import { capacity, dollars } from "../data/plans";
 import { PRICES } from "../data/site";
 
-// None of the studio's clients has been through speedrun yet, so the page's proof is neutral: the clients' names, and
-// founders' quotes without their YC batches.
+// None of the studio's clients has been through speedrun yet, so the page's proof is the clients' names and founders'
+// quotes, with their YC batches as on the other pages.
 // TODO: swap to speedrun proof once we have an SR client.
 const proof = {
   heading: "Founders we’ve shipped with",
@@ -63,7 +63,7 @@ const proof = {
 
     <WorksStrip works={selectedWorks} start="axiom" label="Selected works" from="speedrun" />
 
-    <Testimonials heading={proof.heading} sub={proof.sub} quotes={["vercel", "sim", "agentmail", "feyn", "orchid", "agentphone"]} batches={false} />
+    <Testimonials heading={proof.heading} sub={proof.sub} quotes={["vercel", "sim", "agentmail", "feyn", "orchid", "agentphone"]} />
 
     <Pricing audience="speedrun" />
 

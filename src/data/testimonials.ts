@@ -1,5 +1,5 @@
 export interface Testimonial {
-  /** HTML: the phrase that should stand out goes in <span class="hl">. */
+  /** HTML: the phrase that should stand out, if any, goes in <span class="hl">. */
   text: string;
   name: string;
   role: string;
@@ -12,20 +12,20 @@ export interface Testimonial {
 // Keyed by the author's company.
 export const testimonials = {
   vercel: {
-    text: '<span class="hl">Dude, you should join Vercel!</span>',
+    text: "Dude, you should join Vercel!",
     name: "Guillermo Rauch",
     role: "Co-Founder & CEO, Vercel",
     avatar: "/testimonials/guillermo-rauch.webp",
   },
   sim: {
-    text: 'Emir is a talented designer with massive potential. He’s both a developer and designer, making his skillset <span class="hl">highly valuable for fast-moving teams.</span>',
+    text: 'Emir is a talented designer with massive potential. He’s <span class="hl">both a developer and designer</span>, making his skillset highly valuable for fast-moving teams.',
     name: "Emir Karabeg",
     role: "CEO, Sim",
     batch: "YC X25",
     avatar: "/testimonials/emir-karabeg.webp",
   },
   agentmail: {
-    text: 'You’re the best dude and thanks for <span class="hl">giving our brand so much life and recognition.</span> Was a pleasure working with you and I’d recommend your service to any founder.',
+    text: 'You’re the best dude and thanks for giving our brand so much life and recognition. Was a pleasure working with you and <span class="hl">I’d recommend your service to any founder</span>.',
     name: "Adi Singh",
     role: "CEO, AgentMail",
     batch: "YC S25",
@@ -39,14 +39,14 @@ export const testimonials = {
     avatar: "/testimonials/shreyash-nigam.webp",
   },
   orchid: {
-    text: 'Arc brought our brand to life with <span class="hl">a world-class site that went viral on Twitter in a month.</span> A pleasure working with them, and I’d recommend them to any founder.',
+    text: 'Arc brought our brand to life with a world-class site that <span class="hl">went viral on Twitter in a month</span>. A pleasure working with them, and I’d recommend them to any founder.',
     name: "Nizzy Abi Zaher",
     role: "Co-founder, Orchid",
     batch: "YC X25",
     avatar: "/testimonials/nizzy-abi-zaher.webp",
   },
   agentphone: {
-    text: 'Arc handled our brand, website, product, and everything in between, down to hackathon flyers and t-shirts, all on short notice. <span class="hl">Work that usually takes several agencies, done by one studio.</span>',
+    text: 'Arc handled our brand, website, product, and everything in between, <span class="hl">down to hackathon flyers and t-shirts, all on short notice</span>. Work that usually takes several agencies, done by one studio.',
     name: "Meet Modi",
     role: "Co-founder, AgentPhone",
     batch: "YC P26",

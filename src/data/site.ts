@@ -49,7 +49,8 @@ export const AVAILABILITY = "Taking new projects now";
 /**
  * Under the YC page's button: the current batch's Demo Day, until the date when starting a Launch would no longer
  * finish before it (the end of 10 November in San Francisco). After that the line is gone, without a new build.
- * For the next batch, write its line and date here.
+ * For the next batch, write its line and date here, and the YC page's closing headline (yc.astro), which names the day
+ * too and stays up after it.
  */
 export const YC_BATCH_LINE = {
   text: "F26 Demo Day is December 2. Start by early November and you launch before it.",

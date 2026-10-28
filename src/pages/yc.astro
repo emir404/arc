@@ -40,10 +40,13 @@ import { PRICES, YC_BATCH_LINE } from "../data/site";
 
       <div class="lead">
         <h1><span class="hl">Launch before Demo Day.</span></h1>
-        <!-- The price stays with its words, so the highlight never starts a line, where it would stick out past the column. -->
-        <p>Brand, site, product screens, and launch video from one team in one month. <span class="nowrap">YC price: <mark class="marker">{dollars(PRICES.launchAccelerator)}</mark>.</span></p>
+        <!--
+          The price stays with its words, so the highlight never starts a line, where it would stick out past the column.
+          The full stop is inside the highlight: after it, the highlight's padding would read as a space before it.
+        -->
+        <p>Brand, site, product screens, and launch video in one month. <span class="nowrap">YC price: <mark class="marker">{dollars(PRICES.launchAccelerator)}.</mark></span></p>
         <!-- The logo stands in for the "Y" of Y Combinator, and screen readers get a plain "Y" in its place. -->
-        <p>Worked with 10+ <span class="nowrap"><YcLogo /><span class="visually-hidden">Y</span> Combinator</span> companies.</p>
+        <p>We’ve worked with 10+ <span class="nowrap"><YcLogo /><span class="visually-hidden">Y</span> Combinator</span> companies.</p>
         <Actions book="Book a Launch call" email="Or email us →" location="hero" offer="launch">
           <Until date={YC_BATCH_LINE.until}><p class="cta__note">{YC_BATCH_LINE.text}</p></Until>
           <p class="cta__note">{capacity}</p>
@@ -59,7 +62,8 @@ import { PRICES, YC_BATCH_LINE } from "../data/site";
 
     <Faq audience="yc" />
 
-    <Closing heading="You got in. Now let’s take product quality to the moon." />
+    <!-- Names this batch's Demo Day, as YC_BATCH_LINE in site.ts does: change the two together. -->
+    <Closing heading="Demo Day is December 2. Launch before it." />
 
     <Footer />
 

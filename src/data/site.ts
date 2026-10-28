@@ -30,7 +30,9 @@ export const X_FOUNDER = "@emirayaz";
 export const PRICES = {
   launch: 30000, // one month
   launchAccelerator: 27000,
-  launchInstallments: 2, // 2 × $15,000, or 2 × $13,500 at the accelerator price
+  // 2 × $15,000, or 2 × $13,500 at the accelerator price. [NEEDS EMIR, optional: if you want to state timing, e.g.
+  // "one to start, one at handoff", confirm it and add it to the FAQ's installments answer in faq.ts; otherwise ship as is]
+  launchInstallments: 2,
   partnership: 12000, // per month
   partnershipAccelerator: 10000,
 };
@@ -38,7 +40,10 @@ export const PRICES = {
 /** How many Launch projects the studio starts in a month. */
 export const LAUNCH_CAPACITY_PER_MONTH = 2;
 
-/** Whether new projects can start. Edit it by hand when the studio is full, in words: never a calendar date. */
+/**
+ * Whether new projects can start. Edit it by hand when the studio is full, in words: never a calendar date. The FAQ's
+ * "When can we start?" answers "This week." (faq.ts), so change that with it.
+ */
 export const AVAILABILITY = "Taking new projects now";
 
 /**
@@ -50,6 +55,12 @@ export const YC_BATCH_LINE = {
   text: "F26 Demo Day is December 2. Start by early November and you launch before it.",
   until: "2026-11-11T00:00:00-08:00",
 };
+
+/** The FAQ's answer to how the YC and speedrun prices are checked. [NEEDS EMIR: confirm method] */
+export const ACCELERATOR_CHECK = "Tell us your batch on the call. We check it against the public batch list or your accelerator profile. That’s it.";
+
+/** The FAQ's answer to who a client works with. [NEEDS EMIR: confirm this is true] */
+export const WHO_YOU_WORK_WITH = "Emir and Omer, on every project. No hand-offs to juniors.";
 
 export const PARTNERSHIP_TURNAROUND = "24–36 hours after feedback";
 export const PARTNERSHIP_VIDEOS = "up to 3 videos a month, depending on complexity";

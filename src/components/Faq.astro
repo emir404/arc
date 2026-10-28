@@ -1,0 +1,65 @@
+---
+import { questions, plainAnswer } from "../data/faq";
+import { buildCalUrl, pageName } from "../data/booking";
+import type { Audience } from "../data/plans";
+
+interface Props {
+  /** Who the page is for: the YC and speedrun pages ask about their own price. */
+  audience?: Audience;
+  /**
+   * Whether to describe the questions to search engines as an FAQ page. Only one page should: Google asks for
+   * questions repeated across a site to be marked up once. The main page does it.
+   */
+  structuredData?: boolean;
+}
+
+const { audience = "default", structuredData = false } = Astro.props;
+const items = questions(audience);
+const href = buildCalUrl(pageName(Astro.url.pathname));
+
+const faqPage = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: items.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: { "@type": "Answer", text: plainAnswer(item.answer) },
+  })),
+};
+---
+
+<section class="col faq" id="faq">
+  <h2 class="label">FAQ</h2>
+  <div class="faq__list">
+    {
+      items.map((item) => (
+        <details class="faq__item" id={`faq-${item.id}`}>
+          <summary class="faq__question">{item.question}</summary>
+          <p class="faq__answer">
+            {typeof item.answer === "string"
+              ? item.answer
+              : item.answer.map((part) =>
+                  typeof part === "string" ? (
+                    part
+                  ) : (
+                    // On one line: a line break inside the link would underline a space after its words.
+                    <a class="text-link" href={href} target="_blank" data-book="faq">{part.book}</a>
+                  ),
+                )}
+          </p>
+        </details>
+      ))
+    }
+  </div>
+  {structuredData && <script type="application/ld+json" set:html={JSON.stringify(faqPage)} />}
+</section>
+
+<script>
+  // A link to a question (#faq-how-fast) opens it, on arrival and when the address changes.
+  function openLinked() {
+    const target = location.hash.length > 1 ? document.getElementById(decodeURIComponent(location.hash.slice(1))) : null;
+    if (target instanceof HTMLDetailsElement && target.classList.contains("faq__item")) target.open = true;
+  }
+  openLinked();
+  window.addEventListener("hashchange", openLinked);
+</script>

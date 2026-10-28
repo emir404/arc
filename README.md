@@ -31,6 +31,7 @@ PostHog, on production builds that have `PUBLIC_POSTHOG_PROJECT_TOKEN` (`src/dat
 
 - `book_call_clicked` `{ page, location, offer? }` from every “Book a call”: links with `data-book="<location>"` (`hero`, `pricing`, `faq`, `footer`…) and, for one offer, `data-offer` (`launch`, `partnership`, `custom`).
 - `contact_clicked` `{ page, location }` from every email link.
+- `see_launch_clicked` `{ page, location }` from the main page's “See Launch →”: any link can name its own event in `data-event`, with `data-location`.
 - `call_booked` `{ page, location, offer?, utm_source, utm_campaign }` when a booking goes through in Cal.com's popup, which “Book a call” opens on the pages in `CAL_POPUP_PAGES` (`src/data/site.ts`). Elsewhere it opens Cal.com in a new tab, where bookings can't be seen.
 
 `page` is `home`, `yc`, `speedrun`, `launch`, or a path such as `work-axiom`. Every event of a visit also carries the UTM tags and `ref` the visitor arrived with.

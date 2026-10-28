@@ -1782,6 +1782,11 @@ html:has(.works-dialog[open]) {
     padding-top: 56px;
   }
 
+  /* The handwritten note hangs into the space under the lead, which on a phone leaves it touching the works: more room. */
+  .intro--lead:has(.note) {
+    padding-bottom: 24px;
+  }
+
   .lead {
     font-size: 26px;
   }

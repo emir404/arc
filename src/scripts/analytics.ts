@@ -5,6 +5,8 @@
     (hero, pricing, faq, footer…) and, for one offer in particular, data-offer (launch, partnership or custom).
   - contact_clicked { page, location }: an email link clicked, with its data-contact, or "text" for one in running text.
   - call_booked: a booking made in Cal.com's popup (src/scripts/cal.ts).
+  - Any other link's own event, named in its data-event, with data-location: see_launch_clicked { page, location }
+    from the main page's "See Launch →".
 
   The tags a visitor arrived with (src/scripts/arrival.ts) go on every event of their visit, as session properties.
   PostHog drops events until the visitor answers the cookie banner, so these count only visitors who have.
@@ -38,9 +40,10 @@ if (Object.keys(arrival).length > 0) whenLoaded((posthog) => posthog.register_fo
 // A middle click opens a link in a new tab without a click event, so it's counted from auxclick.
 function onClick(event: MouseEvent) {
   if (event.type === "auxclick" && event.button !== 1) return;
-  const link = (event.target as Element).closest?.<HTMLAnchorElement>("a[data-book], a[href^='mailto:']");
+  const link = (event.target as Element).closest?.<HTMLAnchorElement>("a[data-book], a[href^='mailto:'], a[data-event]");
   if (!link) return;
   if (link.dataset.book !== undefined) track("book_call_clicked", { location: link.dataset.book, offer: link.dataset.offer });
+  else if (link.dataset.event) track(link.dataset.event, { location: link.dataset.location });
   else track("contact_clicked", { location: link.dataset.contact ?? "text" });
 }
 

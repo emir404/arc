@@ -8,7 +8,7 @@ import Testimonials from "../components/Testimonials.astro";
 import Pricing from "../components/Pricing.astro";
 import Closing from "../components/Closing.astro";
 import Footer from "../components/Footer.astro";
-import { CAL_URL } from "../data/site";
+import { buildCalUrl, pageName } from "../data/booking";
 import { selectedWorks } from "../data/works";
 import { speedrunDiscount as discount } from "../data/plans";
 import speedrunOg from "../assets/og-speedrun.png";
@@ -45,7 +45,7 @@ import speedrunOg from "../assets/og-speedrun.png";
           never starts a line there, under the tail of the wordmark's p.
         -->
         <p><SpeedrunLogo /><span class="visually-hidden">speedrun</span> <span class="nowrap">companies get <mark class="marker">{discount}% off</mark>.</span></p>
-        <p><a class="lead__link" href={CAL_URL} target="_blank">Book a call</a></p>
+        <p><a class="lead__link" href={buildCalUrl(pageName(Astro.url.pathname))} target="_blank" data-book="hero">Book a call</a></p>
       </div>
     </header>
 

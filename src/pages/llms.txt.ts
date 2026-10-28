@@ -3,7 +3,8 @@
   its prices and its clients without reading the designed pages. It's built from the same data as the pages, so it stays current.
 */
 import type { APIRoute } from "astro";
-import { CAL_URL, CONTACT_EMAIL, socials } from "../data/site";
+import { CONTACT_EMAIL, socials } from "../data/site";
+import { buildCalUrl } from "../data/booking";
 import { plans, dollars, discounted, ycDiscount, speedrunDiscount } from "../data/plans";
 import { testimonials } from "../data/testimonials";
 import { works, clients, isFinished, type Work, type WorkKey } from "../data/works";
@@ -61,7 +62,7 @@ ${Object.values(testimonials)
 
 ## Contact
 
-- [Book a call](${CAL_URL})
+- [Book a call](${buildCalUrl("llms.txt")})
 - Email: ${CONTACT_EMAIL}
 ${socials.map((social) => `- [${social.label}](${social.url})`).join("\n")}
 

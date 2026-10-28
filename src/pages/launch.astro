@@ -82,7 +82,7 @@ const hasQuotes = launch.quotes.length > 0;
         <p>
           Clients include {launch.clients.map((key, i) => <>{i > 0 && ", "}{hasPage(works[key]) ? <a class="lead__link" href={`/work/${key}/`} target="_blank">{clientName(works[key])}</a> : <span class="lead__name">{clientName(works[key])}</span>}</>)} <span class="nowrap">&amp; more</span>
         </p>
-        <Actions book="Book a Launch call" email="Or email us →" note={launch.call} />
+        <Actions book="Book a Launch call" email="Or email us →" note={launch.call} location="hero" />
       </div>
     </header>
 
@@ -124,7 +124,7 @@ const hasQuotes = launch.quotes.length > 0;
           <dd><p><Copy text={launch.afterLaunch} /></p></dd>
         </div>
       </dl>
-      <Actions book="Book a Launch call" email="Or email us →" note={launch.call} />
+      <Actions book="Book a Launch call" email="Or email us →" note={launch.call} location="pricing" />
     </section>
 
     {hasQuotes && <Testimonials heading="From founders" quotes={launch.quotes} />}

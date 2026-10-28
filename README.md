@@ -18,6 +18,7 @@ Node 22.12 or newer.
 - `src/data/`: works, testimonials and pricing plans. Editing these updates every page that shows them.
 - `src/data/site.ts`: the values more than one page shows, in one place: the booking link, the email address, the X accounts, the prices, how many Launch projects the studio takes a month and whether it's taking new ones.
 - `src/data/launch.ts`: the launch page's copy and case images. A `{{…}}` in its copy is a placeholder: the page shows each one highlighted under a "do not publish" banner, and the build fails while one is left. Only Vercel's previews of other branches still build.
+- `src/data/booking.ts`: the link behind every “Book a call”. It tags the link with the page it's on (`utm_source=site&utm_medium=cta&utm_campaign=<page>`, plus `metadata[page]`, which Cal.com keeps with the booking). A visitor who arrived with UTM tags or `ref` keeps theirs instead, for the rest of the visit, with `utm_content=<page>` (`src/scripts/arrival.ts`).
 - `src/styles/global.css`: all styles. `src/scripts/main.js`: the works carousel and the sidebar.
 - `public/works/`, `public/testimonials/`: pictures, served from the site itself. The works' pictures are WebP copies of the PNG exports in `works/` and `covers/`, which git leaves out.
 - `public/launch/`: the launch page's videos, 1080p H.264 copies of the exports dropped at the root as `1.mp4` and so on (which git leaves out), each with a WebP poster.

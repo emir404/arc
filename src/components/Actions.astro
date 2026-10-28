@@ -1,5 +1,6 @@
 ---
-import { CAL_URL, CONTACT_EMAIL } from "../data/site";
+import { CONTACT_EMAIL } from "../data/site";
+import { buildCalUrl, pageName } from "../data/booking";
 
 interface Props {
   /** The button's words. */
@@ -8,14 +9,16 @@ interface Props {
   email?: string;
   /** A small line under the two, such as what the call is. */
   note?: string;
+  /** Where on the page the two sit: "hero", "pricing", or "footer" for the closing at the end. */
+  location?: string;
 }
 
-const { book = "Book a call", email = "Send message", note } = Astro.props;
+const { book = "Book a call", email = "Send message", note, location = "footer" } = Astro.props;
 ---
 
 <div class="cta">
   <div class="actions">
-    <a class="button" href={CAL_URL} target="_blank">{book}</a>
+    <a class="button" href={buildCalUrl(pageName(Astro.url.pathname))} target="_blank" data-book={location}>{book}</a>
     <a class="text-link" href={`mailto:${CONTACT_EMAIL}`}>{email}</a>
   </div>
   {note && <p class="cta__note">{note}</p>}

@@ -4,7 +4,7 @@
   them from here, so a change here reaches every one of them.
 */
 
-/** Where every "Book a call" goes. */
+/** Where every "Book a call" goes, tagged with the page it's on: see buildCalUrl() in booking.ts. */
 export const CAL_URL = "https://cal.com/team/arc-studio/intro-call";
 
 /** Where every "Send message" goes. */

@@ -3,16 +3,29 @@ import { testimonials, type TestimonialKey } from "../data/testimonials";
 
 interface Props {
   heading: string;
+  /** A line under the heading. With one, the heading is set as a title rather than a quiet label. */
+  sub?: string;
   /** The quotes to show, top to bottom. */
   quotes: TestimonialKey[];
+  /** Whether each author's role names their company's batch, as in "CEO, Sim (YC X25)". */
+  batches?: boolean;
 }
 
-const { heading } = Astro.props;
+const { heading, sub, batches = true } = Astro.props;
 const quotes = Astro.props.quotes.map((key) => testimonials[key]);
 ---
 
 <section class="col testimonials" id="testimonials">
-  <h2 class="label">{heading}</h2>
+  {
+    sub ? (
+      <div>
+        <h2 class="section__title">{heading}</h2>
+        <p class="muted">{sub}</p>
+      </div>
+    ) : (
+      <h2 class="label">{heading}</h2>
+    )
+  }
   <ul class="quotes">
     {
       quotes.map((quote) => (
@@ -21,7 +34,7 @@ const quotes = Astro.props.quotes.map((key) => testimonials[key]);
           <p class="quote__author">
             <img src={quote.avatar} alt="" width="20" height="20" />
             <span class="quote__name">{quote.name}</span>
-            <span class="muted">{quote.role}</span>
+            <span class="muted">{batches && "batch" in quote ? `${quote.role} (${quote.batch})` : quote.role}</span>
           </p>
         </li>
       ))

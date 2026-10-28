@@ -946,8 +946,8 @@ img {
   padding-top: 80px;
 }
 
-/* The heading says what the plans are, and the line under it why their prices are out in the open. */
-.pricing__heading {
+/* A section's heading when a line under it explains it, such as the pricing's, set as a title rather than a quiet label. */
+.section__title {
   font-weight: 500;
 }
 

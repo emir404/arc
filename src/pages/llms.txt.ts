@@ -68,7 +68,7 @@ ${clients.map(client).join("\n")}
 ## What founders say
 
 ${Object.values(testimonials)
-  .map((quote) => `- ${quote.name}, ${quote.role}: “${plain(quote.text)}”`)
+  .map((quote) => `- ${quote.name}, ${"batch" in quote ? `${quote.role} (${quote.batch})` : quote.role}: “${plain(quote.text)}”`)
   .join("\n")}
 
 ## Contact

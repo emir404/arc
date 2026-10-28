@@ -43,15 +43,7 @@ export interface Launch {
   clients: WorkKey[];
   /** What's included: the four parts, each with a line long enough to run to two lines on any screen. */
   included: { name: string; text: string }[];
-  price: string;
-  /** Under the price: how it's paid. */
-  payment: string;
-  /** Under that: what the price covers, and what's quoted separately. */
-  covers: string;
-  timeline: string;
-  /** What happens once the site is live: the fixes that come with the package, and how to keep going. */
-  afterLaunch: string;
-  /** Under the "Book a Launch call" buttons: what the call is, and what you get from it. */
+  /** Under the "Book a Launch call" button: what the call is, and what you get from it. */
   call: string;
   /** What the "Case images" card opens into, top to bottom: pictures from the project pages and videos. With none, it opens into empty covers. */
   caseImages: CaseImage[];
@@ -70,11 +62,6 @@ export const launch: Launch = {
     { name: "Product", text: "Up to 12 launch-critical screens, designed and built. Front end only." },
     { name: "Video", text: "A launch video, up to 90 seconds, made from your brand and product." },
   ],
-  price: "$30,000",
-  payment: "Paid in installments.",
-  covers: "Covers everything above. More pages and filmed video are quoted separately.",
-  timeline: "One month.",
-  afterLaunch: "Two weeks of fixes after launch. Then keep going with a Partnership, or take it from here.",
   call: "30 minutes with Emir and Omer. You’ll know price, scope, and start date by the end of it.",
   caseImages: [
     { work: "orchid", picture: 1 },

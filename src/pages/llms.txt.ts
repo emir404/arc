@@ -5,7 +5,7 @@
 import type { APIRoute } from "astro";
 import { CONTACT_EMAIL, socials } from "../data/site";
 import { buildCalUrl } from "../data/booking";
-import { plans, custom, dollars, discounted, ycDiscount, speedrunDiscount } from "../data/plans";
+import { plans, custom, dollars } from "../data/plans";
 import { testimonials } from "../data/testimonials";
 import { works, clients, isFinished, type Work, type WorkKey } from "../data/works";
 import { frontmatter as terms } from "./terms.md";
@@ -28,9 +28,6 @@ export const GET: APIRoute = ({ site }) => {
     return `- ${name}${work.tagline ? `: ${work.tagline}` : ""}${work.live ? ` (${work.live.url})` : ""}`;
   };
 
-  // Every plan's price with a deal's percent taken off.
-  const deal = (percent: number) => plans.map((plan) => `${plan.name}, ${dollars(discounted(plan.price, percent))} (${plan.unit})`).join("; ");
-
   const body = `# Arc Studio
 
 > Arc Studio is the all-in-one design studio for early-stage startups. Direction, product thinking, design, development and motion in one place.
@@ -39,19 +36,29 @@ Arc Studio (${url("/")}) works with founders on product direction, brand, UX/UI 
 
 ## Pricing
 
-Prices are in US dollars.
+Prices are in US dollars, and public: the call is to check fit and pick a start date.
 
 ${plans
-  .map((plan) => [`### ${plan.name}`, "", `Price: ${dollars(plan.price)} (${plan.unit})`, "", plain(plan.description), "", ...plan.features.map((feature) => `- ${feature}`)].join("\n"))
+  .map((plan) =>
+    [
+      `### ${plan.name}`,
+      "",
+      `${dollars(plan.price)} ${plan.unit}.${plan.payment ? ` ${plan.payment(plan.price)}` : ""}`,
+      "",
+      plan.tagline,
+      "",
+      ...plan.features.map((feature) => `- ${feature}`),
+      "",
+      plan.note,
+    ].join("\n"),
+  )
   .join("\n\n")}
 
 ### ${custom.name}
 
 ${custom.description}
 
-Y Combinator companies get ${ycDiscount}% off every plan: ${deal(ycDiscount)}.
-
-a16z speedrun companies get ${speedrunDiscount}% off every plan: ${deal(speedrunDiscount)}.
+Y Combinator and a16z speedrun companies pay less: ${plans.map((plan) => `${plan.name}, ${dollars(plan.acceleratorPrice)} ${plan.unit}`).join("; ")}.
 
 ## Clients
 
@@ -73,8 +80,9 @@ ${socials.map((social) => `- [${social.label}](${social.url})`).join("\n")}
 ## Pages
 
 - [Arc Studio](${url("/")}): the main page, with selected works, testimonials and pricing
-- [Arc Studio for YC founders](${url("/yc/")}): work for Y Combinator companies, and the YC deal
-- [Arc Studio for a16z speedrun founders](${url("/speedrun/")}): selected works, and the speedrun deal
+- [Launch](${url("/launch/")}): the Launch package, brand, site, product screens and launch video in one month
+- [Arc Studio for YC founders](${url("/yc/")}): work for Y Combinator companies, and the YC prices
+- [Arc Studio for a16z speedrun founders](${url("/speedrun/")}): selected works, and the speedrun prices
 
 ## Optional
 

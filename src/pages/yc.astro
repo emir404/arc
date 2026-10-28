@@ -10,14 +10,13 @@ import Closing from "../components/Closing.astro";
 import Footer from "../components/Footer.astro";
 import { buildCalUrl, pageName } from "../data/booking";
 import { ycWorks } from "../data/works";
-import { ycDiscount as discount } from "../data/plans";
-import ycOg from "../assets/og-yc.png";
+import { dollars } from "../data/plans";
+import { PRICES } from "../data/site";
 ---
 
 <Layout
   title="Arc Studio · All-in-one design studio for YC founders"
-  description={`Arc Studio is the all-in-one design studio for YC founders. Worked with 10+ Y Combinator companies. YC companies get ${discount}% off.`}
-  og={{ image: ycOg, alt: `Arc Studio. All-in-one design studio. Worked with 10+ YC companies. YC founders get ${discount}% off.` }}
+  description={`Arc Studio is the all-in-one design studio for YC founders. Worked with 10+ Y Combinator companies. YC price for Launch: ${dollars(PRICES.launchAccelerator)}.`}
   lead
 >
   <!-- As on the main page, the logo heads the sidebar; here it leads back to the main page. -->
@@ -41,7 +40,7 @@ import ycOg from "../assets/og-yc.png";
         <p>
           <span class="hl">For YC founders.</span> Worked with 10+ <span class="nowrap"><YcLogo /><span class="visually-hidden">Y</span> Combinator</span> companies.
         </p>
-        <p>YC companies get <mark class="marker">{discount}% off</mark>.</p>
+        <p>YC price for Launch: <mark class="marker">{dollars(PRICES.launchAccelerator)}</mark>.</p>
         <p><a class="lead__link" href={buildCalUrl(pageName(Astro.url.pathname))} target="_blank" data-book="hero">Book a call</a></p>
       </div>
     </header>
@@ -50,7 +49,7 @@ import ycOg from "../assets/og-yc.png";
 
     <Testimonials heading="From YC founders" quotes={["sim", "agentmail", "feyn", "orchid", "agentphone"]} />
 
-    <Pricing heading="YC pricing" discount={discount} />
+    <Pricing audience="yc" />
 
     <Closing heading="You got in. Now let’s take product quality to the moon." />
 

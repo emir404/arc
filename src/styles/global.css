@@ -941,7 +941,15 @@ img {
   padding-top: 80px;
 }
 
-/* One plan per row: what it is on the left, what it costs on the right, what you get underneath. */
+/* The heading says what the plans are, and the line under it why their prices are out in the open. */
+.pricing__heading {
+  font-weight: 500;
+}
+
+/*
+  One plan per row: its name and what it is on the left, what it costs on the right, what you get underneath, and a
+  button to book a call about it. On a phone, what it is runs the full width under its name and price.
+*/
 .plans {
   border-top: 1px solid var(--line);
 }
@@ -957,8 +965,17 @@ img {
 .plan__head {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
-  column-gap: 40px;
+  grid-template-areas:
+    "name price"
+    "text price";
+  gap: 4px 40px;
   align-items: start;
+}
+
+.plan__text {
+  grid-area: text;
+  max-width: 440px;
+  text-wrap: pretty;
 }
 
 .plan__summary {
@@ -968,6 +985,7 @@ img {
 }
 
 .plan__name {
+  grid-area: name;
   font-weight: 500;
 }
 
@@ -977,6 +995,7 @@ img {
 }
 
 .plan__price {
+  grid-area: price;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -988,7 +1007,7 @@ img {
   font-variant-numeric: tabular-nums;
 }
 
-/* The standard price, crossed out beside a discounted one. */
+/* The list price, crossed out beside the YC or speedrun price. */
 .plan__was {
   margin-right: 4px;
   color: var(--faint);
@@ -1003,12 +1022,11 @@ img {
 
 .plan__features {
   display: grid;
-  /* The right column is wider so the longest feature stays on one line. */
-  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
-  gap: 4px 24px;
+  gap: 4px;
 }
 
 .plan__features li {
+  text-wrap: pretty;
   display: flex;
   align-items: flex-start;
   gap: 8px;
@@ -1022,6 +1040,22 @@ img {
   margin-top: 5px;
   background: no-repeat center / contain
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='%236e6c65' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 6.5 4.8 9 10 3'/%3E%3C/svg%3E");
+}
+
+/* The plan's button, with a line beside it that goes under it when there's no room. */
+.plan__book {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 16px;
+  margin-top: 6px;
+}
+
+.plan__note {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 20px;
+  text-wrap: pretty;
 }
 
 /* Custom projects, under the plans and ruled like them: no price, just a call. */
@@ -1105,36 +1139,6 @@ img {
 .part__text {
   min-height: 2lh;
   color: var(--muted);
-}
-
-/* The price and what goes with it, a row each, ruled like the plans on the main page: its name on the left, the words on the right. */
-.terms {
-  margin: 0;
-  border-top: 1px solid var(--line);
-}
-
-.terms__row {
-  display: grid;
-  grid-template-columns: 140px minmax(0, 1fr);
-  column-gap: 24px;
-  padding: 20px 0 22px;
-  border-bottom: 1px solid var(--line);
-}
-
-.terms dt {
-  color: var(--muted);
-}
-
-.terms dd {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  margin: 0;
-}
-
-.terms__price {
-  font-weight: 500;
-  font-variant-numeric: tabular-nums;
 }
 
 /* ---------- Case images (launch page) ---------- */
@@ -1726,20 +1730,14 @@ html:has(.works-dialog[open]) {
   }
 
   .plan__head {
+    grid-template-areas:
+      "name price"
+      "text text";
     column-gap: 20px;
-  }
-
-  .plan__features {
-    grid-template-columns: 1fr;
   }
 
   .parts {
     grid-template-columns: 1fr;
-  }
-
-  .terms__row {
-    grid-template-columns: 1fr;
-    row-gap: 4px;
   }
 
   .works-dialog__scroller {

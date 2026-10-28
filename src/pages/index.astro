@@ -81,12 +81,6 @@ const structuredData = {
       <div class="lead">
         <h1><span class="hl">{hero.title}</span></h1>
         <p>{hero.sub}</p>
-        <div class="cta">
-          <div class="actions">
-            <a class="button" href={buildCalUrl(pageName(Astro.url.pathname))} target="_blank" data-book="hero">Book a call</a>
-            <a class="text-link" href="/launch/" target="_blank" data-event="see_launch_clicked" data-location="hero">See Launch&nbsp;→</a>
-          </div>
-        </div>
         <!-- The list stays on one line: a line break inside it would put a space before each comma. -->
         <p>
           Trusted by teams at {clients.map((key, i) => <>{i > 0 && ", "}{hasPage(works[key]) ? <a class="lead__link" href={`/work/${key}/`} target="_blank">{clientName(works[key])}</a> : <span class="lead__name">{clientName(works[key])}</span>}</>)} <span class="nowrap">&amp; more</span>
@@ -105,6 +99,12 @@ const structuredData = {
               <span class="note__text">check this out :)</span>
             </span></a>
         </p>
+        <div class="cta">
+          <div class="actions">
+            <a class="button" href={buildCalUrl(pageName(Astro.url.pathname))} target="_blank" data-book="hero">Book a call</a>
+            <a class="text-link" href="/launch/" target="_blank" data-event="see_launch_clicked" data-location="hero">See Launch&nbsp;→</a>
+          </div>
+        </div>
       </div>
     </header>
 

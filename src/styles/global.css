@@ -300,6 +300,14 @@ img {
   color: var(--ink);
 }
 
+/*
+  The note reaches 40px below its link, deeper than the blank line under a paragraph (the lead's 1.15em gap),
+  so the paragraph it hangs from keeps 56px under it: the button that follows stays clear of the note.
+*/
+.lead p:has(.note) {
+  margin-bottom: calc(56px - 1.15em);
+}
+
 /* The arrow is drawn pointing down and flipped to point up; 15px from the top puts it where it was before the flip. */
 .note__arrow {
   position: absolute;
@@ -1872,10 +1880,14 @@ body:has(.consent.is-open) .sticky-book {
   }
 }
 
-/* Below this width the handwritten note would run off the right edge of the screen. */
+/* Below this width the handwritten note would run off the right edge of the screen, so it goes, and its room with it. */
 @media (max-width: 359px) {
   .note {
     display: none;
+  }
+
+  .lead p:has(.note) {
+    margin-bottom: 0;
   }
 
   /* The banner's question no longer fits on one line, so the break after it would leave a word or two on their own. */
@@ -1887,11 +1899,6 @@ body:has(.consent.is-open) .sticky-book {
 @media (max-width: 679px) {
   .intro {
     padding-top: 56px;
-  }
-
-  /* The handwritten note hangs into the space under the lead, which on a phone leaves it touching the works: more room. */
-  .intro--lead:has(.note) {
-    padding-bottom: 24px;
   }
 
   .lead {

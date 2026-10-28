@@ -1,0 +1,25 @@
+---
+/*
+  Shows its content, one element, until a moment passes. A build after it leaves the content out, and a page built
+  before it removes the content in the browser once the moment has passed, before the page is drawn: the script runs
+  right after the element, as the page loads.
+*/
+interface Props {
+  /** When the content goes, as an ISO date and time with its offset, such as "2026-11-11T00:00:00-08:00". */
+  date: string;
+}
+
+const { date } = Astro.props;
+const shown = Date.now() < Date.parse(date);
+---
+
+{
+  shown && (
+    <>
+      <slot />
+      <script is:inline define:vars={{ date }}>
+        if (Date.now() >= Date.parse(date)) document.currentScript.previousElementSibling?.remove();
+      </script>
+    </>
+  )
+}

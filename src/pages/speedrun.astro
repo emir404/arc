@@ -8,7 +8,7 @@ import Testimonials from "../components/Testimonials.astro";
 import Pricing from "../components/Pricing.astro";
 import Closing from "../components/Closing.astro";
 import Footer from "../components/Footer.astro";
-import { buildCalUrl, pageName } from "../data/booking";
+import Actions from "../components/Actions.astro";
 import { selectedWorks } from "../data/works";
 import { dollars } from "../data/plans";
 import { PRICES } from "../data/site";
@@ -36,15 +36,12 @@ import { PRICES } from "../data/site";
       <Logo href="/" label="Arc, back to the main page" />
 
       <div class="lead">
-        <h1 class="visually-hidden">Arc Studio for a16z speedrun founders</h1>
-        <p><span class="hl">For a16z&nbsp;speedrun founders.</span> Worked with 10+ Y&nbsp;Combinator companies.</p>
-        <!--
-          The wordmark stands in for the word "speedrun", and screen readers get the word in its place.
-          The rest of the line stays together, so on a phone it moves under the wordmark whole: the highlight
-          never starts a line there, under the tail of the wordmark's p.
-        -->
-        <p><SpeedrunLogo /><span class="visually-hidden">speedrun</span> <span class="nowrap">price for Launch: <mark class="marker">{dollars(PRICES.launchAccelerator)}</mark>.</span></p>
-        <p><a class="lead__link" href={buildCalUrl(pageName(Astro.url.pathname))} target="_blank" data-book="hero">Book a call</a></p>
+        <!-- The wordmark stands in for the word "speedrun", and screen readers get the word in its place. -->
+        <h1><span class="hl"><SpeedrunLogo /><span class="visually-hidden">Speedrun</span> founders: launch-ready in a&nbsp;month.</span></h1>
+        <!-- As on the YC page, the price stays with "price:", so the highlight never starts a line. -->
+        <p>Brand, site, product screens, and launch video from one team. Speedrun <span class="nowrap">price: <mark class="marker">{dollars(PRICES.launchAccelerator)}</mark>.</span></p>
+        <p>Worked with 10+ Y&nbsp;Combinator companies.</p>
+        <Actions book="Book a Launch call" email="Or email us →" location="hero" offer="launch" />
       </div>
     </header>
 

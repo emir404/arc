@@ -41,6 +41,16 @@ export const LAUNCH_CAPACITY_PER_MONTH = 2;
 /** Whether new projects can start. Edit it by hand when the studio is full, in words: never a calendar date. */
 export const AVAILABILITY = "Taking new projects now";
 
+/**
+ * Under the YC page's button: the current batch's Demo Day, until the date when starting a Launch would no longer
+ * finish before it (the end of 10 November in San Francisco). After that the line is gone, without a new build.
+ * For the next batch, write its line and date here.
+ */
+export const YC_BATCH_LINE = {
+  text: "F26 Demo Day is December 2. Start by early November and you launch before it.",
+  until: "2026-11-11T00:00:00-08:00",
+};
+
 export const PARTNERSHIP_TURNAROUND = "24–36 hours after feedback";
 export const PARTNERSHIP_VIDEOS = "up to 3 videos a month, depending on complexity";
 

@@ -24,4 +24,6 @@ const { book = "Book a call", email = "Send message", note, location = "footer",
     <a class="text-link" href={`mailto:${CONTACT_EMAIL}`} data-contact={location}>{email}</a>
   </div>
   {note && <p class="cta__note">{note}</p>}
+  {/* Any more lines under them. */}
+  <slot />
 </div>

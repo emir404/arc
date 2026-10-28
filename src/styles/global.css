@@ -249,6 +249,11 @@ img {
   font-weight: 500;
 }
 
+/* No word left on a line of its own at the end of a paragraph. */
+.lead p {
+  text-wrap: pretty;
+}
+
 .lead__link {
   color: rgba(23, 22, 20, 0.8);
   text-decoration: underline dotted rgba(23, 22, 20, 0.4);

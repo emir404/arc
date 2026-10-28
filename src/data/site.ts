@@ -20,7 +20,7 @@ export const CAL_POPUP_PAGES = ["launch", "yc", "speedrun"];
 /** Where every "Send message" goes. */
 export const CONTACT_EMAIL = "omeroztok@witharc.co";
 
-/** The studio's account on X. There is no @arcstudio. */
+/** The studio's account on X, linked in the sidebar and named in link previews (twitter:site). */
 export const X_HANDLE = "@witharc_co";
 
 /** Emir's own account on X, named as the author of the site's link previews there. */

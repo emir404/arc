@@ -20,13 +20,13 @@ import { PRICES } from "../data/site";
 // TODO: swap to speedrun proof once we have an SR client.
 const proof = {
   heading: "Founders we’ve shipped with",
-  sub: "AI and dev-tool teams, from first brand to launch day.",
+  sub: "We work with AI and dev-tool teams. Here’s what they said.",
 };
 ---
 
 <Layout
   title="Arc for a16z speedrun founders"
-  description={`Launch-ready in a month. Speedrun pricing: Launch ${dollars(PRICES.launchAccelerator)}, Partnership ${dollars(PRICES.partnershipAccelerator)}/month.`}
+  description={`Launch in a month. Speedrun pricing: Launch ${dollars(PRICES.launchAccelerator)}, Partnership ${dollars(PRICES.partnershipAccelerator)}/month.`}
   lead
 >
   <!-- As on the YC page, the logo heads the sidebar and leads back to the main page. -->
@@ -48,9 +48,9 @@ const proof = {
 
       <div class="lead">
         <!-- The wordmark stands in for the word "speedrun", and screen readers get the word in its place. -->
-        <h1><span class="hl"><SpeedrunLogo /><span class="visually-hidden">Speedrun</span> founders: launch-ready in a&nbsp;month.</span></h1>
-        {/* The price stays with "price:", so the highlight never starts a line, where it would stick out past the column. */}
-        <p>Brand, site, product screens, and launch video from one team. Speedrun <span class="nowrap">price: <mark class="marker">{dollars(PRICES.launchAccelerator)}</mark>.</span></p>
+        <h1><span class="hl"><SpeedrunLogo /><span class="visually-hidden">Speedrun</span> founders: launch in a&nbsp;month.</span></h1>
+        {/* The price stays with "price:", so the highlight never starts a line, where it would stick out past the column. The full stop is inside the highlight, as on the YC page. */}
+        <p>Brand, site, product screens, and launch video. Speedrun <span class="nowrap">price: <mark class="marker">{dollars(PRICES.launchAccelerator)}.</mark></span></p>
         <!-- As on the main page. The list stays on one line: a line break inside it would put a space before each comma. -->
         <p>
           Clients include {clients.map((key, i) => <>{i > 0 && ", "}{hasPage(works[key]) ? <a class="lead__link" href={`/work/${key}/`} target="_blank">{clientName(works[key])}</a> : <span class="lead__name">{clientName(works[key])}</span>}</>)} <span class="nowrap">&amp; more</span>
@@ -69,7 +69,7 @@ const proof = {
 
     <Faq audience="speedrun" />
 
-    <Closing heading="You got in. Now let’s speedrun to a world-class product." />
+    <Closing heading="You got in. Let’s get you launched." />
 
     <Footer />
 

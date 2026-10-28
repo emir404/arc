@@ -26,4 +26,4 @@ Fonts come from Google Fonts at build time and are served from the site too (see
 
 ## Deploy
 
-Pushing to `main` deploys to production on Vercel. `vercel.json` sets the framework, redirects the retired `/works`, `/pricing` and `/landing` pages, and caches hashed build files for a year.
+Pushing to `main` deploys to production on Vercel. `vercel.json` sets the framework, redirects the retired `/works`, `/pricing` and `/landing` pages, sends `/a16z`, `/a16z-speedrun` and `/sr` to the speedrun page, and caches hashed build files for a year. Redirects keep the address's query, so `/a16z?utm_source=x` lands on `/speedrun/?utm_source=x`. A source ending in `{/}?` matches the address with or without a trailing slash; without it, `/a16z/` would be a 404.

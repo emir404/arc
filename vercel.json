@@ -4,7 +4,10 @@
   "redirects": [
     { "source": "/works", "destination": "/#works", "permanent": true },
     { "source": "/pricing", "destination": "/#pricing", "permanent": true },
-    { "source": "/landing", "destination": "/", "permanent": true }
+    { "source": "/landing", "destination": "/", "permanent": true },
+    { "source": "/a16z{/}?", "destination": "/speedrun/", "permanent": true },
+    { "source": "/a16z-speedrun{/}?", "destination": "/speedrun/", "permanent": true },
+    { "source": "/sr{/}?", "destination": "/speedrun/", "permanent": true }
   ],
   "rewrites": [
     { "source": "/relay/static/:path(.*)", "destination": "https://us-assets.i.posthog.com/static/:path" },

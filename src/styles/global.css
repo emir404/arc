@@ -274,29 +274,29 @@ img {
   color: rgba(23, 22, 20, 0.8);
 }
 
-/* The link to the YC page holds the handwritten note, so it stays on one line for the note to hang from. */
-.yc__link {
+/* The link the handwritten note hangs from stays on one line, so the note hangs from the end of its words. */
+.note__link {
   position: relative;
   white-space: nowrap;
 }
 
 /* Puts the link on a line of its own on phones; see "Smaller screens". */
-.yc__break {
+.note__break {
   display: none;
 }
 
-/* The note hangs below the end of "YC founder?", in the blank line under it, with its arrow pointing up at the words. */
-.yc__note {
+/* The note hangs below the end of the link, in the blank line under it, with its arrow pointing up at the words. */
+.note {
   position: absolute;
   top: calc(100% - 7px);
-  left: calc(100% - 58px);
+  left: calc(100% - 62px);
   width: 140px;
   height: 46px;
   color: var(--ink);
 }
 
 /* The arrow is drawn pointing down and flipped to point up; 15px from the top puts it where it was before the flip. */
-.yc__arrow {
+.note__arrow {
   position: absolute;
   top: 15px;
   left: 2px;
@@ -311,22 +311,22 @@ img {
 }
 
 /* pathLength="1" in the markup lets one dash stand for the whole stroke, whatever its real length. */
-.yc__arrow path {
+.note__arrow path {
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
   opacity: 0;
 }
 
-.yc__arrow-shaft {
-  animation: yc-draw 320ms cubic-bezier(0.6, 0, 0.3, 1) 400ms forwards;
+.note__arrow-shaft {
+  animation: note-draw 320ms cubic-bezier(0.6, 0, 0.3, 1) 400ms forwards;
 }
 
-.yc__arrow-head {
-  animation: yc-draw 160ms ease-out 720ms forwards;
+.note__arrow-head {
+  animation: note-draw 160ms ease-out 720ms forwards;
 }
 
 /* Inside the lead, so the lead's tracking is reset for the handwriting. */
-.yc__note-text {
+.note__text {
   position: absolute;
   top: 26px;
   left: 38px;
@@ -339,10 +339,10 @@ img {
   opacity: 0;
   transform: rotate(-4deg);
   transform-origin: left center;
-  animation: yc-note-in 260ms ease-out 860ms forwards;
+  animation: note-in 260ms ease-out 860ms forwards;
 }
 
-@keyframes yc-draw {
+@keyframes note-draw {
   0% {
     stroke-dashoffset: 1;
     opacity: 0;
@@ -356,7 +356,7 @@ img {
   }
 }
 
-@keyframes yc-note-in {
+@keyframes note-in {
   from {
     opacity: 0;
     transform: translateY(5px) rotate(-4deg);
@@ -377,15 +377,6 @@ img {
   width: 0.84em;
   height: 0.84em;
   vertical-align: -0.083em;
-}
-
-/*
-  In the link the logo takes no room of its own: it sits over the no-break spaces that start the link's words,
-  so the dotted underline runs under it. An image takes no underline, and an underline drawn in two pieces
-  would restart its dots where they meet, so the spaces and the words carry it as one unbroken line.
-*/
-.yc__link .yc__mark {
-  margin-right: -0.84em;
 }
 
 /*
@@ -1644,22 +1635,18 @@ html:has(.works-dialog[open]) {
 }
 
 /*
-  After "Are you a" the link would end too far right for the handwritten note to fit beside it,
-  so on phones the link starts a line of its own and the note moves a little left.
+  After "In a16z speedrun?" the link would end too far right for the handwritten note to fit beside it,
+  so on phones the link starts a line of its own.
 */
-@media (max-width: 519px) {
-  .yc__break {
+@media (max-width: 559px) {
+  .note__break {
     display: inline;
-  }
-
-  .yc__note {
-    left: calc(100% - 82px);
   }
 }
 
 /* Below this width the handwritten note would run off the right edge of the screen. */
 @media (max-width: 359px) {
-  .yc__note {
+  .note {
     display: none;
   }
 
@@ -1808,13 +1795,13 @@ html:has(.works-dialog[open]) {
   }
 
   /* The note is simply there, already drawn. */
-  .yc__arrow path {
+  .note__arrow path {
     stroke-dashoffset: 0;
     opacity: 1;
     animation: none;
   }
 
-  .yc__note-text {
+  .note__text {
     opacity: 1;
     animation: none;
   }

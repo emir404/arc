@@ -42,7 +42,7 @@ export const LAUNCH_CAPACITY_PER_MONTH = 2;
 
 /**
  * Whether new projects can start. Edit it by hand when the studio is full, in words: never a calendar date. The FAQ's
- * "When can we start?" answers "This week." (faq.ts), so change that with it.
+ * "When can we start?" answers "Right away." (faq.ts), so change that with it.
  */
 export const AVAILABILITY = "Taking new projects now";
 
@@ -57,7 +57,7 @@ export const YC_BATCH_LINE = {
 };
 
 /** The FAQ's answer to how the YC and speedrun prices are checked. [NEEDS EMIR: confirm method] */
-export const ACCELERATOR_CHECK = "Tell us your batch on the call. We check it against the public batch list or your accelerator profile. That’s it.";
+export const ACCELERATOR_CHECK = "Tell us your batch on the call. We check it against the public batch list or your accelerator profile.";
 
 /** The FAQ's answer to who a client works with. [NEEDS EMIR: confirm this is true] */
 export const WHO_YOU_WORK_WITH = "Emir and Omer, on every project. No hand-offs to juniors.";

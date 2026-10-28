@@ -29,8 +29,11 @@ export function dollars(amount: number) {
   return "$" + amount.toLocaleString("en-US");
 }
 
-/** How many Launch projects start a month, and whether new ones can: on the Launch plan and the YC, speedrun and launch pages. */
-export const capacity = `We take ${LAUNCH_CAPACITY_PER_MONTH} Launch projects a month. ${AVAILABILITY}.`;
+/** How many Launch projects start a month: beside the Launch plan's button. */
+const perMonth = `We take ${LAUNCH_CAPACITY_PER_MONTH} Launch projects a month.`;
+
+/** That, and whether new ones can: under the hero's buttons on the main, YC, speedrun and launch pages, the one place a page says so. */
+export const capacity = `${perMonth} ${AVAILABILITY}.`;
 
 /** Launch is paid in equal installments. */
 export const installments = (price: number) => `Paid in ${PRICES.launchInstallments} installments of ${dollars(price / PRICES.launchInstallments)}.`;
@@ -43,16 +46,16 @@ export const plans: Plan[] = [
     price: PRICES.launch,
     acceleratorPrice: PRICES.launchAccelerator,
     unit: "for one month",
-    tagline: "Everything you need to launch, from one team, in one month.",
+    tagline: "Brand, site, product, and video. Ready in a month.",
     payment: installments,
     features: [
-      "Brand identity: logo, type, color, and a system you can grow",
+      "Brand identity: logo, type, color, and rules for using them",
       "Marketing site, designed and built",
       "Up to 12 product screens, designed and built",
       "Launch video, up to 90 seconds",
       "Two weeks of fixes after handoff",
     ],
-    note: capacity,
+    note: perMonth,
     book: "Book a Launch call",
   },
   {
@@ -61,7 +64,7 @@ export const plans: Plan[] = [
     price: PRICES.partnership,
     acceleratorPrice: PRICES.partnershipAccelerator,
     unit: "per month",
-    tagline: "Your design, dev, and video team after launch.",
+    tagline: "We keep designing, building, and making videos after launch.",
     features: [
       "Unlimited requests, worked through in order",
       `Turnaround: ${PARTNERSHIP_TURNAROUND}`,

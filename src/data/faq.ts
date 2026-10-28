@@ -1,4 +1,4 @@
-import { ACCELERATOR_CHECK, AVAILABILITY, LAUNCH_CAPACITY_PER_MONTH, PARTNERSHIP_TURNAROUND, PARTNERSHIP_VIDEOS, PRICES, WHO_YOU_WORK_WITH } from "./site";
+import { ACCELERATOR_CHECK, LAUNCH_CAPACITY_PER_MONTH, PARTNERSHIP_TURNAROUND, PARTNERSHIP_VIDEOS, PRICES, WHO_YOU_WORK_WITH } from "./site";
 import { dealName, dollars, type Audience } from "./plans";
 
 /*
@@ -52,18 +52,18 @@ export function questions(audience: Audience = "default"): Question[] {
     {
       id: "capacity",
       question: "How many clients do you take?",
-      answer: `We take ${LAUNCH_CAPACITY_PER_MONTH} Launch projects a month so each one gets the full team. ${AVAILABILITY}.`,
+      answer: `We take ${LAUNCH_CAPACITY_PER_MONTH} Launch projects a month so each one gets the full team.`,
     },
     {
       id: "start",
       question: "When can we start?",
       // Says when, so it changes with AVAILABILITY in site.ts.
-      answer: ["This week. ", { book: "Book a call" }, " and we’ll set the start date on it."],
+      answer: ["Right away. ", { book: "Book a call" }, " and we’ll set the start date."],
     },
     {
       id: "after-launch",
       question: "What happens after Launch?",
-      answer: "Most teams roll into Partnership so the same people keep shipping. No new onboarding.",
+      answer: "Most teams move to Partnership. Same people, no new onboarding.",
     },
     {
       id: "pause",

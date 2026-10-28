@@ -12,7 +12,8 @@ import Copy from "../components/Copy.astro";
 import Actions from "../components/Actions.astro";
 import { launch, placeholders } from "../data/launch";
 import { works, clientName, hasPage } from "../data/works";
-import { capacity } from "../data/plans";
+import { capacity, dollars } from "../data/plans";
+import { PRICES } from "../data/site";
 import launchOg from "../assets/og-launch.png";
 
 // Everything still to be decided: the placeholders left in the copy.
@@ -33,13 +34,13 @@ if (open.length > 0 && import.meta.env.PROD && process.env.VERCEL_ENV !== "previ
 // The quotes can be left out with an empty list, and their link in the sidebar goes with them.
 const hasQuotes = launch.quotes.length > 0;
 
-// The headline, without its full stop, names the page. The link preview is the page's own, a Figma export like the
-// YC page's; it states the headline and the line under the tagline, so new words there need a new export.
+// The link preview is the page's own, a Figma export: it states the headline and the line under the tagline, so new
+// words there need a new export.
 ---
 
 <Layout
-  title={`Arc Studio · ${launch.title.replace(/\.$/, "")}`}
-  description={`${launch.tagline} ${launch.sub}`}
+  title="Launch: brand, site, product, video in one month | Arc"
+  description={`${dollars(PRICES.launch)}, one month, one team. Brand, site, up to 12 product screens, and a launch video.`}
   og={{ image: launchOg, alt: "Arc Studio. Ready for launch. A fixed-scope launch package for startups about to go live." }}
   noindex={open.length > 0}
   lead

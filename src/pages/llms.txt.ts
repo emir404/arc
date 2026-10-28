@@ -30,9 +30,9 @@ export const GET: APIRoute = ({ site }) => {
 
   const body = `# Arc Studio
 
-> Arc Studio is the all-in-one design studio for early-stage startups. Direction, product thinking, design, development and motion in one place.
+> Arc Studio is the design and build team for AI startups. Brand, product, site, and launch video. One team, one month.
 
-Arc Studio (${url("/")}) works with founders on product direction, brand, UX/UI design, design systems, websites, development and motion. It has worked with 10+ Y Combinator companies. Founded by Emir Ayaz, it is based in Türkiye and works with founders worldwide.
+Arc Studio (${url("/")}) works with founders on brand, product design, websites, development and launch video, through two offers: Launch, everything a startup needs to launch in one month, and Partnership, its design, development and video team after launch. It has worked with 10+ Y Combinator companies. Founded by Emir Ayaz, it is based in Türkiye and works with founders worldwide.
 
 ## Pricing
 

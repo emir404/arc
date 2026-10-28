@@ -51,6 +51,8 @@ export interface Launch {
   timeline: string;
   /** What happens once the site is live: the fixes that come with the package, and how to keep going. */
   afterLaunch: string;
+  /** Under the "Book a Launch call" buttons: what the call is, and what you get from it. */
+  call: string;
   /** What the "Case images" card opens into, top to bottom: pictures from the project pages and videos. With none, it opens into empty covers. */
   caseImages: CaseImage[];
   /** The quotes, from the main page, top to bottom. [] leaves them out. */
@@ -73,6 +75,7 @@ export const launch: Launch = {
   covers: "Covers everything above. More pages and filmed video are quoted separately.",
   timeline: "One month.",
   afterLaunch: "Two weeks of fixes after launch. Then keep going with a Partnership, or take it from here.",
+  call: "30 minutes with Emir and Omer. You’ll know price, scope, and start date by the end of it.",
   caseImages: [
     { work: "orchid", picture: 1 },
     { work: "orchid", picture: 2 },

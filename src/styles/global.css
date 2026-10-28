@@ -394,10 +394,33 @@ img {
   opacity: 0.85;
 }
 
+/* A call to action: the button, the email link beside it, and sometimes a small line under them. */
+.cta {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 .actions {
   display: flex;
   align-items: center;
   gap: 14px;
+}
+
+.cta__note {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 20px;
+  text-wrap: pretty;
+}
+
+/* In the lead, a call to action keeps the body's type, not the lead's large display type. */
+.lead .cta {
+  color: var(--ink);
+  font-family: var(--font-text);
+  font-size: 15px;
+  line-height: 22px;
+  letter-spacing: normal;
 }
 
 /* In the logo's ink; hovering darkens it to black. */

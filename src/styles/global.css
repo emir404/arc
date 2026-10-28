@@ -451,6 +451,22 @@ img {
   }
 }
 
+/* While Cal.com's booking popup is on its way after a click (src/scripts/cal.ts), a small spinner leads the button's words. */
+[data-book][aria-busy="true"] {
+  cursor: progress;
+}
+
+.button[aria-busy="true"]::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  margin-right: 8px;
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 700ms linear infinite;
+}
+
 /* Links in the legal pages' Markdown can't take a class, so they're selected by where they sit. */
 .text-link,
 .legal a {
@@ -1410,14 +1426,14 @@ html:has(.works-dialog[open]) {
   border: 1.5px solid rgba(255, 255, 255, 0.35);
   border-top-color: #fff;
   border-radius: 50%;
-  animation: player-spin 700ms linear infinite;
+  animation: spin 700ms linear infinite;
 }
 
 .player[data-loading] .player__spinner {
   display: block;
 }
 
-@keyframes player-spin {
+@keyframes spin {
   to {
     transform: rotate(1turn);
   }
@@ -1807,7 +1823,8 @@ html:has(.works-dialog[open]) {
     transform: none;
   }
 
-  .player__spinner {
+  .player__spinner,
+  .button[aria-busy="true"]::before {
     animation-duration: 1.6s;
   }
 

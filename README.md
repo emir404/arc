@@ -25,6 +25,16 @@ Node 22.12 or newer.
 
 Fonts come from Google Fonts at build time and are served from the site too (see `fonts` in `astro.config.mjs`).
 
+## Analytics
+
+PostHog, on production builds that have `PUBLIC_POSTHOG_PROJECT_TOKEN` (`src/data/analytics.ts`). It records nothing until a visitor answers the cookie banner. Beside PostHog's own pageviews and clicks, the site sends:
+
+- `book_call_clicked` `{ page, location, offer? }` from every “Book a call”: links with `data-book="<location>"` (`hero`, `pricing`, `faq`, `footer`…) and, for one offer, `data-offer` (`launch`, `partnership`, `custom`).
+- `contact_clicked` `{ page, location }` from every email link.
+- `call_booked` `{ page, location, offer?, utm_source, utm_campaign }` when a booking goes through in Cal.com's popup, which “Book a call” opens on the pages in `CAL_POPUP_PAGES` (`src/data/site.ts`). Elsewhere it opens Cal.com in a new tab, where bookings can't be seen.
+
+`page` is `home`, `yc`, `speedrun`, `launch`, or a path such as `work-axiom`. Every event of a visit also carries the UTM tags and `ref` the visitor arrived with.
+
 ## Deploy
 
 Pushing to `main` deploys to production on Vercel. `vercel.json` sets the framework, redirects the retired `/works`, `/pricing` and `/landing` pages, sends `/a16z`, `/a16z-speedrun` and `/sr` to the speedrun page, and caches hashed build files for a year. Redirects keep the address's query, so `/a16z?utm_source=x` lands on `/speedrun/?utm_source=x`. A source ending in `{/}?` matches the address with or without a trailing slash; without it, `/a16z/` would be a 404.

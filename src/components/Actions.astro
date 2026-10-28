@@ -9,17 +9,19 @@ interface Props {
   email?: string;
   /** A small line under the two, such as what the call is. */
   note?: string;
-  /** Where on the page the two sit: "hero", "pricing", or "footer" for the closing at the end. */
+  /** Where on the page the two sit, for analytics: "hero", "pricing", or "footer" for the closing at the end. */
   location?: string;
+  /** The offer the button books a call about, for analytics: "launch", "partnership" or "custom". */
+  offer?: string;
 }
 
-const { book = "Book a call", email = "Send message", note, location = "footer" } = Astro.props;
+const { book = "Book a call", email = "Send message", note, location = "footer", offer } = Astro.props;
 ---
 
 <div class="cta">
   <div class="actions">
-    <a class="button" href={buildCalUrl(pageName(Astro.url.pathname))} target="_blank" data-book={location}>{book}</a>
-    <a class="text-link" href={`mailto:${CONTACT_EMAIL}`}>{email}</a>
+    <a class="button" href={buildCalUrl(pageName(Astro.url.pathname))} target="_blank" data-book={location} data-offer={offer}>{book}</a>
+    <a class="text-link" href={`mailto:${CONTACT_EMAIL}`} data-contact={location}>{email}</a>
   </div>
   {note && <p class="cta__note">{note}</p>}
 </div>

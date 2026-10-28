@@ -7,6 +7,9 @@
 /** Where every "Book a call" goes, tagged with the page it's on: see buildCalUrl() in booking.ts. */
 export const CAL_URL = "https://cal.com/team/arc-studio/intro-call";
 
+/** The pages where "Book a call" opens Cal.com's booking popup over the page (src/scripts/cal.ts), rather than Cal.com in a new tab. */
+export const CAL_POPUP_PAGES = ["launch", "yc", "speedrun"];
+
 /** Where every "Send message" goes. */
 export const CONTACT_EMAIL = "omeroztok@witharc.co";
 

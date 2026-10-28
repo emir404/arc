@@ -2,7 +2,7 @@
 layout: ../layouts/Legal.astro
 title: Privacy Policy
 description: How Arc Studio collects, uses, and protects your information when you visit witharc.co or get in touch.
-updated: 2026-10-15
+updated: 2026-10-28
 ---
 
 This Privacy Policy explains how Arc Studio (“Arc,” “we,” “us,” or “our”) collects, uses, and protects your information when you visit witharc.co (the “Site”) or get in touch with us. Arc Studio is a sole proprietorship owned by Emir Ayaz and established in Türkiye, and is the data controller of your information. By using the Site, you agree to the practices described here.
@@ -10,7 +10,7 @@ This Privacy Policy explains how Arc Studio (“Arc,” “we,” “us,” or �
 ## Information we collect
 
 - **Information you give us.** When you email us, book a call, or work with us, you may share your name, email address, company, and details about your project.
-- **Information collected automatically.** Like most websites, we collect basic technical and usage data, such as your browser type, device, approximate location, the pages you view, and the site that referred you.
+- **Information collected automatically.** Like most websites, we collect basic technical and usage data, such as your browser type, device, approximate location, the pages you view, and the site that referred you. If you arrive through a link with campaign tags (such as `utm_source`), the Site keeps them on your device for 30 minutes and adds them to the link for booking a call, so we can tell which post or page led to it.
 
 ## How we use it
 
@@ -20,8 +20,8 @@ We use your information to reply to enquiries, schedule and hold calls, deliver 
 
 We use PostHog to understand how people use the Site, so we can improve it. On your first visit, we ask whether we may use cookies, and PostHog collects nothing until you answer.
 
-- **If you accept**, PostHog stores cookies on your device to recognize you across visits and records your visit: the pages you view, where you click and how you scroll. We may watch these recordings to see where the Site works and where it doesn’t.
-- **If you decline**, PostHog still counts your visit, the pages you view and what you click, but without cookies or a recording. It tells visits apart with an identifier that changes every day, so visits on different days can’t be linked to each other.
+- **If you accept**, PostHog stores cookies on your device to recognize you across visits and records your visit: the pages you view, where you click, how you scroll and whether you book a call. We may watch these recordings to see where the Site works and where it doesn’t.
+- **If you decline**, PostHog still counts your visit, the pages you view, what you click and whether you book a call, but without cookies or a recording. It tells visits apart with an identifier that changes every day, so visits on different days can’t be linked to each other.
 
 You can change your answer at any time under “Cookies” at the bottom of every page.
 

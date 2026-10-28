@@ -15,7 +15,8 @@ Node 22.12 or newer.
 ## Where things are
 
 - `src/pages/`: the main page, the YC and a16z speedrun pages, the launch package's page, a page per project (`work/[slug].astro`), the privacy policy and terms (Markdown) and `llms.txt`.
-- `src/data/`: works, testimonials, pricing plans and links. Editing these updates every page that shows them.
+- `src/data/`: works, testimonials and pricing plans. Editing these updates every page that shows them.
+- `src/data/site.ts`: the values more than one page shows, in one place: the booking link, the email address, the X accounts, the prices, how many Launch projects the studio takes a month and whether it's taking new ones.
 - `src/data/launch.ts`: the launch page's copy and case images. A `{{…}}` in its copy is a placeholder: the page shows each one highlighted under a "do not publish" banner, and the build fails while one is left. Only Vercel's previews of other branches still build.
 - `src/styles/global.css`: all styles. `src/scripts/main.js`: the works carousel and the sidebar.
 - `public/works/`, `public/testimonials/`: pictures, served from the site itself. The works' pictures are WebP copies of the PNG exports in `works/` and `covers/`, which git leaves out.

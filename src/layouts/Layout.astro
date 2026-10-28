@@ -4,6 +4,7 @@ import { Font, getImage } from "astro:assets";
 import studioOg from "../assets/og.png";
 import PostHog from "../components/PostHog.astro";
 import Consent from "../components/Consent.astro";
+import { X_HANDLE } from "../data/site";
 import "../styles/global.css";
 
 interface Props {
@@ -58,7 +59,7 @@ const ogImage = await getImage({ src: og.image, width: 2400, format: "png", qual
     <meta property="og:image:height" content={ogImage.attributes.height} />
     <meta property="og:image:alt" content={og.alt} />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@witharc_co" />
+    <meta name="twitter:site" content={X_HANDLE} />
     <meta name="twitter:image:alt" content={og.alt} />
     <!-- The SVG follows the browser's light or dark theme; browsers without SVG icons use the .ico. -->
     <link rel="icon" href="/favicon.ico" sizes="32x32" />

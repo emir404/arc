@@ -36,6 +36,12 @@ PostHog, on production builds that have `PUBLIC_POSTHOG_PROJECT_TOKEN` (`src/dat
 
 `page` is `home`, `yc`, `speedrun`, `launch`, or a path such as `work-axiom`. Every event of a visit also carries the UTM tags and `ref` the visitor arrived with.
 
+### Internal traffic
+
+Open any page of the site once with `?internal=1` (such as `https://www.witharc.co/?internal=1`) on every browser and phone the team uses. The browser remembers it (`arc_internal` in localStorage), and from then on every event it sends carries `is_internal: true`; `?internal=0` undoes it. Nothing is dropped, so the team's own clicks can still be looked at.
+
+In PostHog, leave them out of the numbers: Settings → Project → Product analytics → “Filter out internal and test users”, add the filter `is_internal` is not `true`. Insights then have a toggle for it, and Web analytics a “Filter out internal and test users” switch.
+
 ## Deploy
 
 Pushing to `main` deploys to production on Vercel. `vercel.json` sets the framework, redirects the retired `/works`, `/pricing` and `/landing` pages, sends `/a16z`, `/a16z-speedrun` and `/sr` to the speedrun page, and caches hashed build files for a year. Redirects keep the address's query, so `/a16z?utm_source=x` lands on `/speedrun/?utm_source=x`. A source ending in `{/}?` matches the address with or without a trailing slash; without it, `/a16z/` would be a 404.

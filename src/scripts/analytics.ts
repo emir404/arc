@@ -9,6 +9,7 @@
     from the main page's "See Launch →".
 
   The tags a visitor arrived with (src/scripts/arrival.ts) go on every event of their visit, as session properties.
+  The team's own browsers mark theirs is_internal (PostHog.astro, and "Internal traffic" in the README).
   PostHog drops events until the visitor answers the cookie banner, so these count only visitors who have.
 */
 import { pageName } from "../data/booking";

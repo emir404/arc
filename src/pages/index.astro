@@ -12,22 +12,17 @@ import { testimonials } from "../data/testimonials";
 import { works, clients, clientName, hasPage, selectedWorks } from "../data/works";
 import { CONTACT_EMAIL, socials } from "../data/site";
 import { buildCalUrl, pageName } from "../data/booking";
+import { capacity } from "../data/plans";
 import logo from "../assets/logo.svg";
 
-/*
-  The headline and the line under it. Two others were written with them, for Emir to choose between:
-    B. "Your brand, product, site, and launch video. One team."
-       "We get freshly funded AI startups launch-ready in a month, then stay on as your design team."
-    C. "The design team AI startups launch with."
-       "Brand, site, product, and video for YC and speedrun founders. One month to launch."
-*/
+// The headline and the line under it.
 const hero = {
-  title: "Launch-ready in one month.",
-  sub: "Arc is the design and build team for AI startups. Brand, product, site, and launch video. One team, one month.",
+  title: "Launch in a month.",
+  sub: "We design and build for AI startups: your brand, site, product, and launch video.",
 };
 
 // What search engines and link previews show for the page.
-const description = "Brand, product, site, and launch video from one team. Launch-ready in one month.";
+const description = "Arc designs and builds brands, sites, product, and launch videos for AI startups. One month per launch.";
 
 // Structured data saying which Arc Studio this is. Screenwriting software, an audio product and others share the name,
 // so the founder, country and accounts here help search engines and AI assistants tell the design studio apart.
@@ -104,6 +99,7 @@ const structuredData = {
             <a class="button" href={buildCalUrl(pageName(Astro.url.pathname))} target="_blank" data-book="hero">Book a call</a>
             <a class="text-link" href="/launch/" target="_blank" data-event="see_launch_clicked" data-location="hero">See Launch&nbsp;→</a>
           </div>
+          <p class="cta__note">{capacity}</p>
         </div>
       </div>
     </header>

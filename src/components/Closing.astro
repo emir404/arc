@@ -2,11 +2,11 @@
 import Actions from "./Actions.astro";
 
 interface Props {
-  /** The headline above the buttons. The YC page has its own. */
+  /** The headline above the buttons. The YC, speedrun and launch pages have their own. */
   heading?: string;
 }
 
-const { heading = "Look like the company you’re about to be." } = Astro.props;
+const { heading = "Your launch should look as good as your product works." } = Astro.props;
 ---
 
 <section class="col closing" id="contact">

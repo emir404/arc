@@ -63,18 +63,20 @@ export const launch: Launch = {
     { name: "Video", text: "A launch video, up to 90 seconds, made from your brand and product." },
   ],
   call: "30 minutes with Emir and Omer. You’ll know price, scope, and start date by the end of it.",
+  // Motion first: the launch videos, then the pictures. (Before 2026-10-28 the order was Orchid 1–3, Keiki,
+  // Spacefast 1, 2, 3, 5, 8, then the two Flip videos.)
   caseImages: [
+    { video: "/launch/1.mp4", poster: "/launch/1.webp", width: 1920, height: 1080, duration: 42, label: "Keiki launch video" },
+    { video: "/launch/2.mp4", poster: "/launch/2.webp", width: 1920, height: 1080, duration: 42, label: "Flip launch video" },
+    { video: "/launch/3.mp4", poster: "/launch/3.webp", width: 1920, height: 1080, duration: 37, label: "Flip product video" },
     { work: "orchid", picture: 1 },
     { work: "orchid", picture: 2 },
     { work: "orchid", picture: 3 },
-    { video: "/launch/1.mp4", poster: "/launch/1.webp", width: 1920, height: 1080, duration: 42, label: "Keiki launch video" },
     { work: "spacefast", picture: 1 },
     { work: "spacefast", picture: 2 },
     { work: "spacefast", picture: 3 },
     { work: "spacefast", picture: 5 },
     { work: "spacefast", picture: 8 },
-    { video: "/launch/2.mp4", poster: "/launch/2.webp", width: 1920, height: 1080, duration: 42, label: "Flip launch video" },
-    { video: "/launch/3.mp4", poster: "/launch/3.webp", width: 1920, height: 1080, duration: 37, label: "Flip product video" },
   ],
   quotes: ["agentphone", "orchid", "agentmail", "feyn", "vercel"],
 };

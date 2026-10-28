@@ -1,5 +1,5 @@
 ---
-import { works, type WorkKey } from "../data/works";
+import { works, type Work, type WorkKey } from "../data/works";
 
 interface Props {
   /** The works in the row, left to right. */
@@ -13,8 +13,14 @@ interface Props {
 }
 
 const { start, label, from } = Astro.props;
+// Under the frame, a project's name with its batch, as in "Axiom (YC W25)"; the speedrun page names no YC batches.
+const title = (key: WorkKey) => {
+  const work: Work = works[key];
+  return work.batch && from !== "speedrun" ? `${work.name} (${work.batch})` : work.name;
+};
 const slides = Astro.props.works.map((key) => ({
   ...works[key],
+  title: title(key),
   // Each cover links to its project page. main.js lets the link through for the cover in the frame, and
   // brings a cover beside the frame into it instead.
   href: `/work/${key}/` + (from ? `?from=${from}` : ""),
@@ -36,8 +42,8 @@ const startIndex = Math.max(0, Astro.props.works.indexOf(start));
     >
       {
         slides.map((slide) => (
-          <figure class="slide" data-name={slide.name} data-start={slide.isStart ? "" : undefined}>
-            <figcaption class="visually-hidden">{slide.name}</figcaption>
+          <figure class="slide" data-name={slide.title} data-start={slide.isStart ? "" : undefined}>
+            <figcaption class="visually-hidden">{slide.title}</figcaption>
             {/* Out of the tab order: the row takes the focus, and Enter opens the work in the frame. */}
             <a class="slide__link" href={slide.href} target="_blank" tabindex="-1" draggable="false">
               {slide.cover ? (
@@ -57,7 +63,7 @@ const startIndex = Math.max(0, Astro.props.works.indexOf(start));
     <!-- The selection sits in front of the covers and stays put while they move under it. The name rolls over inside .frame__names. -->
     <div class="frame" aria-hidden="true">
       <div class="frame__outline"></div>
-      <span class="frame__label"><span class="frame__names"><span class="frame__name">{works[start].name}</span></span></span>
+      <span class="frame__label"><span class="frame__names"><span class="frame__name">{title(start)}</span></span></span>
     </div>
   </div>
 </section>

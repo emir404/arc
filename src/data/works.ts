@@ -29,6 +29,8 @@ export interface Work {
   client?: string;
   /** False for a client with no work to show yet: it gets no page, and the client list names it without a link. */
   page?: false;
+  /** Its accelerator batch, such as "YC W25", where it has one: the works strip names it beside the project. */
+  batch?: string;
   tagline: string | null;
   intro: string | null;
   live: { label: string; url: string } | null;
@@ -62,6 +64,7 @@ export const works = {
   },
   axiom: {
     name: "Axiom",
+    batch: "YC W25",
     tagline: "The Only Trading Platform You’ll Ever Need",
     intro:
       "Axiom (YC W25) is where Solana goes to trade: memecoins, perpetuals, predictions and yield, in one app. It passed $100M in revenue four months after launch. We came in for the website and ended up exploring the brand with them too, rebuilding their pyramid from hundreds of small triangles. The site tells the whole product as a single tab, with discovery, execution, perps, rewards and trackers side by side. The only tab you’ll ever need.",
@@ -93,6 +96,7 @@ export const works = {
   },
   orchid: {
     name: "Orchid",
+    batch: "YC X25",
     tagline: "AI Personal Assistant",
     intro:
       "Orchid is an AI assistant that lives in iMessage. YC X25, $2M seed led by 1984 Ventures. Every morning it texts you your day, then works through your email and calendar the way a real assistant would: drafting replies, booking meetings, surfacing what matters. For the new brand we chose the fonts and colors, a classic serif over soft, blurred photography, and we designed the website around a single line. Wake up to a day, not a list.",
@@ -118,6 +122,7 @@ export const works = {
   },
   anything: {
     name: "Anything",
+    batch: "YC W26",
     tagline: null,
     intro:
       "Panta is an AI-native commercial insurance brokerage for the businesses that build the country: construction, transportation, manufacturing and hospitality. YC W26, $5.2M seed. They came to us for a rebrand and already had the name in mind: Anything. We built the identity around it, from a mark of four arrows pointing in to stippled engravings of the people who build things, all in olive and sage, held together by one line. For the good of good people. Down to the tote bags and caps.",
@@ -141,6 +146,7 @@ export const works = {
   },
   conviction: {
     name: "Conviction",
+    batch: "YC S25",
     tagline: null,
     intro:
       "Conviction is a trading desk in your pocket. Describe an idea in plain English (sell if it drops 5% in a day), backtest it, then hand it to an AI agent that watches the market and trades through your broker. YC S25. We took it from 0 to 1 with them: brand, website and product, from the feed to the strategy builder. The brand runs on one moment, an order placed at 3:12am while you sleep. Done before the open.",
@@ -163,6 +169,7 @@ export const works = {
   },
   agentphone: {
     name: "AgentPhone",
+    batch: "YC P26",
     tagline: null,
     intro:
       "AgentPhone gives AI agents their own phone numbers, to call and text people and businesses through one API. Built by brothers Manav and Meet Modi. YC P26, with more than 100 companies on it within months of launch. We did the brand, website and product from 0 to 1: a robot mascot holding a phone, drawn in every mood, green on black, and a dashboard for every number and call. Then everything around it on short notice, from posters and t-shirts to flyers for their Call My Agent hackathon in San Francisco.",
@@ -188,6 +195,7 @@ export const works = {
   },
   agentmail: {
     name: "AgentMail",
+    batch: "YC S25",
     tagline: "Email for AI Agents",
     intro:
       "AgentMail gives AI agents their own email inboxes, the way Gmail does for humans. YC S25, $6M seed led by General Catalyst, with Paul Graham among the angels. More than 500 companies build on it. We did the brand and website from 0 to 1: a secret agent in a fedora for the mark, monospace type and ASCII skylines, and agent.email, a page written for the agents themselves. Not agents for email. Email for agents.",
@@ -212,7 +220,7 @@ export const works = {
     ],
   },
   // In the client list, not the strips.
-  sim: { name: "Sim", tagline: null, intro: null, live: null, cover: null, shots: [null, null, null, null] },
+  sim: { name: "Sim", batch: "YC X25", tagline: null, intro: null, live: null, cover: null, shots: [null, null, null, null] },
   flashnet: { name: "Flashnet", page: false, tagline: null, intro: null, live: null, cover: null, shots: [null, null, null, null] },
 } satisfies Record<string, Work>;
 

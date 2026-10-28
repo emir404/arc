@@ -419,6 +419,11 @@ img {
   text-wrap: pretty;
 }
 
+/* Lines under one button read as one note: closer to each other than to the button, even with a script between them. */
+.cta__note ~ .cta__note {
+  margin-top: -6px;
+}
+
 /* In the lead, a call to action keeps the body's type, not the lead's large display type. */
 .lead .cta {
   color: var(--ink);

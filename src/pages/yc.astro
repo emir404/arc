@@ -12,7 +12,7 @@ import Faq from "../components/Faq.astro";
 import Actions from "../components/Actions.astro";
 import Until from "../components/Until.astro";
 import { ycWorks } from "../data/works";
-import { dollars } from "../data/plans";
+import { capacity, dollars } from "../data/plans";
 import { PRICES, YC_BATCH_LINE } from "../data/site";
 ---
 
@@ -45,6 +45,7 @@ import { PRICES, YC_BATCH_LINE } from "../data/site";
         <p>Worked with 10+ <span class="nowrap"><YcLogo /><span class="visually-hidden">Y</span> Combinator</span> companies.</p>
         <Actions book="Book a Launch call" email="Or email us →" location="hero" offer="launch">
           <Until date={YC_BATCH_LINE.until}><p class="cta__note">{YC_BATCH_LINE.text}</p></Until>
+          <p class="cta__note">{capacity}</p>
         </Actions>
       </div>
     </header>

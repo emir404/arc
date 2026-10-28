@@ -12,6 +12,7 @@ import Copy from "../components/Copy.astro";
 import Actions from "../components/Actions.astro";
 import { launch, placeholders } from "../data/launch";
 import { works, clientName, hasPage } from "../data/works";
+import { capacity } from "../data/plans";
 import launchOg from "../assets/og-launch.png";
 
 // Everything still to be decided: the placeholders left in the copy.
@@ -85,7 +86,9 @@ const hasQuotes = launch.quotes.length > 0;
         <p>
           Clients include {launch.clients.map((key, i) => <>{i > 0 && ", "}{hasPage(works[key]) ? <a class="lead__link" href={`/work/${key}/`} target="_blank">{clientName(works[key])}</a> : <span class="lead__name">{clientName(works[key])}</span>}</>)} <span class="nowrap">&amp; more</span>
         </p>
-        <Actions book="Book a Launch call" email="Or email us →" note={launch.call} location="hero" offer="launch" />
+        <Actions book="Book a Launch call" email="Or email us →" note={launch.call} location="hero" offer="launch">
+          <p class="cta__note">{capacity}</p>
+        </Actions>
       </div>
     </header>
 

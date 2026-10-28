@@ -2,6 +2,7 @@
 import { defineConfig, fontProviders } from "astro/config";
 import sitemap from "@astrojs/sitemap";
 import { works, isFinished } from "./src/data/works.ts";
+import { SITE_URL } from "./src/data/site.ts";
 
 // Project pages that still show placeholders. They ask search engines not to index them, so the sitemap leaves them out too.
 const unfinished = Object.entries(works)
@@ -11,7 +12,7 @@ const unfinished = Object.entries(works)
 // https://astro.build/config
 export default defineConfig({
   // The production address, for the absolute URLs in link previews, canonical links, the sitemap and llms.txt.
-  site: "https://www.witharc.co",
+  site: SITE_URL,
   // Whitespace between tags renders as in plain HTML. Astro's default ("jsx") strips it the way JSX does,
   // which would run neighbouring words together, such as the "Y" and "Combinator companies" spans.
   compressHTML: true,

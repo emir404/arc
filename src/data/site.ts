@@ -4,6 +4,13 @@
   them from here, so a change here reaches every one of them.
 */
 
+/**
+ * The site's address, for canonical links, link previews, the sitemap and llms.txt. It's www because the hosting has
+ * it so: Vercel's domain settings send witharc.co to www.witharc.co with one permanent redirect (308) that keeps the
+ * path and query, so no page is ever served from both. [NEEDS EMIR: confirm apex vs www]
+ */
+export const SITE_URL = "https://www.witharc.co";
+
 /** Where every "Book a call" goes, tagged with the page it's on: see buildCalUrl() in booking.ts. */
 export const CAL_URL = "https://cal.com/team/arc-studio/intro-call";
 

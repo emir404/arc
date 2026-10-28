@@ -29,7 +29,9 @@ const {
   lead = false,
 } = Astro.props;
 
-// The page's address without its query, such as the "?from=yc" on project pages, so search engines count every variant as one page.
+// The page's address on the canonical host, without its query, such as the "?from=yc" on project pages, so search
+// engines count every variant as one page. A page kept out of search results names none: the 404 page would claim an
+// address that doesn't exist, and a canonical link would contradict noindex on the others.
 const canonical = new URL(Astro.url.pathname, Astro.site);
 
 // Link preview images are exported at 4x and scaled to 2x here, since X rejects images wider than 4096px.
@@ -47,11 +49,10 @@ const ogImage = await getImage({ src: og.image, width: 2400, format: "png", qual
     <meta name="theme-color" content="#f2efe8" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
-    {noindex && <meta name="robots" content="noindex" />}
+    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Arc Studio" />
-    <meta property="og:url" content={canonical} />
+    {!noindex && <meta property="og:url" content={canonical} />}
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={new URL(ogImage.src, Astro.site)} />

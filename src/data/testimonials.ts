@@ -25,7 +25,7 @@ export const testimonials = {
     avatar: "/testimonials/emir-karabeg.webp",
   },
   agentmail: {
-    text: 'You’re the best dude and thanks for giving our brand so much life and recognition. Was a pleasure working with you and <span class="hl">I’d recommend your service to any founder</span>.',
+    text: 'You guys are the best and thanks for giving our brand so much life and recognition. Was a pleasure working with you and <span class="hl">I’d recommend your service to any founder</span>.',
     name: "Adi Singh",
     role: "CEO, AgentMail",
     batch: "YC S25",

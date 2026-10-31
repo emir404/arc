@@ -12,13 +12,13 @@ export interface Testimonial {
 // Keyed by the author's company.
 export const testimonials = {
   vercel: {
-    text: "Dude, you should join Vercel!",
+    text: "Dude, you guys should join Vercel!",
     name: "Guillermo Rauch",
     role: "Co-Founder & CEO, Vercel",
     avatar: "/testimonials/guillermo-rauch.webp",
   },
   sim: {
-    text: 'Emir is a talented designer with massive potential. He’s <span class="hl">both a developer and designer</span>, making his skillset highly valuable for fast-moving teams.',
+    text: 'Ömer and Emir are talented designers with massive potential. They’re <span class="hl">both developers and designers</span>, making their skillset highly valuable for fast-moving teams.',
     name: "Emir Karabeg",
     role: "CEO, Sim",
     batch: "YC X25",

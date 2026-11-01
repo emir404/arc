@@ -234,7 +234,7 @@ export const ycWorks: WorkKey[] = selectedWorks.filter((key) => key !== "spacefa
 
 // The clients named in the main page's intro, in order, before "& more". Each name links to the project's page, if it has one.
 // llms.txt names the same clients.
-export const clients: WorkKey[] = ["spacefast", "axiom", "sim", "flashnet", "agentmail", "agentphone", "orchid", "conviction"];
+export const clients: WorkKey[] = ["spacefast", "axiom", "agentmail", "agentphone", "orchid", "conviction"];
 
 /** The name a work goes by in the client list. */
 export function clientName(work: Work) {

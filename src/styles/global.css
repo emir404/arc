@@ -294,7 +294,7 @@ img {
 .note {
   position: absolute;
   top: calc(100% - 7px);
-  left: calc(100% - 62px);
+  left: calc(100% - 58px);
   width: 140px;
   height: 46px;
   color: var(--ink);
@@ -390,6 +390,15 @@ img {
   width: 0.84em;
   height: 0.84em;
   vertical-align: -0.083em;
+}
+
+/*
+  In the link the logo takes no room of its own: it sits over the no-break spaces that start the link's words,
+  so the dotted underline runs under it. An image takes no underline, and an underline drawn in two pieces
+  would restart its dots where they meet, so the spaces and the words carry it as one unbroken line.
+*/
+.yc__link .yc__mark {
+  margin-right: -0.84em;
 }
 
 /*
@@ -1871,12 +1880,16 @@ body:has(.consent.is-open) .sticky-book {
 }
 
 /*
-  After "In a16z speedrun?" the link would end too far right for the handwritten note to fit beside it,
-  so on phones the link starts a line of its own.
+  After "Are you a" the link would end too far right for the handwritten note to fit beside it,
+  so on phones the link starts a line of its own and the note moves a little left.
 */
-@media (max-width: 559px) {
+@media (max-width: 519px) {
   .note__break {
     display: inline;
+  }
+
+  .note {
+    left: calc(100% - 82px);
   }
 }
 

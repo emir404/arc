@@ -32,8 +32,11 @@ export function dollars(amount: number) {
 /** How many Launch projects start a month: beside the Launch plan's button. */
 const perMonth = `We take ${LAUNCH_CAPACITY_PER_MONTH} Launch projects a month.`;
 
-/** That, and whether new ones can: under the hero's buttons on the main, YC, speedrun and launch pages, the one place a page says so. */
-export const capacity = `${perMonth} ${AVAILABILITY}.`;
+/**
+ * That, and whether new ones can: under the hero's buttons on the main, YC, speedrun and launch pages, the one place a
+ * page says so. Capacity.astro sets the two on lines of their own.
+ */
+export const capacity = { perMonth, availability: `${AVAILABILITY}.` };
 
 /** Launch is paid in equal installments. */
 export const installments = (price: number) => `Paid in ${PRICES.launchInstallments} installments of ${dollars(price / PRICES.launchInstallments)}.`;

@@ -11,9 +11,10 @@ import Faq from "../components/Faq.astro";
 import StickyBook from "../components/StickyBook.astro";
 import Copy from "../components/Copy.astro";
 import Actions from "../components/Actions.astro";
+import Capacity from "../components/Capacity.astro";
 import { launch, placeholders } from "../data/launch";
 import { works, clientName, hasPage } from "../data/works";
-import { capacity, dollars } from "../data/plans";
+import { dollars } from "../data/plans";
 import { LAUNCH_MONTH, PRICES } from "../data/site";
 import launchOg from "../assets/og-launch.png";
 
@@ -91,7 +92,7 @@ const hasQuotes = launch.quotes.length > 0;
           Clients include {launch.clients.map((key, i) => <>{i > 0 && ", "}{hasPage(works[key]) ? <a class="lead__link" href={`/work/${key}/`} target="_blank">{clientName(works[key])}</a> : <span class="lead__name">{clientName(works[key])}</span>}</>)} <span class="nowrap">&amp; more</span>
         </p>
         <Actions book="Book a Launch call" email="Or email us →" note={launch.call} location="hero" offer="launch">
-          <p class="cta__note">{capacity}</p>
+          <Capacity />
         </Actions>
       </div>
     </header>

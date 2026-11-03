@@ -11,8 +11,9 @@ import Footer from "../components/Footer.astro";
 import Faq from "../components/Faq.astro";
 import StickyBook from "../components/StickyBook.astro";
 import Actions from "../components/Actions.astro";
+import Capacity from "../components/Capacity.astro";
 import { works, clients, clientName, hasPage, selectedWorks } from "../data/works";
-import { capacity, dollars } from "../data/plans";
+import { dollars } from "../data/plans";
 import { PRICES } from "../data/site";
 
 // None of the studio's clients has been through speedrun yet, so the page's proof is the clients' names and founders'
@@ -56,7 +57,7 @@ const proof = {
           Clients include {clients.map((key, i) => <>{i > 0 && ", "}{hasPage(works[key]) ? <a class="lead__link" href={`/work/${key}/`} target="_blank">{clientName(works[key])}</a> : <span class="lead__name">{clientName(works[key])}</span>}</>)} <span class="nowrap">&amp; more</span>
         </p>
         <Actions book="Book a Launch call" email="Or email us →" location="hero" offer="launch">
-          <p class="cta__note">{capacity}</p>
+          <Capacity />
         </Actions>
       </div>
     </header>

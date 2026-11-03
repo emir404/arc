@@ -21,7 +21,7 @@ export const CAL_POPUP_PAGES = ["launch", "yc", "speedrun"];
 export const CONTACT_EMAIL = "omeroztok@witharc.co";
 
 /** The studio's account on X, linked in the sidebar and named in link previews (twitter:site). */
-export const X_HANDLE = "@witharc_co";
+export const X_HANDLE = "@arcdotco";
 
 /** Emir's own account on X, named as the author of the site's link previews there. */
 export const X_FOUNDER = "@emirayaz";

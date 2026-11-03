@@ -1,6 +1,8 @@
 ---
 import { plans, custom, dealName, dollars, type Audience } from "../data/plans";
 import { buildCalUrl, pageName } from "../data/booking";
+import LaunchArt from "./art/LaunchArt.tsx";
+import PartnershipArt from "./art/PartnershipArt.tsx";
 
 interface Props {
   /** Who the page is for. YC and a16z speedrun companies see their prices, with the list price crossed out beside them. */
@@ -10,6 +12,9 @@ interface Props {
 const { audience = "default" } = Astro.props;
 const deal = dealName[audience];
 const href = buildCalUrl(pageName(Astro.url.pathname));
+
+// Each plan's picture of working that way: Launch's month, and a Partnership's requests in the client's Slack.
+const art = { launch: LaunchArt, partnership: PartnershipArt };
 ---
 
 <section class="col pricing" id="pricing">
@@ -21,30 +26,36 @@ const href = buildCalUrl(pageName(Astro.url.pathname));
     {
       plans.map((plan) => {
         const price = deal ? plan.acceleratorPrice : plan.price;
+        const Art = art[plan.offer];
         return (
           <article class="plan">
-            <div class="plan__head">
-              <h3 class="plan__name">{plan.name}</h3>
-              {/* Each line on one line here: a line break between the parts would add a space to the words. */}
-              <p class="plan__price">
-                <span class="plan__amount">{deal && <s class="plan__was"><span class="visually-hidden">List price </span>{dollars(plan.price)}</s>} {dollars(price)}</span>
-                <span class="plan__unit">{plan.unit}{deal && <>, <mark class="marker">{deal}</mark></>}</span>
-              </p>
+            <div class="plan__art" aria-hidden="true">
+              <Art />
+            </div>
+            <div class="plan__body">
+              <div class="plan__head">
+                <h3 class="plan__name">{plan.name}</h3>
+                {/* Each line on one line here: a line break between the parts would add a space to the words. */}
+                <p class="plan__price">
+                  <span class="plan__amount">{dollars(price)}</span>
+                  <span class="plan__unit">{deal && <><s class="plan__was"><span class="visually-hidden">List price </span>{dollars(plan.price)}</s> </>}{plan.unit}{deal && <>, <mark class="marker">{deal}</mark></>}</span>
+                </p>
+              </div>
               <div class="plan__text">
                 <p class="hl">{plan.tagline}</p>
                 {plan.payment && <p class="muted">{plan.payment(price)}</p>}
               </div>
-            </div>
-            <ul class="plan__features">
-              {plan.features.map((feature) => (
-                <li>{feature}</li>
-              ))}
-            </ul>
-            <div class="plan__book">
-              <a class="button" href={href} target="_blank" data-book="pricing" data-offer={plan.offer}>
-                {plan.book}
-              </a>
-              <p class="plan__note">{plan.note}</p>
+              <ul class="plan__features">
+                {plan.features.map((feature) => (
+                  <li>{feature}</li>
+                ))}
+              </ul>
+              <div class="plan__book">
+                <a class="button" href={href} target="_blank" data-book="pricing" data-offer={plan.offer}>
+                  {plan.book}
+                </a>
+                <p class="plan__note">{plan.note}</p>
+              </div>
             </div>
           </article>
         );
@@ -59,3 +70,69 @@ const href = buildCalUrl(pageName(Astro.url.pathname));
     </div>
   </div>
 </section>
+
+<script>
+  /*
+    The pictures are drawn at a fixed size (src/components/art/), and each is scaled down here when its card is narrower
+    than the card it was drawn for, as the card's width changes; on a wider card it stays at its own size and shows more
+    of itself. There's no React in the browser, so the flag the kit keeps while a stage is still being measured into
+    place is taken off here too: nothing will move them but their own motion, below.
+  */
+  const pictures = document.querySelectorAll<HTMLElement>(".plan__art .art");
+  const fit = (art: HTMLElement) => art.style.setProperty("--art-scale", String(Math.min(1, art.clientWidth / Number(art.dataset.width))));
+  const sizes = new ResizeObserver((entries) => entries.forEach((entry) => fit(entry.target as HTMLElement)));
+  for (const art of pictures) sizes.observe(art);
+  for (const stage of document.querySelectorAll(".plan__art .ss-stage[data-placing]")) stage.removeAttribute("data-placing");
+
+  /*
+    Each picture plays once, as the visitor scrolls to it (the motion is in art.css). One already in view as the page
+    opens is simply there, as every picture is with reduced motion. One below the fold is armed, held on its first
+    frame, and plays once most of it is in view; if it's scrolled out of sight before it's over, it goes back to its
+    first frame and plays again when it's back. Over, it's a still again: the kit's flag for one goes back on, and with
+    it nothing in the picture can move.
+  */
+  const PLAY_AT = 0.6;
+  if (!matchMedia("(prefers-reduced-motion: reduce)").matches && "IntersectionObserver" in window) {
+    const motion = (art: HTMLElement) =>
+      art.getAnimations({ subtree: true }).filter((animation) => animation instanceof CSSAnimation && animation.animationName.startsWith("art-"));
+    const still = (art: HTMLElement) => {
+      art.querySelector(".ss-stage")?.setAttribute("data-still", "true");
+      delete art.dataset.play;
+      views.unobserve(art);
+    };
+    // Every animation over, and none of them replayed meanwhile (a scroll away and back starts them all again).
+    const settle = (art: HTMLElement): Promise<void> =>
+      Promise.all(motion(art).map((animation) => animation.finished)).then(
+        () => {
+          if (art.dataset.play !== "playing") return;
+          if (motion(art).some((animation) => animation.playState !== "finished")) return settle(art);
+          still(art);
+        },
+        // Cancelled, as when reduced motion is turned on partway: the picture is left as its last frame.
+        () => still(art)
+      );
+    const views = new IntersectionObserver(
+      (entries) => {
+        for (const { target, intersectionRatio } of entries) {
+          const art = target as HTMLElement;
+          if (!art.dataset.play) {
+            if (intersectionRatio > 0) {
+              views.unobserve(art);
+              continue;
+            }
+            art.querySelector(".ss-stage")?.removeAttribute("data-still");
+            art.dataset.play = "armed";
+          } else if (art.dataset.play === "armed" && intersectionRatio >= PLAY_AT) {
+            art.dataset.play = "playing";
+            settle(art);
+          } else if (art.dataset.play === "playing" && intersectionRatio === 0) {
+            art.dataset.play = "armed";
+            for (const animation of motion(art)) animation.currentTime = 0;
+          }
+        }
+      },
+      { threshold: [0, PLAY_AT] }
+    );
+    for (const art of pictures) views.observe(art);
+  }
+</script>

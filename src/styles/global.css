@@ -1002,77 +1002,97 @@ img {
 }
 
 /*
-  One plan per row: its name and what it is on the left, what it costs on the right, what you get underneath, and a
-  button to book a call about it. On a phone, what it is runs the full width under its name and price.
+  One card per plan, edged like the testimonials' box. On top, a picture of working that way (src/components/art/); under
+  it the plan: its name and what it costs, what it is, what you get, and a button to book a call about it. Custom
+  projects close the list in a card of their own, with no picture and no price.
 */
 .plans {
-  border-top: 1px solid var(--line);
-}
-
-.plan {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  padding: 20px 0 22px;
+}
+
+.plan {
+  container-type: inline-size;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+
+/* The picture's wide design on a full card, and its compact one on a phone's. */
+.plan__art {
   border-bottom: 1px solid var(--line);
 }
 
-.plan__head {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  grid-template-areas:
-    "name price"
-    "text price";
-  gap: 4px 40px;
-  align-items: start;
+@container (width < 500px) {
+  .plan__art .art--wide {
+    display: none;
+  }
 }
 
-.plan__text {
-  grid-area: text;
-  max-width: 440px;
-  text-wrap: pretty;
+@container (width >= 500px) {
+  .plan__art .art--compact {
+    display: none;
+  }
 }
 
-.plan__summary {
+.plan__body {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 16px;
+  padding: 20px 24px 24px;
+}
+
+@container (width < 500px) {
+  .plan__body {
+    padding: 18px 20px 20px;
+  }
+}
+
+.plan__head {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .plan__name {
-  grid-area: name;
   font-weight: 500;
 }
 
-.plan__description {
-  max-width: 420px;
-  color: var(--muted);
-}
-
+/*
+  The price in the large type of the main page's opening lines, in the logo's ink; what it covers beside it, or under it
+  when there's no room. The YC and speedrun pages cross out the list price there.
+*/
 .plan__price {
-  grid-area: price;
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  white-space: nowrap;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 10px;
 }
 
 .plan__amount {
+  color: #171614;
+  font-family: var(--font-display);
+  font-size: 32px;
+  line-height: 40px;
   font-weight: 500;
+  letter-spacing: -0.03em;
   font-variant-numeric: tabular-nums;
-}
-
-/* The list price, crossed out beside the YC or speedrun price. */
-.plan__was {
-  margin-right: 4px;
-  color: var(--faint);
-  font-weight: 400;
 }
 
 .plan__unit {
   color: var(--muted);
-  font-size: 14px;
-  line-height: 20px;
+}
+
+.plan__was {
+  margin-right: 2px;
+  color: var(--faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.plan__text {
+  max-width: 460px;
+  text-wrap: pretty;
 }
 
 .plan__features {
@@ -1103,7 +1123,7 @@ img {
   flex-wrap: wrap;
   align-items: center;
   gap: 10px 16px;
-  margin-top: 6px;
+  margin-top: 4px;
 }
 
 .plan__note {
@@ -1113,14 +1133,35 @@ img {
   text-wrap: pretty;
 }
 
-/* Custom projects, under the plans and ruled like them: no price, just a call. */
+/* Custom projects: a card of their own, with no picture and no price, just a call. */
 .custom {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   column-gap: 40px;
   align-items: start;
-  padding: 20px 0 22px;
-  border-bottom: 1px solid var(--line);
+  padding: 20px 24px 22px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+
+/* On a phone the link goes under the words, which keep the card's width. */
+@media (max-width: 679px) {
+  .custom {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 10px;
+    padding: 18px 20px 20px;
+  }
+}
+
+.plan__summary {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.plan__description {
+  max-width: 420px;
+  color: var(--muted);
 }
 
 .custom__link {
@@ -1136,14 +1177,35 @@ img {
   padding-top: 80px;
 }
 
-/* One question per row, ruled like the plans. A question opens its answer under it, and its plus turns into a cross. */
-.faq__list {
+/*
+  One question per row, ruled like the plans: each row draws the line above it, and an empty row at the end draws the
+  last line. A question opens its answer under it, and its plus turns into a cross. The rows below an answer slide down
+  out of its way as it opens, and back up over it as it closes (Faq.astro), bringing their lines with them.
+*/
+.faq__item,
+.faq__end {
   border-top: 1px solid var(--line);
 }
 
 .faq__item {
-  border-bottom: 1px solid var(--line);
+  background: var(--page);
   scroll-margin-top: 24px;
+}
+
+/*
+  While they move, the rows below an answer and the blocks after the FAQ are drawn over it (.is-ahead, from Faq.astro),
+  and with the page's colour behind them they cover it wherever they pass over it. Only while they move: at rest, a row
+  drawn over the one above it would hide the bottom of that question's focus ring.
+*/
+.faq ~ .col {
+  background: var(--page);
+}
+
+.faq__item.is-ahead,
+.faq__end.is-ahead,
+.faq ~ .is-ahead {
+  position: relative;
+  z-index: 1;
 }
 
 .faq__question {
@@ -1985,13 +2047,6 @@ body:has(.consent.is-open) .sticky-book {
     --slide-gap: 16px;
     --slide-w: calc(100vw - 80px);
     padding: 48px 0 72px;
-  }
-
-  .plan__head {
-    grid-template-areas:
-      "name price"
-      "text text";
-    column-gap: 20px;
   }
 
   .parts {

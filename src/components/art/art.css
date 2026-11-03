@@ -1,0 +1,753 @@
+/*
+  The pricing pictures (LaunchArt.tsx, PartnershipArt.tsx), drawn with the stageshow kit in src/stageshow/kit. They're built
+  into the page as plain HTML: React draws them when the site is built and never runs in the browser.
+
+  Each picture has a wide design for a full card and a compact one for a phone's card; the card shows one (a container
+  query in global.css). A design is drawn for a card --art-w wide and --art-h tall, on a canvas --art-canvas wide, pinned
+  to the card's top left. On a narrower card Pricing.astro scales it down to fit (--art-scale); on a wider one it's never
+  enlarged, and the card shows more of the canvas, where the windows run on to the right. The height follows the card's
+  width here, so the card keeps its shape before that script runs.
+
+  Each picture also plays once, as it comes into view: the motion is at the end of this file.
+*/
+.art {
+  position: relative;
+  overflow: hidden;
+  height: min(calc(var(--art-h) * 1px), calc(100cqw * var(--art-h) / var(--art-w)));
+  background: var(--art-well);
+
+  /* The page's paper, a step darker, so the windows stand on it the way the site's covers sit on theirs. */
+  --art-well: #e9e5dd;
+
+  & .ss-fit {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: calc(var(--art-canvas) * 1px);
+    transform: scale(var(--art-scale, 1));
+    transform-origin: 0 0;
+  }
+
+  /* The site's own look: its paper and inks, its line, its blue, and Funnel Sans. */
+  & .ss-stage {
+    --ss-font: var(--font-funnel-sans), system-ui, sans-serif;
+    --ss-well: var(--art-well);
+    --ss-canvas: #f7f5f1;
+    --ss-surface: #fff;
+    --ss-chrome: #fff;
+    --ss-raised: #fff;
+    --ss-ink-1: rgba(23, 22, 20, 0.04);
+    --ss-ink-2: rgba(23, 22, 20, 0.06);
+    --ss-ink-3: rgba(23, 22, 20, 0.08);
+    --ss-ink-4: rgba(23, 22, 20, 0.11);
+    --ss-ink-5: rgba(23, 22, 20, 0.16);
+    --ss-fill: #ebe8e2;
+    --ss-line: rgba(23, 22, 20, 0.08);
+    --ss-line-faint: rgba(23, 22, 20, 0.05);
+    --ss-text-strong: #21201d;
+    --ss-text: #5d5b55;
+    --ss-text-faint: #8b887f;
+    --ss-icon: #6e6c65;
+    --ss-icon-faint: #c9c5bc;
+    --ss-accent: #2563eb;
+    --ss-accent-soft: rgba(37, 99, 235, 0.1);
+    --ss-success: #16a34a;
+    --ss-success-soft: rgba(22, 163, 74, 0.12);
+    --ss-success-text: #15803d;
+    /* Shadows warmed toward the paper, rather than the kit's blue-grey. */
+    --ss-shadow-hero: 0 0 0 1px rgba(23, 22, 20, 0.06), 0 30px 60px -12px rgba(66, 54, 36, 0.22), 0 18px 36px -18px rgba(23, 22, 20, 0.24);
+    --ss-shadow-satellite: 0 0 0 1px rgba(23, 22, 20, 0.05), 0 14px 32px -8px rgba(66, 54, 36, 0.24), 0 4px 10px -4px rgba(23, 22, 20, 0.1);
+    --ss-radius-window: 12px;
+    overflow: hidden;
+    background: var(--ss-well);
+  }
+}
+
+/* ---------- Launch: the month ---------- */
+
+/*
+  The month as a plan's timeline, a week per column: Launch's four parts as bars, then the launch, all of week 4, in the
+  site's blue, and the two weeks of fixes after it, running on past the window's edge. Today's line, in the blue too,
+  stands at launch day, where the launch's bar ends: the parts before it are done and filled in, the fixes after it are
+  still planned, in outline. One gutter at the top and left; the window runs off the right and the bottom.
+
+  The weeks take the card's width (cqw: the plan card is the container), so the picture is laid out for every card rather
+  than scaled to it: the type keeps its size, and the card shows the month to part of week 5 at any width, the fixes
+  running on out. The wide design shows 4.65 weeks; the compact, on a phone's card, 5.1, so week 6 starts past the crop
+  and no week's label is cut.
+*/
+.art--fluid {
+  height: calc(var(--art-h) * 1px);
+
+  & .ss-fit {
+    transform: none;
+  }
+}
+
+.art-launch {
+  & .art-launch__window {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    width: 680px;
+    height: 290px;
+    box-shadow: var(--ss-shadow-hero);
+
+    --week: calc((100cqw - 40px) / 4.65);
+  }
+
+  &.art-launch--compact .art-launch__window {
+    top: 16px;
+    left: 16px;
+    width: 520px;
+
+    --week: calc((100cqw - 28px) / 5.1);
+  }
+
+  .art-launch__window .ss-window__body {
+    background: var(--ss-surface);
+  }
+
+  .art-launch__chart {
+    position: relative;
+    margin-left: 16px;
+  }
+
+  &.art-launch--compact .art-launch__chart {
+    margin-left: 12px;
+  }
+
+  /*
+    The weeks' columns, ruled faintly between them, down the whole chart and on past the window's edge and foot: one
+    repeating line rather than a box per week, so no crop leaves a sliver of an empty column.
+  */
+  .art-launch__rules {
+    position: absolute;
+    inset: 0 -200px -80px 0;
+    background: repeating-linear-gradient(
+      to right,
+      transparent 0 calc(var(--week) - 1px),
+      var(--ss-line-faint) calc(var(--week) - 1px) var(--week)
+    );
+  }
+
+  .art-launch__head {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 28px;
+    border-bottom: 1px solid var(--ss-line);
+  }
+
+  /* In line with the words on the bars: the bar's 3px inset plus its 7px padding. */
+  .art-launch__week {
+    flex: none;
+    width: var(--week);
+    padding-left: 10px;
+    font-size: 10.5px;
+    font-weight: 500;
+    line-height: 14px;
+    color: var(--ss-text-faint);
+  }
+
+  .art-launch__tracks {
+    position: relative;
+    padding-top: 6px;
+  }
+
+  .art-launch__track {
+    position: relative;
+    height: 24px;
+  }
+
+  /*
+    A part's bar, from the week it starts to the week it's done (--from and --to, in weeks), 3px in from either end.
+    Planned, it's an outline; the launch's is outlined in the blue. The launch's runs to the end of its week, square,
+    where today's line stands, and the fixes start a step clear of the line.
+  */
+  .art-launch__bar {
+    position: absolute;
+    top: 4px;
+    left: calc(var(--from) * var(--week) + 3px);
+    width: calc((var(--to) - var(--from)) * var(--week) - 6px);
+    height: 16px;
+    display: flex;
+    align-items: center;
+    padding: 0 7px;
+    border-radius: 5px;
+    background: var(--ss-surface);
+    box-shadow: inset 0 0 0 1px rgba(23, 22, 20, 0.13);
+  }
+
+  .art-launch__bar[data-launch] {
+    width: calc((var(--to) - var(--from)) * var(--week) - 3px);
+    border-radius: 5px 0 0 5px;
+    background: rgba(37, 99, 235, 0.05);
+    box-shadow: inset 0 0 0 1px rgba(37, 99, 235, 0.42);
+  }
+
+  .art-launch__bar[data-after] {
+    left: calc(var(--from) * var(--week) + 8px);
+    width: calc((var(--to) - var(--from)) * var(--week) - 11px);
+  }
+
+  .art-launch__name {
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 14px;
+    color: var(--ss-text-strong);
+  }
+
+  /* Done, it's filled; the launch's in a tint of the blue, which the launch itself lights up in full (below). */
+  [data-layer="done"] .art-launch__bar {
+    background: #ece6dc;
+    box-shadow: none;
+  }
+
+  [data-layer="done"] .art-launch__bar[data-launch] {
+    background: #dce6fb;
+  }
+
+  /* The names, on top, reading the same over a bar planned or done: the launch's in the blue. */
+  [data-layer="names"] {
+    position: absolute;
+    top: 28px;
+    right: 0;
+    left: 0;
+  }
+
+  [data-layer="names"] .art-launch__bar {
+    background: none;
+    box-shadow: none;
+  }
+
+  [data-layer="names"] .art-launch__bar[data-launch]:not(.art-launch__lit) .art-launch__name {
+    color: var(--ss-accent-text);
+  }
+
+  /* The launch, lit: the blue, its name in white, over its own bar and name. */
+  [data-layer="names"] .art-launch__lit {
+    background: var(--ss-accent);
+  }
+
+  [data-layer="names"] .art-launch__lit .art-launch__name {
+    color: #fff;
+  }
+
+  /*
+    The parts done by launch day, drawn over the planned ones and shown up to today's line (--today, in weeks), under
+    the weeks. The box starts 8px before the first day, where today's line starts, clear of the brand's bar; its parts
+    are set back 8px into place.
+  */
+  .art-launch__done {
+    position: absolute;
+    top: 28px;
+    bottom: 0;
+    left: -8px;
+    width: calc(var(--today) * var(--week) + 8px);
+    overflow: hidden;
+  }
+
+  .art-launch__done > .art-launch__tracks {
+    width: 100%;
+    padding-left: 8px;
+  }
+
+  /*
+    Today: a line in the blue from the weeks' rule down the chart and on past the window's foot, with a dot where it
+    meets the rule. It's centered on the right edge of a box the same as the done parts', so it moves with what it
+    fills in (below).
+  */
+  .art-launch__today {
+    position: absolute;
+    top: 28px;
+    bottom: -80px;
+    left: -8px;
+    width: calc(var(--today) * var(--week) + 8px);
+  }
+
+  .art-launch__today::before,
+  .art-launch__today::after {
+    content: "";
+    position: absolute;
+    background: var(--ss-accent);
+  }
+
+  .art-launch__today::before {
+    top: -4px;
+    right: -3.5px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+  }
+
+  .art-launch__today::after {
+    top: 0;
+    right: -1px;
+    bottom: 0;
+    width: 2px;
+  }
+}
+
+/* ---------- Partnership: requests in your Slack ---------- */
+
+/*
+  Wide: a channel in the client's Slack, pinned at the top and running off the right and the bottom, with a gutter on
+  the left for the requests card, which straddles the window's edge over the lower part of its sidebar. The sidebar's few
+  rows sit above the card, and the open channel is marked by weight rather than a fill, which would show beside it. The
+  messages start under the bar, where a short history sits, with room under them for Maya's reaction.
+  Compact: the channel alone, pinned at the top left and running off the right, with the requests card straddling its
+  foot.
+*/
+.art-chat {
+  /*
+    How far the feed moves up for Emir's answer when the picture plays: the answer's height (its lines, 36px; its link's
+    preview, 34px; and in the wide design the reaction, 27px), and the feed's gap above it.
+  */
+  --art-reply: 111px;
+
+  &.art-chat--compact {
+    --art-reply: 84px;
+  }
+
+  & .art-chat__window {
+    position: absolute;
+    top: 24px;
+    left: 112px;
+    width: 560px;
+    height: 300px;
+    box-shadow: var(--ss-shadow-hero);
+  }
+
+  &.art-chat--compact .art-chat__window {
+    top: 16px;
+    left: 16px;
+    width: 540px;
+    height: 260px;
+  }
+
+  .art-chat__window .ss-window__body {
+    background: var(--ss-surface);
+  }
+
+  .art-chat__side {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 8px 10px 0 16px;
+  }
+
+  .art-chat__workspace {
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 16px;
+    color: var(--ss-text-strong);
+  }
+
+  .art-chat__group {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Clear of the requests card's top edge, so these rows are wholly under it. */
+  .art-chat__more {
+    margin-top: 14px;
+  }
+
+  /* The open channel's # sits a word space from its name; the filler rows keep a bar's 8px from what leads them. */
+  .art-chat__channel {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 20px;
+  }
+
+  .art-chat__channel:has(.art-chat__channel-name) {
+    gap: 4px;
+  }
+
+  .art-chat__channel .art-chat__hash {
+    width: 8px;
+  }
+
+  .art-chat__hash {
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 14px;
+    color: var(--ss-text-strong);
+  }
+
+  .art-chat__channel:not(:has(.art-chat__channel-name)) .art-chat__hash {
+    font-weight: 400;
+    color: var(--ss-text-faint);
+  }
+
+  .art-chat__channel-name {
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 14px;
+    color: var(--ss-text-strong);
+  }
+
+  /* The feed's pane: it crops the feed under the window's bar, where the channel's history runs on up out of sight. */
+  .art-chat__pane {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+
+  /* The messages are short enough to sit on one line each, inside the card, as the window runs on past its right edge. */
+  .art-chat__feed {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 14px 16px;
+  }
+
+  /* The messages before Maya's, above the feed: out of sight, past the pane's top, until the picture plays. */
+  .art-chat__history {
+    position: absolute;
+    right: 16px;
+    bottom: 100%;
+    left: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .art-chat__message {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+  }
+
+  .art-chat__avatar {
+    flex: none;
+    border-radius: 7px;
+    font-weight: 600;
+  }
+
+  .art-chat__words {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+  }
+
+  .art-chat__byline {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+  }
+
+  /* A filler message's lines: the heights of a name's and a line of words', with a bar in each. */
+  .art-chat__byline--filler {
+    align-items: center;
+    height: 16px;
+  }
+
+  .art-chat__line {
+    display: flex;
+    align-items: center;
+    height: 17px;
+  }
+
+  .art-chat__name {
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 16px;
+    color: var(--ss-text-strong);
+  }
+
+  .art-chat__time {
+    font-size: 10.5px;
+    line-height: 14px;
+    color: var(--ss-text-faint);
+  }
+
+  .art-chat__text {
+    font-size: 12px;
+    line-height: 17px;
+    color: var(--ss-text-strong);
+  }
+
+  /*
+    The link's preview, as Slack unfurls one: a rule down its left, the site's name, and the page's title as the link.
+    It belongs to the message, so it sits as close under the words as their lines sit to each other.
+  */
+  .art-chat__unfurl {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-top: -1px;
+    padding-left: 10px;
+    border-left: 3px solid var(--ss-ink-4);
+  }
+
+  .art-chat__site {
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 14px;
+    color: var(--ss-text-strong);
+  }
+
+  .art-chat__link {
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 16px;
+    color: var(--ss-accent-text);
+  }
+
+  /* A reaction its reader added, as Slack draws one: a pill outlined in the blue, the emoji and its count. */
+  .art-chat__reaction {
+    display: flex;
+    align-self: flex-start;
+    align-items: center;
+    gap: 4px;
+    height: 20px;
+    margin-top: 4px;
+    padding: 0 8px 0 6px;
+    border-radius: 10px;
+    background: rgba(37, 99, 235, 0.07);
+    box-shadow: inset 0 0 0 1px rgba(37, 99, 235, 0.36);
+  }
+
+  .art-chat__emoji {
+    font-size: 11px;
+    line-height: 14px;
+  }
+
+  .art-chat__count {
+    font-size: 10.5px;
+    font-weight: 600;
+    line-height: 14px;
+    color: var(--ss-accent-text);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* The satellite: a full gutter in from the left and the bottom, ending a gutter short of the sidebar's edge. */
+  .art-chat__requests {
+    position: absolute;
+    left: 24px;
+    bottom: 24px;
+    width: 196px;
+    padding: 10px 14px 6px;
+    border-radius: 12px;
+    background: var(--ss-surface);
+    box-shadow: var(--ss-shadow-satellite);
+  }
+
+  /* On a phone's card it straddles the window's foot, a gutter in from the window's left edge, clear of the messages. */
+  &.art-chat--compact .art-chat__requests {
+    left: 32px;
+    bottom: 16px;
+    width: 212px;
+  }
+
+  .art-chat__requests-title {
+    display: block;
+    padding-bottom: 7px;
+    margin-bottom: 2px;
+    border-bottom: 1px solid var(--ss-line);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 16px;
+    color: var(--ss-text-strong);
+  }
+
+  .art-chat__request {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 26px;
+  }
+
+  .art-chat__request-name {
+    font-size: 11.5px;
+    line-height: 14px;
+    color: var(--ss-text-strong);
+  }
+
+  /* Done, a request's name steps back: by its opacity, so it can do so as it's ticked off. */
+  .art-chat__request .ss-check[data-on] ~ .art-chat__request-name {
+    opacity: 0.72;
+  }
+
+  /*
+    Under way, the ring holds an arc from the top, as a progress ring does; it doesn't turn, as the kit's would while
+    something loads, since a request is worked on for hours, not seconds.
+  */
+  .art-chat__request .ss-check__arc {
+    transform: rotate(-90deg);
+    animation: none;
+  }
+}
+
+/* ---------- Motion ---------- */
+
+/*
+  Each picture plays once, as it comes into view, and comes to rest on the frame drawn above: Pricing.astro sets
+  .art[data-play] to "armed" while the picture waits out of view, holding it on its first frame, and to "playing" as it
+  comes in. A picture already in view as the page opens isn't armed, so it's simply there, as is every picture with
+  reduced motion, or printed. Only transforms and opacity move, and every animation's name starts art- (Pricing.astro
+  waits for those to finish).
+
+  Things that move keep their own layer for good, so their words don't shift as the motion ends.
+*/
+.art-launch__done,
+.art-launch__done > .art-launch__tracks,
+.art-launch__today,
+.art-chat__feed,
+.art-chat__reply,
+.art-chat__unfurl,
+.art-chat__reaction {
+  will-change: transform;
+}
+
+@media screen and (prefers-reduced-motion: no-preference) {
+  .art[data-play="armed"] {
+    --art-play: paused;
+  }
+
+  .art[data-play="playing"] {
+    --art-play: running;
+  }
+
+  .art[data-play] {
+    /* Today's line: a soft start, the weeks at an even pace, and a soft stop on launch day. */
+    --art-sweep: 4.4s cubic-bezier(0.4, 0, 0.6, 1) 0.5s;
+    /* Things arriving, and the kit's curve for a check's disc growing. */
+    --art-arrive: cubic-bezier(0.25, 0.8, 0.25, 1);
+    --art-settle: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /*
+    Launch: the month. Today's line sets off from just before the first day and comes to rest on launch day, and the
+    parts fill in as it passes them: the box of done parts opens from the left with the line while its contents stay
+    where they are. As the line settles, the launch lights up in the blue.
+  */
+  .art[data-play] .art-launch__done,
+  .art[data-play] .art-launch__today {
+    animation: art-from-left var(--art-sweep) both var(--art-play);
+  }
+
+  .art[data-play] .art-launch__done > .art-launch__tracks {
+    animation: art-from-right var(--art-sweep) both var(--art-play);
+  }
+
+  .art[data-play] .art-launch__lit {
+    animation: art-fade 0.25s ease 4.6s both var(--art-play);
+  }
+
+  /*
+    Partnership: a request, done in a day. The channel opens on Maya's request at its foot, under some of its history.
+    Emir's answer lands under it and the feed moves up to make room, as Slack's does, and its link's preview comes a
+    beat later, as Slack fetches it. The pricing page is ticked off: its arc goes, the disc grows over its ring and the
+    tick comes in on it, and its name steps back. The onboarding emails start, the arc turning into place, and Maya
+    reacts.
+  */
+  .art[data-play] .art-chat__feed {
+    animation: art-make-room 0.6s var(--art-settle) 1.2s both var(--art-play);
+  }
+
+  .art[data-play] .art-chat__reply {
+    animation:
+      art-fade 0.4s ease 1.2s both var(--art-play),
+      art-rise 0.6s var(--art-arrive) 1.2s both var(--art-play);
+  }
+
+  .art[data-play] .art-chat__unfurl {
+    animation:
+      art-fade 0.35s ease 1.9s both var(--art-play),
+      art-nudge 0.5s var(--art-arrive) 1.9s both var(--art-play);
+  }
+
+  .art[data-play] [data-request="done"] .ss-check__arc {
+    animation: art-out 0.08s ease 2.5s both var(--art-play);
+  }
+
+  .art[data-play] [data-request="done"] .ss-check__ring {
+    animation: art-out 0.2s ease 2.5s both var(--art-play);
+  }
+
+  .art[data-play] [data-request="done"] .ss-check__fill {
+    animation:
+      art-fade 0.01s linear 2.5s both var(--art-play),
+      art-grow 0.4s var(--art-settle) 2.5s both var(--art-play);
+  }
+
+  .art[data-play] [data-request="done"] .ss-check__tick {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation:
+      art-fade 0.12s ease 2.66s both var(--art-play),
+      art-tick 0.36s cubic-bezier(0.34, 1.5, 0.64, 1) 2.66s both var(--art-play);
+  }
+
+  .art[data-play] [data-request="done"] .art-chat__request-name {
+    animation: art-step-back 0.3s ease 2.9s both var(--art-play);
+  }
+
+  .art[data-play] [data-request="started"] .ss-check__arc {
+    animation:
+      art-fade 0.3s ease 3.2s both var(--art-play),
+      art-turn-in 0.7s var(--art-settle) 3.2s both var(--art-play);
+  }
+
+  .art[data-play] .art-chat__reaction {
+    transform-origin: left center;
+    animation:
+      art-fade 0.2s ease 3.9s both var(--art-play),
+      art-pop 0.4s cubic-bezier(0.3, 0.75, 0.1, 1) 3.9s both var(--art-play);
+  }
+}
+
+/* Each from its first frame to where the element rests (its own styles above). */
+@keyframes art-from-left {
+  from { transform: translateX(-100%); }
+}
+
+@keyframes art-from-right {
+  from { transform: translateX(100%); }
+}
+
+@keyframes art-fade {
+  from { opacity: 0; }
+}
+
+@keyframes art-out {
+  from { opacity: 1; }
+}
+
+@keyframes art-step-back {
+  from { opacity: 1; }
+}
+
+@keyframes art-rise {
+  from { transform: translateY(10px); }
+}
+
+@keyframes art-make-room {
+  from { transform: translateY(var(--art-reply)); }
+}
+
+@keyframes art-nudge {
+  from { transform: translateY(4px); }
+}
+
+@keyframes art-grow {
+  from { transform: scale(0.35); }
+}
+
+@keyframes art-tick {
+  from { transform: scale(0.4); }
+}
+
+@keyframes art-turn-in {
+  from { transform: rotate(-210deg); }
+}
+
+@keyframes art-pop {
+  from { transform: scale(0.82); }
+}

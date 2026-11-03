@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig, fontProviders } from "astro/config";
 import sitemap from "@astrojs/sitemap";
+import react from "@astrojs/react";
 import { works, isFinished } from "./src/data/works.ts";
 import { SITE_URL } from "./src/data/site.ts";
 
@@ -16,8 +17,9 @@ export default defineConfig({
   // Whitespace between tags renders as in plain HTML. Astro's default ("jsx") strips it the way JSX does,
   // which would run neighbouring words together, such as the "Y" and "Combinator companies" spans.
   compressHTML: true,
-  // Writes /sitemap-index.xml, which robots.txt points crawlers to.
-  integrations: [sitemap({ filter: (page) => !unfinished.includes(new URL(page).pathname) })],
+  // Writes /sitemap-index.xml, which robots.txt points crawlers to. React draws the pricing pictures (src/components/art/)
+  // when the site is built; they reach the page as plain HTML, with no React in the browser.
+  integrations: [react(), sitemap({ filter: (page) => !unfinished.includes(new URL(page).pathname) })],
   /*
     PostHog's requests go to /relay on the site, which vercel.json's rewrites pass on to PostHog (see
     src/components/PostHog.astro). `astro preview` passes them on the same way, so a local build behaves like

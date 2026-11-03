@@ -18,7 +18,77 @@
     });
   }
 
-  // Highlighter strokes swipe in the first time each one scrolls into view.
+  /* ---------- Coming into view ---------- */
+
+  /*
+    Blocks below the fold come into focus as they scroll into view (.reveal in global.css), each once its top is
+    REVEAL_INSET px into the window; blocks that arrive together follow one another, top to bottom. Whatever is in view
+    as the page opens, or already scrolled past, is simply there. The inset is in pixels rather than a share of the
+    window, so that even in a very tall window the top of the footer gets that far in at the end of the page.
+  */
+  var REVEAL = [
+    ".lead > *", // the heroes' lines, where they run past the fold on a phone
+    ".strip__stage",
+    ".case-images",
+    ".included > *",
+    ".month > :not(.weeks)",
+    ".week",
+    ".testimonials > *",
+    ".pricing > :first-child",
+    ".plan",
+    ".custom",
+    ".pullquote",
+    ".faq > .label",
+    ".faq__item",
+    ".faq__end",
+    ".closing > *",
+    ".shot",
+    ".work-live",
+    ".footer",
+  ].join(", ");
+  var REVEAL_INSET = 48;
+  var REVEAL_STAGGER_MS = 70;
+  var REVEAL_MAX_DELAY_MS = 350;
+  var insetMargin = "0px 0px -" + REVEAL_INSET + "px 0px";
+
+  if (!reduceMotion && "IntersectionObserver" in window) {
+    var fold = window.innerHeight;
+    var waiting = Array.prototype.filter.call(document.querySelectorAll(REVEAL), function (block) {
+      return block.getBoundingClientRect().top > fold;
+    });
+    var revealObserver = new IntersectionObserver(
+      function (entries) {
+        entries
+          .filter(function (entry) {
+            return entry.isIntersecting;
+          })
+          .forEach(function (entry, i) {
+            var block = entry.target;
+            revealObserver.unobserve(block);
+            block.style.setProperty("--reveal-delay", Math.min(i * REVEAL_STAGGER_MS, REVEAL_MAX_DELAY_MS) + "ms");
+            block.classList.add("is-in");
+          });
+      },
+      { rootMargin: insetMargin }
+    );
+    waiting.forEach(function (block) {
+      block.classList.add("reveal");
+      // Once in focus, the block is left as it was before, with nothing of this on it.
+      block.addEventListener("transitionend", function done(event) {
+        if (event.target !== block || event.propertyName !== "filter") return;
+        block.removeEventListener("transitionend", done);
+        block.classList.remove("reveal", "is-in");
+        block.style.removeProperty("--reveal-delay");
+        if (!block.getAttribute("style")) block.removeAttribute("style");
+      });
+      revealObserver.observe(block);
+    });
+  }
+
+  /*
+    Highlighter strokes swipe in the first time each one is wholly in view, past the same inset as the blocks above,
+    so a stroke in a block still coming into focus doesn't swipe before it can be seen.
+  */
   var markers = Array.prototype.slice.call(document.querySelectorAll(".marker"));
   if ("IntersectionObserver" in window) {
     var markerObserver = new IntersectionObserver(
@@ -29,7 +99,7 @@
           markerObserver.unobserve(entry.target);
         });
       },
-      { threshold: 1 }
+      { threshold: 1, rootMargin: insetMargin }
     );
     markers.forEach(function (marker) {
       markerObserver.observe(marker);

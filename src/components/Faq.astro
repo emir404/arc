@@ -50,6 +50,8 @@ const faqPage = {
         </details>
       ))
     }
+    <!-- The line under the last question, on its own so it moves with the rows below an answer (see global.css). -->
+    <div class="faq__end" aria-hidden="true"></div>
   </div>
   {structuredData && <script type="application/ld+json" set:html={JSON.stringify(faqPage)} />}
 </section>
@@ -62,4 +64,86 @@ const faqPage = {
   }
   openLinked();
   window.addEventListener("hashchange", openLinked);
+
+  /*
+    Opening a question, everything under it slides down out of the answer's way as the answer comes into focus out of a
+    blur. Closing one, the answer leaves the flow and blurs away as the rows below slide back up over it, and only then
+    does the question close. The answer's side of this is in global.css (.faq__answer).
+
+    Things move with transforms alone, from where they were to where the change puts them: each block (the FAQ's heading
+    and rows, and the page's other blocks) is measured before and after the change and set off from the difference.
+    That also covers closing near the end of the page, where the page gets shorter and the browser pulls everything
+    above down to fill the window. A press mid-way sets off from wherever everything has got to.
+    While things move, the blocks after the question, or after the first one still closing, are drawn over its answer.
+    With reduced motion, the browser opens and closes questions as it does by itself.
+  */
+  const MOVE_MS = 420;
+  const MOVE_EASE = "cubic-bezier(0.2, 0.8, 0.2, 1)";
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  for (const faq of document.querySelectorAll<HTMLElement>(".faq")) {
+    // What can move: the FAQ's heading, rows and last line, and the blocks around it in the page's flow.
+    const blocks = Array.from(faq.parentElement?.children ?? []).flatMap((block) => {
+      if (block === faq) return Array.from(faq.querySelectorAll<HTMLElement>(":scope > .label, .faq__item, .faq__end"));
+      if (!(block instanceof HTMLElement) || block instanceof HTMLScriptElement) return [];
+      return getComputedStyle(block).position === "fixed" ? [] : [block];
+    });
+    const moves: Animation[] = [];
+    const closings = new Map<HTMLDetailsElement, number>();
+    let ahead: HTMLElement[] = [];
+    let settling = 0;
+
+    function setAhead(next: HTMLElement[]) {
+      ahead.forEach((block) => block.classList.remove("is-ahead"));
+      ahead = next;
+      ahead.forEach((block) => block.classList.add("is-ahead"));
+    }
+
+    function toggle(item: HTMLDetailsElement) {
+      const opening = !item.open || item.classList.contains("is-closing");
+      const before = blocks.map((block) => block.getBoundingClientRect());
+      moves.splice(0).forEach((move) => move.cancel());
+
+      if (opening) {
+        window.clearTimeout(closings.get(item));
+        closings.delete(item);
+        if (!item.open) {
+          item.classList.add("is-opening");
+          item.open = true;
+        }
+        item.classList.remove("is-closing");
+      } else {
+        item.classList.add("is-closing");
+        const close = () => {
+          closings.delete(item);
+          item.open = false;
+          item.classList.remove("is-closing");
+        };
+        closings.set(item, window.setTimeout(close, MOVE_MS));
+      }
+
+      const first = Math.min(...[item, ...closings.keys()].map((answered) => blocks.indexOf(answered)));
+      setAhead(blocks.slice(first + 1));
+      window.clearTimeout(settling);
+      settling = window.setTimeout(() => setAhead([]), MOVE_MS);
+
+      // Measuring settles the answer's starting look, so taking .is-opening off after it sets the answer's fade going.
+      const after = blocks.map((block) => block.getBoundingClientRect());
+      item.classList.remove("is-opening");
+
+      const inView = (rect: DOMRect) => rect.bottom > 0 && rect.top < window.innerHeight;
+      blocks.forEach((block, i) => {
+        const shift = before[i].top - after[i].top;
+        if (Math.abs(shift) < 0.5 || !(inView(before[i]) || inView(after[i]))) return;
+        moves.push(block.animate([{ transform: `translateY(${shift}px)` }, { transform: "none" }], { duration: MOVE_MS, easing: MOVE_EASE }));
+      });
+    }
+
+    faq.addEventListener("click", (event) => {
+      const item = (event.target as Element).closest(".faq__question")?.parentElement;
+      if (!(item instanceof HTMLDetailsElement) || reduceMotion.matches) return;
+      event.preventDefault();
+      toggle(item);
+    });
+  }
 </script>

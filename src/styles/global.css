@@ -567,6 +567,34 @@ img {
   );
 }
 
+/* ---------- Coming into view ---------- */
+
+/*
+  Below the fold the page's blocks wait out of focus, and each comes into focus as it scrolls into view, fading in out
+  of a blur where it stands. main.js picks the blocks and sends the ones that arrive together one after another.
+  Whatever is in view as the page opens is simply there, and nothing moves before the visitor does.
+*/
+.reveal {
+  opacity: 0;
+  filter: blur(10px);
+}
+
+.reveal.is-in {
+  opacity: 1;
+  filter: none;
+  transition:
+    opacity 600ms ease-out var(--reveal-delay, 0ms),
+    filter 800ms cubic-bezier(0.2, 0.8, 0.2, 1) var(--reveal-delay, 0ms);
+}
+
+/* On paper, everything is there. */
+@media print {
+  .reveal {
+    opacity: 1;
+    filter: none;
+  }
+}
+
 /* ---------- Placeholders (content still to come) ---------- */
 
 /* A stand-in cover for a work that has no image yet: same size as a real cover. */
@@ -1139,10 +1167,11 @@ img {
   height: 12px;
   background: no-repeat center / contain
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='%236e6c65' stroke-width='1.5' stroke-linecap='round'%3E%3Cpath d='M6 1.5v9M1.5 6h9'/%3E%3C/svg%3E");
-  transition: transform 160ms ease;
+  transition: transform 320ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-.faq__item[open] .faq__question::after {
+/* It turns back as soon as the answer starts to close. */
+.faq__item[open]:not(.is-closing) .faq__question::after {
   transform: rotate(45deg);
 }
 
@@ -1152,10 +1181,37 @@ img {
   border-radius: 6px;
 }
 
+/*
+  Opening, the answer comes into focus out of a blur, a beat after the rows below set off (Faq.astro starts it from
+  .is-opening). Closing, it leaves the flow where it stands, so the rows below can slide up over it, and blurs away
+  quicker than it came.
+*/
 .faq__answer {
   padding: 0 32px 18px 0;
   color: var(--muted);
   text-wrap: pretty;
+  transition:
+    opacity 360ms ease 60ms,
+    filter 480ms cubic-bezier(0.2, 0.8, 0.2, 1) 60ms;
+}
+
+.faq__item.is-opening .faq__answer,
+.faq__item.is-closing .faq__answer {
+  opacity: 0;
+  filter: blur(6px);
+}
+
+.faq__item.is-closing {
+  position: relative;
+}
+
+.faq__item.is-closing .faq__answer {
+  position: absolute;
+  right: 0;
+  left: 0;
+  transition:
+    opacity 200ms ease,
+    filter 240ms ease;
 }
 
 /* ---------- Pull quote ---------- */
@@ -1227,7 +1283,10 @@ img {
   color: var(--muted);
 }
 
-/* The month, a week per row, ruled like the plans: the week on the left, what happens in it on the right. */
+/*
+  The month, a week per row, ruled like the plans: the week on the left, what happens in it on the right.
+  As there, each row draws the line above it, and the last the one under it too.
+*/
 .month {
   display: flex;
   flex-direction: column;
@@ -1238,7 +1297,6 @@ img {
 .weeks {
   margin: 0;
   padding: 0;
-  border-top: 1px solid var(--line);
   list-style: none;
 }
 
@@ -1247,6 +1305,10 @@ img {
   grid-template-columns: 140px minmax(0, 1fr);
   column-gap: 24px;
   padding: 20px 0 22px;
+  border-top: 1px solid var(--line);
+}
+
+.week:last-child {
   border-bottom: 1px solid var(--line);
 }
 
@@ -2046,6 +2108,18 @@ body:has(.consent.is-open) .sticky-book {
   /* Highlights are simply there, without the swipe. */
   .marker {
     background-size: 100% 100%;
+    transition: none;
+  }
+
+  /*
+    The page's blocks are simply there (main.js leaves them be too), and answers simply open and close (Faq.astro
+    leaves the questions to the browser).
+  */
+  .reveal,
+  .faq__item.is-opening .faq__answer,
+  .faq__item.is-closing .faq__answer {
+    opacity: 1;
+    filter: none;
     transition: none;
   }
 

@@ -19,9 +19,9 @@ Beats, each played once as the picture scrolls into view (most of it in view), n
 - Launch, 4.9s: today's line sets off from just before the first day (0.5s) and crosses the month at an even pace,
   the parts filling in as it passes them, the launch in a tint of the blue; as it settles on launch day the launch
   lights up in the blue, its name in white (4.6s to 4.85s). The fixes stay planned.
-- Partnership, 4.3s: opens on Maya's request at the foot of the channel under some of its history, the pricing page
+- Partnership, 4.3s: opens on Ethan's request at the foot of the channel under some of its history, the pricing page
   under way; Emir's answer lands and the feed moves up for it (1.2s); the link's preview (1.9s); the pricing page
-  ticked off (2.5s) and its name steps back; the onboarding emails start (3.2s); Maya reacts (3.9s).
+  ticked off (2.5s) and its name steps back; the onboarding emails start (3.2s); Ethan reacts (3.9s).
 - Poster (reduced motion, print, no script, or already in view as the page opens): the last frame of each.
 - Scrolled out of sight before it's over, a picture goes back to its first frame unseen and plays again when it's
   back; over, it's a still again (the kit's `data-still` goes back on).
@@ -65,7 +65,7 @@ on phones, both done; it wasn't reviewed again after the motion.
 
 Assumptions:
 - Plays once, on scroll: the project's CLAUDE.md asks for input-driven motion with no autoplay.
-- The client is fictional (Maya Kim of Northwind); Emir answers, as the site promises Emir and Omer on every project.
+- The client is Ethan Marcus of Flashnet; Emir answers, as the site promises Emir and Omer on every project.
   The other channels and the earlier messages are bars.
 - Monday 10:04 AM to Tuesday 2:31 PM is about 28 hours, inside the 24 to 36 the plan promises.
 

@@ -295,7 +295,7 @@
   Wide: a channel in the client's Slack, pinned at the top and running off the right and the bottom, with a gutter on
   the left for the requests card, which straddles the window's edge over the lower part of its sidebar. The sidebar's few
   rows sit above the card, and the open channel is marked by weight rather than a fill, which would show beside it. The
-  messages start under the bar, where a short history sits, with room under them for Maya's reaction.
+  messages start under the bar, where a short history sits, with room under them for Ethan's reaction.
   Compact: the channel alone, pinned at the top left and running off the right, with the requests card straddling its
   foot.
 */
@@ -405,7 +405,7 @@
     padding: 14px 16px;
   }
 
-  /* The messages before Maya's, above the feed: out of sight, past the pane's top, until the picture plays. */
+  /* The messages before Ethan's, above the feed: out of sight, past the pane's top, until the picture plays. */
   .art-chat__history {
     position: absolute;
     right: 16px;
@@ -641,10 +641,10 @@
   }
 
   /*
-    Partnership: a request, done in a day. The channel opens on Maya's request at its foot, under some of its history.
+    Partnership: a request, done in a day. The channel opens on Ethan's request at its foot, under some of its history.
     Emir's answer lands under it and the feed moves up to make room, as Slack's does, and its link's preview comes a
     beat later, as Slack fetches it. The pricing page is ticked off: its arc goes, the disc grows over its ring and the
-    tick comes in on it, and its name steps back. The onboarding emails start, the arc turning into place, and Maya
+    tick comes in on it, and its name steps back. The onboarding emails start, the arc turning into place, and Ethan
     reacts.
   */
   .art[data-play] .art-chat__feed {

@@ -111,12 +111,19 @@ const structuredData = {
 
     <Pricing />
 
-    <figure class="col pullquote">
-      <blockquote>
-        <p set:html={testimonials.agentphone.text} />
-      </blockquote>
-      <figcaption>Meet Modi, AgentPhone (YC P26)</figcaption>
-    </figure>
+    <!-- One more testimonial, on its own, in the same bubble as the ones above. -->
+    <div class="col pullquote">
+      <ul class="quotes">
+        <li class="quote">
+          <p class="quote__text" set:html={testimonials.agentphone.text} />
+          <p class="quote__author">
+            <img src={testimonials.agentphone.avatar} alt="" width="20" height="20" />
+            <span class="quote__name">{testimonials.agentphone.name}</span>
+            <span class="muted">{testimonials.agentphone.role} ({testimonials.agentphone.batch})</span>
+          </p>
+        </li>
+      </ul>
+    </div>
 
     <Faq structuredData />
 

@@ -1278,20 +1278,9 @@ img {
 
 /* ---------- Pull quote ---------- */
 
+/* A single testimonial in the same bubble as the testimonials section. */
 .pullquote {
   margin-top: 56px;
-  padding-left: 16px;
-  border-left: 2px solid #d8d6cf;
-}
-
-.pullquote blockquote {
-  color: var(--muted);
-  line-height: 23px;
-}
-
-.pullquote figcaption {
-  margin-top: 8px;
-  color: var(--muted);
 }
 
 /* ---------- Closing ---------- */

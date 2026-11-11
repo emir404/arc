@@ -42,8 +42,10 @@
     ".faq__item",
     ".faq__end",
     ".closing > *",
+    ".story > *",
+    ".facts",
+    ".chapter__text",
     ".shot",
-    ".work-live",
     ".footer",
   ].join(", ");
   var REVEAL_INSET = 48;

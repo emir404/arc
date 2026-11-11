@@ -221,10 +221,6 @@ img {
   font-weight: 500;
 }
 
-.intro__offer {
-  max-width: 520px;
-}
-
 /*
   The main page opens with large type in Funnel Display, in a column 40px narrower than the rest.
   Its colours are the logo's ink (#171614) at different strengths, and a blank line separates the paragraphs.
@@ -845,13 +841,89 @@ img {
 
 /* ---------- Project pages (/work/<key>/) ---------- */
 
+/*
+  A project's page tells the work as a story. The title is in the main page's large type (.lead): the name, then the
+  idea the work is built on. Under it the story, in ink like the rest of the intro, and the facts. Then the chapters,
+  each a title and a few lines in the text column over its pictures, which run wider.
+*/
+.story {
+  display: flex;
+  flex-direction: column;
+  gap: 1lh;
+  max-width: 540px;
+}
+
+/* No word left on a line of its own at the end of a paragraph. */
+.story p,
+.chapter__text p {
+  text-wrap: pretty;
+}
+
+/* What we did, who for and where it's live, ruled like the launch page's month: the label on the left, in grey. */
+.facts {
+  margin: 0;
+}
+
+.facts__row {
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr);
+  column-gap: 24px;
+  padding: 9px 0 10px;
+  border-top: 1px solid var(--line);
+}
+
+.facts__row:last-child {
+  border-bottom: 1px solid var(--line);
+}
+
+.facts dt {
+  color: var(--muted);
+}
+
+.facts dd {
+  margin: 0;
+}
+
+.chapter {
+  padding-top: 80px;
+}
+
+/* Pictures with no title before them, such as the ones that open the page, sit closer to what's above. */
+.chapter--untitled {
+  padding-top: 56px;
+}
+
+.chapter__text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-bottom: 24px;
+}
+
+.chapter__title {
+  font-weight: 500;
+}
+
+.chapter__text p {
+  max-width: 540px;
+  color: var(--muted);
+}
+
 /* Pictures run wider than the text column, stacked for scrolling. */
 .shots {
   display: flex;
   flex-direction: column;
   gap: 16px;
   width: min(920px, 100% - var(--gutter) * 2);
-  margin: 56px auto 0;
+  margin-inline: auto;
+}
+
+/* Posters and squares side by side in equal columns, so that none of them is taller than the window. */
+.shots__row--side {
+  display: grid;
+  grid-template-columns: repeat(var(--count), minmax(0, 1fr));
+  align-items: start;
+  gap: 16px;
 }
 
 /* A picture keeps its own shape; its width and height attributes hold the space until it loads. */
@@ -873,13 +945,6 @@ img {
   border: 1px dashed #bbb7ad;
   background: #e9e7e0;
   font-weight: 500;
-}
-
-.work-live {
-  margin-top: 24px;
-  color: var(--muted);
-  font-size: 14px;
-  line-height: 20px;
 }
 
 /* While the sidebar is showing, the pictures must stay clear of it. */
@@ -2040,6 +2105,16 @@ body:has(.consent.is-open) .sticky-book {
 
   .parts {
     grid-template-columns: 1fr;
+  }
+
+  /* On a phone the pictures set side by side are one above the other, at the width of the rest. */
+  .shots__row--side {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .facts__row {
+    grid-template-columns: 96px minmax(0, 1fr);
+    column-gap: 16px;
   }
 
   .week {

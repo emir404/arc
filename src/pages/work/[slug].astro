@@ -4,7 +4,8 @@ import Sidebar from "../../components/Sidebar.astro";
 import Logo from "../../components/Logo.astro";
 import Closing from "../../components/Closing.astro";
 import Footer from "../../components/Footer.astro";
-import { works, hasPage, isFinished, type Work } from "../../data/works";
+import { works, hasPage, isFinished, chaptersOf, type Work } from "../../data/works";
+import { testimonials } from "../../data/testimonials";
 
 // One page per entry in src/data/works.ts, except a client with no work to show yet.
 export function getStaticPaths() {
@@ -20,51 +21,126 @@ interface Props {
 const { work } = Astro.props;
 // A page still showing placeholders stays out of search results until it's finished.
 const noindex = !isFinished(work);
+const chapters = chaptersOf(work);
+const quote = work.quote && testimonials[work.quote];
+
+// "AgentMail: a secret agent with an inbox", in the tab and in link previews as on the page.
+const title = work.headline ? `${work.name}: ${work.headline}` : work.name;
+
+// The facts under the story, in this order, where they're known. The live site closes the list, as a link.
+const facts = [
+  { label: "What we did", value: work.services },
+  { label: "Client", value: work.client },
+  { label: "Batch", value: work.batch },
+  { label: "Raised", value: work.raised },
+].filter((fact): fact is { label: string; value: string } => Boolean(fact.value));
+
+// The first picture is usually in view as the page opens, so it loads with the page; the rest as they come near.
+const first = chapters[0]?.rows[0]?.[0]?.number;
 ---
 
-<Layout title={`${work.name} · Arc Studio`} description={work.intro ?? `Work by Arc Studio for ${work.name}.`} noindex={noindex}>
-  <Sidebar back={{ href: "/", label: "Arc Studio", id: "work-back" }} />
+<Layout title={`${title} · Arc Studio`} description={work.story?.[0] ?? `Work by Arc Studio for ${work.name}.`} noindex={noindex} lead>
+  <Sidebar
+    back={{ href: "/", label: "Arc Studio", id: "work-back" }}
+    sections={[
+      { id: "top", label: work.name },
+      ...chapters.flatMap((chapter) => (chapter.title && chapter.id ? [{ id: chapter.id, label: chapter.title }] : [])),
+      { id: "contact", label: "Contact" },
+    ]}
+  />
 
   <main>
     <header class="col intro" id="top">
       <Logo href="/" label="Arc, back to the main page" />
 
-      <div class="intro__text">
-        <div>
-          <h1 class="intro__name">{work.name}</h1>
-          {work.tagline && <p class="muted">{work.tagline}</p>}
-        </div>
-        {work.intro && <p class="intro__offer">{work.intro}</p>}
+      <div class="lead">
+        <h1><span class="hl">{work.name}</span>{work.headline && `: ${work.headline}`}</h1>
       </div>
-    </header>
 
-    <section class="shots" aria-label="Pictures of the work">
       {
-        work.shots.map((shot, i) =>
-          shot ? (
-            <img
-              class="shot"
-              src={shot.src}
-              width={shot.width}
-              height={shot.height}
-              alt={`${work.name}, picture ${i + 1}`}
-              loading={i === 0 ? "eager" : "lazy"}
-            />
-          ) : (
-            <div class="shot shot--placeholder">
-              Picture {i + 1}
-              <span class="slide__placeholder-hint">To be added</span>
-            </div>
-          ),
+        work.story && (
+          <div class="story">
+            {work.story.map((paragraph) => (
+              <p>{paragraph}</p>
+            ))}
+          </div>
         )
       }
-    </section>
+
+      {
+        (facts.length > 0 || work.live) && (
+          <dl class="facts">
+            {facts.map((fact) => (
+              <div class="facts__row">
+                <dt>{fact.label}</dt>
+                <dd>{fact.value}</dd>
+              </div>
+            ))}
+            {work.live && (
+              <div class="facts__row">
+                <dt>Website</dt>
+                <dd>
+                  <a class="text-link" href={work.live.url} target="_blank">{work.live.label}</a>
+                </dd>
+              </div>
+            )}
+          </dl>
+        )
+      }
+    </header>
 
     {
-      work.live && (
-        <p class="col work-live">
-          See it live at <a class="text-link" href={work.live.url} target="_blank">{work.live.label}</a>
-        </p>
+      chapters.map((chapter) => (
+        <section class:list={["chapter", { "chapter--untitled": !chapter.title }]} id={chapter.id} aria-label={chapter.title ? undefined : "Pictures of the work"}>
+          {chapter.title && (
+            <div class="col chapter__text">
+              <h2 class="chapter__title">{chapter.title}</h2>
+              {chapter.text && <p>{chapter.text}</p>}
+            </div>
+          )}
+          <div class="shots">
+            {chapter.rows.map((row) => (
+              <div class:list={["shots__row", { "shots__row--side": row.length > 1 }]} style={row.length > 1 ? `--count: ${row.length}` : undefined}>
+                {row.map(({ number, shot }) =>
+                  shot ? (
+                    <img
+                      class="shot"
+                      src={shot.src}
+                      width={shot.width}
+                      height={shot.height}
+                      alt={`${work.name}, picture ${number}`}
+                      loading={number === first ? "eager" : "lazy"}
+                      decoding={number === first ? "sync" : "async"}
+                    />
+                  ) : (
+                    <div class="shot shot--placeholder">
+                      Picture {number}
+                      <span class="slide__placeholder-hint">To be added</span>
+                    </div>
+                  ),
+                )}
+              </div>
+            ))}
+          </div>
+        </section>
+      ))
+    }
+
+    <!-- The founder's words on working with us, in the same bubble as the main page's testimonials. -->
+    {
+      quote && (
+        <div class="col pullquote">
+          <ul class="quotes">
+            <li class="quote">
+              <p class="quote__text" set:html={quote.text} />
+              <p class="quote__author">
+                <img src={quote.avatar} alt="" width="20" height="20" />
+                <span class="quote__name">{quote.name}</span>
+                <span class="muted">{"batch" in quote ? `${quote.role} (${quote.batch})` : quote.role}</span>
+              </p>
+            </li>
+          </ul>
+        </div>
       )
     }
 

@@ -81,7 +81,7 @@ export const launch: Launch = {
     { work: "spacefast", picture: 5 },
     { work: "spacefast", picture: 8 },
   ],
-  quotes: ["agentphone", "orchid", "agentmail", "feyn", "vercel"],
+  quotes: ["agentphone", "orchid", "agentmail", "feyn", "vercel", "flashnet"],
   closing: "Book a call. We’ll set your launch date.",
 };
 

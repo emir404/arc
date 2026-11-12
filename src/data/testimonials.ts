@@ -17,6 +17,12 @@ export const testimonials = {
     role: "Co-Founder & CEO, Vercel",
     avatar: "/testimonials/guillermo-rauch.webp",
   },
+  flashnet: {
+    text: "Best design team. Young, fast paced, and ultra-high quality. Wouldn’t want to work with anyone else.",
+    name: "Ethan Marcus",
+    role: "Flashnet",
+    avatar: "/testimonials/ethan-marcus.webp",
+  },
   sim: {
     text: 'Ömer and Emir are talented designers with massive potential. They’re <span class="hl">both developers and designers</span>, making their skillset highly valuable for fast-moving teams.',
     name: "Emir Karabeg",

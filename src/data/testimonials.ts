@@ -20,7 +20,7 @@ export const testimonials = {
   flashnet: {
     text: "Best design team. Young, fast paced, and ultra-high quality. Wouldn’t want to work with anyone else.",
     name: "Ethan Marcus",
-    role: "Flashnet",
+    role: "CEO, Flashnet",
     avatar: "/testimonials/ethan-marcus.webp",
   },
   sim: {
